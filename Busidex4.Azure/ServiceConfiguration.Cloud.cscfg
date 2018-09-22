@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="Busidex4.Azure" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="2" osVersion="*" schemaVersion="2012-10.1.8">
+  <Role name="Busidex4">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=busidexcdn;AccountKey=lRU11uVEahimhO+5uwyUAQeA3HzFwM5w3vnSPji3A6NjR8tRtDwU+syA8lV41DyOm3A1QE379E75gFDP9SuvyA==" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="busidex.vinbrown2" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEFyw8Em4FXaoQqIgC5PNuO8wDQYJKoZIhvcNAQEBBQAEggEAIz0+uAOePU0MXjiKnF0DKpSNRAEEutqDBJqNzo6i0z/iBEb8HnPnftNQArN4n3V1EWgT2ke0OO95mudF1xWBqdH80rhZgHaRhVo0WZvwhr4jilcKKQaqO2vT6YFjrIWDan3TY37rXloJzdTfNAXb9XynFHN0eK17K6K4ITOH9tJob3Nw+D1bxzNGKTIgs3vVrZIpf8qU1nZNNMDEGCNoheGCgYKunGL08WG8wOdLv4c7esJKxzvNXA5fHEI6qvee0xMEA+Q3lYch0Ud7U292qlLCiFBPDdpzkxFIza4S/YET2N2+rOH4ygHEVX1K+nR6buXILWIEoqZSeEhPaCh3hjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECHrRyXOH3IvrgBCcOXvJI2xmQPDlTb2L1VdJ" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2014-03-16T23:59:59.0000000-04:00" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
+    </ConfigurationSettings>
+    <Certificates>
+      <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="D01B8D345C5365133D27095E925324E45777FB37" thumbprintAlgorithm="sha1" />
+    </Certificates>
+  </Role>
+</ServiceConfiguration>

@@ -1,0 +1,74 @@
+﻿<div ng-controller="RegistrationController as vm">
+    <div class="row">
+        <div class="col-sm-8 col-md-6 col-md-offset-3">            
+            <div class="jumbotron jumbotron-contactinfo" style="margin-top:20px;">
+                <div ng-include="'views/fragments/logo.html'" ng-show="!vm.Model.ShowOwnerCard"></div>
+                <div ng-include="'views/fragments/card-image.html'" ng-show="vm.Model.ShowOwnerCard"></div>
+                <form id="userDataForm" name="userDataForm" autocomplete="off" novalidate>
+                    <h3 class="formTitle">Choose a username and password...</h3>
+                    <div class="form-group has-feedback contactInfo" ng-class="{'ng-valid-in-use': vm.UserNameOkToUse==='OK', 'ng-invalid-in-use': vm.UserNameOkToUse==='USED', 'has-success': vm.UserNameOkToUse==='OK' && userDataForm.DisplayName.$touched && !userDataForm.DisplayName.$invalid, 'has-error':   vm.UserNameOkToUse==='USED' || (userDataForm.DisplayName.$touched && userDataForm.DisplayName.$invalid) }">
+                        <!--NAME-->
+                        <input class="form-control" ng-class="{'ng-valid-in-use': vm.UserNameOkToUse==='OK', 'ng-invalid-in-use': vm.UserNameOkToUse==='USED'}" autocomplete="off" type="text" id="displayname" name="DisplayName" ng-model="vm.Model.DisplayName" ng-blur="vm.CheckUserNameAvailability()"
+                               ng-minlength="3" ng-maxlength="20" required placeholder="User Name" />
+                        <span class="glyphicon form-control-feedback" 
+                               ng-class="{'glyphicon-ok': (vm.UserNameOkToUse==='OK' && userDataForm.DisplayName.$touched && !userDataForm.DisplayName.$invalid), 'glyphicon-remove': vm.UserNameOkToUse==='USED' || (userDataForm.DisplayName.$touched && userDataForm.DisplayName.$invalid) }" aria-hidden="true"></span>
+                        <span ng-show="vm.UserNameOkToUse=='USED'">User name already used by another account</span>
+                        <div class="invalid" ng-messages="userDataForm.DisplayName.$error" ng-show="userDataForm.DisplayName.$touched && userDataForm.DisplayName.$invalid">
+                            <span ng-message="required">User Name is required</span>
+                            <span ng-message="minlength">User Name must be between 3 and 20 characters</span>
+                            <span ng-message="maxlength">User Name must be between 3 and 20 characters</span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback contactInfo" ng-class="{'ng-valid-in-use': vm.EmailOkToUse==='OK', 'ng-invalid-in-use': vm.EmailOkToUse==='USED', 'has-success': vm.EmailOkToUse==='OK' && userDataForm.Email.$touched && !userDataForm.Email.$invalid, 'has-error': vm.EmailOkToUse==='USED' || (userDataForm.Email.$touched && userDataForm.Email.$invalid) }">
+                        <!--EMAIL-->
+                        <div class="input-group">
+                            <span style="cursor: pointer;top: 0;" 
+                                  class="input-group-addon glyphicon glyphicon-info-sign"
+                                  popover-placement="right" 
+                                  popover-trigger="click" 
+                                  popover="This is the email that we will use in case you forget your password, so be sure to take note of what you use and that you will always have access to this email.">
+                            </span>
+                            <input class="form-control" ng-class="{'ng-valid-in-use': vm.EmailOkToUse==='OK', 'ng-invalid-in-use': vm.EmailOkToUse==='USED'}" autocomplete="off" type="email" id="Email" name="Email" ng-model="vm.Model.Email" ng-change="vm.ClearConfrimEmail()" ng-blur="vm.CheckEmailAvailability()"
+                                   valid-form required placeholder="Email"/>
+
+                        </div>
+                        <span class="glyphicon form-control-feedback" 
+                               ng-class="{'glyphicon-ok': vm.EmailOkToUse==='OK' && userDataForm.Email.$touched && !userDataForm.Email.$invalid, 'glyphicon-remove': (userDataForm.Email.$touched && userDataForm.Email.$invalid) || vm.EmailOkToUse=='USED' }" aria-hidden="true"></span>
+                        <span ng-show="vm.EmailOkToUse=='USED'">Email already used by another account</span>
+                        <div class="invalid" ng-messages="userDataForm.Email.$error" ng-show="userDataForm.Email.$touched && userDataForm.Email.$invalid">
+                            <span ng-message="required">Email is required</span>
+                            <span ng-message="email">Please enter a valid email</span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback contactInfo" ng-class="{'has-success': userDataForm.ConfirmEmail.$touched && !userDataForm.ConfirmEmail.$invalid, 'has-error': userDataForm.ConfirmEmail.$touched && userDataForm.ConfirmEmail.$invalid }">
+                        <!--CONFMRM EMAIL-->
+                        <input class="form-control" autocomplete="off" type="email" id="ConfirmEmail" name="ConfirmEmail" ng-model="vm.Model.ConfirmEmail" 
+                               match-email required placeholder="Confirm Email" ng-blur="vm.matchEmail()"/>
+                        <span class="glyphicon form-control-feedback" 
+                               ng-class="{'glyphicon-ok':  (userDataForm.ConfirmEmail.$touched && !userDataForm.ConfirmEmail.$invalid), 'glyphicon-remove': userDataForm.ConfirmEmail.$touched && userDataForm.ConfirmEmail.$invalid }" aria-hidden="true"></span>
+                        <div class="invalid" ng-messages="userDataForm.ConfirmEmail.$error" ng-show="userDataForm.ConfirmEmail.$touched && userDataForm.ConfirmEmail.$invalid">
+                            <span ng-message="required">Email confirmation is required</span>
+                            <span ng-message="matchEmail">Emails do not match</span>
+                        </div>                       
+                    </div>
+                    <div class="form-group has-feedback contactInfo" ng-class="{'has-success': userDataForm.Password.$touched && !userDataForm.Password.$invalid, 'has-error': userDataForm.Password.$touched && userDataForm.Password.$invalid }">
+                        <!--PASSWORD-->                        
+                        <input class="form-control" autocomplete="off" type="password" id="Password" name="Password" ng-model="vm.Model.Password" placeholder="Password" 
+                               ng-minlength="8" ng-maxlength="20" valid-form required  />
+                         <span class="glyphicon form-control-feedback" 
+                               ng-class="{'glyphicon-ok':  (userDataForm.Password.$touched && !userDataForm.Password.$invalid), 'glyphicon-remove': (userDataForm.Password.$touched && userDataForm.Password.$invalid) }" aria-hidden="true"></span>
+                        <div class="invalid" ng-messages="userDataForm.Password.$error" ng-show="userDataForm.Password.$touched && userDataForm.Password.$invalid">
+                            <span ng-message="required">Password is required</span>
+                            <span ng-message="minlength">Passwrods must be between 8 and 20 characters</span>
+                            <span ng-message="maxlength">Passwrods must be between 8 and 20 characters</span>
+                        </div> 
+                        <small><i>passwords are case-sensitive</i></small>
+                    </div>
+                    <!--<label>{{userDataForm.$invalid}}</label>-->
+                    <input type="button" ng-click="vm.MoveTo('/accounttype')" value="Next"class="btn btn-success" role="button" 
+                           ng-disabled="userDataForm.$invalid || vm.EmailOkToUse=='USED' ||  vm.UserNameOkToUse==='USED'"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

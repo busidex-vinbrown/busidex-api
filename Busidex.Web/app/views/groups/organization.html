@@ -1,0 +1,509 @@
+﻿<style type="text/css">
+    html, body {
+        background: #fff;
+        min-height: 100%;
+    }
+
+    div.sideNav {
+        z-index: 1;
+    }
+
+    ul#Sidebar li {
+        height: auto;
+    }
+
+    .addressInfo span {
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+    }
+
+    .workArea ul {
+        margin-left: 0;
+    }
+
+    div.well {
+        margin-top: 20px;
+    }
+
+    h1.workAreaTitle {
+        margin-left: 40px;
+        width: 80%;
+        padding: 13px;
+    }
+
+    .v_preview, .h_preview {
+        margin: 8px;
+        border: solid 1pt #ddd;
+    }
+
+    .workArea {
+        width: 95%;
+        margin-left: 0;
+    }
+
+    footer {
+        position: fixed;
+        margin-left: 25px;
+        bottom: 0;
+    }
+
+    .detailsSaved {
+        display: none;
+    }
+
+    li {
+        list-style: inherit;
+    }
+    ul#Sidebar li.sidebarHeading {
+        background-color:#CDC8B1; 
+        padding:10px 27px 7px 0; 
+        border-radius: 10px;
+        margin-left:8px;
+    }
+    i.icon-remove {
+        background-color: #fff;
+        color: #000;
+        border: solid 3pt #fff;
+        border-radius: 10px;
+        position: absolute;
+        z-index: 3;
+        margin-top: -6px;
+        cursor: pointer;
+    }
+
+        i.icon-remove:hover {
+            background-color: #d3d3d3;
+            border-color: #d3d3d3;
+            -webkit-box-shadow: -1px 0px 9px 0px rgba(50, 50, 50, 0.75);
+            -moz-box-shadow: -1px 0px 9px 0px rgba(50, 50, 50, 0.75);
+            box-shadow: -1px 0px 9px 0px rgba(50, 50, 50, 0.75);
+        }
+    
+        .disabledContainer {
+            background-color: #aaaaaa;
+            padding: 10px;
+        }
+    .disabled {
+        opacity: .5;
+    }
+
+    .enabled {
+        opacity: 1;
+    }
+    .h_footer {
+        width: 213px;
+    }
+    img.orgLogo {
+        max-width: 500px;
+    }
+    h2 small {
+        display: block;
+        line-height: 28px;
+    }
+    img.twitter, img.fb {
+        height: 50px;
+        margin-right: 10px;
+    }
+    a.groupLink {
+        font-size: .85em;
+    }
+    div.workAreaWell {
+        width: 100%;
+        height: auto;
+        /*overflow: scroll;*/
+    }
+    div.Notes {
+        border: solid 1pt silver;
+        padding: 5px;
+        border-radius: 6px;
+        overflow: auto;
+    }
+    div.detailRow {
+        cursor:auto;
+    }
+    img.myCard {
+        border: solid 3pt green;
+        margin: 5px;
+    }
+    img.imageLink {
+        cursor: pointer;
+    }
+</style>
+
+<!--NAVIGATION-->
+<div class="sideNav">
+    <ul id="Sidebar">
+        <li ng-class="{selected: Tabs['addmembers']}" ng-if="IsOrganizationAdmin()">
+            <a ng-click="ShowAddMembers()">Add Members +</a>
+        </li>
+        <li ng-if="IsOrganizationAdmin()">
+            <a ng-href="#/card/search">Add {{Organization.ReferralLabel}} +</a>
+        </li>
+        <li ng-show="IsOrganizationAdmin()" ng-class="{selected: Tabs['addgroup'] && !EditingGroup}">
+            <a href="" ng-click="AddGroup()">Add Group +</a>
+        </li>
+        <li ng-show="IsOrganizationAdmin()" ng-class="{selected: Tabs['details']}">
+            <a href="" ng-click="EditDetails()">Edit Details</a>
+        </li>
+        <li ng-show="IsOrganizationAdmin()" ng-class="{selected: Tabs['homepage']}">
+            <a href="" ng-click="EditHomePage()">Edit Message</a>
+        </li>
+        <li ng-show="IsOrganizationAdmin()"><hr style="width:120%;" /></li>
+        <li ng-class="{selected: Tabs['home'] && !EditingDetails}">
+            <a href="" ng-click="SetCurrentTab('home')">Details</a>
+        </li>
+        <li ng-class="{selected: Tabs['members'] && !Tabs['addmembers']}">
+            <a href="" ng-click="SetCurrentTab('members')">Members</a>
+        </li>
+        <li ng-class="{selected: Tabs['guests']}" ng-if="IsOrganizationAdmin()">
+            <a href="" ng-click="SetCurrentTab('guests')">Guests</a>
+        </li>
+        <li ng-class="{selected: Tabs['referrals']}">
+            <a href="" ng-click="SetCurrentTab('referrals');">{{Organization.ReferralLabel}}</a>
+        </li>
+        <li ng-show="IsOrganizationMember()" ng-class="{selected: Tabs['share']}">
+            <a href="" ng-click="SetCurrentTab('share')">Send Referrals</a>
+        </li>
+        <li><hr style="width:120%;" /></li>
+
+        <li ng-if="IsOrganizationAdmin() || IsOrganizationMember()" ng-repeat="group in Organization.Groups" ng-class="{selected: Tabs['_' + {{group.GroupId}}]}">
+            <a class="groupLink" ng-click="GetGroup(group.GroupId)">{{group.Description}}</a>
+        </li>
+    </ul>
+</div>
+<div style="background: #fff;position:fixed;width:85%;left:200px;height:90%; overflow:auto;z-index:2;">
+    <!--HOME PAGE-->
+    <div class="workArea account-workArea" ng-show="Tabs['home'] && !Tabs['details']">
+        <h2 id="groupHeader">
+            <img class="orgLogo" ng-src="{{Organization.LogoFilePath}}" ng-if="Organization.LogoFileName != null" />
+            <small ng-if="Organization.Url != null && Organization.Url.length > 0">
+                <a style="color: blue;" ng-href="{{Organization.Url}}" target="_blank">{{Organization.Url}}</a>
+            </small>
+            <small style="display:block;">{{Organization.Name}} </small>
+            <small style="display:block;">Contacts:&nbsp;{{Organization.Contacts}} </small>
+            <!--<small ng-if="Organization.Description != null && Organization.Description.length > 0">{{Organization.Description}}</small>-->
+            <small ng-if="Organization.Email != null && Organization.Email.length > 0">Email:&nbsp;{{Organization.Email}}</small>
+            <small ng-if="Organization.Phone1 != null && Organization.Phone1.length > 0">Phone:&nbsp;{{Organization.Phone1}}</small>
+            <small ng-if="Organization.Phone2 != null && Organization.Phone2.length > 0">Fax:&nbsp;{{Organization.Phone2}}</small>
+            <small ng-if="Organization.Twitter != null"><img class="twitter" ng-src="/img/twitter.png" /><a target="_blank" ng-href="https://{{Organization.Twitter.replace('http://', '')}}">{{Organization.Twitter}}</a></small>
+            <small ng-if="Organization.Facebook != null"><img class="fb" ng-src="/img/fb.png" /><a target="_blank" ng-href="{{Organization.Facebook}}">{{Organization.Facebook}}</a></small>
+        </h2>        
+       
+        <div ng-bind-html="Organization.HomePage"></div>
+    </div>
+    
+    <!--HOME PAGE MESSAGE-->
+    <div class="workArea account-workArea" ng-show="Tabs['homepage']" style="margin-top:20px;">
+        <a href="" class="btn btn-primary" ng-click="SaveHomePage()" ng-if="IsOrganizationAdmin()">Save</a>
+        <a href="" class="btn btn-inverse" ng-click="SetCurrentTab('home')" ng-if="IsOrganizationAdmin()">Cancel</a>
+        <text-angular ng-show="EditHomePage" ng-model="Organization.HomePage"></text-angular>
+    </div>
+
+    <!--DETAILS-->
+    <div class="workArea account-workArea" ng-show="Tabs['details']" style="margin-top:20px;">
+        <div class="animate" ng-show="DetailsSaved" ng-class="{detailsSaved: !DetailsSaved}">
+            <div class="alert alert-success" style="text-align: center;">
+                <h2>Details Saved!</h2>
+            </div>
+        </div>
+        <div class="animate" ng-show="Errors.length > 0">
+
+            <div class="alert alert-error" style="text-align: center;">
+                <i class="pull-right" style="cursor: pointer;" ng-click="Errors = [];">&times;</i>
+                <h2>{{Errors[0]}}</h2>
+            </div>
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="Name">Logo:&nbsp;</label>
+            <input type="file" file-model="Logo" name="Logo" cb=""/><br />
+            <!--<img style="margin-left:95px; margin-bottom: 15px;" ng-src="Organization.LogoFilePath" ng-if="Organization.LogoFileName != null" />-->
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="Name">Name:&nbsp;</label>
+            <input type="text" class="input-xlarge" ng-model="Organization.Name" maxlength="150" name="Name" />
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="Contacts">Contacts:&nbsp;</label>
+            <input type="text" class="input-xxlarge" ng-model="Organization.Contacts" maxlength="500" name="Contacts" />
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="Email">Email:&nbsp;</label>
+            <input type="text" class="input-xxlarge" ng-model="Organization.Email" maxlength="150" name="Email" />
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="Url">Url:&nbsp;</label>
+            <input type="text" class="input-xxlarge" ng-model="Organization.Url" maxlength="150" name="Url" />
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="Phone1">Phone:&nbsp;</label>
+            <input type="text" class="input-xlarge" ng-model="Organization.Phone1" maxlength="150" name="Phone1" />
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="Phone2">Fax:&nbsp;</label>
+            <input type="text" class="input-xlarge" ng-model="Organization.Phone2" maxlength="250" name="Phone2" />
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="TwitterName">Twitter:&nbsp;</label>
+            <input type="text" class="input-xlarge" ng-model="Organization.Twitter" maxlength="250" name="Twitter" />
+        </div>
+        <div>
+            <label class="fixedLabel bold" for="FacebookName">Facebook:&nbsp;</label>
+            <input type="text" class="input-xlarge" ng-model="Organization.Facebook" maxlength="250" name="Facebook" />
+        </div>
+        <div style="padding:15px;">
+            <a href="" class="btn btn-primary" ng-click="SaveDetails()">Save Details</a>
+            <a href="" class="btn btn-inverse" ng-click="CancelEdit()">Cancel</a>
+        </div>
+    </div>
+    
+    <!--GUESTS-->
+    <div class="workArea account-workArea" ng-show="Tabs['guests']">
+        <div class="well" style="width:88%;">
+            <div>
+                <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Filter:</span>
+                <div class="input-append" style="margin-bottom:0;">
+                    <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                    <button class="btn" id="clearFilter" style="margin-top:0;" ng-click="SearchFilter.SearchFilters = ''">&times;</button>
+                </div>
+            </div>
+            <div>               
+                <ul style="list-style: none;margin-top:20px;">
+                    <li><h4>Guest List</h4></li>
+                    <li ng-repeat="guest in Organization.Guests | filter:SearchFilter.SearchFilters | orderBy: 'AddStatus' : true">
+                        <a href="" ng-click="UpdateGuestStatus(guest, 1)" ng-if="guest.AddStatus==2" class="btn btn-success">Accept</a>
+                        <a href="" ng-click="UpdateGuestStatus(guest, 3)" ng-if="guest.AddStatus==2" class="btn btn-warning">Decline</a>
+                        <a class="btn btn-link" href="mailto:{{guest.Email}}">{{guest.Email}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!--MEMBERS-->
+    <div class="workArea account-workArea" ng-show="Tabs['members']">
+        <div class="well" style="width:88%;">
+            <div ng-show="!Tabs['addmembers']">
+                <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Filter:</span>
+                <div class="input-append" style="margin-bottom:0;">
+                    <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                    <button class="btn" id="clearFilter" style="margin-top:0;" ng-click="SearchFilter.SearchFilters = ''">&times;</button>
+                </div>
+            </div>
+            <!--ADD MEMBERS-->
+            <div ng-show="Tabs['addmembers'] && IsOrganizationAdmin()" style="min-height: 300px;">
+                <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Add Members:</span>
+                <div class="input-append" style="margin-bottom:0;">
+                    <input type="text" class="input-large" placeholder="Search..." ng-keypress="EnterSearch()" ng-model="MemberSearch.Criteria" />
+                    <button type="submit" class="btn btn-info" ng-click="DoSearch()"><i class="icon-search"></i></button>
+                    <button class="btn" ng-click="MemberSearch.Criteria = '';MemberSearch.Cards = [];">&times;</button>
+                </div>
+                <hr />
+                <img src="../../img/spinner.gif" ng-show="Waiting" />
+                <div style="display:inline-block;" ng-repeat="card in MemberSearch.Cards" class="searchResults">
+                    <img alt="{{card.Name}}"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontFileType}}"
+                         cardid="{{card.cardid}}"
+                         class="{{card.FrontOrientationClass}}"
+                         ng-model="card.Selected"
+                         style="position:relative;margin:0;"
+                         company="{{card.CompanyName.toLowerCase()}}"
+                         tags="{{card.TagList.ToLowerCase()}}"
+                         phone=""
+                         email="{{card.Email}}"
+                         cardname="{{card.Name.toLowerCase()}}" />
+                    <div ng-show="card.IsMember">
+                        <label ng-class="{'label small h_footer': card.FrontOrientationClass == 'h_preview', 'label small v_footer': card.FrontOrientationClass == 'v_preview'}">
+                             Existing Member
+                        </label>
+                    </div>
+                    <div ng-show="!card.IsMember">
+                        <label ng-click="AddMember(card)" ng-class="{'label small h_footer': card.FrontOrientationClass == 'h_preview', 'label small v_footer': card.FrontOrientationClass == 'v_preview'}">
+                            <img ng-src="/img/add.png" /> Add Member
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div ng-class="{'disabledContainer': Tabs['addmembers']}">
+                <div style="display:inline-block;" ng-repeat="card in Organization.Cards | filter:SearchFilter.SearchFilters" ng-class="{'disabled': Tabs['addmembers'], 'enabled': !Tabs['addmembers'] }">
+                    <i class="icon-remove" ng-click="RemoveMember(card)" ng-show="!Tabs['addmembers'] && (IsOrganizationAdmin() || card.IsMyCard)"></i>
+                    <img alt="{{card.Name}}"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontType}}"
+                         ng-show="(ShowSelectedOnly && card.Selected) || !ShowSelectedOnly"
+                         cardid="{{card.cardid}}"
+                         ng-class="{' myCard' : card.IsMyCard, {{card.OrientationClass}} : true, ' imageLink': true }"
+                         ng-model="card.Selected"
+                         style="position:relative"
+                         company="{{card.CompanyName.toLowerCase()}}"
+                         tags="{{card.TagList.ToLowerCase()}}"
+                         phone=""
+                         email="{{card.Email}}"
+                         cardname="{{card.Name.toLowerCase()}}"
+                         ng-click="ToggleSelectedOrGoToDetails(card)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--REFERRALS-->
+    <div class="workArea account-workArea" ng-show="Tabs['referrals']">
+        <div ng-show="!Tabs['addmembers']">
+            <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Filter:</span>
+            <div class="input-append" style="margin-bottom:0;">
+                <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                <button class="btn" id="clearFilter" style="margin-top:0;" ng-click="SearchFilter.SearchFilters = ''">&times;</button>
+            </div>
+        </div>
+        <div class="well workAreaWell">
+            <div ng-repeat="card in Organization.Referrals | filter:SearchFilter.SearchFilters" class="detailRow row"
+                 tags="{{card.Card.TagList.ToLowerCase()}}"
+                 cardname="{{card.Card.Name.toLowerCase()}}"
+                 email="{{card.Card.Email}}"
+                 cardid="{{card.CardId}}"
+                 company="{{card.Card.CompanyName.toLowerCase()}}">
+
+                <div class="span3">
+
+                    <a idx="{{card.CardId}}" ng-href="#/card/details/{{card.CardId}}">
+                        <img alt="{{card.Card.Name}}" ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType.replace('.','')}}"
+                             cardid="{{card.CardId}}" class="{{card.OrientationClass}}" style="position:relative" />
+                    </a>
+                </div>
+                <div class="span8 cardInfo">
+                    <div class="row">
+                        <div class="span4" ng-click="setShowControls(card, true)">
+                            <strong>{{card.Card.Name}}</strong>
+                            <span class="label">{{card.Card.CompanyName}}</span>
+                            <div>
+                                <label ng-repeat="phone in card.Card.PhoneNumbers">{{phone.Number}}</label>
+                                <a ng-href="mailto:{{card.Card.Email}}"
+                                   ng-click="AddActivity($root.EventSources.EMAIL, card.Card.CardId)"
+                                   target="_blank">{{card.Card.Email}}</a>
+                                <br />
+                                <a ng-href="{{'https://' + card.Card.Url}}" target="_blank" ng-click="AddActivity($root.EventSources.WEBSITE, card.Card.CardId)">{{card.Card.Url}}</a>
+                            </div>
+                            <div>
+                                <a ng-show="card.Card.Addresses != null && card.Card.Addresses.length > 0 && card.Card.Addresses[0].Display().trim().length > 0"
+                                   ng-href="{{card.Card.MapInfo}}"
+                                   ng-click="AddActivity($root.EventSources.MAP, card.Card.CardId)"
+                                   target="_blank">Map</a>
+                            </div>
+                        </div>
+                        <div class="span4 Notes">
+                            <span>{{card.Notes}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ADD REFERRAL-->
+    <div class="workArea account-workArea" ng-show="Tabs['share']">
+        <div class="well" style="width:88%;">
+            <div>
+                <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Filter:</span>
+                <div class="input-append" style="margin-bottom:0;">
+                    <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                    <button class="btn" id="clearFilter" style="margin-top:0;" ng-click="SearchFilter.SearchFilters = ''">&times;</button>
+                    &nbsp;&nbsp;
+                    <a href="" class="btn btn-info" ng-click="ShareReferrals()">Share Referrals</a>
+                </div>
+                <label style="margin-top:10px;"><input style="vertical-align: top;" type="checkbox" ng-model="ShowSelectedOnly"/>&nbsp;Show Selected Only</label>
+                <p style="font-style: italic;">
+                    Any referrals that you submit must first be accepted by your Organization administrator. If you don't see one of your referrals in the referral list,
+                    please contact your Organization administrator. 
+                </p>
+            </div>
+            <hr style="clear:both;"/>
+            <div class="busidexRow">
+                <div ng-repeat="card in MyBusidex | filter:SearchFilter.SearchFilters" style="margin: 5px;">
+                    <img alt="{{card.Name}}"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType}}"
+                         ng-show="(ShowSelectedOnly && card.Selected) || !ShowSelectedOnly"
+                         cardid="{{card.CardId}}"
+                         ng-class="{' myCard' : card.IsMyCard, {{card.OrientationClass}} : true, ' imageLink': true, ' selected': card.Selected }"
+                         ng-model="card.Selected"
+                         style="position:relative;display: inline-block"
+                         company="{{card.CompanyName.toLowerCase()}}"
+                         tags="{{card.TagList.ToLowerCase()}}"
+                         phone=""
+                         email="{{card.Email}}"
+                         cardname="{{card.Name.toLowerCase()}}"
+                         ng-click="ToggleReferral(card)" />
+
+                    <textarea ng-model="card.Recommendation" rows="5"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ADD GROUP-->
+    <div class="workArea account-workArea" ng-show="Tabs['addgroup']">
+
+        <div style="margin-top:20px; width:80%;">
+            <div class="input-append pull-left">
+                <span class="pull-left" style="display:inline-block; padding:5px 10px 0 ; font-size: 22px;">Group Name:&nbsp;</span>
+                <input type="text" id="description" ng-model="CurrentGroup.Description" value="" />
+                <button class="btn btn-primary" id="save" groupid="" ng-click="SaveGroup()">Save</button>
+                <a href="" ng-click="GetGroup(CurrentGroup.GroupId)" class="btn btn-inverse" id="cancel">Cancel</a>
+            </div>
+
+            <div class="pull-right">
+                <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Filter:</span>
+                <div class="input-append" style="margin-bottom:0;">
+                    <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                    <button class="btn" id="clearFilter" style="margin-top:0;" ng-click="SearchFilter.SearchFilters = ''">&times;</button>
+                </div>
+
+                <div style="width: 300px; margin: 0 0 10px 25px">
+                    <input type="checkbox" style="vertical-align:top;" id="showSelected" ng-model="ShowSelectedOnly" />
+                    <span>Show selected only</span>
+                    <label class="badge badge-info" id="cardCount"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="busidexRow">
+            <div class="well" style="clear:both;width:88%;">
+                <img ng-repeat="card in Organization.Cards | filter:SearchFilter.SearchFilters"
+                     alt="{{card.Name}}"
+                     ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontType}}"
+                     ng-show="(ShowSelectedOnly && card.Selected) || !ShowSelectedOnly"
+                     cardid="{{card.cardid}}"
+                     ng-class="{'myBusidexCard2 card.OrientationClass selected': card.Selected, 'myBusidexCard2 card.OrientationClass': !card.Selected }"
+                     ng-model="card.Selected"
+                     style="position:relative"
+                     company="{{card.CompanyName.toLowerCase()}}"
+                     tags="{{card.TagList.ToLowerCase()}}"
+                     phone=""
+                     email="{{card.Email}}"
+                     cardname="{{card.Name.toLowerCase()}}"
+                     ng-click="ToggleSelectedOrGoToDetails(card)" />
+            </div>
+        </div>
+    </div>
+
+    <!--GROUP DETAILS-->
+    <div class="workArea account-workArea" ng-show="Tabs['groupdetails']">
+        <h2 id="groupHeader">
+            {{CurrentGroup.Description}}
+            <a class="btn btn-primary" ng-click="EditGroup(CurrentGroup.GroupId)" ng-show="IsOrganizationAdmin()">Edit</a>
+            <a class="btn btn-danger" ng-click="DeleteGroup(CurrentGroup.GroupId)" ng-show="IsOrganizationAdmin()">Delete</a>
+        </h2>
+        <img ng-repeat="card in CurrentGroup.Cards | filter:SearchFilter.SearchFilters"
+             alt="{{card.Name}}"
+             ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType}}"
+             ng-show="(ShowSelectedOnly && card.Card.Selected) || !ShowSelectedOnly"
+             cardid="{{card.Card.cardid}}"
+             class="myBusidexCard2 {{card.OrientationClass}}"
+             ng-model="card.Card.Selected"
+             style="position:relative"
+             company="{{card.Card.CompanyName.toLowerCase()}}"
+             tags="{{card.Card.TagList.ToLowerCase()}}"
+             phone=""
+             email="{{card.Card.Email}}"
+             cardname="{{card.Card.Name.toLowerCase()}}" />
+    </div>
+</div>

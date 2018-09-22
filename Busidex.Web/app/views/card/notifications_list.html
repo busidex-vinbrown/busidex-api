@@ -1,0 +1,42 @@
+﻿<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+<div class="notification-back"></div>
+<div class="container-fluid" style="position:relative;">
+    <div ng-controller="NotificationsController as vm">
+        <div style="max-width: 600px">
+            <form>
+                <div class="form-group">
+                    <h2><img class="notification-icon-large" src="../../images/alarm_on.png" />Notifications</h2>
+                    <p>
+                        These cards have been shared with you so that you can add them to your
+                        Busidex collection. Click "Accept" to add the cards, or "Decline" to remove
+                        them from the list.
+                    </p>
+                </div>
+            </form>
+
+            <div>
+                <div ng-if="vm.notifications.length === 0">
+                    <h4 style="color:#fff0f5;">You don't have any shared cards. </h4>
+                </div>
+                <div class="row-fluid shared-card-list-item" ng-repeat="card in vm.notifications">
+                    <img ng-class="card.FrontOrientationClass"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontType.replace('.','')}}" />
+                    <div class="pull-right">
+                        <p>
+                            <h4>Shared by: {{card.SentFrom}}</h4>
+                            {{card.message}}
+                        </p>
+                        <div>
+                            <input type="button" class="btn btn-success" value="Accept" ng-click="vm.accept($index)" />
+                            <input type="button" class="btn btn-primary" value="Remove" ng-click="vm.remove($index)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

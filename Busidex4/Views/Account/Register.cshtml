@@ -1,0 +1,154 @@
+@using System.Configuration
+@using System.Web.Optimization
+@using Busidex.DAL;
+
+@model Busidex4.Models.RegisterModel
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/registration")
+}
+@{
+    ViewBag.Title = "Register";
+    string cardOwnerToken = Model != null ? Model.CardOwnerToken : string.Empty;
+    if (string.IsNullOrEmpty(cardOwnerToken)) {
+        if (Request.QueryString["ReturnUrl"] != null) {
+            var returnUrl = Request.QueryString["ReturnUrl"];
+
+            cardOwnerToken = returnUrl.Substring(returnUrl.Length - 36);
+        }
+    }
+    string cdnPath = ConfigurationManager.AppSettings["imageCDNPath"];
+    string userCardPath = ConfigurationManager.AppSettings["userCardPath"];
+}
+
+<hgroup class="title">
+    <h1>Sign up for your new Busidex account</h1>
+    <h2 id="instructionLabel" style="display:none;">Instructions to activate your account:</h2>
+</hgroup>
+
+<input type="hidden" name="currentStep" value="1" />
+<p id="stepProgress">
+    <img id="step1img" src="@cdnPath/step_1.png" />
+    <img id="step2img" src="@cdnPath/step_2.png" />
+    <img id="step3img" src="@cdnPath/step_3.png" />
+    <img id="step4img" src="@cdnPath/step_done.png" />    
+</p>
+
+@using (Html.BeginForm((string)ViewBag.FormAction, "Account", FormMethod.Post, new{id = "registerForm", autocomplete = "off" })) {
+    if (!Model.IsValid)
+    {
+        <div class="alert alert-error"> 
+            <a class="close" data-dismiss="alert">×</a> 
+            @Html.ValidationSummary(false, "Account creation was unsuccessful. Please correct the errors and try again.")
+        </div>
+    }
+    @Html.HiddenFor(model => cardOwnerToken)
+    <input type="hidden" id="StepHash" value="@Model.StepHash" />
+
+    if (!string.IsNullOrEmpty(cardOwnerToken) && Model.FrontFileId.HasValue)
+     {
+        <div>
+            <img alt="Front Image" id="frontPreview" class="h_preview" src="@(userCardPath + Model.FrontFileId + "." + Model.FrontFileType)" />
+        </div>
+         <section id="step_0" class="registrationStep">
+             <h3>Please confirm that this is your card...</h3>
+             <fieldset>
+                 
+                 <div style="margin-bottom:15px;">
+                     @Html.CheckBoxFor(t => t.IsMyCard, new { id="myCard" })&nbsp;<label for="myCard" style="display:inline-block">This is my card.</label>
+                 </div>
+                 <input type="button" value="Next" class="goToStep1 btn" role="button" />
+             </fieldset>   
+         </section>    
+     }
+    <section id="step_1" class="registrationStep">
+        <h3>Choose a username and password...</h3>
+        
+        <fieldset>
+            <legend>Username and Password</legend>
+            <ol>
+                <li>
+                    @Html.LabelFor(m => m.UserName)
+                    @Html.TextBoxFor(m => m.UserName, new { autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.Email)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.ConfirmEmail)
+                    @Html.TextBoxFor(m => m.ConfirmEmail, new { autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.ConfirmEmail)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.Password)
+                    @Html.PasswordFor(m => m.Password, new { autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.Password)
+                </li>
+                <li>
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </li>
+            </ol>
+            @if (!string.IsNullOrEmpty(cardOwnerToken))
+            {
+                <input type="button" value="Back" class="goToStep0 btn"  role="button" />
+            }
+            <input type="button" value="Next" class="goToStep2 btn" role="button" disabled="disabled" />
+        </fieldset>
+    </section>
+    
+    <section id="step_2" class="registrationStep">
+        <h3>Choose a plan...</h3>
+        <fieldset>
+            <ol>
+                @foreach (AccountType t in ViewBag.Plans) {
+                    <li class="planType">
+                        @Html.RadioButtonFor(p => p.AccountTypeId, t.AccountTypeId)
+                        <span class="AccountType">@t.Name</span>&nbsp;-&nbsp;@t.Description
+                    </li>
+                }
+            </ol>
+            @Html.ValidationMessageFor(m => m.AccountTypeId)
+            <input type="button" value="Back" class="goToStep1 btn" role="button" />
+            <input type="button" value="Next" class="goToStep3 btn" role="button" />
+        </fieldset>
+    </section>
+    
+    <section id="step_3" class="registrationStep">
+        @Html.ValidationMessageFor(m => m.AccountTypeId)
+        <fieldset>
+            <div style="margin-bottom:15px;">
+                <h4>This is just to prove that you are, in fact a human.</h4>
+                <label>@Model.HumanQuestion</label><input type="text" name="HumanAnswer" style="width:70px;" />
+            </div>
+            <div style="margin-bottom:15px;">
+                @Html.ActionLink("Terms of Use", "TermsOfService", "Home", null, new{target = "_blank"})
+            </div>
+            <div style="margin-bottom:15px;">
+                @Html.CheckBoxFor(t => t.Agree, new { id="agree" })&nbsp;<label for="agree" style="display:inline-block">I have read the terms of service and agree.</label>
+            </div>
+            <input type="hidden" name="Created" value="@DateTime.UtcNow" />
+            <input type="button" value="Back" class="goToStep2 btn" role="button" />
+            <input type="button" value="Register" id="register" class="btn" role="button" disabled="disabled" />
+        </fieldset>
+    </section>    
+    <section id="step_done" class="registrationStep">
+        <fieldset>
+            <div style="margin: 5px;">
+                <h3>Welcome!</h3>
+                <p>
+                    @Model.Email
+                </p>
+                <p style="margin-top:15px; font-size:1.2em">
+                    Please check your inbox for your activation email from busidex.com. You must click the link in the email to activate 
+                    your account. If you use spam filters, please add our email service address to your list of permitted senders. 
+                </p>
+            </div>
+        </fieldset>
+    </section> 
+}
+

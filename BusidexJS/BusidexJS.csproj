@@ -1,0 +1,646 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9E0BABF1-FD92-48E0-8577-C5FBAE9158F3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BusidexJS</RootNamespace>
+    <AssemblyName>BusidexJS</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>efe9a432</NuGetPackageImportStamp>
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="css\AddCard.css">
+      <DependentUpon>AddCard.less</DependentUpon>
+    </Content>
+    <Content Include="css\AddCard.min.css">
+      <DependentUpon>AddCard.css</DependentUpon>
+    </Content>
+    <Content Include="css\animate.css" />
+    <Content Include="css\bootstrap-3.css" />
+    <Content Include="css\bootstrap-responsive.css" />
+    <Content Include="css\bootstrap-responsive.min.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\Busidex.css">
+      <DependentUpon>Busidex.less</DependentUpon>
+    </Content>
+    <Content Include="css\Busidex.min.css">
+      <DependentUpon>Busidex.less</DependentUpon>
+    </Content>
+    <Content Include="css\core.css">
+      <DependentUpon>core.less</DependentUpon>
+    </Content>
+    <Content Include="css\core.min.css">
+      <DependentUpon>core.css</DependentUpon>
+    </Content>
+    <Content Include="css\fixed-width.css">
+      <DependentUpon>fixed-width.less</DependentUpon>
+    </Content>
+    <Content Include="css\fixed-width.min.css">
+      <DependentUpon>fixed-width.css</DependentUpon>
+    </Content>
+    <Content Include="css\font-awesome.css">
+      <DependentUpon>font-awesome.less</DependentUpon>
+    </Content>
+    <Content Include="css\font-awesome.min.css" />
+    <Content Include="downloads\GenesisApp-Release-Custom.plist" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="css\groups.css">
+      <DependentUpon>groups.less</DependentUpon>
+    </Content>
+    <Content Include="css\groups.min.css">
+      <DependentUpon>groups.less</DependentUpon>
+    </Content>
+    <Content Include="css\icons.css">
+      <DependentUpon>icons.less</DependentUpon>
+    </Content>
+    <Content Include="css\icons.min.css">
+      <DependentUpon>icons.css</DependentUpon>
+    </Content>
+    <Content Include="css\jquery-ui.css" />
+    <Content Include="css\larger.css">
+      <DependentUpon>larger.less</DependentUpon>
+    </Content>
+    <Content Include="css\larger.min.css">
+      <DependentUpon>larger.css</DependentUpon>
+    </Content>
+    <Content Include="css\list.css">
+      <DependentUpon>list.less</DependentUpon>
+    </Content>
+    <Content Include="css\list.min.css">
+      <DependentUpon>list.css</DependentUpon>
+    </Content>
+    <Content Include="css\mixins.css">
+      <DependentUpon>mixins.less</DependentUpon>
+    </Content>
+    <Content Include="css\mixins.min.css">
+      <DependentUpon>mixins.css</DependentUpon>
+    </Content>
+    <Content Include="css\MyBusidex.css">
+      <DependentUpon>MyBusidex.less</DependentUpon>
+    </Content>
+    <Content Include="css\MyBusidex.min.css">
+      <DependentUpon>MyBusidex.less</DependentUpon>
+    </Content>
+    <Content Include="css\ng-grid.min.css" />
+    <Content Include="css\path.css">
+      <DependentUpon>path.less</DependentUpon>
+    </Content>
+    <Content Include="css\path.min.css">
+      <DependentUpon>path.css</DependentUpon>
+    </Content>
+    <Content Include="css\reset-min.css" />
+    <Content Include="css\Search.css">
+      <DependentUpon>Search.less</DependentUpon>
+    </Content>
+    <Content Include="css\Search.min.css">
+      <DependentUpon>Search.less</DependentUpon>
+    </Content>
+    <Content Include="css\Site.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
+    <Content Include="css\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <Content Include="css\spinning.css">
+      <DependentUpon>spinning.less</DependentUpon>
+    </Content>
+    <Content Include="css\spinning.min.css">
+      <DependentUpon>spinning.css</DependentUpon>
+    </Content>
+    <Content Include="css\stacked.css">
+      <DependentUpon>stacked.less</DependentUpon>
+    </Content>
+    <Content Include="css\stacked.min.css">
+      <DependentUpon>stacked.css</DependentUpon>
+    </Content>
+    <Content Include="css\Tungsten-Black.svg" />
+    <Content Include="css\tungsten-medium-webfont.svg" />
+    <Content Include="css\variables.css">
+      <DependentUpon>variables.less</DependentUpon>
+    </Content>
+    <Content Include="css\variables.min.css">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="favicon.ico" />
+    <Content Include="gruntfile.js" />
+    <Content Include="img\4thofJuly.png" />
+    <Content Include="img\add.png" />
+    <Content Include="img\add_mobile.png" />
+    <Content Include="img\admin.png" />
+    <Content Include="img\app-store-lg.jpg" />
+    <Content Include="img\app-store-sm.png" />
+    <Content Include="img\background2a.png" />
+    <Content Include="img\bca.png" />
+    <Content Include="img\bnistars.png" />
+    <Content Include="img\Busidex300x99px.png" />
+    <Content Include="img\Busidex150x49px.jpg" />
+    <Content Include="img\busidex_icon.png" />
+    <Content Include="img\busidex_icon_57x57.png" />
+    <Content Include="img\Busidex_logo_hor.png" />
+    <Content Include="img\checkmark.png" />
+    <Content Include="img\conference-logo-w-blue-box-trnsp.png" />
+    <Content Include="img\deploy-menu%402x.png" />
+    <Content Include="img\email_header.png" />
+    <Content Include="img\fb.png" />
+    <Content Include="img\gmail-logo.png" />
+    <Content Include="img\google-play-lg.jpg" />
+    <Content Include="img\google-play-sm.png" />
+    <Content Include="img\home.png" />
+    <Content Include="img\letterhead.png" />
+    <Content Include="img\menu-bg.png" />
+    <Content Include="img\minuteman.jpg" />
+    <Content Include="img\mobile_preview_3.png" />
+    <Content Include="img\BusidexLogo4.png" />
+    <Content Include="img\close.gif" />
+    <Content Include="img\delete.png" />
+    <Content Include="img\edit.png" />
+    <Content Include="img\gear.jpg" />
+    <Content Include="img\gear.png" />
+    <Content Include="img\glyphicons-halflings-white.png" />
+    <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="img\mobile2_32x32.png" />
+    <Content Include="img\mobile2_32x32_off.png" />
+    <Content Include="img\mobile_32x32.png" />
+    <Content Include="img\mobile_32x32_off.png" />
+    <Content Include="img\mobile_preview_1.png" />
+    <Content Include="img\mobile_preview_2.png" />
+    <Content Include="img\myaccount.png" />
+    <Content Include="img\mycard.png" />
+    <Content Include="img\notification1.gif" />
+    <Content Include="img\osbe2014.jpg" />
+    <Content Include="img\outlook-logo.png" />
+    <Content Include="img\path.png" />
+    <Content Include="img\path2.png" />
+    <Content Include="img\phone.png" />
+    <Content Include="img\RealtorFoundation.png" />
+    <Content Include="img\RIARExpoLogo.png" />
+    <Content Include="img\search-background.gif" />
+    <Content Include="img\search.png" />
+    <Content Include="img\searchIcon.png" />
+    <Content Include="img\shim.png" />
+    <Content Include="img\spinner.gif" />
+    <Content Include="img\suggestion.png" />
+    <Content Include="img\twitter.png" />
+    <Content Include="img\twitter2.jpg" />
+    <Content Include="img\undoDelete.png" />
+    <Content Include="img\groups.png" />
+    <Content Include="img\yahoo-mail.png" />
+    <Content Include="index_bs30.html" />
+    <Content Include="index-async.html" />
+    <Content Include="index.html" />
+    <Content Include="js\app - Copy.js" />
+    <Content Include="js\app - Copy.min.js">
+      <DependentUpon>app - Copy.js</DependentUpon>
+    </Content>
+    <Content Include="js\app.js" />
+    <Content Include="js\app.min.js">
+      <DependentUpon>app.js</DependentUpon>
+    </Content>
+    <Content Include="js\controllers.js" />
+    <Content Include="js\controllers.min.js">
+      <DependentUpon>controllers.js</DependentUpon>
+    </Content>
+    <Content Include="js\controllers\AccountController.js" />
+    <Content Include="js\controllers\AddCardController.js" />
+    <Content Include="js\controllers\AdminEditController.js" />
+    <Content Include="js\controllers\AdminMenuController.js" />
+    <Content Include="js\controllers\ApplicationVersionController.js" />
+    <Content Include="js\controllers\CardDetailController.js" />
+    <Content Include="js\controllers\ConfirmCardController.js" />
+    <Content Include="js\controllers\CreateGroupController.js" />
+    <Content Include="js\controllers\DeleteAccountController.js" />
+    <Content Include="js\controllers\EditGroupController.js" />
+    <Content Include="js\controllers\FileUploadController.js" />
+    <Content Include="js\controllers\GenericViewController.js" />
+    <Content Include="js\controllers\GroupDetailController.js" />
+    <Content Include="js\controllers\GroupsController.js" />
+    <Content Include="js\controllers\HomeViewController.js" />
+    <Content Include="js\controllers\LoginPartialViewController.js" />
+    <Content Include="js\controllers\LoginViewController.js" />
+    <Content Include="js\controllers\LogoutViewController.js" />
+    <Content Include="js\controllers\MyBusidexController.js" />
+    <Content Include="js\controllers\MyCardsController.js" />
+    <Content Include="js\controllers\OrganizationController.js" />
+    <Content Include="js\controllers\PasswordRecoverController.js" />
+    <Content Include="js\controllers\PasswordResetController.js" />
+    <Content Include="js\controllers\RegistrationController.js" />
+    <Content Include="js\controllers\RegistrationViewController.js" />
+    <Content Include="js\controllers\SearchContoller.js" />
+    <Content Include="js\controllers\SharedCardController.js" />
+    <Content Include="js\controllers\SignInController.js" />
+    <Content Include="js\controllers\SuggestionsController.js" />
+    <Content Include="js\controllers\UserNameRecoverController.js" />
+    <Content Include="js\directives.js" />
+    <Content Include="js\directives.min.js">
+      <DependentUpon>directives.js</DependentUpon>
+    </Content>
+    <Content Include="js\filters.js" />
+    <Content Include="js\filters.min.js">
+      <DependentUpon>filters.js</DependentUpon>
+    </Content>
+    <Content Include="js\services.min.js">
+      <DependentUpon>services.js</DependentUpon>
+    </Content>
+    <Content Include="lib\angular\angular-animate.min.js" />
+    <Content Include="lib\angular\angular-google-analytics.js" />
+    <Content Include="lib\angular\ng-grid-2.0.7.min.js" />
+    <Content Include="lib\angular\progressbar.js" />
+    <Content Include="lib\angular\rangy-core.js" />
+    <Content Include="lib\angular\rangy-cssclassapplier.js" />
+    <Content Include="lib\angular\rangy-selectionsaverestore.js" />
+    <Content Include="lib\angular\rangy-serializer.js" />
+    <Content Include="lib\angular\satellizer.js" />
+    <Content Include="lib\angular\textAngular-sanitize.min.js" />
+    <Content Include="lib\angular\textAngular.js" />
+    <Content Include="lib\angular\textAngular.min.js" />
+    <Content Include="lib\angular\ui-bootstrap-tpls-0.10.0.min.js" />
+    <Content Include="lib\angular\xdomain.js" />
+    <Content Include="lib\jquery\jquery.form.js" />
+    <Content Include="js\services.js" />
+    <Content Include="lib\angular\angular-cookies.js" />
+    <Content Include="lib\angular\angular-cookies.min.js" />
+    <Content Include="lib\angular\angular-loader.js" />
+    <Content Include="lib\angular\angular-loader.min.js" />
+    <Content Include="lib\angular\angular-querystring.js" />
+    <Content Include="lib\angular\angular-resource.js" />
+    <Content Include="lib\angular\angular-resource.min.js" />
+    <Content Include="lib\angular\angular-sanitize.js" />
+    <Content Include="lib\angular\angular-sanitize.min.js" />
+    <Content Include="lib\angular\angular.js" />
+    <Content Include="lib\angular\angular.min.js" />
+    <Content Include="lib\angular\dialog.js" />
+    <Content Include="lib\angular\ui-bootstrap-0.5.0.js" />
+    <Content Include="lib\angular\ui-bootstrap-0.5.0.min.js" />
+    <Content Include="lib\angular\ui-bootstrap-tpls-0.5.0.js" />
+    <Content Include="lib\angular\ui-bootstrap-tpls-0.5.0.min.js" />
+    <Content Include="lib\angular\version.txt" />
+    <Content Include="lib\bootstrap\bootstrap-affix.js" />
+    <Content Include="lib\bootstrap\bootstrap-alert.js" />
+    <Content Include="lib\bootstrap\bootstrap-button.js" />
+    <Content Include="lib\bootstrap\bootstrap-carousel.js" />
+    <Content Include="lib\bootstrap\bootstrap-collapse.js" />
+    <Content Include="lib\bootstrap\bootstrap-dropdown.js" />
+    <Content Include="lib\bootstrap\bootstrap-modal.js" />
+    <Content Include="lib\bootstrap\bootstrap-popover.js" />
+    <Content Include="lib\bootstrap\bootstrap-scrollspy.js" />
+    <Content Include="lib\bootstrap\bootstrap-tab.js" />
+    <Content Include="lib\bootstrap\bootstrap-tooltip.js" />
+    <Content Include="lib\bootstrap\bootstrap-transition.js" />
+    <Content Include="lib\bootstrap\bootstrap-typeahead.js" />
+    <Content Include="lib\bootstrap\bootstrap.js" />
+    <Content Include="lib\bootstrap\bootstrap.min.js" />
+    <Content Include="lib\flash\BusidexLogo4.png" />
+    <Content Include="lib\flash\jwplayer.flash.swf" />
+    <Content Include="lib\flash\jwplayer.html5.js" />
+    <Content Include="lib\flash\jwplayer.js" />
+    <Content Include="lib\jquery\jquery-1.9.1.min.js" />
+    <Content Include="lib\jquery\jquery-ui-1.10.0.min.js" />
+    <Content Include="lib\jquery\jquery.js" />
+    <Content Include="lib\jquery\jquery.min.js" />
+    <Content Include="newrelic\extensions\CoreInstrumentation.xml" />
+    <Content Include="newrelic\extensions\Providers\TransactionContext\Asp\NewRelic.Agent.Extensions.dll" />
+    <Content Include="newrelic\extensions\Providers\TransactionContext\Asp\NewRelic.Providers.TransactionContext.Asp.Repacked.dll" />
+    <Content Include="newrelic\extensions\Providers\TransactionContext\Default\NewRelic.Agent.Extensions.dll" />
+    <Content Include="newrelic\extensions\Providers\TransactionContext\Default\NewRelic.Providers.TransactionContext.Default.Repacked.dll" />
+    <Content Include="newrelic\extensions\Providers\TransactionContext\Wcf3\NewRelic.Agent.Extensions.dll" />
+    <Content Include="newrelic\extensions\Providers\TransactionContext\Wcf3\NewRelic.Providers.TransactionContext.Wcf3.Repacked.dll" />
+    <Content Include="newrelic\NewRelic.Agent.Core.dll" />
+    <Content Include="newrelic\NewRelic.Agent.Extensions.dll" />
+    <Content Include="newrelic\NewRelic.Profiler.dll" />
+    <Content Include="partials\about.html" />
+    <Content Include="partials\account\delete.html" />
+    <Content Include="partials\account\index.html" />
+    <Content Include="partials\account\logout.html" />
+    <Content Include="partials\account\passwordReset.html" />
+    <Content Include="partials\account\privacy.html" />
+    <Content Include="partials\account\recoversent.html" />
+    <Content Include="partials\account\register.html" />
+    <Content Include="partials\account\RegistrationComplete.html" />
+    <Content Include="partials\account\terms.html" />
+    <Content Include="partials\account\passwordrecover.html" />
+    <Content Include="partials\account\usernamerecover.html" />
+    <Content Include="partials\account\welcome.html" />
+    <Content Include="partials\admin\communication.html" />
+    <Content Include="partials\admin\sharedcardreminders.html" />
+    <Content Include="partials\admin\errors.html" />
+    <Content Include="partials\admin\index.html" />
+    <Content Include="partials\admin\editcards.html" />
+    <Content Include="partials\admin\newcards.html" />
+    <Content Include="partials\admin\resendwelcome.html" />
+    <Content Include="partials\admin\owners.html" />
+    <Content Include="partials\admin\systemtags.html" />
+    <Content Include="partials\admin\populartags.html" />
+    <Content Include="partials\admin\unownedcards.html" />
+    <Content Include="partials\admin\devicedetails.html" />
+    <Content Include="partials\admin\users.html" />
+    <Content Include="partials\busidex\mine.html" />
+    <Content Include="partials\busidex\suggestions.html" />
+    <Content Include="img\newsletters\mobile1.png" />
+    <Content Include="img\newsletters\mobile2.png" />
+    <Content Include="img\newsletters\mobile3.png" />
+    <Content Include="img\newsletters\mobile4.png" />
+    <Content Include="img\newsletters\mobile5.png" />
+    <Content Include="img\newsletters\mobile6.png" />
+    <Content Include="img\newsletters\mobile7.png" />
+    <Content Include="img\newsletters\mobile8.png" />
+    <Content Include="img\newsletters\web1.png" />
+    <Content Include="img\newsletters\web2.png" />
+    <Content Include="img\newsletters\web3.png" />
+    <Content Include="img\newsletters\web4.png" />
+    <Content Include="img\newsletters\web5.png" />
+    <Content Include="img\newsletters\web6.png" />
+    <Content Include="partials\newsletters\phone_app_service_announcement4.html" />
+    <Content Include="partials\newsletters\phone_app_service_announcement3.html" />
+    <Content Include="partials\newsletters\phone_app_service_announcement2.html" />
+    <Content Include="partials\newsletters\phone_app_service_announcement.html" />
+    <Content Include="partials\newsletters\phone_app_release 2.html" />
+    <Content Include="partials\newsletters\SeminarAnnouncementReminder.html" />
+    <Content Include="partials\newsletters\SeminarAnnouncement.html" />
+    <Content Include="partials\newsletters\shared_card_reminder.html" />
+    <Content Include="partials\newsletters\website_release_followup2.html" />
+    <Content Include="partials\newsletters\website_release_followup.html" />
+    <Content Include="partials\newsletters\website_release.html" />
+    <Content Include="partials\newsletters\phone_app_release.html" />
+    <Content Include="partials\newsletters\riarexpo_2015_folloup.html" />
+    <Content Include="partials\newsletters\riarexpo_2015.html" />
+    <Content Include="partials\newsletters\newsletter_9.html" />
+    <Content Include="partials\newsletters\newsletter_8.html" />
+    <Content Include="partials\raytheon.html" />
+    <Content Include="partials\templates\cardupdated.html" />
+    <Content Include="partials\templates\registration.html" />
+    <Content Include="partials\templates\invitation.html" />
+    <Content Include="partials\vanity\minutemanpress.html" />
+    <Content Include="partials\vanity\riarexpo.html" />
+    <Content Include="partials\vanity\bnistars.html" />
+    <Content Include="partials\vanity\osbe.html" />
+    <Content Include="partials\vanity\realtortroopsupport.html" />
+    <Content Include="robots.txt" />
+    <Content Include="survey.html" />
+    <Content Include="partials\card\add.html" />
+    <Content Include="partials\card\confirm.html" />
+    <Content Include="partials\card\details.html" />
+    <Content Include="partials\card\mine.html" />
+    <Content Include="partials\card\search.html" />
+    <Content Include="partials\newsletters\newsletter_7.html" />
+    <Content Include="partials\newsletters\newsletter_6.html" />
+    <Content Include="partials\vanity\bca.html" />
+    <Content Include="_search.html" />
+    <Content Include="partials\contact.html" />
+    <Content Include="partials\groups\create.html" />
+    <Content Include="partials\groups\details.html" />
+    <Content Include="partials\groups\mine.html" />
+    <Content Include="partials\groups\mine-old.html" />
+    <Content Include="partials\groups\organization.html" />
+    <Content Include="partials\home_bs30.html" />
+    <Content Include="partials\home.html" />
+    <Content Include="partials\account\login.html" />
+    <Content Include="partials\newsletters\index.html" />
+    <Content Include="partials\newsletters\newsletter_1.html" />
+    <Content Include="partials\newsletters\newsletter_2.html" />
+    <Content Include="partials\newsletters\newsletter_5.html" />
+    <Content Include="partials\newsletters\newsletter_4.html" />
+    <Content Include="partials\newsletters\newsletter_3.html" />
+    <Content Include="partials\settings\index.html" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\.gitkeep" />
+    <Content Include="img\.gitkeep" />
+    <Content Include="partials\.gitkeep" />
+    <Content Include="Scripts\underscore.min.map" />
+    <Content Include="packages.config" />
+    <Content Include="package.json" />
+    <Content Include="video\FindACard.flv" />
+    <Content Include="lib\flash\FindACard.flv" />
+    <Content Include="css\Busidex.less" />
+    <Content Include="css\MyBusidex.less" />
+    <Content Include="css\Search.less" />
+    <Content Include="css\Site.less" />
+    <Content Include="css\groups.less" />
+    <Content Include="css\AddCard.less" />
+    <Content Include="js\directives.min.js.map">
+      <DependentUpon>directives.min.js</DependentUpon>
+    </Content>
+    <Content Include="js\services.min.js.map">
+      <DependentUpon>services.min.js</DependentUpon>
+    </Content>
+    <Content Include="js\app.min.js.map">
+      <DependentUpon>app.min.js</DependentUpon>
+    </Content>
+    <Content Include="js\controllers.min.js.map">
+      <DependentUpon>controllers.min.js</DependentUpon>
+    </Content>
+    <Content Include="js\filters.min.js.map">
+      <DependentUpon>filters.js</DependentUpon>
+    </Content>
+    <Content Include="css\Tungsten-Black.eot" />
+    <Content Include="css\Tungsten-Black.otf" />
+    <Content Include="css\Tungsten-Black.ttf" />
+    <Content Include="css\tungsten-medium-webfont.eot" />
+    <Content Include="css\tungsten-medium-webfont.ttf" />
+    <Content Include="css\tungsten-medium-webfont.woff" />
+    <Content Include="css\AddCard.css.map">
+      <DependentUpon>AddCard.css</DependentUpon>
+    </Content>
+    <Content Include="css\Busidex.css.map">
+      <DependentUpon>Busidex.css</DependentUpon>
+    </Content>
+    <Content Include="css\groups.css.map">
+      <DependentUpon>groups.css</DependentUpon>
+    </Content>
+    <Content Include="css\MyBusidex.css.map">
+      <DependentUpon>MyBusidex.css</DependentUpon>
+    </Content>
+    <Content Include="css\Site.css.map">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <Content Include="css\Search.css.map">
+      <DependentUpon>Search.css</DependentUpon>
+    </Content>
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="css\bordered-pulled.less" />
+    <Content Include="css\core.less" />
+    <Content Include="css\fixed-width.less" />
+    <Content Include="css\font-awesome.less" />
+    <Content Include="css\icons.less" />
+    <Content Include="css\larger.less" />
+    <Content Include="css\list.less" />
+    <Content Include="css\mixins.less" />
+    <Content Include="css\path.less" />
+    <Content Include="css\rotated-flipped.less" />
+    <Content Include="css\spinning.less" />
+    <Content Include="css\stacked.less" />
+    <Content Include="css\variables.less" />
+    <Content Include="css\list.css.map">
+      <DependentUpon>list.css</DependentUpon>
+    </Content>
+    <Content Include="css\icons.css.map">
+      <DependentUpon>icons.css</DependentUpon>
+    </Content>
+    <Content Include="css\path.css.map">
+      <DependentUpon>path.css</DependentUpon>
+    </Content>
+    <Content Include="css\spinning.css.map">
+      <DependentUpon>spinning.css</DependentUpon>
+    </Content>
+    <Content Include="css\stacked.css.map">
+      <DependentUpon>stacked.css</DependentUpon>
+    </Content>
+    <Content Include="css\fixed-width.css.map">
+      <DependentUpon>fixed-width.css</DependentUpon>
+    </Content>
+    <Content Include="css\core.css.map">
+      <DependentUpon>core.css</DependentUpon>
+    </Content>
+    <Content Include="css\larger.css.map">
+      <DependentUpon>larger.css</DependentUpon>
+    </Content>
+    <Content Include="css\font-awesome.css.map">
+      <DependentUpon>font-awesome.css</DependentUpon>
+    </Content>
+    <Content Include="newrelic\newrelic.config" />
+    <Content Include="css\mixins.css.map">
+      <DependentUpon>mixins.css</DependentUpon>
+    </Content>
+    <Content Include="css\variables.css.map">
+      <DependentUpon>variables.css</DependentUpon>
+    </Content>
+    <Content Include="js\app - Copy.min.js.map">
+      <DependentUpon>app - Copy.min.js</DependentUpon>
+    </Content>
+    <Content Include="newrelic\extensions\extension.xsd">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="downloads\GenesisApp-Release-Custom.ipa" />
+    <None Include="newrelic\newrelic.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\busidex - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex - FTP %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex - FTP %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex - Web Deploy %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex-legacy site.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex-WebStaging - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\busidex-WebStaging - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\busidexprofessional - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\busidexprofessional - Web Deploy.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="NewRelic.Api.Agent, Version=3.10.43.0, Culture=neutral, PublicKeyToken=06552fced0b33d87, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NewRelic.Azure.WebSites.x64.3.10.43.0\lib\NewRelic.Api.Agent.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="tests\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'QA|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>4811</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://local.busidex.com</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

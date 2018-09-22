@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Busidex</title>
+        <script src="scripts/jquery-1.8.3.js" type="text/javascript"></script>
+        <script src="scripts/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
+        <script src="scripts/cordova.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="style/jquery.mobile-1.2.0.min.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <div data-role="page" id="page1">
+            <div  style="background: #ffffff;width:320px;">
+                <div data-theme="b" data-position="fixed" data-role="header">
+                    <h3>My Busidex</h3>
+                    <a id="search" href="search.html" style="float:right;" data-transition="slide">Search</a>
+                    <a id="syncData" href="#" style="float:right;">Sync</a>
+                <hr style="margin-top: 5px; margin-bottom: 5px;"/>
+                    <label for="select-choice-1" class="select" style="float:left;width:70px; padding-top:10px;font-size: 1.2em;">Filter:</label>
+                    <select name="select-choice-1" id="filter" data-inline="false" data-theme="b">
+                        <option value="name">Name</option>
+                        <option value="phone">Phone</option>
+                        <option value="tags">Tags</option>
+                        <option value="company">Company</option>
+                    </select>
+                    <input type="text" value="" id="filterVal"/>
+                </div>
+            </div>
+            
+            <div data-role="content" style="margin-top:10px;">                
+                <table id="busidexList" data-role="listview" data-divider-theme="b">
+                </table>
+            </div>
+            <div style="text-align: center;" data-theme="a">
+                <img src="style/themes/images/ajax-loader.gif" id="wait" style="margin-left:auto;margin-right: auto;"/>
+            </div>
+            <div data-theme="a" data-role="footer">
+            </div>
+
+            <script type="text/javascript">
+                function showPictures() {
+                    navigator.camera.getPicture(function (imageURI) {
+                        $('img#picture').attr('src', imageURI);
+                    }, function (error) {
+                        $('img#picture').replaceWith('<p>' + error + '</p>');
+                    }, { sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY, destinationType: navigator.camera.DestinationType.FILE_URI });
+                }
+
+                function loadNextImages(number) {
+                    var idx = 0;
+                    for (var i = currentImage; i < images.length; i++) {
+                        $("#img" + i).attr("src", images[i]).fadeIn();
+                        idx++;
+                        if (idx >=number) break;
+                    }
+                   
+                    currentImage += number;
+                    
+                    if (currentImage < images.length + number) {
+                        setTimeout("loadNextImages(10)", 200);
+                    }
+                }
+
+                var images = new Array();
+                var currentImage = 0;
+                
+                function LoadMyBusidex(o) {
+                    
+                    for (var i = 0; i < o.length; i++) {
+
+                        var imgLink = 'http://busidexcdn.blob.core.windows.net/cards/' + o[i].FrontFileId + "." + o[i].FrontImageType;
+
+                        images.push(imgLink);
+                        var img = '<img class="card" id="img' + i + '" src="" style="display:none;height:75px; width:110px;" />';
+                        var info = '<div style="width: 130px;padding-top:20px;padding-bottom:20px;">';
+                        info += '<span>' + o[i].Name + '</span><br/>';
+                        info += '<a style="text-decoration:none;font-weight: normal;color: #000;line-height: 25px;" href="mailto:' + o[i].Email + '">' + o[i].Email + '</a><br/>';
+                        var phoneNumbers = '';
+                        if (o[i].PhoneNumbers != null) {
+                            for (var p = 0; p < o[i].PhoneNumbers.length; p++) {
+                                info += '<a class="phone" style="text-decoration:none;font-weight: normal;color: #000;line-height: 25px;" href="tel:' + o[i].PhoneNumbers[p] + '">' + o[i].PhoneNumbers[p] + '</a><br/>';
+                            }
+                            phoneNumbers = o[i].PhoneNumbers.join("|");
+                        } 
+                        info += '</div>';
+                        
+                        var html = '<tr class="busidexRow" name="' + o[i].Name + '" phone="' + phoneNumbers + '" tags="' + o[i].TagList.toLowerCase() + '" company="' + o[i].Company + '"><td>' + img + '</td><td>' + info + '</<td></tr>';
+                        $("#busidexList").append(html).show();
+                    }
+                    setTimeout("loadNextImages(10)", 200);
+                    $("#wait").hide();
+                }
+                
+                function SyncData() {
+                    var memberId = localStorage.MemberId;
+                    $("#wait").show();
+                    $("#busidexList").html('');
+                    $.ajax({
+                        url: 'http://busidex.com/Busidex/MyBusidexJSON/' + memberId,
+                        cache: false,
+                        success: function (list) {
+
+                            currentImage = 0;
+                            var oList = JSON.parse(list);
+                            LoadMyBusidex(oList);
+                            localStorage.MyBusidex = JSON.stringify(oList);
+                        },
+                        complete: function() {
+                            $("#wait").hide();
+                        }
+                    });
+                }
+                
+
+                $(document).bind('pageinit', function () {
+
+                    $(".card").on('touch', function() {
+                        $(this).popup("open");
+                    });
+                    
+                    $("#syncData").on('click', function() {
+                        SyncData();
+                    });
+                    
+                    $("input#filterVal").keyup(function () {
+                        
+                        var val = $(this).val().toLowerCase();
+                        var filter = $("#filter").val();
+                        
+                        $("tr.busidexRow").hide().each(function () {
+                            if ($(this).attr(filter).toLowerCase().indexOf(val) >= 0) {
+                                $(this).show();
+                            }
+                        });
+
+                    });
+                    
+                    //$("a#signout").click(function() {
+                    //    localStorage.MemberId = -1;
+                    //    window.location.href = "index.html";
+                    //});
+                    
+                    $("#wait").show();
+                    var cookieVal = localStorage.MemberId;// ReadCookie("busidex");
+                    var mId = parseInt(cookieVal);
+
+                    if (mId > 0) {
+                        if (localStorage.MyBusidex == null || localStorage.MyBusidex == 'undefined') {
+                            SyncData();
+                        } else {
+                            var oList = JSON.parse(localStorage.MyBusidex);
+                            LoadMyBusidex(oList);
+                        }
+                    }
+
+
+                    //$("a#mybusidex").live("click", function () {
+                    //    window.location.href = "mybusidex.html";
+                    //});
+
+                    //$("#search").click(function() {
+
+                    //    window.location.href = "search.html";
+                    //});
+                    
+                    $('select').selectmenu();
+                    
+                }());
+            </script>
+        </div>
+    </body>
+</html>

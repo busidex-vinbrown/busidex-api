@@ -1,0 +1,20 @@
+﻿@model  Busidex4.Models.RecoverUserNameModel
+
+@{
+    
+    ViewBag.Title = "Recover User Name";
+}
+
+@using (Html.BeginForm("SendUserNameReminderEmail", "Account", FormMethod.Post, new {id="LoginForm" }))
+{
+    <fieldset>
+        <legend>Send reminder email</legend>
+        <ol>
+            <li>
+                @Html.LabelFor(a => a.Email)  
+                @Html.TextBoxFor(a => a.Email)          
+            </li>
+        </ol>
+        <input type="submit" value="Send reminder email" />
+    </fieldset>
+}

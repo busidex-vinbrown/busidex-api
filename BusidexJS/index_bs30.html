@@ -1,0 +1,357 @@
+﻿<!doctype html>
+<html lang="en" ng-app="Busidex" ng-csp>
+<head>
+    <title>Busidex</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Busidex">
+    <meta name="author" content="busidex.com">
+    <meta name="norton-safeweb-site-verification" content="nwfhm8mn-4f4kqnx6je5cn6h107f-55fb5bn3mxqhtix2flcbmtr7-kjjpvdqxvp2m0ol93b1uqukoi6awil5cf9mi3ycgftky21hhkuvrnbywgfphgrz8insb80t95c" />
+    <link rel="stylesheet" href="css/reset-min.css" />
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" media="screen" />
+    <link rel="stylesheet" href="css/ng-grid.min.css" media="screen" />
+    <link rel="stylesheet" href="css/busidex.min.css" media="screen" />
+    <link rel="stylesheet" href="css/AddCard.min.css" media="screen" />
+    <link rel="stylesheet" href="css/search.min.css" media="screen" />
+    <link rel="stylesheet" href="css/site.css" media="screen" />   
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/MyBusidex.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-csp.css" type="text/css" />
+    
+</head>
+<body ng-controller="GenericViewCtrl">
+    <!-- Navigation -->
+    
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-inner">
+
+                <a href="#" class="deploy-sidebar" ng-click="$parent.ToggleMenu()"></a>
+
+                <div id="sidebar" class="page-sidebar" ng-class="{showMenu : $parent.ShowMenu, hideMenu : !$parent.ShowMenu}">
+                    <div class="page-sidebar-scroll">
+                        <div class="nav-item selected-nav-item">
+                            <a href="#/home" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/home.png" alt="img">
+                                HOME
+                            </a>
+                        </div>
+                        <div class="nav-item selected-nav-item">
+                            <a href="#/busidex/mine" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="https://az381524.vo.msecnd.net/images/BusidexLogo4a.png" alt="img">
+                                MY BUSIDEX
+                            </a>
+                        </div>
+                        <div class="nav-item nav-coach no-border">
+                            <a href="#/card/search" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/search.png" alt="img">
+                                SEARCH
+                            </a>
+                        </div>
+                        <div class="nav-item" ng-show="$parent.User.HasCard">
+                            <a href="#/card/mine" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/mycard.png" alt="img">
+                                MY CARD
+                            </a>
+                        </div>
+                        <div class="nav-item no-border" ng-show="$parent.ShowAddCard()">
+                            <a href="jquery.html" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/add_mobile.png" alt="img">
+                                ADD CARD
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="#/groups/mine" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/groups.png" alt="img" width="30">
+                                BUSIGROUPS
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="#/busidex/suggestions" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/suggestion.png" alt="img" width="30">
+                                SUGGESTIONS
+                            </a>
+                        </div>
+                        <div class="nav-item" ng-show="IsLoggedIn">
+                            <a href="other.html" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/myaccount.png" alt="img" width="30">
+                                MY ACCOUNT
+                            </a>
+                        </div>
+                        <div class="nav-item" ng-show="User.IsAdmin">
+                            <a href="#/admin/index" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/admin.png" alt="img" width="30">
+                                ADMIN
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="navbar-brand" href="#/home">
+                    <img ng-src="https://az381524.vo.msecnd.net/images/BusidexLogo4a.png" class="homeImage" style="width:50px;margin-left:-60px; position: fixed;" alt="" />Busidex
+                </a>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li ng-class="{active: NavItems['Home']}"><a href="#/home" ng-click="SetCurrentMenuItem('Home')">Home</a></li>
+                        <li ng-class="{active: NavItems['Search']}"><a href="#/card/search" ng-click="SetCurrentMenuItem('Search')">Find a Card</a></li>
+                        <li class="dropdown" ng-show="IsLoggedIn && User.IsAdmin">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add a Card <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li ng-show="User.IsAdmin"><a href="#/card/add">Manually</a></li>
+                                <li><a href="#/card/search">From a Search</a></li>
+                                <li ng-show="!$parent.User.HasCard" class="divider"></li>
+                                <li ng-show="!$parent.User.HasCard"><a href="#/card/add/mine">Add My Card</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" ng-show="$parent.ShowAddCard()">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add a Card <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#/card/search">From a Search</a></li>
+                                <li ng-show="!$parent.User.HasCard" class="divider"></li>
+                                <li ng-show="!$parent.User.HasCard"><a href="#/card/add/mine">Add My Card</a></li>
+                            </ul>
+                        </li>
+                        <li ng-class="{active: NavItems['Mine']}" ng-show="$parent.User.HasCard">
+                            <a href="#/card/mine" ng-click="SetCurrentMenuItem('Mine')">My Card</a>
+                        </li>
+                        <li ng-class="{active: NavItems['Busidex']}" ng-show="IsLoggedIn"><a href="#/busidex/mine">My Busidex</a></li>
+                        <li ng-class="{active: NavItems['Groups']}" ng-show="IsLoggedIn"><a href="#/groups/mine">My BusiGroups</a></li>
+                    </ul>
+                    <div class="pull-right">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="icon-gear" src="/img/gear.png" /></a>
+                        <ul class="dropdown-menu" style="margin-top:30px;">
+                            <li ng-show="IsLoggedIn"></li>
+                            <li><a href="#/busidex/suggestions">Suggestions</a></li>
+                            <li ng-show="IsLoggedIn"><a title="My Account" href="#/account/index">My Account</a></li>
+                            <li ng-show="User.IsAdmin"><a title="Admin Options" href="#/admin/index">Admin Options</a></li>
+                        </ul>
+                    </div>
+                    <ul class="nav navbar-nav pull-right">
+                        <sharedcardicon></sharedcardicon>
+                        <li style="color: #fff;padding-top:10px;padding-left:10px;" ng-bind-html="User.UserName"></li>
+                        <login userobject="{{User}}"></login>
+                        <li ng-show="!User"><a href="#/account/register/">Create an Account</a></li>
+                    </ul>
+
+
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <div class="subnav" style="" ng-show="ShowFilterControls">
+        <div class="container">
+            <ul class="nav nav-pills">
+                <li>
+                    <div class="shareLinks">
+                        <!--CARD SHARING-->
+                        <button ng-click="ToggleSharing()" ng-show="!IsSharing" class="share btn btn-info">Share</button>
+                        <button ng-click="ToggleSharing()" ng-show="IsSharing" class="cancel btn btn-inverse">Cancel</button>
+                        <a data-target="#SharedCardPopup" role="button" data-toggle="modal" class="select btn btn-info"
+                           ng-click="LoadSharedCards()" ng-show="IsSharing">Send To...</a>
+                        <a id="help" data-target="#SharedCardHelpContainer" role="button" class="btn btn-link" data-toggle="modal">Show Me How</a>
+                    </div>
+                </li>
+                <li>
+                    <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 1.2em;">Filter:</span>
+                    <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                </li>
+                <li><span class="label label-info" style="line-height: 25px;padding: 2px 15px;">{{MyBusidex.length}} Cards in Your Busidex</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+
+        <!--Here go the partials -->
+        <input type="hidden" id="UserId" name="UserId" value="{{$rootScope.UserId}}" />
+        <div ng-view></div>
+        <!-- Footer -->
+
+        <footer ng-controller="ApplicationVersionCtrl">
+            <p style="margin-left: 50px;">&copy; Busidex 2013 - v{{ Version }}</p>
+        </footer>
+    </div>
+
+    <div id="notificationPopup" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="SharedCardCtrl">
+        <form id="AddSharedCardsToMyBusidexForm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Someone shared some cards!</h3>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    These cards have been shared by {{SendFromEmail}}. Select <strong>Accept</strong> for the ones you want to add to your Busidex collection,
+                    or <strong>Decline</strong> for the ones you don't want to add.
+                </div>
+                <fieldset>
+                    <div style="height:320px;padding:15px; margin-bottom: 35px; overflow: auto;">
+                        <ul>
+                            <li style="vertical-align: top;" ng-repeat="sharedCard in $parent.SharedCards">
+                                <img ng-src="https://az381524.vo.msecnd.net/cards/{{sharedCard.Card.FrontFileId}}.{{sharedCard.Card.FrontType}}" style="height:120px;width:220px;vertical-align:top; border:solid 1pt silver; margin-top:10px;" />
+                                <label style="display:inline-block">Accept </label><input type="radio" name="cardIdAccept{{sharedCard.SendFrom + sharedCard.CardId}}" value="true" ng-model="sharedCard.Accepted" style="margin-top: 60px;" />
+                                <label style="display:inline-block">Decline </label><input type="radio" name="cardIdAccept{{sharedCard.SendFrom + sharedCard.CardId}}" value="false" ng-model="sharedCard.Accepted" style="margin-top: 60px;" checked="checked" />
+                            </li>
+
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary" ng-click="AcceptSharedCards()" data-dismiss="modal" id="submitSharedCards">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="RegisterHelpContainer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 790px;height:auto;left:45%;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="stopVideo(register_player)">×</button>
+            <h3 id="myModalLabel">How To Register With Busidex</h3>
+        </div>
+        <div class="modal-body" id="helpContent" style="max-height:800px;">
+            <div id="register_player"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+    <div id="SearchHelpContainer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 790px;height:auto;left:45%;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="stopVideo(search_player)">×</button>
+            <h3 id="myModalLabel">How To Search For a Card Using Busidex</h3>
+        </div>
+        <div class="modal-body" id="helpContent" style="max-height:800px;">
+            <div id="search_player"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+    <div id="SharedCardHelpContainer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 790px;height:auto;left:45%;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="stopVideo(share_player)">×</button>
+            <h3 id="myModalLabel">Sharing Cards Using Busidex</h3>
+        </div>
+        <div class="modal-body" id="helpContent" style="max-height:800px;">
+            <div id="share_player"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+    <!-- Finally load libraries -->
+    <!--[if lte IE 9]>
+    <script src="lib/angular/xdomain.js" slave="http://local.busidexapi.com/proxy.html"></script>
+    <![endif]-->
+
+    <script src="lib/jquery/jquery-1.9.1.min.js"></script>
+    <script src="lib/jquery/jquery.form.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-sanitize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-cookies.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-animate.min.js"></script>
+    <script src="lib/angular/angular-google-analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="lib/angular/ng-grid-2.0.7.min.js"></script>
+
+    <script src="js/app.min.js?v=2"></script>
+    <script src="js/services.js?v=2"></script>
+    <script src="js/controllers.js?v=4"></script>
+    <script src="js/filters.min.js?v=2"></script>
+    <script src="js/directives.js?v=3"></script>
+    <script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-29820162-1']);
+        _gaq.push(['_trackPageview']);
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g;
+            m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-29820162-1', 'busidex.com');
+        ga('send', 'pageview');
+
+    </script>
+    <script>
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var register_player;
+        var search_player;
+        var share_player;
+        function onYouTubeIframeAPIReady() {
+            search_player = new YT.Player('search_player', {
+                height: '500',
+                width: '700',
+                videoId: 'H0qq2N1G8fQ',
+                autoplay: false,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            register_player = new YT.Player('register_player', {
+                height: '500',
+                width: '700',
+                videoId: '2ejf6_aWDCw',
+                autoplay: false,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            share_player = new YT.Player('share_player', {
+                height: '500',
+                width: '700',
+                videoId: 'cELZuPZ-Tj0',
+                autoplay: false,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        //var search_player;
+        //function onYouTubeIframeAPIReady() {
+        //    search_player = new YT.Player('search_player', {
+        //        height: '500',
+        //        width: '700',
+        //        videoId: 'H0qq2N1G8fQ',
+        //        autoplay: false,
+        //        events: {
+        //            'onReady': onPlayerReady,
+        //            'onStateChange': onPlayerStateChange
+        //        }
+        //    });
+        //}
+
+        function onPlayerReady(event) {
+            //event.target.playVideo();
+        }
+
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                //setTimeout(stopVideo, 6000);
+                done = true;
+            }
+        }
+        function stopVideo(player) {
+            if (player) {
+                player.stopVideo();
+            }
+        }
+    </script>
+</body>
+
+</html>

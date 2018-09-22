@@ -1,0 +1,40 @@
+﻿<admin-menu></admin-menu>
+
+<style type="text/css">
+    .uoSelected {
+        background: #f8f8ff;
+    }
+</style>
+<div class="adminDiv">
+    <!--<div style="">
+        <ul>
+            <li ng-click="SetCurrentPage($index)" ng-class="{'uoSelected' : CurrentPage==$index}" style="border: solid 1pt silver; float: left; text-align: center; padding: 10px; cursor: pointer;" ng-repeat="page in UnownedCards">{{$index + 1}}</li>
+        </ul>
+    </div>-->
+    <div ng-repeat="card in UnownedCards" class="detailRow row" style="margin-bottom:25px;clear: both;">
+        <div class="span3">
+            <img ng-show="card.FrontFileId != null" alt="{{card.Name}}"
+                 ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontType.replace('.','')}}"
+                 cardid="{{card.CardId}}"
+                 ng-class="{'v_preview':card.FrontOrientation =='V', 'h_preview': card.FrontOrientation =='H'}"
+                 style="position:relative" />
+            <label class="label label-info" ng-show="card.FrontFileId == null">No Card Image Available</label>
+        </div>
+        <div class="span9 cardInfo">
+            <div class="row">
+                <div class="span4">
+                    <strong>{{card.Name}}</strong>
+                    <span class="label">{{card.CompanyName}}</span><br />
+                    <label ng-repeat="phone in card.PhoneNumbers">{{phone.Number}}</label>
+                    <a href="mailto:{{card.Email}}">{{card.Email}}</a><br />
+                    <a ng-href="{{'http://' + card..Url}}" target="_blank">{{card.Url}}</a><br />
+                    <span>Date Added: {{card.Created}}</span><br />
+                    <span>Last Updated: {{card.Updated}}</span><br />
+                    <span>Last Email Sent: </span><span class="label">{{card.DateSent}}</span><br />
+                    <a href="" ng-click="SendOwnerEmail(card)" class="btn btn-info">Send Owner Email</a>
+                    <input type="email" class="input-large" ng-model="card.EmailSentTo" placeholder="owner email" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,91 @@
+﻿@using System.Linq
+@using System.Web.Optimization
+
+@model Busidex4.Models.MyBusidex
+
+@{
+    ViewBag.Title = "Mine";
+    var cardCount = Model.CardCount;
+}
+
+@section Styles{
+    @Styles.Render("~/Content/mybusidex")
+}
+@section Scripts{
+    @Scripts.Render("~/Scripts/mybusidex")
+}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $(".typeahead").typeahead({
+            updater: function (obj) {
+                alert('Selected ' + obj);
+            }
+        });
+        $("#Mine a").css('color', '#fff');
+    });
+</script>
+@section SubNav{
+<div class="subnav">
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li>
+                <div class="shareLinks">
+                    <a href="#" class="share">Share</a>
+                    <a href="#" class="share cancel">Cancel</a>
+                    <a href="#sharePopup" role="button" class="share select btn" data-toggle="modal">Send To...</a>
+                </div>
+            </li>
+            <li>
+                <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 1.2em;">Filter:</span>
+                <select name="select-choice-1" id="filter" class="input-medium" data-inline="false" style="margin-bottom: 0;">
+                    <option value="cardname">Name</option>
+                    <option value="company">Company</option>
+                    <option value="phone">Phone</option>
+                    <option value="email">Email</option>
+                    <option value="tags">Tags</option>
+                </select>
+                <input type="text" value="" id="filterVal" class="input-large" style="margin-bottom: 0;"/>
+                <input type="text" style="display: none;margin-bottom: 0;" value="" id="filterValTag" class="input-large" autocomplete="off" data-provide="typeahead" data-source="@("[\"" + new HtmlString(string.Join("\",\"", Model.TagCloud.Select(t => t.Key).ToArray())) + "\"]")" />
+            </li>
+            <li><span class="label label-info" style="line-height: 25px;padding: 2px 15px;">@cardCount Cards in Your Busidex</span></li>
+        </ul>
+    </div>
+</div>
+}
+<div class="myBusidex row" style="margin-top: 40px;">&nbsp;</div>
+
+@if (Model.Busidex.Count > 0)
+{
+        <div></div>
+        @Html.Partial("_Details", Model.Busidex)
+}
+else
+{
+    <div class="EmptyBusidex">
+        You haven't added any cards to your Busidex collection.<br />
+        @Html.ActionLink("Add one now and get started", "Add", "Card").
+    </div>
+}
+
+<div style="clear: both">&nbsp;</div>
+<div id="cardPopup" class="cardPopup">
+    <div class="popupHeader">
+        <a href="@Url.Action("Edit", "Card")" id="editCard">Edit</a>
+        <a href="#" id="removeCard">Remove</a>
+        <span id="closePopup">Close X</span>
+    </div>
+</div>
+<div class="modal hide fade" id="sharePopup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Share your cards</h3>
+    </div>
+    <div class="modal-body">
+        <label>Email:</label><input type="email" id="shareWithEmail" style="width: 200px;" />
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="#" id="sendShared" class="btn btn-primary" data-dismiss="modal">Send</a>
+    </div>
+</div>

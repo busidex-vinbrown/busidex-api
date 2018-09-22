@@ -1,0 +1,149 @@
+
+<!-- Main hero unit for a primary marketing message or call to action -->
+<div class="row-fluid" style="padding-top:40px;">
+    <a href="#notificationPopup" role="button" data-toggle="modal" style="display: none;">
+        <img id="NotificationIcon" src="https://www.busidex.com/img/notification1.gif" style="position:absolute; z-index:1; margin-left: 60px; height: 100px; width: 100px; float: right; cursor: pointer;" alt="Someone sent you some cards!" title="Someone sent you some cards!" />
+    </a>
+</div>
+<div class="row-fluid" style="">
+    <!--UNAUTHENTICATED USERS SEE THIS-->
+    <div class="hero-unit home pull-left cover" ng-show="!$parent.IsLoggedIn">
+        <div class="span4" style="margin: 10px 0;">
+            <!--<a ng-href="#/card/details/{{model.FeaturedCard.CardId}}">-->
+            <a ng-href="#/card/search?_t=BNIStars2015">
+                <!--<img alt="{{model.FeaturedCard.Name}}" ng-if="model.FeaturedCard != null" ng-src="https://az381524.vo.msecnd.net/cards/{{model.FeaturedCard.FrontFileId}}.{{model.FeaturedCard.FrontFileType}}" class="h_preview featureImg" /><br />-->
+                <img alt="BNI Evening With THe Stars" ng-src="/img/bnistars.png" class="h_preview featureImg" style="box-shadow: inherit; -webkit-box-shadow: inherit;" /><br />
+            </a>
+            <a class="btn btn-primary homeAddToBusidex" ng-href="#/card/search?_t=BNIStars2015">View the Sponsors and Guests</a>
+            <!--<a ng-href="" ng-click="AddToMyBusidex(model.FeaturedCard.CardId)" class="btn btn-info homeAddToBusidex">Add This to Your Collection</a>-->
+            <!--<a href="" ng-click="TrackEvent('BoysTown', 'http://www.boystown.org/how-you-help')" class="btn btn-info homeAddToBusidex" target="_blank">How You Can Help</a>-->
+        </div>
+        <div class="span2">
+            <div style="margin: 10px 0;">
+                <a href="https://play.google.com/store/apps/details?id=com.busidex" target="_blank" class="btn-link">
+                    <img src="/img/google-play-lg.jpg" alt="Google Play Store" class="homeMobileUnAuth" />
+                </a>
+            </div>
+            <div>
+                <a href="https://itunes.apple.com/us/app/busidex/id801109889?ls=1&mt=8#" target="_blank" class="btn-link">
+                    <img src="/img/app-store-lg.jpg" alt="iTunes App Store" class="homeMobileUnAuth" />
+                </a>
+            </div>
+        </div>
+        <!--<div class="span2">
+                <img src="/img/mobile_preview_1.png" class="homeTopImage" style="margin-left:auto;margin-right:auto;" />
+            </div>-->
+        <div class="span6 focusText">
+            <ul class="homeFeatures">
+                <li>Get your business card into Busidex using your smartphone camera.</li>
+                <li>Find a card and add it to your Busidex Collection using the "Find a Card" option.</li>
+                <li>Now make calls, text, email and get directions using the owners business card.</li>
+            </ul>
+        </div>
+    </div>
+    <!--AUTHENTICATED USERS SEE THIS-->
+    <div class="hero-unit home cover pull-left WhatsNext" ng-show="$parent.IsLoggedIn">
+        <div class="span4" style="margin: 10px 0;">
+            <!--<a ng-href="#/card/details/{{model.FeaturedCard.CardId}}">
+                    <img alt="{{model.FeaturedCard.Name}}" ng-if="model.FeaturedCard != null" ng-src="https://az381524.vo.msecnd.net/cards/{{model.FeaturedCard.FrontFileId}}.{{model.FeaturedCard.FrontFileType}}" class="h_preview featureImg" /><br />
+                </a>
+            <a ng-href="" ng-click="AddToMyBusidex(model.FeaturedCard.CardId)" class="btn btn-info homeAddToBusidex">Add This to Your Collection</a>-->
+            <!--<a href="" ng-click="TrackEvent('BoysTown', 'http://www.boystown.org/how-you-help')" class="btn btn-info homeAddToBusidex" target="_blank">How You Can Help</a>-->
+            <a ng-href="#/card/search?_t=BNIStars2015">
+                <img alt="BNI Evening With THe Stars" ng-src="/img/bnistars.png" class="h_preview featureImg" style="box-shadow: inherit; -webkit-box-shadow: inherit;"/><br />
+            </a>
+            <a class="btn btn-primary homeAddToBusidex" ng-href="#/card/search?_t=BNIStars2015">View the Sponsors and Guests</a>
+        </div>
+        <div class="span4 pull-left homeCenter">
+            <h2>What Can I Do Next?</h2>
+            <a href="https://play.google.com/store/apps/details?id=com.busidex" target="_blank" class="btn-link">
+                <img src="/img/google-play-lg.jpg" alt="Google Play Store" class="homeMobileAuth" />
+            </a>
+            <a href="https://itunes.apple.com/us/app/busidex/id801109889?ls=1&mt=8#" target="_blank" class="btn-link">
+                <img src="/img/app-store-lg.jpg" alt="iTunes App Store" class="homeMobileAuth" />
+            </a>
+        </div>
+        <div class="span4 pull-right">
+            <ul>
+                <li><a ng-href="{{HomeShareLink}}" class="btn btn-info btn-large" popover="{{HomeHelpShare}}" popover-trigger="mouseenter" popover-placement="left">Share Some Cards</a></li>
+                <li><a ng-href="{{HomeEditLink}}" class="btn btn-info btn-large" popover="{{HomeHelpDetails}}" popover-trigger="mouseenter" popover-placement="left">Update My Card Details</a></li>
+                <li><a ng-href="{{HomeTagLink}}" class="btn btn-info btn-large" popover="{{HomeHelpTags}}" popover-trigger="mouseenter" popover-placement="left">Add Some Tags</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--<div class="row-fluid">
+    <p class="well alert-info">
+        We're performing system maintenance today - 5/3/2014. Saving card information will not be available during this time. All other services are available.
+    </p>
+</div>-->
+<div class="row-fluid">
+    <div class="span12">
+        <div class="span4 feature">
+            <a href="#/card/search" class="homeLink">
+                <img ng-src="https://az381524.vo.msecnd.net/images/Search2.png" class="homeImage" alt="" />
+                <h3>Find Events and Cards</h3>
+                <p>
+                    Grow your Busidex Collection and <strong>support local businesses</strong>! Select an Event or Search by name, company name, email,
+                    phone number or tags and add it to your Busidex.
+                </p>
+            </a>
+        </div>
+        <div class="span4 feature" ng-show="!$parent.IsLoggedIn">
+            <a href="#/account/register" class="homeLink">
+                <img ng-src="https://az381524.vo.msecnd.net/images/add.png" class="homeImage" alt="" />
+                <h3>Create an Account</h3>
+                <p>
+                    <strong>Business Owners and Contractors</strong><br />Add your business card so anyone can search your card.
+                    Please review our suggestions to make your business card a powerful tool to grow your business.
+                </p>
+            </a>
+        </div>
+        <div class="span4 feature" ng-show="$parent.IsLoggedIn">
+            <a href="#/busidex/mine" class="homeLink">
+                <img ng-src="https://az381524.vo.msecnd.net/images/BusidexLogo4a.png" class="homeImage" alt="" />
+                <h3>My Busidex</h3>
+                <p>
+                    This is your collection of cards. You can organize them, share them, and link them together.
+                </p>
+            </a>
+        </div>
+        <div class="span4 feature">
+            <a href="http://www.busidex.com/survey.html" class="homeLink">
+                <img ng-src="https://az381524.vo.msecnd.net/images/Busigroup2.png" class="homeImage homeImageLarge" alt="" />
+                <h3>What's On Your Mind?</h3>
+                <p>
+                    Have a suggestion for a cool new feature? Let us know! We'll get started on it.
+                </p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div id="iPhonePopup" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Comming Soon!</h3>
+    </div>
+    <div class="modal-body">
+        Check back soon. The iPhone app is coming. We're just getting it approved.
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+<script type="text/javascript">
+    var backgroundColor = "#9FB6CD";
+    $(document).ready(function () {
+        //$("div.span12 div.span3.feature").hover(
+        //    function() {
+        //        $(this).animate({ backgroundColor: "#ddd" }, 'slow');
+        //    },
+        //    function() {
+        //        $(this).stop().animate({ backgroundColor: backgroundColor }, 'slow');
+        //    }
+        //);
+    });
+
+</script>

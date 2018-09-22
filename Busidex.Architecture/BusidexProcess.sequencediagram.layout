@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sequenceDesignerDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="UMLSequenceDiagram1">
+  <SequenceDesignerModelMoniker Id="fdab0533-5f41-4905-aa0f-323ce9d7c58b" />
+  <nestedChildShapes>
+    <lifelineShape Id="2981db14-7519-47ef-b064-e950aa92ac9b" absoluteBounds="1.6458333730697632, 1, 0.15, 3.125" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="ea5d5368-3d3a-4113-8880-6501d50ec5e5" LastKnownName="Busidex Card Owner" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="31c62660-6dc6-4b08-a7e3-5b99089e26b7" absoluteBounds="1.012923629283905, 0.6, 1.4158194875717163, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="ea5d5368-3d3a-4113-8880-6501d50ec5e5" LastKnownName="Busidex Card Owner" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="3c839a3e-5940-4a50-bc81-a689f8caade2" absoluteBounds="1.6458333730697632, 1, 0, 3.125">
+          <lifelineMoniker Id="ea5d5368-3d3a-4113-8880-6501d50ec5e5" LastKnownName="Busidex Card Owner" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="5c574b27-cd04-4d91-a916-c0a637199aca" absoluteBounds="4.083333333333333, 1, 0.15, 3.125" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="8a9f349f-515a-4ed4-bdc5-980e68f4fc8f" absoluteBounds="3.428884974320729, 0.6, 1.4588967180252075, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="3f2b898a-8418-458f-9cba-ad89fd8c293f" absoluteBounds="4.083333333333333, 1, 0, 3.125">
+          <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+        </lifelineHoverShape>
+        <umlExecutionSpecificationShape Id="c9129bd7-9f93-447f-9893-234e0c7c2320" absoluteBounds="4.083333333333333, 3.034583333333333, 0.15, 0.55" customColor="184, 204, 215" visualStyleMode="Modified">
+          <behaviorExecutionSpecificationMoniker Id="b04777a7-059e-4bf9-8426-964880eacd4b" LastKnownName="BehaviorExecutionSpecification1" />
+        </umlExecutionSpecificationShape>
+        <umlExecutionSpecificationShape Id="f0334ff3-4027-427e-9058-a33096623419" absoluteBounds="4.083333333333333, 1.5520833333333333, 0.15, 1.1824999999999999" customColor="184, 204, 215" visualStyleMode="Modified">
+          <behaviorExecutionSpecificationMoniker Id="4d212766-4654-4dcb-9248-e77a624c2632" LastKnownName="BehaviorExecutionSpecification2" />
+        </umlExecutionSpecificationShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <lifelineShape Id="979bbde7-c03f-4237-b84b-1397d8a053df" absoluteBounds="6.697916666666667, 1, 0.15, 3.125" visible="true" visualStyleMode="Modified">
+      <lifelineMoniker Id="036e26da-e85a-4ac2-9b7e-e1ab5aa8d439" LastKnownName="Holders of User's card" />
+      <relativeChildShapes>
+        <umlLifelineHeadShape Id="852d46a7-a8e3-42df-8c3f-fce2a72cbedb" absoluteBounds="6.0203291885058086, 0.6, 1.5051749563217163, 0.4" customColor="White" visualStyleMode="Modified">
+          <lifelineMoniker Id="036e26da-e85a-4ac2-9b7e-e1ab5aa8d439" LastKnownName="Holders of User's card" />
+          <relativeChildShapes />
+        </umlLifelineHeadShape>
+        <lifelineHoverShape Id="76beaa85-1509-4969-b68d-fc356a221ac1" absoluteBounds="6.697916666666667, 1, 0, 3.125">
+          <lifelineMoniker Id="036e26da-e85a-4ac2-9b7e-e1ab5aa8d439" LastKnownName="Holders of User's card" />
+        </lifelineHoverShape>
+      </relativeChildShapes>
+    </lifelineShape>
+    <asyncMessageConnector edgePoints="[(1.72083337306976 : 3.03458333333333); (4.08333333333333 : 3.03458333333333)]" fixedFrom="Caller" fixedTo="Caller" TargetRelationshipDomainClassId="e24617ce-6c7e-4c7d-802a-63014f02e313" customColor="Black" visible="true" visualStyleMode="Modified" messageId="00000000-0000-0000-0000-000000000000">
+      <relativeChildShapes />
+      <nodes>
+        <lifelineShapeMoniker Id="2981db14-7519-47ef-b064-e950aa92ac9b" />
+        <umlExecutionSpecificationShapeMoniker Id="c9129bd7-9f93-447f-9893-234e0c7c2320" />
+      </nodes>
+    </asyncMessageConnector>
+    <asyncMessageConnector edgePoints="[(6.77291666666667 : 1.55208333333333); (4.23333333333333 : 1.55208333333333)]" fixedFrom="Caller" fixedTo="Caller" TargetRelationshipDomainClassId="e24617ce-6c7e-4c7d-802a-63014f02e313" customColor="Black" visible="true" visualStyleMode="Modified" messageId="00000000-0000-0000-0000-000000000000">
+      <relativeChildShapes />
+      <nodes>
+        <lifelineShapeMoniker Id="979bbde7-c03f-4237-b84b-1397d8a053df" />
+        <umlExecutionSpecificationShapeMoniker Id="f0334ff3-4027-427e-9058-a33096623419" />
+      </nodes>
+    </asyncMessageConnector>
+  </nestedChildShapes>
+</sequenceDesignerDiagram>

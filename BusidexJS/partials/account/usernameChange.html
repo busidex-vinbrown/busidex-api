@@ -1,0 +1,25 @@
+﻿
+<h3>
+    Change Your User Name
+</h3>
+
+<div class="well">
+    <form id="userDataForm" name="userDataForm" autocomplete="off" novalidate>
+        <ul class="formFields" style="margin:0;">
+            <li>
+                <input type="text" name="UserName" ng-model="UserName" ng-blur="CheckUserNameAvailability()" ng-minlength="5" ng-maxlength="20" valid-form required placeholder="New User Name" />
+                <img ng-src="img/checkmark.png" style="height:25px;width:25px;" ng-show="UserNameMessages.ErrorCount==0 && UserNameOkToUse=='OK'" />
+                <img ng-src="img/delete.png" style="height:18px;width:18px;" ng-show="UserNameMessages.ErrorCount==0 && UserNameOkToUse=='USED'" />
+                <span ng-show="UserNameMessages.ErrorCount==0 && UserNameOkToUse=='USED'">User name already taken</span>
+            </li>
+        </ul>
+        <input type="submit" value="Change User Name" class="btn btn-info" role="button" ng-click="Save()" ng-disabled="!UserNameOkToUse" />
+    </form>
+</div>
+<div class="alert alert-success" style="text-align: center;" ng-show="UserNameChanged">
+    <h4>Your user name has been changed</h4>
+</div>
+<div class="alert alert-error" style="text-align: center;" ng-show="!UserNameChanged && (BadUserName || Error)">
+    <h4 ng-show="BadUserName">This user name is already in use. Try another one.</h4>
+    <h4 ng-show="Error">Sorry, we couldn't update your user name at this time.</h4>
+</div>

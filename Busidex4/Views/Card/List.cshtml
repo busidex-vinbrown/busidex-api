@@ -1,0 +1,7 @@
+﻿@using Busidex.DAL
+
+@model List<CardDetailModel>
+
+@foreach (var c in Model) {
+    @Html.Partial("_CardDetail", c)
+}

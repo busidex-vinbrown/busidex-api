@@ -1,0 +1,5 @@
+﻿<div class="shared-card-list-item">
+    <img ng-class="card.FrontOrientationClass" 
+         ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontType.replace('.','')}}" />
+    <input type="button" class="btn btn-primary" value="Remove" ng-click="vm.removeFromList($index)"/>
+</div>

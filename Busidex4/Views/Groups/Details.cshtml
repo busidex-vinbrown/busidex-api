@@ -1,0 +1,80 @@
+﻿@using System.Configuration
+@using System.Web.Optimization
+@using Busidex.DAL
+@using Busidex4.Helpers
+@model Busidex4.Models.BusiGroupModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_BootstrapLayout.basic.cshtml";
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"]; 
+}
+@section Styles{
+    @Styles.Render("~/Content/mygroups")
+}
+@section Scripts{
+    @Scripts.Render("~/Scripts/mygroups")
+}
+
+<h2 id="groupHeader">@Model.Busigroup.Description
+    <a class="btn btn-link" href="../Mine" style="margin-left:20px;">Back</a>
+    <a class="btn btn-link" href="#" id="editGroup" groupId="@Model.Busigroup.GroupId">Edit</a>
+</h2>
+
+@foreach (UserGroupCard c in Model.BusigroupCards)
+{
+    if (!c.Card.FrontFileId.HasValue && string.IsNullOrEmpty(c.Card.Markup))
+    {
+        continue;
+    }
+
+    string text = Server.UrlDecode(Server.HtmlDecode(c.Notes));
+    string phoneNumber = c.Card != null && c.Card.PhoneNumbers == null ? string.Empty : string.Join(",", c.Card.PhoneNumbers);
+
+    <div class="detailRow row" cardid="@c.CardId" tags="@c.Card.TagList.ToLower()" cardname="@(c.Card.Name == null ? string.Empty : c.Card.Name.ToLowerInvariant())"
+         phone="@phoneNumber" email="@c.Card.Email" cardid="@c.CardId" company="@(c.Card.CompanyName == null ? string.Empty : c.Card.CompanyName.ToLowerInvariant())">
+        <div class="row">
+            <div class="span12 cardActions" style="margin-top: -15px;">
+                @*<a href="#" title="Remove From Busigroup" class="removeCard" cardid="@c.CardId"><i class="icon-remove"></i></a>*@
+                <a href="#" class="removeCover">&nbsp;</a>
+            </div>
+        </div>
+        <div class="span3">
+            <a idx="@(c.CardId.ToString())">
+
+                <img alt="@c.Card.Name" src="@(cdnPath + c.Card.FrontFileId.Value.ToString() + ".jpg")"
+                     cardid="@c.CardId"
+                     class="myBusidexCard2 @(c.Card.FrontOrientation == "V" ? "v_preview" : "h_preview")" style="position:relative"/>
+
+            </a>
+        </div>
+        <div class="span9 cardInfo">
+            <div class="row">
+                <div class="span4">
+                    <strong>@c.Card.Name</strong>
+                    <span class="label">@c.Card.CompanyName</span>
+                    @foreach (var phone in c.Card.PhoneNumbers.Where(pn => !pn.Deleted))
+                    {
+                        <label>@(string.IsNullOrEmpty(phone.Number) ? "(no phone available)" : CardHelper.FormatPhoneNumber(phone.Number))</label>
+                    }
+                    @if (string.IsNullOrEmpty(c.Card.Email))
+                    {
+                        <span>(no email available)</span>
+                    }
+                    else
+                    {
+                        <a href="mailto:@(new HtmlString(c.Card.Email))">@c.Card.Email</a>
+                    }<br />
+                    @if (!string.IsNullOrEmpty(c.Card.Url))
+                    {
+                        <a href="@("http://" + c.Card.Url)" target="_blank">@c.Card.Url</a>
+                    }
+                </div>
+                <div class="span4 Notes">
+                    <textarea class="groupNotes" ugcid="@c.UserGroupCardId" data="@text" name="Notes">@text</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="workarea"></div>

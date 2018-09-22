@@ -1,0 +1,8 @@
+﻿<input type="hidden" ng-model="vm.Model.CardOwnerToken" value="" />
+<input type="hidden" ng-model="vm.Model.InviteUserId" value="{{vm.Model.InviteUserId}}" />
+
+<div ng-show="vm.Model.ShowOwnerCard">
+    <img alt="Front Image" id="frontPreview" class="preview {{vm.Model.FrontOrientationClass}}" ng-if="vm.Model.Card.FrontFileId !== null" ng-src="https://az381524.vo.msecnd.net/cards/{{vm.Model.Card.FrontFileId}}.{{vm.Model.Card.FrontFileType}}" ng-show="!vm.Waiting" /><br/><br/>
+    <img alt="Back Image" id="backPreview" class="preview {{vm.Model.BackOrientationClass}}" ng-if="vm.Model.Card.BackFileId !== null" ng-src="https://az381524.vo.msecnd.net/cards/{{vm.Model.Card.BackFileId}}.{{vm.Model.Card.BackFileType}}" ng-show="!vm.Waiting && vm.Model.HasBackImage" />
+    <img alt="Loading..." src="/images/spinner.gif" style="height:30px; width: 30px;margin-top:30px;" ng-show="vm.Waiting"/>
+</div>

@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "CardMaintenance";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Admin a").css('color', '#fff');
+    });
+</script>
+<h4>Admin Options</h4>
+<ul>
+    <li>@Html.ActionLink("Card Maintenance", "CardMaintenance", "Admin")</li>
+</ul>
+
+<h2>CardMaintenance</h2>
+@Html.ActionLink("Update Card Image URLs", "ExtractCardsToFile", "Admin")
+<form action="@Url.Action("ExtractCardToFile")" method="POST">
+    <label>CardID: </label><input type="text" name="cardId"/>
+    <input type="submit" value="Update Singer card Image URLs"/>
+</form>

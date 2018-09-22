@@ -1,0 +1,152 @@
+﻿    
+<hgroup class="title">
+    <h1 class="registerTitle">CREATE YOUR NEW BUSIDEX ACCOUNT</h1>    
+</hgroup>
+
+<p id="stepProgress">
+    <img id="step1img" src="https://az381524.vo.msecnd.net/images/step_1.png" class="registrationStepFade" ng-class="{registrationStepComplete: CurrentStep >= 1}" />
+    <img id="step2img" src="https://az381524.vo.msecnd.net/images/step_2.png" class="registrationStepFade" ng-class="{registrationStepComplete: CurrentStep >= 2}" />
+    <img id="step3img" src="https://az381524.vo.msecnd.net/images/step_3.png" class="registrationStepFade" ng-class="{registrationStepComplete: CurrentStep >= 3}" />
+    <img id="step4img" src="https://az381524.vo.msecnd.net/images/step_done.png" class="registrationStepFade" ng-class="{registrationStepComplete: CurrentStep >= 4}" />
+    <!--<a id="help" data-target="#RegisterHelpContainer" role="button" class="btn btn-link" data-toggle="modal">Show Me How</a>-->
+</p>
+<!-- Modal -->
+
+<div class="alert alert-error" ng-show="RegistrationErrors.length > 0" ng-model="RegistrationErrors">
+    <a class="close" data-dismiss="alert">×</a>
+    <ul>
+        <li><h4>Account creation was unsuccessful. Please correct the errors and try again</></h4></li>
+        <li ng-repeat="error in RegistrationErrors">{{error}}</li>
+    </ul>
+</div>
+
+<input type="hidden" ng-model="Model.CardOwnerToken" value="" />
+<input type="hidden" ng-model="Model.InviteUserId" value="{{Model.InviteUserId}}" />
+
+<div ng-show="Model.ShowOwnerCard" ng-show="CurrentStep==0" class="pull-right">
+    <img alt="Front Image" id="frontPreview" class="preview {{Model.FrontOrientationClass}}" ng-if="Model.Card.FrontFileId != null" ng-src="https://az381524.vo.msecnd.net/cards/{{Model.Card.FrontFileId}}.{{Model.Card.FrontFileType}}" ng-show="!Waiting" /><br/><br/>
+    <img alt="Back Image" id="backPreview" class="preview {{Model.BackOrientationClass}}" ng-if="Model.Card.BackFileId != null" ng-src="https://az381524.vo.msecnd.net/cards/{{Model.Card.BackFileId}}.{{Model.Card.BackFileType}}" ng-show="!Waiting && Model.HasBackImage" />
+    <img alt="Loading..." ng-src="/img/spinner.gif" style="height:30px; width: 30px;margin-top:30px;" ng-show="Waiting"/>
+</div>
+<!--<section id="step_gplus" class="registrationStep" ng-show="CurrentStep==1">
+    <span id="googleSignIn">
+        <span id="signInButton">
+            <img class="aligncenter" src="https://developers.google.com/+/images/branding/sign-in-buttons/Red-signin_Google_base_44dp.png" alt="">
+        </span>
+    </span>
+</section>-->
+<section id="step_1" class="registrationStep" ng-show="CurrentStep==1">
+    <form id="userDataForm" name="userDataForm" autocomplete="off" novalidate>
+        <h3>Choose a username and password...</h3>
+        <ul class="formFields">
+            <li>
+                <!--NAME-->
+                <input autocomplete="off" type="text" id="displayname" name="DisplayName" ng-model="Model.DisplayName" ng-minlength="5" ng-maxlength="20" valid-form required placeholder="User Name" />
+                <span ng-show="DisplayNameMessages.DisplayNameRequired.Error">{{DisplayNameMessages.DisplayNameRequired.Message}}</span>
+            </li>
+            <li>
+                <!--EMAIL-->
+                <input autocomplete="off" type="email" id="Email" name="Email" ng-model="Model.Email" ng-blur="CheckEmailAvailability()" valid-form required placeholder="Email" />
+                <img ng-src="img/checkmark.png" style="height:25px;width:25px;" ng-show="EmailOkToUse=='OK'" />
+                <img ng-src="img/delete.png" style="height:18px;width:18px;" ng-show="EmailOkToUse=='USED'" />
+                <span ng-show="EmailOkToUse=='USED'">Email already used by another account</span>
+                <span ng-show="EmailMessages.EmailRequired.Error">{{EmailMessages.EmailRequired.Message}}</span>
+                <span ng-show="EmailMessages.ValidEmail.Error">{{EmailMessages.ValidEmail.Message}}</span>
+            </li>
+            <li>
+                <!--CONFMRM EMAIL-->
+                <input autocomplete="off" type="email" id="ConfirmEmail" name="ConfirmEmail" ng-model="Model.ConfirmEmail" valid-form required placeholder="Confirm Email" />
+                <span ng-show="EmailMessages.ConfirmEmailRequired.Error">{{EmailMessages.ConfirmEmailRequired.Message}}</span>
+                <span ng-show="EmailMessages.EmailMatch.Error">{{EmailMessages.EmailMatch.Message}}</span>
+            </li>
+            <li>
+                <!--PASSWORD-->
+                <label><i>passwords are case-sensitive</i></label>
+                <input autocomplete="off" type="password" id="Password" name="Password" ng-model="Model.Password" placeholder="Password" ng-minlength="8" ng-maxlength="20" valid-form required />
+                <span ng-show="PasswordMessages.PasswordRequired.Error">{{PasswordMessages.PasswordRequired.Message}}</span>
+                <span ng-show="PasswordMessages.PasswordLength.Error">{{PasswordMessages.PasswordLength.Message}}</span>
+            </li>
+
+            <input ng-show="CurrentStep > 1" type="button" value="Back" class="goToStep0 btn" role="button" />
+            <input type="button" value="Next" class="goToStep2 btn" role="button" ng-disabled="(UserNameMessages.ErrorCount + EmailMessages.ErrorCount + PasswordMessages.ErrorCount > 0) || EmailOkToUse != 'OK'" ng-click="SetStep(2)" />
+        </ul>
+    </form>
+</section>
+
+<section id="step_2" class="registrationStep" ng-show="CurrentStep==2">
+    <form id="planData" name="planData">
+        <h3>Choose a plan...</h3>
+        <ol>
+            <li class="planType" ng-repeat="plan in Model.Plans">
+                <input type="radio" name="AccountTypeId" ng-model="Model.AccountTypeId" value="{{plan.AccountTypeId}}" required ng-disabled="plan.AccountTypeId == 5 || plan.AccountTypeId == 1" />
+                <span class="AccountType">{{plan.Name}}</span>&nbsp;-&nbsp;<span ng-bind-html="plan.Description"></span>
+            </li>
+        </ol>
+        <input type="button" value="Back" class="goToStep1 btn" role="button" ng-click="SetStep(1)" />
+        <input type="button" value="Next" class="goToStep3 btn" role="button" ng-click="SetStep(3)" ng-disabled="!planData.$valid" />
+    </form>
+</section>
+
+<section id="step_3" class="registrationStep" ng-show="CurrentStep==3">
+    <form id="verificationData" name="verificationData" novalidate>
+        <div class="humanQuestion">
+            <h4>This is just to prove that you are, in fact a human.</h4>
+            <label>{{Model.HumanQuestion}}</label>
+            <input type="text" ng-model="Model.HumanAnswer" style="width:70px;" human-question required />
+        </div>
+        <div>
+            <label>Promo Code <small class="italic">(optional)</small></label>
+            <input type="text" ng-model="Model.PromoCode" ng-maxlength="50" />
+        </div>
+        <div class="well">
+            <label><strong>How did you hear about us?</strong></label>
+            <label class="inline"><input type="radio" value="{{Model.ReferralTypes.Email}}" ng-model="Model.ReferredBy" name="ReferredBy" />Email/Promotion</label><br />
+            <label class="inline"><input type="radio" value="{{Model.ReferralTypes.Shared}}" ng-model="Model.ReferredBy" name="ReferredBy" />Someone shared their card</label><br />
+            <label class="inline"><input type="radio" value="{{Model.ReferralTypes.Personal}}" ng-model="Model.ReferredBy" name="ReferredBy" />Personal Reference</label><input ng-class="{'MissingReferrance': Model.MissingPersonalReference}" ng-maxlength="250" type="text" ng-model="Model.ReferredByPerson" placeholder="Who referred you?" /><br />
+            <label class="inline"><input type="radio" value="{{Model.ReferralTypes.Other}}" ng-model="Model.ReferredBy" name="ReferredBy" />Other</label><input ng-class="{'MissingReferrance': Model.MissingOtherReference}" ng-maxlength="250" type="text" ng-model="Model.ReferredByOther" />
+        </div>
+        <div style="margin-bottom:15px;">
+            <input type="checkbox" ng-model="Model.Agree" required />&nbsp;<label for="agree" style="display:inline-block">I have read the <a href="https://www.busidex.com/#/account/terms" target="_blank">Terms of Use</a> and agree.</label>
+        </div>
+        <input type="hidden" ng-model="Model.Created" />
+        <input type="button" value="Back" class="goToStep2 btn" role="button" ng-click="SetStep(2)" />
+        <input type="button" value="Register" id="register" class="btn" role="button" ng-disabled="verificationData.$invalid" ng-click="Regsister()" />
+    </form>
+</section>
+
+<section id="step_done" class="registrationStep" ng-show="CurrentStep==4">
+    <div style="margin: 5px; color:#060606;font-size: 1.4em; line-height: 1.7em;">
+        <h2>You're Almost Done!!</h2>
+        <p style="font-size:1.3em">{{Model.Email}}</p>
+        <p style="margin-top:15px; font-size:1.3em">
+            Please check your inbox for your activation email from busidex.com. You must click the link in the email to activate
+            your account. If you use spam filters, please add our email service address to your list of permitted senders.
+        </p>
+    </div>
+</section>
+
+<!-- Begin Inspectlet Embed Code -->
+<script type="text/javascript" id="inspectletjs">
+    if (window.location.href.indexOf('local.') < 0) {
+        window.__insp = window.__insp || [];
+        __insp.push(['wid', 128335322]);
+        (function() {
+            function __ldinsp() {
+                var insp = document.createElement('script');
+                insp.type = 'text/javascript';
+                insp.async = true;
+                insp.id = "inspsync";
+                insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js';
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(insp, x);
+            }
+
+            if (window.attachEvent) {
+                window.attachEvent('onload', __ldinsp);
+            } else {
+                window.addEventListener('load', __ldinsp, false);
+            }
+        })();
+    }
+</script>
+<!-- End Inspectlet Embed Code -->

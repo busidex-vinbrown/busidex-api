@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="busidexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="busidexEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cards" EntityType="busidexModel.Card" />
+    <EntitySet Name="CardAddresses" EntityType="busidexModel.CardAddress" />
+  </EntityContainer>
+  <EntityType Name="Card">
+    <Key>
+      <PropertyRef Name="CardId" />
+    </Key>
+    <Property Name="CardId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="FrontImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="FrontType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="FrontOrientation" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="BackImage" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="BackType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="BackOrientation" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="BusinessId" Type="Int32" />
+    <Property Name="Searchable" Type="Boolean" Nullable="false" />
+    <Property Name="CompanyName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Url" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreatedBy" Type="Int64" />
+    <Property Name="OwnerId" Type="Int64" />
+    <Property Name="OwnerToken" Type="Guid" />
+    <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Deleted" Type="Boolean" Nullable="false" />
+    <Property Name="FrontFileId" Type="Guid" />
+    <Property Name="BackFileId" Type="Guid" />
+    <Property Name="DisplayType" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="Markup" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Name="Visibility" Type="Byte" Nullable="false" />
+    <Property Name="CardTypeId" Type="Int32" Nullable="false" />
+    <Property Name="SEO_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="CustomContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="CardAddress">
+    <Key>
+      <PropertyRef Name="CardAddressId" />
+    </Key>
+    <Property Name="CardAddressId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CardId" Type="Int64" Nullable="false" />
+    <Property Name="Address1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="State" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="ZipCode" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Deleted" Type="Boolean" Nullable="false" />
+    <Property Name="GeoLocation" Type="Geography" />
+  </EntityType>
+</Schema>

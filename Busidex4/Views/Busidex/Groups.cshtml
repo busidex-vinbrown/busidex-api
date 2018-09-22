@@ -1,0 +1,82 @@
+﻿@model List<Busidex.DAL.Group>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "My Busigroups";
+    Layout = "~/Views/Shared/_BootstrapLayout.basic.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/mybusidex")
+    <style type="text/css">
+        .busidexRow img {
+            margin-left: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            opacity: .3;
+            padding: 0;
+            border: dashed 1pt #000;
+        }
+        
+            .busidexRow img.selected {
+                opacity: 1;
+                padding: 1px;
+                border: none;
+                /*-webkit-box-shadow: -1px 0px 18px rgba(122, 6, 255, 0.75);
+                -moz-box-shadow: -1px 0px 18px rgba(122, 6, 255, 0.75);
+                box-shadow: -1px 0px 18px rgba(122, 6, 255, 0.75);
+                border: solid 3pt #333;*/
+            }
+
+    </style>
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#addGroup").click(function() {
+                $.ajax({
+                    url: "AddGroup",
+                    success: function (view) {
+                        $(".EmptyBusidex").hide();
+                        $("#workarea").html(view);
+                        $("#groupList").hide();
+                    },
+                    error: function() {
+                        alert('error');
+                    }
+                });
+            });
+
+            $(document).on('click', ".busidexRow img", function () {
+                $(this).toggleClass("selected");
+                $("#cardCount").text($(".selected").length + ' selected');
+            });
+            $(document).on('click', "button#cancel", function () {
+                window.location.href = "groups";
+            });
+            $(document).on('click', "input#showSelected", function () {
+                if ($(this).is(":checked")) {
+                    $(".busidexRow img").hide();
+                    $(".busidexRow img.selected").show();
+                } else {
+                    $(".busidexRow img").show();
+                }
+            });
+
+        });
+        
+    </script>
+}
+<ul id="groupList">
+    @foreach (var group in Model)
+    {
+        <li>
+            <h4>@group.Description</h4>
+        </li>
+    }
+</ul>
+
+<div class="EmptyBusidex">
+    <a href="#" id="addGroup" class="btn btn-large">Click here to create a new BusiGroup!</a>
+</div>
+<div id="workarea"></div>
+

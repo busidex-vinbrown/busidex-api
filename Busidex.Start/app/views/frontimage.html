@@ -1,0 +1,34 @@
+<div class="container" ng-controller="CardImageController as vm">    
+    <div class="jumbotron">
+        <h1 ng-show="!vm.user.OnboardingComplete">Welcome To Busidex</h1>
+        <div>
+            <div ng-include="'views/fragments/logo.html'"></div>
+            <h2 ng-show="!vm.user.OnboardingComplete">Let's start by uploading the image on the front of your business card</h2>
+            <h2 ng-show="vm.user.OnboardingComplete">Upload the image on the front of your business card</h2>
+        </div>
+        <div ng-show="vm.FileError === true" ng-include="'views/fragments/file_error.html'"></div>
+        <div ng-show="vm.ModelError === true" ng-include="'views/fragments/error.html'"></div>
+        <div class="row">
+            <div class="card-image-inner">
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" value="Select Image" ng-click="vm.ImagePreview(0)"/>
+                    <div class="radio-inline">
+                        <label for="f_ov"><input type="radio" id="f_ov" name="FrontOrientation" value="H" ng-model="vm.card.FrontOrientation" />Horizontal</label>
+                    </div>
+                    <div class="radio-inline">
+                        <label for="f_oh"><input type="radio" id="f_oh" name="FrontOrientation" value="V" ng-model="vm.card.FrontOrientation" />Vertical</label>
+                    </div>
+                    <div card elementid="'frontPreview'" orientationstyle="vm.card.FrontOrientation === 'V' ? 'v_thumbnail' : 'h_thumbnail'" waiting="vm.waiting"
+                         cardsrc="vm.card.FrontSrc">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="!vm.editmode">
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.AllowNext()" ng-click="vm.save(0, 1)">Next &gt;</a>
+        </div>
+        <div ng-if="vm.editmode">
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.modified" ng-click="vm.save(0, -1)">Save</a>
+        </div>
+    </div>
+</div>

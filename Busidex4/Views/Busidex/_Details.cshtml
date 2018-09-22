@@ -1,0 +1,101 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+@using Busidex4.Helpers;
+
+@model List< UserCard >
+
+@{
+    long userId = (long) ViewBag.UserId;
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];    
+}
+
+<input type="hidden" id="ownerId" value="@userId"/>
+
+@foreach (UserCard c in Model)
+{
+    if (!c.Card.FrontFileId.HasValue && string.IsNullOrEmpty(c.Card.Markup))
+    {
+        continue;
+    }
+                
+    string text = Server.UrlDecode(Server.HtmlDecode(c.Notes));
+    string phoneNumber = c.Card != null && c.Card.PhoneNumbers == null ? string.Empty : string.Join(",", c.Card.PhoneNumbers);
+    string iconPath = c.Card.OwnerId.HasValue ? "/Images/searchIcon.png" : "/Images/phone.png";
+    string iconClass = c.Card.OwnerId.HasValue ? "HasOwner" : "InMyBusidex";
+    string iconTitle = c.Card.OwnerId.HasValue ? "In My Busidex" : "Send an invite";
+    string iconLink = c.Card.OwnerId.HasValue ? "#" + c.Card.CardId : Url.Action("Invite", "Card", new { id = c.Card.CardId });
+    
+    <div class="detailRow row" cardId="@c.CardId" tags="@c.Card.TagList.ToLower()" cardname="@(c.Card.Name == null ? string.Empty : c.Card.Name.ToLowerInvariant())" 
+        phone="@phoneNumber" email="@c.Card.Email" cardId="@c.CardId" company="@(c.Card.CompanyName == null ? string.Empty : c.Card.CompanyName.ToLowerInvariant())">
+        <div class="selectShare">
+            
+            <input type="checkbox" class="sharedCard" cardId="@c.CardId"/>
+        </div>
+        <div class="row">
+            <div class="span12 cardActions" style="margin-top: -15px;">
+                @if (c.Card.OwnerId != userId)
+                {
+                    bool isRelated = Model.Any(uc => uc.RelatedCards.Any(r => r.RelatedCardId == c.CardId));
+                    <i title="@(isRelated ? "This card is related to yours" : "This card is not related to yours")" class="@(isRelated
+                                ? "related" 
+                                : "unrelated")" cardId="@c.CardId"></i>
+                }
+                @if (c.SharedById == userId || c.Card.OwnerId == userId || (c.Card.CreatedBy.GetValueOrDefault() == userId && !c.Card.OwnerId.HasValue))
+                {
+                    <a href="../Card/Edit/@c.CardId" title="Edit"><i class="icon-edit"></i></a>                    
+                }
+                <a href="@Url.Action("Details", "Card", new{id=c.CardId})" title="Details"><i class="icon-zoom-in"></i></a>
+                <a href="#" title="Remove From MyBusidex" class="removeCard" cardId="@c.CardId"><i class="icon-remove"></i></a>
+                <a href="#" class="removeCover">&nbsp;</a>
+            </div>
+        </div>
+        <div class="span3">
+            <a idx="@(c.CardId.ToString())">
+                
+                <a href="@iconLink"><img src="@iconPath" class="@iconClass" title="@iconTitle" alt=""/></a>
+                
+                <img alt="@c.Card.Name" src="@(cdnPath + c.Card.FrontFileId.Value.ToString() + ".jpg")"  
+                     cardId="@c.CardId" 
+                     class="myBusidexCard2 @(c.Card.FrontOrientation == "V" ? "v_preview" : "h_preview")" style="position:relative" 
+                     showEdit="@(userId == c.Card.CreatedBy)" />
+
+            </a>
+        </div>
+        <div class="span9 cardInfo">
+            <div class="row">
+                <div class="span4">
+                    <strong>@c.Card.Name</strong>
+                    <span class="label">@c.Card.CompanyName</span>
+                    @foreach (var phone in c.Card.PhoneNumbers.Where(pn=>!pn.Deleted))
+                    {
+                        <label>@(string.IsNullOrEmpty ( phone.Number ) ? "(no phone available)" : CardHelper.FormatPhoneNumber ( phone.Number ) )</label>
+                    }
+                    @if (string.IsNullOrEmpty(c.Card.Email))
+                    {
+                        <span>(no email available)</span>
+                    }
+                    else
+                    {
+                        <a href="mailto:@(new HtmlString(c.Card.Email))">@c.Card.Email</a>   
+                    }<br/>
+                    @if (!string.IsNullOrEmpty(c.Card.Url))
+                    {
+                        <a href="@("http://" + c.Card.Url)" target="_blank">@c.Card.Url</a>
+                    }
+                </div>
+                <div class="span4 Notes">
+                    <textarea class="Notes" ucId="@c.UserCardId" data="@text" name="Notes">@text</textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="relatedCards span8">
+                    @foreach (var relatedCard in c.RelatedCards)
+                    {
+                        <img src="@(cdnPath + relatedCard.RelatedCardImageId.ToString() + ".jpg")" class="relatedCard_sm img-polaroid pull-left" />    
+                    }
+                </div>
+            </div>
+        </div>
+        
+    </div>  
+}

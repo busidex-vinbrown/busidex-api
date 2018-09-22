@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BC791673-0661-4CB3-B933-9A3256AAFE6B}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Busidex.Web</RootNamespace>
+    <AssemblyName>Busidex.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\404.html" />
+    <Content Include="app\favicon.ico" />
+    <Content Include="app\images\DarielBlanco.JPG" />
+    <Content Include="app\images\NaturalAwakeningsLogo.png" />
+    <Content Include="app\images\OSBE2016umbrella.png" />
+    <Content Include="app\images\ten.jpg" />
+    <Content Include="app\images\add.png" />
+    <Content Include="app\images\alarm_on.png" />
+    <Content Include="app\images\appleiconandborder.png" />
+    <Content Include="app\images\background1.jpg" />
+    <Content Include="app\images\background2.png" />
+    <Content Include="app\images\background2a.png" />
+    <Content Include="app\images\bca.png" />
+    <Content Include="app\images\bnistars.png" />
+    <Content Include="app\images\bug_background.jpg" />
+    <Content Include="app\images\busidex_icon_100x100.png" />
+    <Content Include="app\images\busidex_logo_hor.png" />
+    <Content Include="app\images\busidex_logo_vert.png" />
+    <Content Include="app\images\checkmark.png" />
+    <Content Include="app\images\colored bar.png" />
+    <Content Include="app\images\conference-logo-w-blue-box-trnsp.png" />
+    <Content Include="app\images\delete.png" />
+    <Content Include="app\images\email.jpg" />
+    <Content Include="app\images\frame2tablet.png" />
+    <Content Include="app\images\Frame1compandphone.png" />
+    <Content Include="app\images\frame4texture.png" />
+    <Content Include="app\images\header_1.jpg" />
+    <Content Include="app\images\minuteman.jpg" />
+    <Content Include="app\images\notification_back.jpg" />
+    <Content Include="app\images\loading2.gif" />
+    <Content Include="app\images\logo-blue.png" />
+    <Content Include="app\images\logo.png" />
+    <Content Include="app\images\osbe.jpg" />
+    <Content Include="app\images\osbe2014.jpg" />
+    <Content Include="app\images\phone-with-interior.png" />
+    <Content Include="app\images\playiconandborder.png" />
+    <Content Include="app\images\RealtorFoundation.png" />
+    <Content Include="app\images\RIARExpoLogo.png" />
+    <Content Include="app\images\rightlaptopandbackground.png" />
+    <Content Include="app\images\rotating_card_thumb.jpg" />
+    <Content Include="app\images\rotating_card_thumb.png" />
+    <Content Include="app\images\rotating_card_thumb2.png" />
+    <Content Include="app\images\search-background.gif" />
+    <Content Include="app\images\searchIcon.png" />
+    <Content Include="app\images\share.png" />
+    <Content Include="app\images\spinner.gif" />
+    <Content Include="app\images\TENumbrella.png" />
+    <Content Include="app\images\texture.png" />
+    <Content Include="app\images\texture2.png" />
+    <Content Include="app\images\texture4.png" />
+    <Content Include="app\index.html" />
+    <Content Include="app\robots.txt" />
+    <Content Include="app\scripts\app.js" />
+    <Content Include="app\scripts\controllers\about.js" />
+    <Content Include="app\scripts\controllers\AccountController.js" />
+    <Content Include="app\scripts\controllers\CreateGroupController.js" />
+    <Content Include="app\scripts\controllers\DeleteAccountController.js" />
+    <Content Include="app\scripts\controllers\EditGroupController.js" />
+    <Content Include="app\scripts\controllers\EventController.js" />
+    <Content Include="app\scripts\controllers\GroupDetailController.js" />
+    <Content Include="app\scripts\controllers\GroupsController.js" />
+    <Content Include="app\scripts\controllers\LogoutController.js" />
+    <Content Include="app\scripts\controllers\MyCardController.js" />
+    <Content Include="app\scripts\controllers\PasswordRecoverController.js" />
+    <Content Include="app\scripts\controllers\PasswordResetController.js" />
+    <Content Include="app\scripts\controllers\RegistrationController.js" />
+    <Content Include="app\scripts\controllers\ThumbnailController.js" />
+    <Content Include="app\scripts\controllers\MyBusidexCardController.js" />
+    <Content Include="app\scripts\controllers\NotificationsController.js" />
+    <Content Include="app\scripts\controllers\ShareCardController.js" />
+    <Content Include="app\scripts\controllers\HeaderController.js" />
+    <Content Include="app\scripts\controllers\HomeController.js" />
+    <Content Include="app\scripts\controllers\LoginController.js" />
+    <Content Include="app\scripts\controllers\LogoutViewController.js" />
+    <Content Include="app\scripts\controllers\MyBusidexController.js" />
+    <Content Include="app\scripts\controllers\SearchContoller.js" />
+    <Content Include="app\scripts\controllers\VanityUrlController.js" />
+    <Content Include="app\scripts\directives.js" />
+    <Content Include="app\scripts\directives\faq.js" />
+    <Content Include="app\scripts\directives\nav-collapse.js" />
+    <Content Include="app\scripts\directives\thumbnail.js" />
+    <Content Include="app\scripts\directives\notifications.js" />
+    <Content Include="app\scripts\directives\sharedcart.js" />
+    <Content Include="app\scripts\directives\mybusidexcard.js" />
+    <Content Include="app\scripts\directives\header.js" />
+    <Content Include="app\scripts\directives\Login.js" />
+    <Content Include="app\scripts\filters.js" />
+    <Content Include="app\scripts\home.js" />
+    <Content Include="app\scripts\services.js" />
+    <Content Include="app\scripts\services\AccountService.js" />
+    <Content Include="app\scripts\services\AccountTypeService.js" />
+    <Content Include="app\scripts\services\GroupDetailService.js" />
+    <Content Include="app\scripts\services\CardService.js" />
+    <Content Include="app\scripts\services\CommunicationsService.js" />
+    <Content Include="app\scripts\services\GroupsService.js" />
+    <Content Include="app\scripts\services\OutlookContactsService.js" />
+    <Content Include="app\scripts\services\PasswordService.js" />
+    <Content Include="app\scripts\services\SharedCardCartService.js" />
+    <Content Include="app\scripts\services\EventSourceService.js" />
+    <Content Include="app\scripts\services\ActivityService.js" />
+    <Content Include="app\scripts\services\AddressService.js" />
+    <Content Include="app\scripts\services\SharedCardPreviewService.js" />
+    <Content Include="app\scripts\services\SharedCardService.js" />
+    <Content Include="app\scripts\services\NotesService.js" />
+    <Content Include="app\scripts\services\CacheService.js" />
+    <Content Include="app\scripts\services\LoginService.js" />
+    <Content Include="app\scripts\services\SearchService.js" />
+    <Content Include="app\scripts\services\BusidexService.js" />
+    <Content Include="app\scripts\services\UserNameService.js" />
+    <Content Include="app\scripts\services\UserService.js" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.svg" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.svg" />
+    <Content Include="app\styles\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_iphone4.css">
+      <DependentUpon>media_iphone4.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_iphone4.min.css">
+      <DependentUpon>media_iphone4.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_landscape_minw768_and_maxw1024.css.map">
+      <DependentUpon>media_landscape_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include=".yo-rc.json" />
+    <Content Include="app\styles\media_maxw320.css">
+      <DependentUpon>media_maxw320.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_maxw320.min.css">
+      <DependentUpon>media_maxw320.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1080.css">
+      <DependentUpon>media_minw1080.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1080.min.css">
+      <DependentUpon>media_minw1080.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1224.css">
+      <DependentUpon>media_minw1224.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1224.min.css">
+      <DependentUpon>media_minw1224.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1824.css">
+      <DependentUpon>media_minw1824.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1824.min.css">
+      <DependentUpon>media_minw1824.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1920.css">
+      <DependentUpon>media_minw1920.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1920.min.css">
+      <DependentUpon>media_minw1920.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw320_and_maxw480.css.map">
+      <DependentUpon>media_minw320_and_maxw480.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1080.scss" />
+    <Content Include="app\styles\media_minw1920.scss" />
+    <Content Include="app\styles\media_minw1920.css.map">
+      <DependentUpon>media_minw1920.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_maxw320.css.map">
+      <DependentUpon>media_maxw320.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1080.css.map">
+      <DependentUpon>media_minw1080.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1224.css.map">
+      <DependentUpon>media_minw1224.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1824.css.map">
+      <DependentUpon>media_minw1824.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\fonts\lato-reg-webfont.eot" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.ttf" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.woff" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Reg.ttf" />
+    <Content Include=".ftppass" />
+    <Content Include="app\styles\main.css.map">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_iphone4.css.map">
+      <DependentUpon>media_iphone4.css</DependentUpon>
+    </Content>
+    <None Include="app\styles\media_minw320_and_maxw480.scss" />
+    <None Include="app\styles\media_iphone4.scss" />
+    <None Include="app\styles\media_landscape_minw768_and_maxw1024.scss" />
+    <None Include="app\styles\media_maxw320.scss" />
+    <None Include="app\styles\media_minw1224.scss" />
+    <None Include="app\styles\media_minw1824.scss" />
+    <Content Include="app\styles\media_minw321.css.map">
+      <DependentUpon>media_minw321.css</DependentUpon>
+    </Content>
+    <None Include="app\styles\media_minw321.scss" />
+    <Content Include="app\styles\media_landscape_minw768_and_maxw1024.css">
+      <DependentUpon>media_landscape_minw768_and_maxw1024.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_landscape_minw768_and_maxw1024.min.css">
+      <DependentUpon>media_landscape_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw320_and_maxw480.css">
+      <DependentUpon>media_minw320_and_maxw480.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw320_and_maxw480.min.css">
+      <DependentUpon>media_minw320_and_maxw480.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw321.css">
+      <DependentUpon>media_minw321.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw321.min.css">
+      <DependentUpon>media_minw321.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw768_maxw1024.css.map">
+      <DependentUpon>media_minw768_maxw1024.css</DependentUpon>
+    </Content>
+    <None Include="app\styles\media_minw768_maxw1024.scss" />
+    <Content Include="app\styles\media_portrait_minw768_and_maxw1024.css.map">
+      <DependentUpon>media_portrait_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <None Include="app\styles\media_portrait_minw768_and_maxw1024.scss" />
+    <Content Include="app\styles\media_minw768_maxw1024.css">
+      <DependentUpon>media_minw768_maxw1024.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw768_maxw1024.min.css">
+      <DependentUpon>media_minw768_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_portrait_minw768_and_maxw1024.css">
+      <DependentUpon>media_portrait_minw768_and_maxw1024.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_portrait_minw768_and_maxw1024.min.css">
+      <DependentUpon>media_portrait_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\rotating-card.css.map">
+      <DependentUpon>rotating-card.css</DependentUpon>
+    </Content>
+    <None Include="app\styles\rotating-card.scss" />
+    <Content Include="app\styles\rotating-card.css">
+      <DependentUpon>rotating-card.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\rotating-card.min.css">
+      <DependentUpon>rotating-card.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\search.css">
+      <DependentUpon>search.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\search.min.css">
+      <DependentUpon>search.css</DependentUpon>
+    </Content>
+    <Content Include="app\views\account\delete.html" />
+    <Content Include="app\views\account\mine.html" />
+    <Content Include="app\views\account\passwordrecover.html" />
+    <Content Include="app\views\account\passwordreset.html" />
+    <Content Include="app\views\account\privacy.html" />
+    <Content Include="app\views\account\recoversent.html" />
+    <Content Include="app\views\account\register.html" />
+    <Content Include="app\views\account\terms.html" />
+    <Content Include="app\views\account\usernamerecover.html" />
+    <Content Include="app\views\card\events.html" />
+    <Content Include="app\views\card\mine.html" />
+    <Content Include="app\views\card\notifications_list.html" />
+    <Content Include="app\views\events\event.html" />
+    <Content Include="app\views\faq.html" />
+    <Content Include="app\views\about.html" />
+    <Content Include="app\views\busidex\mine.html" />
+    <Content Include="app\views\card\search.html" />
+    <Content Include="app\views\card\share.html" />
+    <Content Include="app\views\fragments\cardback.html" />
+    <Content Include="app\views\fragments\thumbnail.html" />
+    <Content Include="app\views\fragments\faq.html" />
+    <Content Include="app\views\fragments\sharedcard.html" />
+    <Content Include="app\views\fragments\card.html" />
+    <Content Include="app\views\fragments\cardpopup.html" />
+    <Content Include="app\views\fragments\header.html" />
+    <Content Include="app\views\fragments\mybusidexcard.html" />
+    <Content Include="app\views\fragments\notifications.html" />
+    <Content Include="app\views\fragments\sharedcart.html" />
+    <Content Include="app\views\groups\create.html" />
+    <Content Include="app\views\groups\mine.html" />
+    <Content Include="app\views\groups\organization.html" />
+    <Content Include="app\views\home.html" />
+    <Content Include="app\views\login.html" />
+    <Content Include="app\views\logout.html" />
+    <Content Include="app\views\main.html" />
+    <Content Include="app\default.html" />
+    <Content Include="app\views\quickshare.html" />
+    <Content Include="app\views\releases.html" />
+    <Content Include="app\views\reportabuse.html" />
+    <Content Include="app\views\vanity\bca.html" />
+    <Content Include="app\views\vanity\bnistars.html" />
+    <Content Include="app\views\vanity\minutemanpress.html" />
+    <Content Include="app\views\vanity\ten.html" />
+    <Content Include="app\views\vanity\osbe.html" />
+    <Content Include="app\views\vanity\realtortroopsupport.html" />
+    <Content Include="app\views\vanity\riarexpo.html" />
+    <Content Include="Gruntfile.js" />
+    <Content Include="index - Copy.html" />
+    <Content Include="index.html" />
+    <Content Include="test\karma.conf.js" />
+    <Content Include="test\spec\controllers\HomeViewCtrl.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\.buildignore" />
+    <Content Include="app\.htaccess" />
+    <Content Include="app\styles\main.scss" />
+    <Content Include="test\.jshintrc" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\styles\fonts\Lato-Bla.ttf" />
+    <Content Include="app\styles\fonts\Lato-Black.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlaIta.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bol.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bold.ttf" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic.ttf" />
+    <Content Include="app\styles\fonts\Lato-BolIta.ttf" />
+    <Content Include="app\styles\fonts\Lato-Hai.ttf" />
+    <Content Include="app\styles\fonts\Lato-HaiIta.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.woff2" />
+    <Content Include="bower.json" />
+    <Content Include="package.json" />
+    <Content Include="bower - Copy.json" />
+    <Content Include="app\styles\search.scss" />
+    <Content Include="app\styles\search.css.map">
+      <DependentUpon>search.css</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\busidexprofessional - FTP %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidexprofessional - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\busidexprofessional - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\busidexprofessional - Web Deploy.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>38115</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:38115/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

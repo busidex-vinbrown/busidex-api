@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="busidexModelStoreContainer" CdmEntityContainer="busidexEntities">
+    <EntitySetMapping Name="Cards">
+      <EntityTypeMapping TypeName="busidexModel.Card">
+        <MappingFragment StoreEntitySet="Card">
+          <ScalarProperty Name="CustomContent" ColumnName="CustomContent" />
+          <ScalarProperty Name="SEO_Name" ColumnName="SEO_Name" />
+          <ScalarProperty Name="CardTypeId" ColumnName="CardTypeId" />
+          <ScalarProperty Name="Visibility" ColumnName="Visibility" />
+          <ScalarProperty Name="Markup" ColumnName="Markup" />
+          <ScalarProperty Name="DisplayType" ColumnName="DisplayType" />
+          <ScalarProperty Name="BackFileId" ColumnName="BackFileId" />
+          <ScalarProperty Name="FrontFileId" ColumnName="FrontFileId" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="Updated" ColumnName="Updated" />
+          <ScalarProperty Name="OwnerToken" ColumnName="OwnerToken" />
+          <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="Searchable" ColumnName="Searchable" />
+          <ScalarProperty Name="BusinessId" ColumnName="BusinessId" />
+          <ScalarProperty Name="BackOrientation" ColumnName="BackOrientation" />
+          <ScalarProperty Name="BackType" ColumnName="BackType" />
+          <ScalarProperty Name="BackImage" ColumnName="BackImage" />
+          <ScalarProperty Name="FrontOrientation" ColumnName="FrontOrientation" />
+          <ScalarProperty Name="FrontType" ColumnName="FrontType" />
+          <ScalarProperty Name="FrontImage" ColumnName="FrontImage" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CardId" ColumnName="CardId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CardAddresses">
+      <EntityTypeMapping TypeName="busidexModel.CardAddress">
+        <MappingFragment StoreEntitySet="CardAddress">
+          <ScalarProperty Name="GeoLocation" ColumnName="GeoLocation" />
+          <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="CardId" ColumnName="CardId" />
+          <ScalarProperty Name="CardAddressId" ColumnName="CardAddressId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

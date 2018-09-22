@@ -1,0 +1,74 @@
+@using System.Configuration
+@using Busidex.DAL
+@model Busidex4.Models.LoginModel
+
+@{
+    string cardOwnerToken = Model != null ? Model.CardOwnerToken : ViewBag.CardToken;
+    string imgPath = string.Empty;
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];
+    if (string.IsNullOrEmpty(cardOwnerToken))
+    {
+        if (Request.QueryString["token"] != null)
+        {
+            var returnUrl = Request.QueryString["ReturnUrl"];
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                cardOwnerToken = returnUrl.Substring(returnUrl.Length - 36);
+            }
+            else
+            {
+                cardOwnerToken = Request.QueryString["token"];
+            }
+        }
+    }
+    else
+    {
+        var card = ViewBag.UnownedCard as CardDetailModel;
+        if (card != null)
+        {
+            imgPath = cdnPath + card.FrontFileId + "." + card.FrontFileType;
+        }
+    }
+}
+
+<hgroup>
+    <h4>Enter your user name and password below.</h4>
+    @if (!string.IsNullOrEmpty(cardOwnerToken))
+    {
+        <img src="@imgPath" alt="" style="width: 250px; margin-left:20px;margin-bottom: 10px;"/>
+    }
+</hgroup>
+
+@using (Html.BeginForm((string)ViewBag.FormAction, "Account", FormMethod.Post, new { id = "LoginForm", autocomplete = "off" }))
+{
+    @Html.ValidationSummary(true, "Log in was unsuccessful. Please correct the errors and try again.")
+
+    @Html.HiddenFor(model => cardOwnerToken)
+    <input type="hidden" value="@(Request.QueryString["ReturnUrl"])" name="ReturnUrl"/>
+    <fieldset>
+        <legend>Log in Form</legend>
+        <div>
+            <ol style="float:left;width:250px;">
+                <li>
+                    <label>User Name</label>
+                    @Html.TextBoxFor(m => m.UserName)
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </li>
+                <li>
+                    <label>Password</label>
+                    @Html.PasswordFor(m => m.Password)
+                    @Html.ValidationMessageFor(m => m.Password)
+                </li>
+                <li>
+                    <label>@Html.CheckBoxFor(m => m.RememberMe, new{ style="margin:0;"}) Remember Me</label>
+                </li>
+            </ol>
+            <div style="margin-left:30px; border-left: solid 1pt silver; height: 90px;float:left; padding: 70px 0px 0px 20px; width: 230px;">
+                @Html.ActionLink("Forgot my user name", "RecoverUserName", "Account")
+            </div>
+        </div>
+        <div style="clear:both;">
+            <input id="login" type="submit" value="Sign in" style="padding:6px"/> or @Html.ActionLink("Create an Account", "Register", new { token  = cardOwnerToken } ) if you don't have an account.
+        </div>
+    </fieldset>
+}

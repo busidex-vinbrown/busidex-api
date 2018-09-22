@@ -1,0 +1,51 @@
+﻿
+@model Busidex.DAL.SearchResultModel
+
+<div id="detailPopupH"  class="modal hide fade h_preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header" style="height:15px">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+        @*<div class="pull-left">*@
+            <img src="" class="popupImg" inmybusidex="" />
+        @*</div>*@
+
+        @*<div id="relatedCards" style="width:27%;" class="pull-left">
+            <h3><a href="#">Real Estate</a></h3>
+            <div>First content</div>
+            <h3><a href="#">Plumbers</a></h3>
+            <div>Second content</div>
+        </div>*@
+    </div>
+    <div class="modal-footer">
+        @Html.ActionLink("See the details...", "Details", "Card", null, new{ @class="detailLink pull-left" })
+        @if (Model.IsLoggedIn)
+        {
+            <a href="#" class="addToMyBusidex pull-right">Add this card to MyBusidex</a>
+        }
+    </div>
+            
+</div>
+<div id="detailPopupV" class="modal hide fade v_preview">
+    <div class="modal-header" style="height:15px">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+        <img src="" class="popupImg" inmybusidex="" />
+    </div>
+    <div class="modal-footer">
+        @Html.ActionLink("See the details...", "Details", "Card", null, new{ @class="detailLink pull-left" })
+        @if (Model.IsLoggedIn)
+        {
+            <a href="#" class="addToMyBusidex pull-right">Add this card to MyBusidex</a>
+        }
+    </div>
+
+    @*<div id="relatedCards" style="width:27%; float: left;display: none">
+        <h3><a href="#">Real Estate</a></h3>
+        <div>First content</div>
+        <h3><a href="#">Plumbers</a></h3>
+        <div>Second content</div>
+    </div>*@
+            
+</div>

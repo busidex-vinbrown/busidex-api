@@ -1,0 +1,366 @@
+﻿<!doctype html>
+<html class="no-js" ng-app="Busidex">
+<head>
+    <meta charset="utf-8">
+    <title>Busidex</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
+    <link rel="stylesheet" href="bower_components/textAngular/dist/textAngular.css" />
+    <link rel="stylesheet" href="bower_components/angular-toggle-switch/angular-toggle-switch.css" />
+    <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
+    <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+    <link rel="stylesheet" href="bower_components/angular-chart.js/dist/angular-chart.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/search.css">
+    <link rel="stylesheet" href="styles/media_minw320_and_maxw480.css">
+    <link rel="stylesheet" href="styles/media_minw321.css">
+    <link rel="stylesheet" href="styles/media_maxw320.css">
+    <link rel="stylesheet" href="styles/media_minw768_maxw1024.css">
+    <link rel="stylesheet" href="styles/media_minw1080.css">
+    <link rel="stylesheet" href="styles/media_landscape_minw768_and_maxw1024.css">
+    <link rel="stylesheet" href="styles/media_portrait_minw768_and_maxw1024.css">
+    <link rel="stylesheet" href="styles/media_minw1224.css">
+    <link rel="stylesheet" href="styles/media_minw1824.css">
+    <link rel="stylesheet" href="styles/media_minw1920.css">
+    <link rel="stylesheet" href="styles/media_iphone4.css">
+    <link rel="stylesheet" href="styles/rotating-card.css">
+    <!-- endbuild -->
+</head>
+<body>
+    <div class="header-content" header></div>
+    <!--[if lt IE 9]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div ng-view class="main-view"></div>
+
+    <!--[if IE 8]><script>
+        document.getElementsByClassName =
+        Element.prototype.getElementsByClassName = function(class_names) {
+            // Turn input in a string, prefix space for later space-dot substitution
+            class_names = (' ' + class_names)
+                // Escape special characters
+                .replace(/[~!@$%^&*()_+\-=,./';:"?><[\]{}|`#]/g, '\\$&')
+                // Normalize whitespace, right-trim
+                .replace(/\s*(\s|$)/g, '$1')
+                // Replace spaces with dots for querySelectorAll
+                .replace(/\s/g, '.');
+            return this.querySelectorAll(class_names);
+        };
+
+                if (!Array.prototype.indexOf) {
+        Array.prototype.indexOf = function(searchElement) {
+            if (this.length === 0) {
+                return -1;
+            }
+            var n = 0;
+            if (arguments.length > 1) {
+                n = Number(arguments[1]);
+                if (isNaN(n)) {
+                    n = 0;
+                } else if (n !== 0 && n !== Infinity && n !== -Infinity) {
+                    n = (n > 0 || -1) * Math.floor(Math.abs(n));
+                }
+            }
+            if (n >= this.length) {
+                return -1;
+            }
+            var k = n >= 0 ? n : Math.max(this.length - Math.abs(n), 0);
+            while (k < this.length) {
+                if (k in this && this[k] === searchElement) {
+                    return k;
+                }
+                ++k;
+            }
+            return -1;
+        };
+    }
+
+    if (!Array.prototype.filter) {
+        Array.prototype.filter = function(fun/*, thisArg*/) {
+            if (this === undefined || this === null) {
+                throw new TypeError();
+            }
+
+            var t = Object(this);
+            var len = t.length >>> 0;
+            if (typeof fun !== 'function') {
+                throw new TypeError();
+            }
+
+            var res = [];
+            var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+            for (var i = 0; i < len; i++) {
+                if (i in t) {
+                    var val = t[i];
+                    if (fun.call(thisArg, val, i, t)) {
+                        res.push(val);
+                    }
+                }
+            }
+            return res;
+        };
+    }
+
+    if (!Array.isArray) {
+        Array.isArray = function(arg) {
+            return Object.prototype.toString.call(arg) === '[object Array]';
+        };
+    }
+
+    if (!Array.prototype.every) {
+        Array.prototype.every = function(callbackfn, thisArg) {
+            'use strict';
+            var T, k;
+            if (this == null) {
+                throw new TypeError('this is null or not defined');
+            }
+            var O = Object(this);
+            var len = O.length >>> 0;
+            if (typeof callbackfn !== 'function') {
+                throw new TypeError();
+            }
+            if (arguments.length > 1) {
+                T = thisArg;
+            }
+            k = 0;
+            while (k < len) {
+
+                var kValue;
+
+                if (k in O) {
+                    kValue = O[k];
+                    var testResult = callbackfn.call(T, kValue, k, O);
+                    if (!testResult) {
+                        return false;
+                    }
+                }
+                k++;
+            }
+            return true;
+        };
+    }
+
+    if (!Object.create) {
+        Object.create = (function() {
+            var Object = function() {};
+            return function (prototype) {
+                if (arguments.length > 1) {
+                    throw new Error('Second argument not supported');
+                }
+                if (typeof prototype != 'object') {
+                    throw new TypeError('Argument must be an object');
+                }
+                Object.prototype = prototype;
+                var result = new Object();
+                Object.prototype = null;
+                return result;
+            };
+        })();
+    }
+
+    if (!Array.prototype.forEach) {
+        Array.prototype.forEach = function(fun /*, thisArg */) {
+            if (this === void 0 || this === null)
+                throw new TypeError();
+
+            var t = Object(this);
+            var len = t.length >>> 0;
+            if (typeof fun !== "function")
+                throw new TypeError();
+
+            var thisArg = arguments.length >= 2 ? arguments[1] : void 0;
+            for (var i = 0; i < len; ++i) {
+                if (i in t)
+                    fun.call(thisArg, t[i], i, t);
+            }
+        };
+    }
+
+    if (!String.prototype.trim) {
+        String.prototype.trim = function() {
+            return this.replace(/^\s+|\s+$/gm, '');
+        };
+    }
+
+    (function() {
+        //$http uses onload instead of onreadystatechange. Need shimming as IE8 doesn't have onload.
+        if (new XMLHttpRequest().onload === undefined) {
+            var orig = XMLHttpRequest.prototype.send;
+            XMLHttpRequest.prototype.send = function() {
+                var self = this;
+                if (!this.onreadystatechange && this.onload) {
+                    this.onreadystatechange = function() {
+                        if (self.readyState === 4) {
+                            self.onload();
+                        }
+                    };
+                }
+                orig.apply(self, arguments);
+            };
+        }
+    })();
+
+    if (!Date.now) {
+        Date.now = function() {
+            return new Date().getTime();
+        };
+    }
+
+    if (!Function.prototype.bind) {
+        Function.prototype.bind = function(oThis) {
+            if (typeof this !== "function") {
+                throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+            }
+            var aArgs = Array.prototype.slice.call(arguments, 1),
+                fToBind = this,
+                fNOP = function() {
+                },
+                fBound = function() {
+                    return fToBind.apply(this instanceof fNOP && oThis
+                            ? this
+                            : oThis,
+                        aArgs.concat(Array.prototype.slice.call(arguments)));
+                };
+
+            fNOP.prototype = this.prototype;
+            fBound.prototype = new fNOP();
+
+            return fBound;
+        };
+    }
+
+    if (!Object.keys) {
+        Object.keys = function(object) {
+            var keys = [];
+            for (var o in object) {
+                if (object.hasOwnProperty(o)) {
+                    keys.push(o);
+                }
+            }
+            return keys;
+        };
+    }
+
+    if (!Object.getPrototypeOf) {
+        Object.getPrototypeOf = function(object) {
+            return object.__proto__ || object.constructor.prototype;
+        };
+    }
+        </script><![endif]-->
+
+    <script>
+        !function (A, n, g, u, l, a, r) {
+            A.GoogleAnalyticsObject = l, A[l] = A[l] || function () {
+                (A[l].q = A[l].q || []).push(arguments)
+            }, A[l].l = +new Date, a = n.createElement(g),
+            r = n.getElementsByTagName(g)[0], a.src = u, r.parentNode.insertBefore(a, r)
+        }(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-29820162-1', 'busidex.com');
+        ga('send', 'pageview');
+    </script>
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-google-analytics/dist/angular-google-analytics.min.js"></script>
+    <script src="bower_components/angular-loader/angular-loader.js"></script>
+    <script src="bower_components/angular-query-string/angular-query-string.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-ui-grid/ui-grid.js"></script>
+    <script src="bower_components/ng-grid-bower/ng-grid.js"></script>
+    <script src="bower_components/ngstorage/ngStorage.js"></script>
+    <script src="bower_components/rangy/rangy-core.js"></script>
+    <script src="bower_components/rangy/rangy-classapplier.js"></script>
+    <script src="bower_components/rangy/rangy-highlighter.js"></script>
+    <script src="bower_components/rangy/rangy-selectionsaverestore.js"></script>
+    <script src="bower_components/rangy/rangy-serializer.js"></script>
+    <script src="bower_components/rangy/rangy-textrange.js"></script>
+    <script src="bower_components/textAngular/dist/textAngular.js"></script>
+    <script src="bower_components/textAngular/dist/textAngular-sanitize.js"></script>
+    <script src="bower_components/textAngular/dist/textAngularSetup.js"></script>
+    <script src="bower_components/satellizer/satellizer.js"></script>
+    <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/angular-toggle-switch/angular-toggle-switch.js"></script>
+    <script src="bower_components/ngDialog/js/ngDialog.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/Chart.js/Chart.js"></script>
+    <script src="bower_components/angular-chart.js/dist/angular-chart.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <!--SERVICES-->
+    <script src="scripts/services/ActivityService.js"></script>
+    <script src="scripts/services/SearchService.js"></script>
+    <script src="scripts/services/UserService.js"></script>
+    <script src="scripts/services/LoginService.js"></script>
+    <script src="scripts/services/CacheService.js"></script>
+    <script src="scripts/services/BusidexService.js"></script>
+    <script src="scripts/services/NotesService.js"></script>
+    <script src="scripts/services/SharedCardService.js"></script>
+    <script src="scripts/services/AddressService.js"></script>
+    <script src="scripts/services/EventSourceService.js"></script>
+    <script src="scripts/services/SharedCardCartService.js"></script>
+    <script src="scripts/services/CardService.js"></script>
+    <script src="scripts/services/CommunicationsService.js"></script>
+    <script src="scripts/services/SharedCardPreviewService.js"></script>
+    <script src="scripts/services/OutlookContactsService.js"></script>
+    <script src="scripts/services/AccountService.js"></script>
+    <script src="scripts/services/AccountTypeService.js"></script>
+    <script src="scripts/services/PasswordService.js"></script>
+    <script src="scripts/services/UserNameService.js"></script>
+    <script src="scripts/services/GroupsService.js"></script>
+    <script src="scripts/services/GroupDetailService.js"></script>
+    <!--CONTROLLERS-->
+    <script src="scripts/controllers/HomeController.js"></script>
+    <script src="scripts/controllers/LoginController.js"></script>
+    <script src="scripts/controllers/LogoutController.js"></script>
+    <script src="scripts/controllers/SearchContoller.js"></script>
+    <script src="scripts/controllers/HeaderController.js"></script>
+    <script src="scripts/controllers/MyBusidexController.js"></script>
+    <script src="scripts/controllers/MyBusidexCardController.js"></script>
+    <script src="scripts/controllers/ThumbnailController.js"></script>
+    <script src="scripts/controllers/ShareCardController.js"></script>    
+    <script src="scripts/controllers/NotificationsController.js"></script>   
+    <script src="scripts/controllers/RegistrationController.js"></script>
+    <script src="scripts/controllers/PasswordRecoverController.js"></script>
+    <script src="scripts/controllers/PasswordResetController.js"></script>  
+    <script src="scripts/controllers/VanityUrlController.js"></script>    
+    <script src="scripts/controllers/MyCardController.js"></script>
+    <script src="scripts/controllers/AccountController.js"></script>
+    <script src="scripts/controllers/DeleteAccountController.js"></script>
+    <script src="scripts/controllers/GroupsController.js"></script>
+    <script src="scripts/controllers/EditGroupController.js"></script>
+    <script src="scripts/controllers/EventController.js"></script>   
+<!--FILTERS-->
+    <script src="scripts/filters.js"></script>
+    <!--DIRECTIVES-->
+    <script src="scripts/directives/Login.js"></script>
+    <script src="scripts/directives/header.js"></script>
+    <script src="scripts/directives/nav-collapse.js"></script>
+    <script src="scripts/directives/sharedcart.js"></script>
+    <script src="scripts/directives/notifications.js"></script>
+    <script src="scripts/directives/mybusidexcard.js"></script>
+    <script src="scripts/directives/thumbnail.js"></script>
+    <script src="scripts/directives/faq.js"></script>
+    <!-- endbuild -->
+
+
+</body>
+</html>

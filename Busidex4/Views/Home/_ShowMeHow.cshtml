@@ -1,0 +1,14 @@
+﻿
+
+<div id="helpContent">Loading the help file...</div>
+<script type="text/javascript" src="/Scripts/jwplayer.js"></script>
+<script type="text/javascript" src="/Scripts/jwplayer.html5.js"></script>
+<script type="text/javascript">
+    jwplayer("helpContent").setup({
+        file: "@ViewBag.HelpFile",
+        image: "/images/BusidexLogo4.png",
+        height: 500,
+        width: 790,
+        autostart: true
+    });
+</script>

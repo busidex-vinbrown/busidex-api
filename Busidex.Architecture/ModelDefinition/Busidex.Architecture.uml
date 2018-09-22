@@ -1,0 +1,2857 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="bae227f6-1bc6-4b08-aec6-ba1fa3d2765c"
+  name="Busidex.Architecture" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction
+        Id="7d73a1cf-915d-4160-b485-40bc11e21353"
+        name="Busidex Data Service"
+        collapseFragmentsFlag="false"
+        isActiveClass="false"
+        isAbstract="false"
+        isLeaf="false"
+        isReentrant="false">
+        <fragments>
+          <behaviorExecutionSpecification
+            Id="3e4a1a1a-4db4-4f78-9d2d-847cd8cc0cca"
+            name="BehaviorExecutionSpecification2">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="6412ceb8-095d-48c9-8097-07bea6f04a62"
+                LastKnownName="ExecutionOccurrenceSpecification4"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="c09f60f1-c68f-4dcb-95fc-95d56dde1859"
+                LastKnownName="ExecutionOccurrenceSpecification3"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="c7f6b177-7174-44c1-81ce-7d5e048a54ef"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="c09f60f1-c68f-4dcb-95fc-95d56dde1859"
+            name="ExecutionOccurrenceSpecification3">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="0558e3ea-a074-446f-923e-58356676fc8e"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="c7f6b177-7174-44c1-81ce-7d5e048a54ef"
+            name="MessageOccurrenceSpecification4">
+            <covered>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="bb20f130-6064-46ed-b26c-e165e24f1c14"
+            name="MessageOccurrenceSpecification3">
+            <covered>
+              <lifelineMoniker
+                Id="5e6e4b97-74ca-4d4e-b918-476970d49d86"
+                LastKnownName="Holders of User's card"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="6412ceb8-095d-48c9-8097-07bea6f04a62"
+            name="ExecutionOccurrenceSpecification4">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="e8afa81e-8ef3-4686-b3a9-1ec11949e489"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="bb959899-1a55-4816-9712-66234280e360"
+            name="BehaviorExecutionSpecification1">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="f0fa106e-4bd3-4beb-96a0-2d229b895e4d"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="dec85b69-c764-43b9-b5fa-b6ebbfa8053b"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="4f9fab13-ccfc-408b-b5f3-cecbcfdbee55"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="dec85b69-c764-43b9-b5fa-b6ebbfa8053b"
+            name="ExecutionOccurrenceSpecification1">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="0e587cd4-bd5b-44e3-a047-daa088a0556c"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="4f9fab13-ccfc-408b-b5f3-cecbcfdbee55"
+            name="MessageOccurrenceSpecification2">
+            <covered>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="8dbcbcda-fc7b-434e-adaa-65da9745039b"
+            name="MessageOccurrenceSpecification1">
+            <covered>
+              <lifelineMoniker
+                Id="1dd2e682-cd09-4d30-a298-d114413cc657"
+                LastKnownName="Busidex Card Owner"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="f0fa106e-4bd3-4beb-96a0-2d229b895e4d"
+            name="ExecutionOccurrenceSpecification2">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="f8ddb2db-c8af-4a13-93c4-81dda61763d8"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+                LastKnownName="Busidex Data Service"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline
+            Id="1dd2e682-cd09-4d30-a298-d114413cc657"
+            name="Busidex Card Owner"
+            isActor="false"
+            lifelineDisplayName="Busidex Card Owner">
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="8dbcbcda-fc7b-434e-adaa-65da9745039b"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f"
+            name="Busidex Data Service"
+            isActor="false"
+            lifelineDisplayName="Busidex Data Service">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="c09f60f1-c68f-4dcb-95fc-95d56dde1859"
+                LastKnownName="ExecutionOccurrenceSpecification3"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="6412ceb8-095d-48c9-8097-07bea6f04a62"
+                LastKnownName="ExecutionOccurrenceSpecification4"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="dec85b69-c764-43b9-b5fa-b6ebbfa8053b"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="f0fa106e-4bd3-4beb-96a0-2d229b895e4d"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="5e6e4b97-74ca-4d4e-b918-476970d49d86"
+            name="Holders of User's card"
+            isActor="false"
+            lifelineDisplayName="Holders of User's card">
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="bb20f130-6064-46ed-b26c-e165e24f1c14"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message
+            Id="787dec0c-d905-4a61-952d-38f1a9b18642"
+            name="User's see updated information"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="bb20f130-6064-46ed-b26c-e165e24f1c14"
+                LastKnownName="MessageOccurrenceSpecification3"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="c7f6b177-7174-44c1-81ce-7d5e048a54ef"
+                LastKnownName="MessageOccurrenceSpecification4"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="afb845ce-12ea-41e6-b16e-aee2902aa543"
+            name="Update Contact/Relation Information"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="8dbcbcda-fc7b-434e-adaa-65da9745039b"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="4f9fab13-ccfc-408b-b5f3-cecbcfdbee55"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="0e587cd4-bd5b-44e3-a047-daa088a0556c"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="f8ddb2db-c8af-4a13-93c4-81dda61763d8"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="0558e3ea-a074-446f-923e-58356676fc8e"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="e8afa81e-8ef3-4686-b3a9-1ec11949e489"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <interaction
+        Id="b7176234-fdcf-4c33-966d-804101484764"
+        name="Existing Process"
+        collapseFragmentsFlag="false"
+        isActiveClass="false"
+        isAbstract="false"
+        isLeaf="false"
+        isReentrant="false">
+        <fragments>
+          <behaviorExecutionSpecification
+            Id="0b93a436-30a9-422e-8f02-434978ef24b0"
+            name="BehaviorExecutionSpecification1">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="91402e9d-550b-4608-8385-df3252bf559e"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="9e3c6ae6-3aba-450f-9d83-dbc65b8c56e8"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="7ae575b9-e5f5-4d39-b343-eed32e2aa4da"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="9e3c6ae6-3aba-450f-9d83-dbc65b8c56e8"
+            name="ExecutionOccurrenceSpecification1">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="50ebbceb-7a48-4b50-8026-c5125e3b39df"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="7ae575b9-e5f5-4d39-b343-eed32e2aa4da"
+            name="MessageOccurrenceSpecification2">
+            <covered>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="aba7d321-70e7-4a58-b4d4-7f6eac2fb3ab"
+            name="MessageOccurrenceSpecification1">
+            <covered>
+              <lifelineMoniker
+                Id="55372671-e093-4f0e-9f07-5d8ab76363c9"
+                LastKnownName="Card Owner"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="91402e9d-550b-4608-8385-df3252bf559e"
+            name="ExecutionOccurrenceSpecification2">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="0801e976-c55f-4add-a272-e8b13ba926ca"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="d5370c1a-ab4b-4d0d-afa6-587733ec9b16"
+            name="BehaviorExecutionSpecification5">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="61cbe104-84c8-4648-8a88-1362a5659a41"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="97c95e1c-dbef-4085-a1c3-9593a12060f5"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="641e9c3d-a8e4-49b3-a48e-f6d9e53740c8"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="e9ae6e1a-30b5-474c-a00a-08d024a39c95"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="97c95e1c-dbef-4085-a1c3-9593a12060f5"
+            name="ExecutionOccurrenceSpecification9">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="04060741-cb18-42cf-88ab-e3b998d15e56"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="c9604223-d211-41f7-a175-dc9591767028"
+            name="MessageOccurrenceSpecification9">
+            <covered>
+              <lifelineMoniker
+                Id="13525ed1-8edc-4cc8-bf82-00347f567a47"
+                LastKnownName="Server"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="641e9c3d-a8e4-49b3-a48e-f6d9e53740c8"
+            name="MessageOccurrenceSpecification10">
+            <covered>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="e9ae6e1a-30b5-474c-a00a-08d024a39c95"
+            name="MessageOccurrenceSpecification11">
+            <covered>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="dbc92246-0f0b-4c82-a47d-52367cfbeb14"
+            name="MessageOccurrenceSpecification12">
+            <covered>
+              <lifelineMoniker
+                Id="13525ed1-8edc-4cc8-bf82-00347f567a47"
+                LastKnownName="Server"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="61cbe104-84c8-4648-8a88-1362a5659a41"
+            name="ExecutionOccurrenceSpecification10">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="0b379eac-9960-41c4-87e4-370750f42290"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+                LastKnownName="Internal Network Storage"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification
+            Id="e75ddb75-fb43-43f2-92a6-98f13a7e11d5"
+            name="BehaviorExecutionSpecification3">
+            <coveredLifelines>
+              <lifelineMoniker
+                Id="d08c9bc0-8104-4d47-80a5-b4212803474e"
+                LastKnownName="Holders of User's Card"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker
+                Id="30d52c6e-8078-4ffd-9803-a57398e8ef13"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker
+                Id="0beae6ef-81ea-4dd8-91f6-2c5014250a29"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="2f900ef6-d04c-459f-8e3e-e0abba94ad7c"
+                LastKnownName="MessageOccurrenceSpecification6"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification
+            Id="0beae6ef-81ea-4dd8-91f6-2c5014250a29"
+            name="ExecutionOccurrenceSpecification5">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="cc9c4668-ead4-46d0-ad90-15d60bf26607"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="d08c9bc0-8104-4d47-80a5-b4212803474e"
+                LastKnownName="Holders of User's Card"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="2f900ef6-d04c-459f-8e3e-e0abba94ad7c"
+            name="MessageOccurrenceSpecification6">
+            <covered>
+              <lifelineMoniker
+                Id="d08c9bc0-8104-4d47-80a5-b4212803474e"
+                LastKnownName="Holders of User's Card"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification
+            Id="eef511b9-d36e-46e7-a460-32b2ae328e7f"
+            name="MessageOccurrenceSpecification5">
+            <covered>
+              <lifelineMoniker
+                Id="13525ed1-8edc-4cc8-bf82-00347f567a47"
+                LastKnownName="Server"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification
+            Id="30d52c6e-8078-4ffd-9803-a57398e8ef13"
+            name="ExecutionOccurrenceSpecification6">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker
+                  Id="2cb45910-3575-4f92-839a-a60355ce609e"
+                  LastKnownName="ExecutionEvent"
+                  LastKnownLocation="Busidex.Architecture.uml" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker
+                Id="d08c9bc0-8104-4d47-80a5-b4212803474e"
+                LastKnownName="Holders of User's Card"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline
+            Id="55372671-e093-4f0e-9f07-5d8ab76363c9"
+            name="Card Owner"
+            isActor="false"
+            lifelineDisplayName="Card Owner">
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="aba7d321-70e7-4a58-b4d4-7f6eac2fb3ab"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="fa8d7f9d-a730-48ff-81d3-9ff8ed262b82"
+            name="Internal Network Storage"
+            isActor="false"
+            lifelineDisplayName="Internal Network Storage">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="9e3c6ae6-3aba-450f-9d83-dbc65b8c56e8"
+                LastKnownName="ExecutionOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="91402e9d-550b-4608-8385-df3252bf559e"
+                LastKnownName="ExecutionOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="97c95e1c-dbef-4085-a1c3-9593a12060f5"
+                LastKnownName="ExecutionOccurrenceSpecification9"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="61cbe104-84c8-4648-8a88-1362a5659a41"
+                LastKnownName="ExecutionOccurrenceSpecification10"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="13525ed1-8edc-4cc8-bf82-00347f567a47"
+            name="Server"
+            isActor="false"
+            lifelineDisplayName="Server">
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker
+                Id="c9604223-d211-41f7-a175-dc9591767028"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="dbc92246-0f0b-4c82-a47d-52367cfbeb14"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <messageOccurrenceSpecificationMoniker
+                Id="eef511b9-d36e-46e7-a460-32b2ae328e7f"
+                LastKnownName="MessageOccurrenceSpecification5"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline
+            Id="d08c9bc0-8104-4d47-80a5-b4212803474e"
+            name="Holders of User's Card"
+            isActor="false"
+            lifelineDisplayName="Holders of User's Card">
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker
+                Id="0beae6ef-81ea-4dd8-91f6-2c5014250a29"
+                LastKnownName="ExecutionOccurrenceSpecification5"
+                LastKnownLocation="Busidex.Architecture.uml" />
+              <executionOccurrenceSpecificationMoniker
+                Id="30d52c6e-8078-4ffd-9803-a57398e8ef13"
+                LastKnownName="ExecutionOccurrenceSpecification6"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message
+            Id="e032864e-8fef-4695-88ad-c829f86f8e12"
+            name="Update Contact/Relation Information"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="aba7d321-70e7-4a58-b4d4-7f6eac2fb3ab"
+                LastKnownName="MessageOccurrenceSpecification1"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="7ae575b9-e5f5-4d39-b343-eed32e2aa4da"
+                LastKnownName="MessageOccurrenceSpecification2"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="e87ccb00-868e-42ef-acb7-a101a811700e"
+            name="Information is read by process on server"
+            messageKind="Complete"
+            messageSort="SynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="c9604223-d211-41f7-a175-dc9591767028"
+                LastKnownName="MessageOccurrenceSpecification9"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="641e9c3d-a8e4-49b3-a48e-f6d9e53740c8"
+                LastKnownName="MessageOccurrenceSpecification10"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="ae152efc-fe49-47f2-93e2-872194bfec6e"
+            name="&lt;&lt;return&gt;&gt;"
+            messageKind="Complete"
+            messageSort="Reply"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="e9ae6e1a-30b5-474c-a00a-08d024a39c95"
+                LastKnownName="MessageOccurrenceSpecification11"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="dbc92246-0f0b-4c82-a47d-52367cfbeb14"
+                LastKnownName="MessageOccurrenceSpecification12"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </receiveEvent>
+          </message>
+          <message
+            Id="4bee1f42-665f-439f-97f8-f6e2438f7419"
+            name="Information is published"
+            messageKind="Complete"
+            messageSort="AsynchCall"
+            createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="eef511b9-d36e-46e7-a460-32b2ae328e7f"
+                LastKnownName="MessageOccurrenceSpecification5"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker
+                Id="2f900ef6-d04c-459f-8e3e-e0abba94ad7c"
+                LastKnownName="MessageOccurrenceSpecification6"
+                LastKnownLocation="Busidex.Architecture.uml" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="50ebbceb-7a48-4b50-8026-c5125e3b39df"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="0801e976-c55f-4add-a272-e8b13ba926ca"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="cc9c4668-ead4-46d0-ad90-15d60bf26607"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="2cb45910-3575-4f92-839a-a60355ce609e"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="04060741-cb18-42cf-88ab-e3b998d15e56"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent
+        Id="0b379eac-9960-41c4-87e4-370750f42290"
+        name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="7bb95cc3-9d77-4c30-89a8-41491173f47f"
+        name="Card"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="82beb991-5425-4d99-b73e-e526488749ea"
+            isDerived="false"
+            sourceEndRoleName="Card"
+            targetEndRoleName="CardAddress"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="e75acaf3-01ba-46ac-a9fa-01d6fb074f03"
+              LastKnownName="CardAddress"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f70bd1d7-2002-416c-b0b4-ee4cd1ad45eb"
+                  name="Card"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="41107446-6a92-491c-b8d1-560cdd0a140c"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="d69a2458-5be5-420d-a10e-0dde554a6a15"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6b4c7518-e233-4f31-9303-5d3c1f9b08d9"
+                  name="CardAddress"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="2e0c56ca-619c-4cea-9a1d-e1ff2af198b6"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="59e305a9-3138-41ac-9497-81efc5675849"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="9a03cda9-4074-447a-a0af-9a7bdb8f97d9"
+            isDerived="false"
+            sourceEndRoleName="Card"
+            targetEndRoleName="PhoneNumber"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="813a7de8-b04d-44de-bba2-bd5445a62008"
+              LastKnownName="PhoneNumber"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4572b72f-cbcd-4456-bca0-a7666b315065"
+                  name="Card"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="3dfc6239-d15f-4269-90ec-b358a631473c"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="50a482ae-2042-4df2-8392-154b7d94864f"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f7a862c5-bc11-4d3f-bfc0-efc1b0191bd4"
+                  name="PhoneNumber"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="9ebf7270-7be9-41df-9188-80256507c366"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="82f663fe-7d84-4cb2-a8a1-6320237c163d"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="4adfc523-8908-43d6-bbd4-d2b8c796f439"
+            isDerived="false"
+            sourceEndRoleName="Card"
+            targetEndRoleName="CardTag"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="608116d1-d200-4b04-8380-bbdffcde0115"
+              LastKnownName="CardTag"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5e6926f7-cfe4-4595-b220-510b563dae71"
+                  name="Card"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="a205efd5-9430-4ac8-a58d-b6893f6f7a20"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="434adb96-dd08-468a-816c-2e460831a63c"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9b0998ac-1b0a-4ba9-9d2c-302a1d7bf692"
+                  name="CardTag"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="32e4a6e5-5840-4021-8096-2793a218ddfa"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="5828974e-3166-43b4-8c2d-dc1a84e00bdd"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="e8cbe790-0f51-4dc8-be82-2250acee8e40"
+            isDerived="false"
+            sourceEndRoleName="Card"
+            targetEndRoleName="UserGroupCard"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="d2cead95-ded0-4d7f-a5b0-41c48f08e578"
+              LastKnownName="UserGroupCard"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8574062c-5ceb-4d83-ad82-23946bacf5ef"
+                  name="Card"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="37f2c35a-cbe8-4f4c-a173-3402e8526c31"
+                  name="UserGroupCard"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="7621adb1-5303-423c-ac91-2cf421e94227"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="964d8ef2-3299-46ea-9a18-57a6ff80680e"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="7b870b4f-182d-495f-8121-6c7807347875"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="42715071-32ee-4a8a-8882-62e77d0ac9cb"
+            name="Name"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="2b359d38-3742-4dcc-94cd-b46f3e70aa0c"
+            name="FrontImage"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="14e2288f-7515-42e7-b3f6-903428093aa2"
+            name="FrontType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="3195edbd-dadb-4d00-95bb-542c31ac563e"
+            name="FrontOrientation"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="cb3ded0a-9f6e-4c75-a4e2-4fbe5ab380c5"
+            name="BackType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="64aa515d-4c44-4c65-930a-8ff83c824585"
+            name="BackImage"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="0d7728d2-ce6a-4c85-a2b5-959416a896ea"
+            name="BackOrientation"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="6fa0f57d-4f4a-4163-b6d7-c912b07d019c"
+            name="Searchable"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="030e3007-dcc9-4de9-b014-e3eee822098f"
+            name="Email"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="26d04aef-f487-49df-8a9f-5b85f229a377"
+            name="Url"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="ff1b5835-c247-4939-be08-85d1e952e249"
+            name="PhoneNumbers"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="a0712464-a8c6-4ebf-b63f-02e0e91797af"
+            name="OwnerId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="684f8086-dad7-4c67-a108-ef44093e66fa"
+            name="Addresses"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="f124ef07-5bef-47ad-85f9-8c85c7ad12a6"
+            name="Tags"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="813a7de8-b04d-44de-bba2-bd5445a62008"
+        name="PhoneNumber"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="6da1b78b-3f42-4b75-ac22-30a8efc90628"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="98179849-8fda-4251-9fd2-9f7b110b6312"
+            name="Number"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="a82e5090-0805-4f0b-b5b1-6e2f30231bb7"
+            name="Extension"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="06740506-0367-48c7-ab2b-8b8901ba865e"
+            name="PhoneNumberType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="28ecb13c-b34d-447c-97a3-92d7de4a83b0"
+        name="UserCard"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="ed318cbd-c82b-4894-ac3a-83a4a3835838"
+            isDerived="false"
+            sourceEndRoleName="UserCard"
+            targetEndRoleName="Card"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="7bb95cc3-9d77-4c30-89a8-41491173f47f"
+              LastKnownName="Card"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ed6fc0fc-578e-4f06-90e1-fcc872c9e2a7"
+                  name="UserCard"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="24f47f21-723b-4f8c-8ccc-a6fd8f398e89"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="0dd5c3a6-e061-45e1-b4c8-55f94d1d065e"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="95b689cd-6e8a-4d59-905d-9c5e34a88ae7"
+                  name="Card"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="a49c160a-610b-40cf-a4a6-d25cc4dd6e08"
+            name="UserId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="d2775fa8-a7ba-4a29-80c4-293cb4d21291"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="ca7a1419-f103-4151-8e0d-694a70ddffe1"
+            name="Notes"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="cdfcbc38-9c6f-423b-8431-66f54cce02b7"
+        name="busidex_User"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="525d4154-7905-47dd-a955-04393a1cfa37"
+            isDerived="false"
+            sourceEndRoleName="busidex_User"
+            targetEndRoleName="UserCard"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="28ecb13c-b34d-447c-97a3-92d7de4a83b0"
+              LastKnownName="UserCard"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="437fa87b-7070-45ae-849c-d40c88bfd950"
+                  name="busidex_User"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="27937497-acdc-47a7-81bf-a8f40719f6b1"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="d2d0857f-ddb5-46b8-aefc-e41bf83ac9a3"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="4c5ae4d9-9308-4a07-8023-daeab92033f3"
+                  name="UserCard"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="88ee9fbf-d692-424c-8fc9-b67356821896"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="b929fb30-2b20-42b2-b162-7fbe3f04d832"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="4ba0fbb5-9714-48f5-ade6-897720b48938"
+            name="UserId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="d031cf83-71e0-46a6-8e15-7042447fd4ed"
+            name="UserName"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="51800e04-be1a-47ae-b9ed-88a79d7620be"
+            name="UserCards"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5acfce0e-725b-4ec3-919a-5a9af1e7de22"
+        name="SharedCard"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="8e666996-b30e-4f51-a6cb-ea20346bb056"
+            isDerived="false"
+            sourceEndRoleName="SharedCard"
+            targetEndRoleName="Card"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="7bb95cc3-9d77-4c30-89a8-41491173f47f"
+              LastKnownName="Card"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5b5a5704-09e1-4a5f-a448-1058074a2ae2"
+                  name="SharedCard"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="396c0ea1-f7c8-4a47-8cf5-3d8dc01a2009"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="149a29a3-3e58-4de7-804b-3c990c0b6a34"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ead05ea1-cc27-4847-9ce5-f58df92ecdf7"
+                  name="Card"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="e3ab6f48-767c-4d48-bece-b05b6e8cb7d5"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="7d7fcc31-e411-4c44-939c-68404778b360"
+            name="ShareWith"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="b2deca3a-2a61-4d12-bded-748447bde122"
+            name="SendFrom"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="f1681342-3730-42d4-82a1-c79cfff69e87"
+            name="Email"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="914c9d4f-180b-41e9-bc69-438cfbd33c63"
+            name="Accepted"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="c099ba2b-3bfc-4da4-99bc-155b7964adae"
+            name="Declined"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="41d81624-29de-4d46-b7ea-cb7e2f4a0416"
+            name="SharedDate"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e75acaf3-01ba-46ac-a9fa-01d6fb074f03"
+        name="CardAddress"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="fc6c69bc-d3a1-4098-914a-7b7f4128da83"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="1d9ec65f-0c4f-464f-a185-677d14ccf031"
+            name="Address1"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="c6db0234-a3b4-4e6a-9669-61f0bfb7c909"
+            name="Address2"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="89366bc5-6257-48dd-a90b-6a6e9a65c754"
+            name="City"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="e14653d4-8296-4003-851a-2c6e245e047e"
+            name="StateCode"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="fe586840-8f49-46f8-a409-cc4fd39fdecf"
+            name="ZipCode"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="591931b6-fcc3-418c-8460-7d5e68b94efe"
+            name="Region"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="fba993f2-7bf7-46b4-b80c-8f64d366060f"
+            name="Country"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="fff16ca8-d190-46d0-b4fb-8fca11926f2b"
+            name="Latitude"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="af26db61-9a1f-40f9-9497-43b2af620c9f"
+            name="Longitude"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="d8b3b306-b15b-4b10-b61e-22f9f670e66d"
+        name="Tag"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="02c37f9c-cc12-4bd8-b47c-d9ad4dd1286d"
+            isDerived="false"
+            sourceEndRoleName="Tag"
+            targetEndRoleName="CardTag"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="608116d1-d200-4b04-8380-bbdffcde0115"
+              LastKnownName="CardTag"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="58f26aee-8f0a-4c9f-88b8-90ceb726c51f"
+                  name="Tag"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="fb503d99-94d6-4b71-b161-d39fa456143f"
+                  name="CardTag"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="4da47d4a-25d8-44d6-b348-d85556f45afc"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="4b993cc7-1a74-47e4-a7ca-b564cf3d8780"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="0d44e688-3cab-4cab-820c-63ed4af9a6ae"
+            name="TagId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="867784f3-257a-43c1-9a60-cf94486de18f"
+            name="Text"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="608116d1-d200-4b04-8380-bbdffcde0115"
+        name="CardTag"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="c337b402-b309-48a5-857e-7724775c243a"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="b1e5da49-4dbc-4211-906c-7eb532bf527c"
+            name="TagId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="adbb0c0c-762c-471e-8ac6-7576865e745c"
+        name="Group"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="1143334f-23d7-4d62-b053-02b5aa4da96a"
+            name="GroupId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="0adef55d-a214-46ff-9a42-2fda54804ba0"
+            name="UserId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="181c06cc-ea4a-4438-b719-de9700595144"
+            name="Description"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="66a512d2-b451-44a2-ac3a-bc4464a69e1e"
+            name="Notes"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="d52e2793-85ef-4eb7-b3bb-31bea1cefd7e"
+            name="Created"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="7e17a8e4-67f9-4d17-801b-5f201e10bce9"
+            name="Updated"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="d2cead95-ded0-4d7f-a5b0-41c48f08e578"
+        name="UserGroupCard"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="f2fa1814-70e4-4ce8-9b57-c4305f0a644a"
+            isDerived="false"
+            sourceEndRoleName="UserGroupCard"
+            targetEndRoleName="Group"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="adbb0c0c-762c-471e-8ac6-7576865e745c"
+              LastKnownName="Group"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="08deaaa5-0bc6-4ce9-92af-0e6a0f6e5d37"
+                  name="UserGroupCard"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="da9a0ac0-d3ea-4fd4-ae13-24fc23f81305"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="d42ce917-1112-4328-afaf-5a212e6a7965"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="758b2b0c-8df8-4e03-898c-d44e0af37251"
+                  name="Group"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="192f62e6-e4d5-4812-9725-9b1839266f8e"
+            name="GroupId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="ff63d4bb-2893-42fd-9c24-c8519936b00e"
+            name="UserId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="8080c23f-e5b4-4197-ab7c-2c801619c4fa"
+            name="SharedById"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="21d72296-9dca-4fa6-8b91-5385c99b557a"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="372a38c9-4f12-47bc-8239-85bbc3062784"
+            name="Notes"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="590252f7-da4b-4a8b-9bd3-66dc99dfcb94"
+        name="SharedGroup"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="96dea99a-b255-4045-bbd9-e781ee5ef979"
+            name="GroupId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="20dfd126-6911-4982-9158-37701d247188"
+            name="Attribute1"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="20cf7da8-0702-4e85-bea2-869e8ae950e4"
+        name="SharedGroup"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="916464f7-7de5-444a-ba44-ee9c7c74eb43"
+            isDerived="false"
+            sourceEndRoleName="SharedGroup"
+            targetEndRoleName="Group"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="adbb0c0c-762c-471e-8ac6-7576865e745c"
+              LastKnownName="Group"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="07d747ca-343a-4e03-b75a-0dabc4e58124"
+                  name="SharedGroup"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="4444a025-ea6e-4c96-845f-1a2406df6c9f"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="7a62a9d2-6602-45cc-9ce0-a963868c2640"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="241af926-50bd-40bb-8f95-1d2dce9e043a"
+                  name="Group"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="63af193f-7cee-415d-a6cb-54b8d1b04f29"
+            name="GroupId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="925b0254-6cdb-4753-861c-021663daa2e6"
+            name="ShareWith"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="846874b8-fb36-428d-b18e-ec3d3b28bfe5"
+            name="SendFrom"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="8e843641-3f58-4b6c-90ba-d49652452b5d"
+            name="Email"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="60c7f500-cca5-40f9-9f26-f24a423bf5ca"
+            name="Accepted"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="1cabf7f3-fb14-4589-b6f9-f9d294744759"
+            name="Declined"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="f5b4228d-4155-4cc8-adb3-cbee3a513a14"
+            name="SharedDate"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e43d5a00-918e-4f0b-b58f-69c1b27107cb"
+        name="Event"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="d8c6fa66-cb3c-4305-857a-99b8edd8df93"
+            isDerived="false"
+            sourceEndRoleName=""
+            targetEndRoleName=""
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="b3e56088-e63d-4935-ba69-30f36c472cde"
+              LastKnownName="EventCounter"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8e8210d9-834b-42d0-adc5-42d091d3bce4"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c4fcaab0-8a1d-4090-96d6-19946d7004cb"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="a7ab8486-a9dd-415d-8d9e-ec93e4c08647"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="5f0bcee7-68ee-4691-9552-aa49d35cf05d"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="cd4c03d4-481d-4686-a046-3b2ca4cda272"
+            name="EventID"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="a72546c6-dd2d-45ba-a5c4-829f488e3b8a"
+            name="EventCode"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="623ca10d-1378-4e48-88e4-b72a1915f72c"
+            name="Description"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b3e56088-e63d-4935-ba69-30f36c472cde"
+        name="EventCounter"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="46186928-fa3d-4e84-9787-b45ed0abc92c"
+            name="ProfileId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="bbd4bee4-8642-43ed-ba31-32f1a964afe7"
+            name="EventId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="14194e19-c39b-4b25-b6c2-5b1087643b0c"
+            name="Count"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="0edd0890-99e6-494d-bbcd-c97f24349e4c"
+            name="EventCounterId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="47022546-594e-44ba-9ec7-f1ed78fffd74"
+        name="BusidexProfile"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="56cfe3ec-286e-4212-9e21-a259f4ddb807"
+            isDerived="false"
+            sourceEndRoleName=""
+            targetEndRoleName=""
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="b3e56088-e63d-4935-ba69-30f36c472cde"
+              LastKnownName="EventCounter"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ddcb7be9-c0ca-41fe-a8fd-9b7ab1328e1c"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="Shared"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="f6a8a975-00aa-4358-a779-4e84f922e8e9"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="874ed9c4-9ffc-4678-931b-c04bb8ecd996"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a1c588eb-64c3-4f5b-9c6a-acf465aa4f4c"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="386eb2d3-b1d5-4b19-a35a-c2af6e391fea"
+            name="BusidexProfileId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="1d725652-7d7c-4eac-8a60-4d555a0916cd"
+            name="UserId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="8c47ec68-761b-4f63-a8a1-a003684f4df2"
+            name="EventCounters"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="88b4a405-8e74-49b6-b041-c819ada5e418"
+        name="Card"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="c639da9a-bb85-439e-a12f-216725f8c822"
+            isDerived="false"
+            sourceEndRoleName="Card"
+            targetEndRoleName="CardTag"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="91cdb397-0038-4dc3-8eec-7add5f23e251"
+              LastKnownName="CardTag"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="545f58a4-7f1d-494a-8e31-36c047669127"
+                  name="Card"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="c7f7e156-3a9e-4838-8acb-ab4aceacc1d1"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="b6e6c7a9-333b-4610-8e6f-ee38524854a7"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="729f63ce-820a-46eb-9541-f20f35f84f86"
+                  name="CardTag"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="983e4ce6-a030-45ee-9146-b1929d35fa34"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="f1b61f1b-5ad9-4d84-b8e0-572f45b557a0"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="5af39497-89c5-44bb-9127-75d7e31f5b5b"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="2a8cf670-a4f5-4a6c-8940-2428ffa379d8"
+            name="Name"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="010480fb-f42e-46d5-be3f-93804cb52629"
+            name="FrontImage"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="02e5aa35-4718-4f54-8821-91eace7c2d1f"
+            name="FrontType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="e3b8deed-fb51-45e1-a0ce-7e2972ac79f5"
+            name="FrontOrientation"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="859040d4-fece-4912-9dcc-8f581bf04076"
+            name="BackType"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="dbee88c0-a001-46e9-bba0-c25c14515fac"
+            name="BackImage"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="442910c7-6237-491b-894b-518f7252703b"
+            name="BackOrientation"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="dd2033c4-4af3-4f59-ac2b-49faffe4f7e3"
+            name="Searchable"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="01be0b18-0bbf-4b43-ba3f-7f0ca8569508"
+            name="Email"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="cd471a35-31ca-4bdd-86f5-c1923f800ed7"
+            name="Url"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="fc76882b-18f5-4942-a990-367a34da11a2"
+            name="PhoneNumbers"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="4c67cab2-c047-41b0-afa3-013ceafddf47"
+            name="OwnerId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="19633ed2-15a8-462a-b130-3db533d8710f"
+            name="Addresses"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="c9b2d816-94ee-41a3-86c4-15aa5993c3e7"
+            name="Tags"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="98180e11-647c-4acf-b70c-3d011e0b9060"
+        name="Tag"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <targetEnds>
+          <association
+            Id="37079ba8-b090-4d14-8a55-d9f55b15dc2a"
+            isDerived="false"
+            sourceEndRoleName="Tag"
+            targetEndRoleName="CardTag"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="91cdb397-0038-4dc3-8eec-7add5f23e251"
+              LastKnownName="CardTag"
+              LastKnownLocation="Busidex.Architecture.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="615f7662-d1ec-4ed1-8eca-10ff02fa9329"
+                  name="Tag"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="22ecbc52-c28a-43de-97e2-322d33a4d7b2"
+                  name="CardTag"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="e70b568f-ed52-499d-a189-722efc33f6d0"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="0563f593-a331-4da0-b354-b8c9577c05ba"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property
+            Id="ae05c3dd-76b0-42c7-93f9-34ad0309b7f8"
+            name="TagId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="6d0aca89-43c6-4ba4-b0ce-6cad334568ef"
+            name="Text"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="91cdb397-0038-4dc3-8eec-7add5f23e251"
+        name="CardTag"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedAttributesInternal>
+          <property
+            Id="6b674e7e-5131-4346-9f65-a7fd65262a76"
+            name="CardId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+          <property
+            Id="2bdd29f3-558c-4e5f-89e9-f6ebc872cc43"
+            name="TagId"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>

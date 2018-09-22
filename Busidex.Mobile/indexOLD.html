@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>My Busidex</title>
+    <script src="scripts/jquery-1.8.3.js" type="text/javascript"></script>
+    <script src="scripts/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
+    <script src="scripts/cordova.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="style/jquery.mobile-1.2.0.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+        <div data-role="page" id="page1" data-theme="b" >
+            <div data-theme="b" data-role="header">
+                <h3>
+                    Login
+                </h3>
+            </div>
+            <div data-role="content" data-theme="b" >
+                <label>User Name</label>&nbsp;<input id="username" type="text" value="" maxlength="50"/><br/>
+                <label>Password</label>&nbsp;<input id="pswd" type="password" value=""/>
+                <input type="button" value="Login" id="btnLogin" data-theme="b" />
+            </div>
+            <a id="errorPopup" data-rel="dialog" href="loginError.html" ></a>
+            <a id="MyBusidexLink" href="MyBusidex.html" data-rel="page" data-transition="slide"></a>
+
+            <div data-theme="a" data-role="footer">
+            </div>
+            
+            
+            <script type="text/javascript">
+                function showPictures() {
+                    navigator.camera.getPicture(function (imageUri) {
+                        $('img#picture').attr('src', imageUri);
+                    }, function (error) {
+                        $('img#picture').replaceWith('<p>' + error + '</p>');
+                    }, { sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY, destinationType: navigator.camera.DestinationType.FILE_URI });
+                }
+
+               
+                function doLogin() {
+                    
+                    var username = $("#username").val();
+                    var pswd = $("#pswd").val();
+                    var url = 'http://busidex.com/account/MobileLogin';
+                    var data = { userName: username, password: pswd };
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        cache:false,
+                        data: data,
+                        dataType: 'json',
+                        success: function(result) {
+
+                            if (result.MemberId > 0) {
+                                localStorage.MemberId = result.MemberId;
+
+                                $("#MyBusidexLink").click();
+                            } else {
+                                $("#errorPopup").click();
+                            }
+
+                        },
+                        error: function(xhr, err, info) {
+                            //$("#errorPopup").click();
+                        }
+                    });
+                }
+
+                $(function () {
+                    //var compassWatchID, geoWatchID;
+                    
+                    $.mobile.defaultPageTransition = 'flip';
+                   // $.support.cors = true;
+                    $.mobile.allowCrossDomainPages = true;
+                    
+                    $("#btnLogin").click(function() {
+                        doLogin();
+                    });
+
+                    //$("#btnMyBusidex").click(function() {
+                    //    $("#goToMyBusidex").click();
+                    //});
+                  //  localStorage.MemberId = -1;
+                    
+                   
+                    document.addEventListener("deviceready", function () {
+                        debugger;
+                        var memberId = localStorage.MemberId;
+                        if (memberId > 0) {
+                            $("#MyBusidexLink").click();
+                        }
+                        
+                        $("#searchButton").live("click", function () {
+                            var data = { criteria: $("#busidex-search").val(), userId: localStorage.MemberId };
+                            $("#searchResults").html('');
+                            $.ajax({
+                                url: 'http://busidex.com/Card/SearchJSON',
+                                data: data,
+                                cache: false,
+                                success: function (results) {
+
+                                    if (results != null && results != '') {
+                                        var o = JSON.parse(results);
+
+                                        var info = '';
+                                        var html = '<table>';
+                                        for (var i = 0; i < o.length; i++) {
+
+                                            var imgLink = 'http://busidexcdn.blob.core.windows.net/cards/' + o[i].FrontFileId + "." + o[i].FrontImageType;
+
+                                            var img = '<img id="img' + i + '" src="' + imgLink + '" style="height:75px; width:110px;" />';
+                                            info = '<div style="width: 130px;padding-top:20px;padding-bottom:20px;">';
+                                            info += '<span>' + o[i].Name + '</span><br/>';
+                                            info += '<span>' + o[i].Email + '</span><br/>';
+                                            for (var p = 0; p < o[i].PhoneNumbers.length; p++) {
+                                                info += '<span>' + o[i].PhoneNumbers[p] + '</span><br/>';
+                                            }
+                                            info += '</div>';
+
+                                            if (o[i].ExistsInMyBusidex == false) {
+
+                                                info += '<a href="#" class="addToMyBusidex" cardId="' + o[i].CardId + '">Add to My Busidex</a>';
+                                            }
+                                            html += '<tr class="busidexRow" filter="' + o[i].Name + '"><td>' + img + '</td><td>' + info + '</<td></tr>';
+
+                                        }
+                                        html += '</table>';
+                                        $("#searchResults").append(html).show();
+                                    } else {
+                                        $("#searchResults").append('<p style="text-align:center;">Not Found</p>').show();
+                                    }
+                                }
+                            });
+                        });
+                        
+                        // Compass
+                        //compassWatchID = navigator.compass.watchHeading(function (heading) {
+                        //    $('span#heading').html(heading.magneticHeading.toFixed(2) + '&#176;');
+                        //}, function (error) {
+                        //    $('span#heading').text(error.code);
+                        //}, { frequency: 3000 });
+
+                        // Connection
+                        //var networkState = navigator.network.connection.type,
+                        //    states = {};
+
+                        //states[Connection.UNKNOWN] = 'Unknown';
+                        //states[Connection.ETHERNET] = 'Ethernet';
+                        //states[Connection.WIFI] = 'WiFi';
+                        //states[Connection.CELL_2G] = 'Cell 2G';
+                        //states[Connection.CELL_3G] = 'Cell 3G';
+                        //states[Connection.CELL_4G] = 'Cell 4G';
+                        //states[Connection.NONE] = 'No network';
+
+                        //$('span#connection').text(states[networkState]);
+
+                        // Contacts
+                        //navigator.contacts.find(['id'], function (contacts) {
+                        //    $('span#contacts').text(contacts.length + ' found');
+                        //}, function (error) {
+                        //    $('span#contacts').text(error.code);
+                        //}, { multiple: true });
+
+                        // Device properties
+                        //$('div#deviceprops').html(
+                        //    '<strong>Name:</strong> ' + device.name + '<br/>' +
+                        //    '<strong>Cordova version:</strong> ' + device.cordova + '<br/>' +
+                        //    '<strong>Platform:</strong> ' + device.platform + '<br/>' +
+                        //    '<strong>UUID:</strong> ' + device.uuid + '<br/>' +
+                        //    '<strong>Version:</strong> ' + device.version + '<br/>'
+                        //);
+
+                        // Geolocation
+                        //geoWatchID = navigator.geolocation.watchPosition(function (position) {
+                        //    $('span#geolocation').text(position.coords.latitude.toFixed(2) + 'N, ' + position.coords.longitude.toFixed(2) + 'E');
+                        //}, function (error) {
+                        //    $('span#geolocationerror').text(error.code + ': ' + error.message);
+                        //}, { frequency: 3000 });
+                    });
+                } ());
+            </script>
+        </div>
+</body>
+</html>
+

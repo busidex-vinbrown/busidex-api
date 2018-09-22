@@ -1,0 +1,31 @@
+<div class="container" ng-controller="CardImageController as vm">
+    <div class="jumbotron">
+        <div ng-include="'views/fragments/logo.html'"></div>
+        <h2>Do you have an image on the back of your card?<br/><small>(<i>you can skip this if you don't have one</i>)</small></h2>
+        <div ng-show="vm.FileError === true" ng-include="'views/fragments/file_error.html'"></div>
+        <div ng-show="vm.ModelError === true" ng-include="'views/fragments/error.html'"></div>
+        <div class="row">
+            <div class="card-image-inner">
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" value="Select Image" ng-click="vm.ImagePreview(1)" />
+                    <div class="radio-inline">
+                        <label for="b_oh"><input type="radio" id="b_oh" name="BackOrientation" value="H" ng-model="vm.card.BackOrientation" />Horizontal</label>
+                    </div>
+                    <div class="radio-inline">
+                        <label for="b_ov"><input type="radio" id="b_ov" name="BackOrientation" value="V" ng-model="vm.card.BackOrientation" />Vertical</label>
+                    </div>
+                    <div card elementid="'backPreview'" orientationstyle="vm.card.BackOrientation === 'V' ? 'v_thumbnail' : 'h_thumbnail'"
+                         cardsrc="vm.card.BackSrc">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="!vm.editmode">
+            <a class="btn btn-lg btn-info" ng-mouseup="vm.save(1, 0)">&lt; Back</a>
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.AllowNext()" ng-click="vm.save(1, 1)">Next &gt;</a>
+        </div>
+        <div ng-if="vm.editmode">
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.modified" ng-click="vm.save(1, -1)">Save</a>
+        </div>
+    </div>
+</div>

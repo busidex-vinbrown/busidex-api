@@ -1,0 +1,118 @@
+﻿/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+ /* Styles */
+    section.frame1 {
+
+        padding: 40px 5% !important;
+
+        a.logo {
+            left: 0;
+        }
+
+        div.links {
+            left: 290px;
+        }
+
+        span.title {
+            left: 10px;
+            top: 190px;
+        }
+
+        ul {
+            left: 0;
+        }
+
+        div.storelinks {
+            left: 34px;
+        }
+
+        div.image-right-side {
+            left: 300px;
+        }
+    }
+
+    section.frame2 {
+        div.title{
+            margin-left: 260px;
+        }
+
+        ul.details{
+            left: 260px;
+            width: 480px;
+        }
+
+        a.registerLink{
+            left: 300px;
+        }
+
+        img.tablet{
+            left: -160px;
+        }
+    }
+
+    section.frame3{
+        .title{
+            left: 40px;
+        }
+
+        .details{
+            left: 40px;
+        }
+
+        a.searchLink{
+            left: 40px;
+        }
+    }
+
+    section.frame4 {
+
+        div.blocks {
+            top: 450px;
+        }
+
+        div.title-block {
+            left: 200px;
+            top: 38px;
+        }
+
+        div.details{
+            left: 200px;
+            margin-top: 300px;
+        }
+    }
+
+    section.frame5 {
+
+        div.title-block {
+            top: 50px;
+            left: 40px;
+        }
+
+        .details{
+            top: 250px;
+            left: 40px;
+        }
+    
+        div.registerContainer{
+            left: 40px;
+            top: 390px;
+        }
+
+        div.storelinks {
+            left: 40px;
+            top: 510px;
+        }
+
+        div.imgRightSide{
+            bottom: 0;
+            left: 500px;
+        }
+
+        div.trademark{
+            margin-right: 43%;
+        }
+    }
+}

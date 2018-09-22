@@ -1,0 +1,257 @@
+﻿
+a:hover{ background: none; }
+a:link{ text-decoration: none;}
+div#card{ margin-left:35%; width: 520px; height: 300px; margin-top: 200px; }
+
+ul#AddCardSidebar
+{
+	float: left;	
+	list-style: none;
+	margin-left: -30px;
+	height: 500px;
+	width: 143px;
+}
+ul#AddCardSidebar li
+{
+	cursor: pointer;
+	height: 23px;
+	margin: 0;
+	padding: 12px 15px 7px 0;
+	text-align: right;
+}
+
+ul#AddCardSidebar li.selected
+{
+	color: #948C75;
+	background-image: url(../Images/selected.png);
+	background-repeat: no-repeat;
+	background-position: left;
+	
+}
+
+ul#AddCardSidebar li:hover
+{
+	border-left: dashed 1pt #000;
+}
+
+ul#AddCardSidebar li.spacer
+{
+	background: none;
+	border: none;
+	cursor: default;	
+	height: 2px;
+	padding: 0;
+}
+#addressList{width: 170px;}
+#addressList tr#addressTemplate {
+    display: none;
+}
+#addressList td.removeAddress, #addressList td.editAddress {
+	cursor: pointer;
+	text-align: center;
+	width: 35px;  
+}
+#addressList td.removeAddress:hover {
+	color: #c0c0c0;    
+}
+#addressList tr.deleted td {
+    text-decoration: line-through;
+}
+
+ul#AddCardSidebar li.step_disabled{ color: #c0c0c0; }
+ul#AddCardSidebar li.step_disabled span{ font-style: italic; font-size: .7em; color: #CC0000;}
+
+li a { color: #ffffff; text-decoration: none;}
+
+form#cardForm{ padding: 15px; }
+
+table.existingCards{ width: 380px;}
+table.existingCards td{ padding: 3px;}
+table.existingCards td img{height: 80px; width: 140px; }
+input.submitExisting{ padding: 6px; }
+table.existingCards td.existingInfo{ font-size: .6em;color: #000000;font-weight: normal;}
+
+h1#AddEditStepTitle{ margin: 0 0 10px 30px;}
+p#stepProgress{float: right;margin-top: -55px; width: 395px;}
+p#stepProgress img{ cursor: pointer;}
+
+.workArea{ display: none; background: #fff; float: left; margin-left: 40px; padding: 13px; width: 80%;min-height: 500px;}
+div.directions{ 
+	background-color: #7AC0DA;
+	border-radius: 12px;
+	color: #fff; float: left; 
+	font-size: 1.2em;
+	line-height: 22px; 
+	margin-bottom: 15px;
+	margin-left: -3%;
+	margin-top: -15px;
+	padding: 15px;
+	width: 103%;  
+}
+
+div.AddEditNav{clear:both;float: left; margin-left: 40px; width: 80%}
+div input[type="button"].step {
+	width: 130px;
+	border-top: none;
+	border-bottom-left-radius: 12px;
+	border-bottom-right-radius: 12px;
+    height: 30px;
+}
+
+div input[type="button"].submitLink {
+	float: right;
+	width: 130px;
+    padding: 3px;
+    margin-right: -27px;
+}
+
+div input[type="button"].step.selected {
+	background: #fff;
+	border: solid 1pt #fff;
+	padding-bottom: 12px;
+	color: #0000EE;
+	
+}
+.field{ width: 70%; }
+input[type=radio]{ margin-right: 3px; }
+#frontReset, #backReset{ margin-top: 45px;margin-bottom: 10px;}
+
+div#selUploadTo {
+	margin:0 0 10px 0;
+	background:#cccccc;
+	padding-left: 10px;
+	height:50px;
+	width:70%;
+}
+div#details input[type=radio] {
+    vertical-align:top;
+}
+img#frontPreview1, img#frontPreview2{ float: left;}
+
+.oSelectDiv{ margin-top: 7px; }
+.uploadForm{ padding-bottom:5px;}
+#left { float: left; width: 600px; border: none; padding: 5px; }
+#right{ float: left; width: 350px; border: none; padding: 5px; margin-left: 10px; margin-bottom: 3px;}
+
+#fontImgLeft, #backImgLeft{ float: left;}
+
+.categoryList { border-collapse: collapse; float: left; margin: 15px 0 10px 15px; width: 100%; }
+
+.categoryList li{ height:25px; display: none; }
+.categoryList li span.categoryItem { padding-right: 10px;}
+
+a.letter{
+	font-size: 1.3em;
+	padding: 0 5px 0 5px;
+}
+a.letter:hover{
+	background: #D3DCE0;
+}
+a.disabled:hover{
+	background: #fff;
+}
+
+.MyCardLabel{
+	font-size: 1.1em;
+}
+
+#categoryDiv{ float: left; width: 300px; margin-left: 10px;}
+
+.h_previewDiv{ border: none; margin: 5px; padding: 10px; }
+
+.v_previewDiv{border: none; margin: 25px 5px;  padding: 10px;}
+label.legend{ position: absolute; margin-top: -33px; padding: 0 5px 0 5px;}
+
+.preview{ float: left; border: solid 1pt grey;}
+
+.imgContainer{  width: 230px; float: left; }
+
+div#navDiv{ clear: both; padding-bottom:2px; }
+
+.cardField  { height: 30px;margin: 7px 0 7px 0;}
+.cardField input[type=text] {
+    width: 180px;
+}
+#selBusiness { height: 35px;} 
+#selSearchable { height: 35px; }
+#selCategory { height: 280px; }
+#selUploadTo { height: 35px; }
+#selCategory select { height: 260px; width: 160px; }
+div.strip{display:none; position:absolute; width:100%; left:0;z-index:-1; }
+
+div.bottomStrip{ background-color:#948C75; height: 23px; margin-top: 77px; }
+
+.resetLink { text-decoration: underline; cursor: pointer; color: Gray; }
+
+.fixedLabel{ width: 87px; display: inline-block; text-align: right;padding-right: 3px; }
+
+.SizeWarning { color: #ff0000; display: none; position: absolute; font-size: 10pt; cursor: pointer; }
+.SizeWarning:hover{ text-decoration: underline; }
+
+#fileSizeInfoMessage{ display: none; font-size: 9pt; padding: 10px; height: 110px; width: 220px; 
+						 border: solid 1pt silver; background-color: #948C75; color: #D5DED9;
+						 position: absolute; left: 45%; top: 35%;  }
+
+.ClosePopup { font-size: 10px; color: #ffffff; text-decoration: underline; cursor: pointer; float: right; margin-top: 10px;}               
+
+span.link{ margin-top:10px; color: #7A6A53; display: block; }
+span.link:hover{ text-decoration: underline;}
+
+.relCardView{ cursor: pointer; height: 70px; width: 105px; }
+.relSelected{ display: none;}
+img.help {
+	float: right;
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+}
+div.ownerHelp {
+	display: none;
+	height: 100px;
+	width: 300px;
+	resize:none
+}
+div.ownerHelp h3 {
+	margin-top: 10px;
+}
+span.required {
+	color: red;
+	font-size: 1.3em;
+	/*position: absolute;*/
+}
+
+ul#tagList {
+	margin-top: 15px;
+}
+input#btnAddTag {
+	padding: 2px 7px 2px 7px;
+}
+li#tagTemplate {
+	display: none;
+}
+div.tagContainer {
+	width: 50%;
+	height: 370px;
+	float: left;
+}
+span.removeTag {
+	cursor: pointer;
+	padding: 4px;
+	color: #7a6a53;
+	display: inline-block;
+	margin-left: 5px;
+}
+li.tag {
+	border-radius: 4px;
+	border: solid 1pt silver;
+	float: left;
+	width: auto;
+	margin: 5px;
+}
+li.tag div {
+	margin: 4px;
+	background: #ccc;
+	color: #fff;
+	padding: 3px;
+	box-shadow: 0 0 5px #d3d3d3;
+}

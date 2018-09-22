@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner" dslVersion="1.0.0.0" Id="0a4174bc-b1fd-4644-abc5-77271ad1d5dd" name="KPI_Event_Structure" linkedPackageId="0cfeb50a-fc54-4c90-9983-75f458665400" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="2066a8ac-8f8f-4c9e-824b-8fb52d4ed19c">
+      <profileInstance Id="7c7b754c-cc9b-4236-98d1-c649b0bf2463" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="f88b7946-e53d-400c-9b04-4f699aa8970a">
+      <profileInstance Id="f17e07bc-efc7-4de5-ae54-133df59998b3" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="640c925e-8c67-4479-9a0f-e58c8de345f2" name="Event" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="e43d5a00-918e-4f0b-b58f-69c1b27107cb" />
+        <targetEnds>
+          <association Id="6578e883-d299-47ae-b389-500703aa54b6" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+            <classMoniker Id="76cc4be6-a637-4dc3-9f33-bf8c85d85696" LastKnownName="EventCounter" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e8b4a223-f0ea-4794-ba7a-ad0c7329a7a7" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="8e8210d9-834b-42d0-adc5-42d091d3bce4" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8cd5629d-46a9-4313-985e-eb248bf1c702" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <lowerValueInternal>
+                    <literalString Id="83e38079-e320-43cd-800a-2fa042894044" name="Lower" value="*">
+                      <elementDefinition Id="a7ab8486-a9dd-415d-8d9e-ec93e4c08647" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="10eb85bb-c173-4fd5-8870-ef5b20fc73b8" name="Upper" value="*">
+                      <elementDefinition Id="5f0bcee7-68ee-4691-9552-aa49d35cf05d" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="c4fcaab0-8a1d-4090-96d6-19946d7004cb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="d8c6fa66-cb3c-4305-857a-99b8edd8df93" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="5e5d9642-9b4b-4654-ab4a-4482e71a134c" name="EventID" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="cd4c03d4-481d-4686-a046-3b2ca4cda272" />
+          </property>
+          <property Id="0be7c573-b0ee-431e-bbf6-230cafcba424" name="EventCode" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="a72546c6-dd2d-45ba-a5c4-829f488e3b8a" />
+          </property>
+          <property Id="965dbbd9-b1ff-4c51-9e61-971a820a3d38" name="Description" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="623ca10d-1378-4e48-88e4-b72a1915f72c" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="76cc4be6-a637-4dc3-9f33-bf8c85d85696" name="EventCounter" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="b3e56088-e63d-4935-ba69-30f36c472cde" />
+        <ownedAttributesInternal>
+          <property Id="ba53659d-9245-40f6-be68-37a7417b57c8" name="ProfileId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="46186928-fa3d-4e84-9787-b45ed0abc92c" />
+          </property>
+          <property Id="5f223d22-09e3-47dd-98f6-4f25ef509395" name="EventId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="bbd4bee4-8642-43ed-ba31-32f1a964afe7" />
+          </property>
+          <property Id="c88a8ade-6943-4104-904b-72db8ec08f31" name="Count" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="14194e19-c39b-4b25-b6c2-5b1087643b0c" />
+          </property>
+          <property Id="2c65632b-2538-4b79-a824-b1a76924feab" name="EventCounterId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="0edd0890-99e6-494d-bbcd-c97f24349e4c" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="627db24c-9d67-404d-aa66-ceffdbab416c" name="BusidexProfile" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="47022546-594e-44ba-9ec7-f1ed78fffd74" />
+        <targetEnds>
+          <association Id="0c0af2d0-48f8-48a2-9bd3-4f7da48480d4" isDerived="false" sourceEndRoleName="" targetEndRoleName="" isLeaf="false" isAbstract="false">
+            <classMoniker Id="76cc4be6-a637-4dc3-9f33-bf8c85d85696" LastKnownName="EventCounter" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ba7cad7e-43a7-42bc-b5e5-9d2c60572ec6" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="Shared" isComposite="false" isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString Id="d1a9a566-aac7-4fbd-86fd-088f357e8cb3" name="Lower" value="*">
+                      <elementDefinition Id="f6a8a975-00aa-4358-a779-4e84f922e8e9" />
+                    </literalString>
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString Id="ed01cb9d-b8aa-4073-aee8-4a8fcb4814e0" name="Upper" value="*">
+                      <elementDefinition Id="874ed9c4-9ffc-4678-931b-c04bb8ecd996" />
+                    </literalString>
+                  </upperValueInternal>
+                  <elementDefinition Id="ddcb7be9-c0ca-41fe-a8fd-9b7ab1328e1c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6f0a53c9-4298-4edf-b5c9-a73ec8df5c74" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="a1c588eb-64c3-4f5b-9c6a-acf465aa4f4c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="56cfe3ec-286e-4212-9e21-a259f4ddb807" />
+          </association>
+        </targetEnds>
+        <ownedAttributesInternal>
+          <property Id="b22ffb31-6b06-4249-8040-9fae309dbae0" name="BusidexProfileId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="386eb2d3-b1d5-4b19-a35a-c2af6e391fea" />
+          </property>
+          <property Id="222c9ae2-15f0-4418-8e4f-bb13e61664ee" name="UserId" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="1d725652-7d7c-4eac-8a60-4d555a0916cd" />
+          </property>
+          <property Id="900fcaae-9f7c-4421-b8ee-544059c221ce" name="EventCounters" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <elementDefinition Id="8c47ec68-761b-4f63-a8a1-a003684f4df2" />
+          </property>
+        </ownedAttributesInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="0cfeb50a-fc54-4c90-9983-75f458665400" name="Busidex.Architecture">
+    <elementDefinition Id="bae227f6-1bc6-4b08-aec6-ba1fa3d2765c" />
+  </package>
+</logicalClassDesignerModel>

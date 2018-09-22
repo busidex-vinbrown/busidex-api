@@ -1,0 +1,115 @@
+﻿@using System.Configuration
+@using System.Web.Optimization
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        @{
+            string cdnPath = ConfigurationManager.AppSettings["imageCDNPath"];
+        }
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/Scripts/js")
+        <meta name="viewport" content="width=device-width" />
+        <!--[if lt IE 9]>
+            <script>
+                document.createElement('header');
+                document.createElement('nav');
+                document.createElement('section');
+                document.createElement('article');
+                document.createElement('aside');
+                document.createElement('footer');
+                document.createElement('hgroup');
+            </script>
+            <style type="text/css">
+                header
+                ,nav
+                ,section
+                ,article
+                ,aside
+                ,footer
+                ,hgroup 
+                { 
+                    display: block;
+                }
+            </style>
+        <![endif]-->
+
+        @RenderSection("Styles", required: false)
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    
+                    <p class="site-title"><a href= "/Home"><img src="@cdnPath/BusidexLogo2.png" style="height:70px;" /></a>
+                    the (not so) small business index 
+                    </p>
+                    <span style="position:absolute; margin-top:-23px;margin-left:55px; font-size:1.3em; font-weight: bold;">BETA</span>
+                
+                </div>
+                
+                <div class="float-right">
+                    <section id="login">
+                        @Html.Partial("_LoginPartial")
+                    </section>
+                </div>
+                
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+                <nav style="position:fixed; top: 50px;">
+                    <ul id="menu">
+                        <li id="Home"><span>Home</span><a href=@Url.Action("Index", "Home")><img src="@cdnPath/home_small.png" /></a></li>
+                        <li id="Search"><span>Find&nbsp;a&nbsp;card</span><a href=@Url.Action("Search", "Card")><img src="@cdnPath/Search_small.png" /></a></li>
+                        <li id="Add"><span>Add&nbsp;a&nbsp;card</span><a href=@Url.Action("Add", "Card")><img src="@cdnPath/add_small.png" /></a></li>
+                        <li id="Add"><span>My&nbsp;Cards</span><a href=@Url.Action("MyCards", "Card")><img src="@cdnPath/MyCards.png" /></a></li>
+                        <li id="Mine"><span>My&nbsp;Busidex</span><a href=@Url.Action("Mine", "Busidex")><img src="@cdnPath/BusidexLogo4_small.png" /></a></li>
+                        @if ( bool.ReferenceEquals(ViewBag.IsAdmin, true)) { 
+                            <li id="Admin"><span>Admin&nbsp;Options</span><a href=@Url.Action("Index", "Admin")><img src="@cdnPath/admin_small.png" /></a></li>
+                        }
+                        <li id="Settings"><span>Preferences</span><a href=@Url.Action("Index", "Settings")><img src="@cdnPath/settings_small.png" /></a></li>
+                        <li id="Privacy">@Html.ActionLink("Privacy", "PrivacyPolicy", "Home")</li>
+                        <li id="Terms">@Html.ActionLink("Here's the Deal", "TermsOfService", "Home")</li>
+                        <li id="Contact">@Html.ActionLink("Contact", "Contact", "Home")</li>                        
+                    </ul>
+                </nav>
+            </section>            
+        </div>
+        
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - BVL Corporation</p>
+                </div>
+                <div class="float-right">
+                    <ul id="social" style="display: none;">
+                        <li>@Html.ActionLink("Privacy", "PrivacyPolicy", "Home")</li>
+                        <li>@Html.ActionLink("Here's the Deal", "TermsOfService", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        
+        @RenderSection("Scripts", required: false)
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-29820162-1']);
+            _gaq.push(['_setDomainName', 'busidex.com']);
+            _gaq.push(['_setAllowLinker', true]);
+            _gaq.push(['_trackPageview']);
+
+            (function () {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
+    </body>
+</html>

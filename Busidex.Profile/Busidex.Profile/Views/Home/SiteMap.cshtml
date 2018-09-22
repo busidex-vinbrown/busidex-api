@@ -1,0 +1,43 @@
+﻿@model List<Busidex.Profile.DataAccess.CardDetailModel>
+
+@{
+    string name = string.Empty;
+    string companyName = string.Empty;
+    string displayName = string.Empty;
+}
+@section Head{
+    <title>SiteMap | Busidex Directory</title>
+    <meta name="description" content="Who is Busidex for? Busidex is for anyone that uses business cards. Busidex was created with the idea of keeping your clients and business associates up to date about Your Business and making sure your current with Their Business. While you want people to know about your business you also enjoy your privacy. Busidex is not about You but about Your Business. It is a business platform where you empower your Business Card." />
+    <style type="text/css">
+        body {
+            background-size: contain;
+        }
+    </style>
+}
+
+<div class="jumbotron">
+    <h1 style="opacity: 1;">Busidex Directory</h1>
+    <h3 style="opacity: 1;">Who is Busidex for? Busidex is for anyone that uses business cards. Busidex was created with the idea of keeping your clients and business associates up to date about Your Business and making sure your current with Their Business. While you want people to know about your business you also enjoy your privacy. Busidex is not about You but about Your Business. It is a business platform where you empower your Business Card.</h3>
+</div>
+    <ul style="opacity: 1;">
+        @foreach (var card in Model)
+        {
+            displayName = card.Name;
+            companyName = string.IsNullOrEmpty(card.CompanyName) ? companyName : card.CompanyName;
+            name = card.Name ?? string.Empty;
+            if (!string.IsNullOrEmpty(displayName) && !string.IsNullOrEmpty(card.CompanyName))
+            {
+                displayName += " | ";
+                displayName += card.CompanyName;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(displayName))
+                {
+                    displayName = card.CompanyName;
+                }
+            }
+            <li><a href="/details/@card.SEO_Name">@displayName</a></li>
+        }
+    </ul>
+

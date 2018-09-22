@@ -1,0 +1,29 @@
+﻿<div ng-controller="RegistrationController as vm">
+    <div class="row">
+        <div class="col-sm-8 col-md-6 col-md-offset-3">
+            <div class="jumbotron jumbotron-contactinfo" style="margin-top:20px;">
+                <div ng-include="'views/fragments/logo.html'" ng-show="!vm.Model.ShowOwnerCard"></div>
+                <div ng-include="'views/fragments/card-image.html'" ng-show="vm.Model.ShowOwnerCard"></div>
+                <form id="planData" name="planData" style="text-align: left;">
+                    <h3 class="formTitle">Choose a plan...</h3>
+                    
+                    <ul class="list-group">
+                        <li class="list-group-item account-option" ng-repeat="plan in vm.Model.Plans">
+                            <input type="radio" name="AccountTypeId"
+                                   ng-model="Model.AccountTypeId" 
+                                   value="{{plan.AccountTypeId}}" required 
+                                   ng-disabled="plan.AccountTypeId == 5 || plan.AccountTypeId == 1" 
+                                   ng-checked="plan.AccountTypeId===6" />
+                            <div class="account-descriptions">
+                                <strong><span class="AccountType">{{plan.Name}}</span></strong>&nbsp;-&nbsp;<span ng-bind-html="plan.Description"></span>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <input type="button" ng-click="vm.MoveTo('/name')" value="Back" class="btn btn-info" role="button" />
+                    <input type="button" ng-click="vm.MoveTo('/finish')" value="Next" class="btn btn-success" role="button"  />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

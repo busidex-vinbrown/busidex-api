@@ -1,0 +1,369 @@
+﻿
+
+
+img#NotificationIcon {
+    height: 50px;
+    width: 40px;
+    cursor: pointer;
+}
+
+div#card, div#cardSpacer {
+    font-family: Verdana, Trebuchet MS;
+    font-size: 12px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+}
+
+div#cardSpacer {
+    border: none;
+}
+
+div#uploadform {
+    display: none;
+    font-family: Calibri;
+    letter-spacing: 2px;
+    line-height: 30px;
+    margin-left: 20px;
+    text-align: left;
+    width: 900px;
+}
+
+    div#uploadform p {
+        margin: 5px;
+    }
+
+    div#uploadform label {
+        display: inline-block;
+        margin-right: 3px;
+        text-align: right;
+        width: 130px;
+    }
+
+div#uploadformBusiness {
+    font-family: Calibri;
+    letter-spacing: 2px;
+    line-height: 20px;
+    margin-left: 200px;
+    margin-top: 50px;
+    text-align: left;
+    width: 820px;
+}
+
+span.link {
+    cursor: pointer;
+    font-size: 10pt;
+    text-decoration: none;
+}
+
+form#LoginForm .validation-summary-errors {
+    border: none;
+    height: auto;
+}
+
+.validation-summary-errors ul {
+    color: Red;
+    font-family: Arial;
+    font-size: .85em;
+}
+
+.field-validation-error {
+    font-size: 10pt;
+    color: Red;
+}
+
+div#errors {
+    background-color: #FFF8DC;
+    border: solid 1pt #6495ED;
+    cursor: pointer;
+    filter: alpha(opacity=95);
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    min-height: 200px;
+    -moz-opacity: .95;
+    opacity: .95;
+    padding-left: 15px;
+    text-align: left;
+    width: 350px;
+    z-index: 2;
+}
+
+
+.busidexLink, .busidexLink:visited {
+    color: #303030;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+    .busidexLink:hover {
+        text-decoration: underline;
+    }
+
+.linkButton {
+    border: solid 1pt silver;
+    background-color: #EEF3E2;
+    padding: 5px;
+    text-align: center;
+}
+
+    .linkButton:hover {
+        background-color: #C1CDCD;
+        color: #ffffff;
+    }
+
+img.h_preview {
+        height: 120px;
+        width: 220px;
+        margin-top: 0;
+    }
+
+    div.detailRow.selected img.h_preview {
+        height: 270px;
+        width: 425px;
+        margin-top: 0;
+    }
+
+    div.searchResult img.h_preview {
+        height: 120px;
+        width: 180px;
+        margin-top: 0;
+    }
+
+    table.details td img.h_preview {
+        height: 75%;
+        width: 100%;
+        margin-top: 0;
+    }
+
+    div.myCardDetail img.h_preview {
+        height: 250px;
+        width: 400px;
+        margin-top: 0;
+        margin: 10px;
+    }
+
+    div#detailPopupH img.h_preview {
+        height: 300px;
+        width: 500px;
+        margin-top: 0;
+        display: block;
+        padding: 10px;
+    }
+
+    img.v_preview {
+        height: 210px;
+        width: 140px;
+        margin-top: 0;
+    }
+
+    div.detailRow.selected img.v_preview {
+        height: 370px;
+        width: 280px;
+        margin-top: 0;
+    }
+
+    div.searchResult img.v_preview {
+        height: 210px;
+        width: 140px;
+        margin-top: 0;
+    }
+
+    table.details td img.v_preview {
+        height: 140%;
+        width: 85%;
+        margin-top: 0;
+    }
+
+    div.myCardDetail img.v_preview {
+        height: 300px;
+        width: 275px;
+        margin-top: 0;
+        margin: 10px;
+    }
+
+    div#detailPopupV {
+        width: 380px;
+       
+    }
+        div#detailPopupV .modal-body {
+             max-height: 100%;
+        }
+
+    div#detailPopupV img.v_preview {
+        height: 400px;
+        width: 300px;
+        margin-top: 0;
+        display: block;
+        padding: 10px;
+    }
+
+@media (min-width: 1200px) {
+    img.h_preview {
+        height: 120px;
+        width: 220px;
+        margin-top: 0;
+    }
+
+    div.detailRow.selected img.h_preview {
+        height: 270px;
+        width: 425px;
+        margin-top: 0;
+    }
+
+    div.searchResult img.h_preview {
+        height: 120px;
+        width: 180px;
+        margin-top: 0;
+    }
+
+    table.details td img.h_preview {
+        height: 75%;
+        width: 100%;
+        margin-top: 0;
+    }
+
+    div.myCardDetail img.h_preview {
+        height: 250px;
+        width: 400px;
+        margin-top: 0;
+        margin: 10px;
+    }
+
+    div#detailPopupH img.h_preview {
+        height: 300px;
+        width: 500px;
+        margin-top: 0;
+        display: block;
+        padding: 10px;
+    }
+
+    img.v_preview {
+        height: 210px;
+        width: 140px;
+        margin-top: 0;
+    }
+
+    div.detailRow.selected img.v_preview {
+        height: 370px;
+        width: 280px;
+        margin-top: 0;
+    }
+
+    div.searchResult img.v_preview {
+        height: 210px;
+        width: 140px;
+        margin-top: 0;
+    }
+
+    table.details td img.v_preview {
+        height: 140%;
+        width: 85%;
+        margin-top: 0;
+    }
+
+    div.myCardDetail img.v_preview {
+        height: 300px;
+        width: 275px;
+        margin-top: 0;
+        margin: 10px;
+    }
+
+    div#detailPopupV {
+        width: 380px;
+       
+    }
+        div#detailPopupV .modal-body {
+             max-height: 100%;
+        }
+
+    div#detailPopupV img.v_preview {
+        height: 400px;
+        width: 300px;
+        margin-top: 0;
+        display: block;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    div.myCardDetail img.h_preview {
+        height: 200px;
+        width: 350px;
+        margin-top: 0;
+        margin: 10px;
+    }
+
+    div.myCardDetail img.v_preview {
+        height: 250px;
+        width: 225px;
+        margin-top: 0;
+        margin: 10px;
+    }
+    footer{ display: none;}
+    
+}
+
+@media (max-width: 480px) {
+    div.myCardDetail img.h_preview {
+        height: 120px;
+        width: 270px;
+        margin-top: 0;
+        margin: 10px;
+    }
+
+    div.myCardDetail img.v_preview {
+        height: 170px;
+        width: 145px;
+        margin-top: 0;
+        margin: 10px;
+    }
+    footer{ display: none;}
+
+    .hero-unit h1 {
+        font-size: 40px;
+    }
+    .hero-unit {
+        font-size: 16px;
+        padding: 25px;
+    }
+}
+
+table.cardDetailList td.detailCell {
+    padding: 5px;
+}
+
+table.details td {
+    vertical-align: top;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+ul.suggestionList {
+    margin: 0;
+}
+    ul.suggestionList li {
+        margin-bottom: 10px;
+        clear: both;
+        height: 75px;
+    }
+
+div.vote {
+    height: 20px;
+    padding: 5px 0;
+    width: 55px;
+    text-align: center;
+    background-color: #7b4f9d;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+div.suggestionDetails {
+    margin-left: 20px;
+}
+div.suggestionDetails h4 {
+    margin-top: 5px;
+}

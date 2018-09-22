@@ -1,0 +1,114 @@
+﻿@model Busidex.DAL.Lizzidex
+
+@{
+    ViewBag.Title = "Only for Chettos and Chettas";
+}
+
+<script type="text/javascript">
+    var UpdateUrl = "http://localhost/Busidex.Services/BusidexService.svc/UpdateLizzidex";
+    var GetUrl = "http://www.busidex.com/api/BusidexAPI";
+    //var GetUrl = "http://localhost:1666/api/BusidexAPI";
+    $( document ).ready( function ()
+    {
+        $( "#AddCoffee" ).click( function ()
+        {
+            $.ajax( {
+                type: "POST",
+                url: GetUrl,
+                data: { c: 1, t: 0 },
+                success: function ()
+                {
+                    UpdateCounts();
+                }
+            } );
+        } );
+        $( "#SubtractCoffee" ).click( function ()
+        {
+            $.ajax( {
+                type: "POST",
+                url: GetUrl,
+                data: { c: -1, t: 0 },
+                success: function ()
+                {
+                    UpdateCounts();
+                }
+            } );
+        } );
+        $( "#AddThing" ).click( function ()
+        {
+            $.ajax( {
+                type: "POST",
+                url: GetUrl,
+                data: { c: 0, t: 1 },
+                success: function ()
+                {
+                    UpdateCounts();
+                }
+            } );
+        } );
+        $( "#SubtractThing" ).click( function ()
+        {
+            $.ajax( {
+                type: "POST",
+                url: GetUrl,
+                data: { c: 0, t: -1 },
+                success: function ()
+                {
+                    UpdateCounts();
+                }
+            } );
+        } );
+
+        UpdateCounts();
+    } );
+
+    function UpdateCounts()
+    {
+        $.ajax( {
+            url: GetUrl,
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            cache: false,
+            success: function ( data )
+            {
+                var o = eval( "(" + data + ")" );
+                $( "#CoffeeCount" ).html( o.CoffeeCount );
+                $( "#ThingCount" ).html( o.ThingCount );
+            }
+        } );
+    }
+
+</script>
+
+<h2>My Lizzidex</h2>
+
+<style type="text/css">
+    table#LizzidexTable{ font-size: 3em; width: 100%; }
+    table#LizzidexTable td{ width: 50%;}
+</style>
+
+<table id="LizzidexTable">
+    <thead>
+        <tr>
+            <th>Coffee</th>
+            <th>Thing</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td id="CoffeeCount">???</td>
+            <td id="ThingCount">???</td>
+        </tr>
+        <tr>
+        	<td>
+        		<input type="button" value="+" id="AddCoffee" class="LizzidexButton" />
+        		<input type="button" value="-" id="SubtractCoffee" class="LizzidexButton" />
+        	</td>
+        	<td>
+        		<input type="button" value="+" id="AddThing" class="LizzidexButton"/>
+        		<input type="button" value="-" id="SubtractThing" class="LizzidexButton"/>
+        	</td>
+        </tr>
+    </tbody>
+</table>

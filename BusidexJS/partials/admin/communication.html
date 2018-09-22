@@ -1,0 +1,37 @@
+﻿<admin-menu></admin-menu>
+<div class="adminDiv">
+    
+    <div class="span12" style="vertical-align:top;">
+        <h4>Subject</h4>
+        <input type="text" class="input-xxlarge" ng-model="EmailTemplate.Subject" />
+        <a href="" class="btn btn-success" style="vertical-align:top;" ng-click="SendTestCommunication()">Send Test Email</a>
+        <a href="" class="btn btn-primary" style="vertical-align:top;" ng-click="SendCommunications()">Send Email To All Selected</a>
+    </div>
+    <div class="span12">
+        <h4>Email Body</h4>
+        <textarea class="pull-left" style="height:300px;width: 45%;" ng-model="EmailTemplate.Body"></textarea>
+        <div style="background:#fff;border:solid 1pt #d3d3d3; height:auto;min-height:300px; width: 45%;float:left;margin:0 5px;padding:5px;border-radius:8px;"
+             ng-bind-html="GetHtml()"></div>
+    </div>
+    <div class="span12">
+        <h4>Filter:</h4>
+        <input type="text" ng-model="Filter" class="input-xlarge" />
+        <a href="" class="btn btn-link" ng-click="ToggleShowSelected()"><input type="checkbox" ng-model="ShowSelectedOnly" />&nbsp;Show Selected Only</a>
+        <a href="" class="btn btn-link" ng-click="ToggleSelectAll()"><input type="checkbox" ng-model="SelectAll" />&nbsp;Select All</a>
+    </div>
+    <ul>
+        <li ng-repeat="contact in AllUsers | filter: Filter | orderBy:'UserName'" class="contactRow" ng-hide="ShowSelectedOnly && !contact.Selected">
+
+            <input type="checkbox" class="pull-left" ng-checked="contact.Selected" ng-model="contact.Selected" />
+            <div class="contactInfo pull-left">
+                <strong>{{contact.UserName}}</strong><br />
+                {{contact.Email}}
+            </div>
+            <div class="pull-right">
+                <label>Last Contacted</label>
+                <label>{{contact.LastSharedDate}}</label>
+            </div>
+
+        </li>
+    </ul>
+</div>

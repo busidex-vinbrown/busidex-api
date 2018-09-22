@@ -1,0 +1,30 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+
+@model List< UserCard > 
+ 
+@{string cdnPath = ConfigurationManager.AppSettings["userCardPath"];}
+
+<div class="cardDisplay" id="cardDisplay">
+
+    @foreach (UserCard c in Model) {
+        bool showEdit = (long)ViewData["UserID"] == c.Card.CreatedBy;
+        string previewClass = c.Card.FrontOrientation ? "v_preview" : "h_preview";
+        string phoneNumber = !c.Card.PhoneNumbers.Any() ? "no phone number" : String.Format("{0:(###) ###-####}", long.Parse(c.Card.PhoneNumbers.FirstOrDefault().Number));
+        string email = string.IsNullOrEmpty(c.Card.Email) ? "no email" : c.Card.Email;
+        <div class="cardContainer" categories="@c.Card.CategoryList">        
+            <div class="cardDetail">
+                @Html.ActionLink("Edit", "Edit", "Card", new { id = c.CardId }, new { @class="detailLinkLeft" })
+                <span id="removeCard" cardId="@c.CardId" class="link detailLinkRight">Remove</span>           
+                <div style="float: left;">
+                    <div><label><nobr>@c.Card.Name</nobr></label></div>
+                    <div><label>@phoneNumber</label></div>
+                    <div><label>@email</label></div>
+                </div>
+            </div>
+            <img alt="@c.Card.Name" src="@(cdnPath + c.Card.FrontFileId + ".jpg")" 
+                cardId="@c.CardId"  
+                class="myBusidexCard2 @previewClass" showEdit="@showEdit" />
+        </div>
+    } 
+</div>

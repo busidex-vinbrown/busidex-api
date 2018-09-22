@@ -1,0 +1,229 @@
+﻿/* Smartphones (portrait) ----------- */
+@media screen and (max-width : 360px) {
+/* Styles */
+    section.frame1 {
+
+        padding: 20px 5% !important;
+
+        /*a.logo {
+            left: 0;
+            height: 40px;
+            width: 145px;
+            top: 0;
+        }*/
+
+        div.links {
+            font-size: 14px;
+            left: 0;
+            line-height: 1.3;
+            text-align: left;
+            /*top: 55px;*/
+
+            a, span{
+                float: left;
+                padding: 2px 5px;
+            }
+            width: 300px;
+        }
+
+        span.title {
+            font-size: 44px;
+        }
+
+        ul.sublinks {
+            padding: 0;
+            li{
+                line-height: 1.3;
+                margin-left: 0;
+            }
+        }
+
+        div.storelinks {
+            left: 0;
+        }
+
+        div.image-right-side {
+            display: none;
+        }
+    }
+
+    section.frame2 {
+        div.title{
+            font-size: 40px;
+            line-height: 1;
+            margin-left: 0;
+        }
+
+        ul.details{
+            font-size: 17px;
+            left: 0;
+            li{
+                margin-top: 10px;
+            }
+        }
+
+        a.registerLink{
+            left: 35px;
+        }
+
+        img.tablet{
+            display: none;
+        }
+    }
+
+    section.frame3{
+
+        img.rightImage{
+            display: none;
+        }
+
+        .title{
+            font-size: 50px;
+            line-height: 1;
+        }
+
+        .details{
+            font-size: 17px;
+        }
+    }
+
+    section.frame4 {
+
+        div.blocks {
+            top: 245px;
+            left: -20px;
+            .block4, .block5, .block6, .block7, .block8{
+                display: none;
+            }
+        }
+
+        div.title-block {
+            line-height: 35px;
+            top: 10px;
+            .title{
+                font-size: 35px;
+            }
+            .title2{
+                font-size: 31px;
+            }
+            .title3{
+                font-size: 34px;
+            }
+        }
+
+        div.details{
+            font-size: 24px;
+        }
+    }
+
+    section.frame5 {
+
+        div.title-block {
+            font-size: 40px;
+            /*top: 20px;
+            left: 10px;*/
+        }
+
+        .details{
+            font-size: 20px;
+            /*top: 150px;
+            left: 10px;*/
+            /*width: 250px;*/
+        }
+    
+        div.registerContainer{
+            /*left: 10px;
+            top: 270px;*/
+            a.registerLink{
+                font-size: 18px;
+            }
+            img{
+                height: 50px;
+            }
+        }
+
+        div.storelinks {
+            /*left: 10px;
+            top: 350px;*/
+        }
+
+        div.imgRightSide{
+            display: none;
+        }
+
+        .site-footer{
+            display: none;
+        }
+        div.trademark{
+            margin-right: 43%;
+        }
+    }
+
+    .navbar-header{
+        max-width: 100vw;
+        min-width: 100vw;
+    }
+
+    ul.my-card-actions{
+        padding: 0;
+        width: 100%;
+    }
+    div.my-card{
+
+        ul.button-list{
+            float: none;
+        }
+        .action-button-holder{
+            width: auto;
+        }
+        
+        .card-container{
+        
+            height: auto;
+            width: 252px;
+            position: relative;
+            z-index:2;
+            margin-left: auto;
+            margin-right: auto;
+
+            img{
+                border: solid 1pt silver;
+                background: #d3d3d3;
+                margin: 10px 0;
+            }
+            img.h_thumbnail{
+                width: 232px;
+                height: 124px;
+            }
+
+            img.v_thumbnail{
+                width: 124px;
+                height: 232px;
+            }
+        
+        } 
+    }
+
+     .stats-title{
+        width: 100%;
+    }
+
+     .activity-list{
+
+        .activity-item{
+
+            .activity-label{
+                max-width:150px;
+                min-width:150px;
+            }
+        }
+    }
+
+    div.prof-acct-required{
+        width: 100%;
+    }
+
+    div.event-placeholder{
+        display: none;
+    }
+}

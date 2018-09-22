@@ -1,0 +1,31 @@
+﻿/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1080px) {
+  /* Styles */
+  section.frame1 a.logo {
+    left: 5px; }
+  section.frame1 div.links {
+    left: 490px; }
+  section.frame1 span.title {
+    left: 30px;
+    top: 190px; }
+  section.frame1 ul {
+    left: 0; }
+  section.frame1 div.storelinks {
+    left: 34px; }
+  section.frame1 div.image-right-side {
+    left: 550px; }
+  section.frame4 div.blocks {
+    top: 100px; }
+  section.frame4 div.title-block {
+    top: 108px; }
+  section.frame5 div.title-block {
+    top: 50px; }
+  section.frame5 .details {
+    top: 250px; }
+  section.frame5 div.registerContainer {
+    top: 390px; }
+  section.frame5 div.storelinks {
+    top: 510px; }
+  section.frame5 div.imgRightSide {
+    bottom: 0;
+    left: 660px; } }

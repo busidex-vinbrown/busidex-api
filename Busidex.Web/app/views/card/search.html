@@ -1,0 +1,57 @@
+﻿<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+<div class="container-fluid search-container my-busidex" ng-controller="SearchController as vm">
+    <img class="search-background" src="https://az381524.vo.msecnd.net/images/search-background.gif" />
+    <div>
+        <div class="row" style="display: block;">
+            <form novalidate class="searchForm">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" name="SearchText" placeholder="Search by name, company or tag" id="search" class="form-control" ng-model="vm.model.SearchText"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" ng-click="vm.doSearch()">
+                                <img src="https://az381524.vo.msecnd.net/images/loading.gif" ng-show="vm.Waiting" class="wait-spinner" style="height: 17px; width: 15px;" />
+                                <span ng-show="!vm.Waiting" class="glyphicon glyphicon-search"></span>
+                            </button>
+                            <button class="btn" ng-click="vm.Reset()"><span class="glyphicon glyphicon-remove"></span></button>
+                        </span>
+                    </div>
+                    <div class="dropdown" style="display: inline-block; vertical-align: top;">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                            Search By Organization
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            <li><a tabindex="-1" href="" class="link btn-link" ng-click="vm.SearchByOrganization(8)">BNI - The 4th Tier</a></li>
+                        </ul>
+                    </div>
+                    <div style="display: inline-block; vertical-align: top;">
+                        <div style="display: inline-block; vertical-align: top; cursor: pointer; margin: 4px 0; padding: 0 7px; border: solid 1pt silver; border-radius: 10px;">
+                            <input id="detailOff" type="radio" name="detailTogle" class="form-control with-font" ng-model="vm.CardOnly" ng-checked="vm.CardOnly === true" ng-value="true"/><label for="detailOff" class="css-label">Details</label>
+                        </div>
+                        <div style="display: inline-block; vertical-align: top; margin: 4px 0; cursor: pointer; padding: 0 7px; border: solid 1pt silver; border-radius: 10px;">
+                            <input id="detailOn" type="radio" name="detailTogle" class="form-control with-font" ng-model="vm.CardOnly" ng-checked="vm.CardOnly === false" ng-value="false"/><label for="detailOn" class="css-label">Thumbnails</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="jumbotron col-md-6 col-md-offset-2 alert alert-info" style="margin-top: 20px;" ng-if="vm.ShowPrivateEventMessage">
+        <h4>
+            This event is private and only those that attended the event and joined the event platform during the enrollment can view these Businesses.
+            If you believe that your card should be part of this event please <a href="mailto:busidex.help@gmail.com" target="_blank">contact support</a>.
+        </h4>
+    </div>
+    <div class="animate-repeat" ng-if="!vm.CardOnly">        
+        <div ng-include="'views/fragments/card.html'" ng-repeat="card in vm.model.SearchModel.Results"></div>
+    </div>
+    <div class="animate-repeat" ng-if="vm.CardOnly">
+        <div class="col-md-4 col-sm-6"
+             ng-include="'views/fragments/mybusidexcard.html'" 
+             ng-repeat="card in vm.model.SearchModel.Results"></div>
+    </div>
+</div>

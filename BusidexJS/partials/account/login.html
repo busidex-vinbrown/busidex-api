@@ -1,0 +1,35 @@
+﻿
+<form novalidate name="loginForm" class="well form-container" style="margin-top:40px;min-width:225px;">
+    <div style="float:left;width:250px;">
+        <div>
+            <label>User Name or Email</label>
+            <input ng-model="form.UserName" type="text" name="UserName" value="" />
+        </div>
+        <div>
+            <label>Password</label>
+            <input type="password" ng-model="form.Password" name="Password" value="" /><br/>
+            <input type="hidden" ng-model="form.Token"  name="Token" value="" />
+        </div>
+    </div>
+    <div style=" height: 90px; float: left;padding-top:40px;border-left: solid 1pt #ccc;">
+        <div>
+            <a href="#/account/usernamerecover" class="btn btn-link">Forgot my user name</a>
+        </div>
+        <div>
+            <a href="#/account/passwordrecover" class="btn btn-link">Forgot my password</a>
+        </div>
+    </div>
+    <div style="clear:both;" >
+        <div ng-show="!Waiting">
+            <input id="login" type="submit" value="Sign in" style="padding:6px" ng-click="sendForm()" ng-disabled="loginForm.$invalid" />
+            or <a href="#/account/register" class="btn btn-link" style="padding: 0;">register</a> if you don't have an account.
+        </div>
+        <img src="../../img/spinner.gif" ng-show="Waiting" ng-show="Waiting" />
+    </div>
+    <div class="alert alert-error" ng-show="LoginErrors.length > 0" ng-model="LoginErrors" style="margin-top:25px;">
+        <ul>
+            <li ng-repeat="error in LoginErrors">{{error}}</li>
+            <li class="italic">You can use your email or username to login</li>
+        </ul>
+    </div>    
+</form>

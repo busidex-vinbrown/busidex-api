@@ -1,0 +1,7 @@
+﻿<div class="card-container-outer">
+    <img ng-show="waiting === true" ng-class="{'spinner': waiting, {{orientationstyle}}: waiting}" src="../../images/spinner.gif" />
+    <div class="card-container" ng-class="{'waiting': waiting}">        
+        <img ng-show="cardsrc !== null" id="{{elementid}}" alt="" ng-class="orientationstyle" ng-src="{{cardsrc}}" />
+        <img ng-show="cardsrc === null" alt="" ng-class="orientationstyle" />
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model  List<Busidex.DAL.Suggestion>
+
+@{
+    ViewBag.Title = "Suggestions";
+    Layout = "~/Views/Shared/_BootstrapLayout.basic.cshtml";
+}
+
+@section Styles{
+    <style type="text/css">
+        body{ background-color: #9FB6CD;}
+    </style>
+}
+<h2>Tell us what you think!</h2>
+<p>
+    Have a cool idea? Want to see a feature that we haven't thought of? Tell us what it is and we'll put it on the To Do list.    
+</p>
+<div>
+    <form action="@Url.Action("AddSuggestion", "Busidex")" method="POST">
+        <label>What's your idea?</label><input type="text" id="newSuggestion" name="summary" style="width:400px;"/><br/>
+        <label>Details</label><textarea id="suggestionDetails" name="details" style="width:400px;height:45px;"></textarea><br/>
+        <input type="submit" class="btn btn-info" />
+    </form>
+</div>
+<hr/>
+<ul class="suggestionList">
+    @foreach (var suggestion in Model)
+    {
+        <li>
+            <div class="pull-left">
+                <div class="vote img-rounded">@suggestion.Votes</div>
+                <a href="@Url.Action("AddVote", "Busidex", new{suggestionId = suggestion.SuggestionId})" class="btn btn-info">Vote</a>
+            </div>
+            <div class="pull-left suggestionDetails">
+                <h4>@suggestion.Summary</h4>
+                <p>@suggestion.Details</p>
+            </div>
+        </li>
+    }
+</ul>

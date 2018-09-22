@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BusidexModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="usp_getAllCards" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="usp_getCardsByCompany" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="company" Type="varchar" Mode="In" />
+          <Parameter Name="latitude" Type="float" Mode="In" />
+          <Parameter Name="longitude" Type="float" Mode="In" />
+          <Parameter Name="radiusInMiles" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_getCardsByNameKeyword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="latitude" Type="float" Mode="In" />
+          <Parameter Name="longitude" Type="float" Mode="In" />
+          <Parameter Name="radiusInMiles" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="BusidexModelStoreContainer" />
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BusidexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="BusidexEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="usp_getAllCards" ReturnType="Collection(BusidexModel.usp_getAllCards_Result)" />
+          <FunctionImport Name="usp_getCardsByCompany" ReturnType="Collection(BusidexModel.usp_getCardsByCompany_Result)">
+            <Parameter Name="company" Mode="In" Type="String" />
+            <Parameter Name="latitude" Mode="In" Type="Double" />
+            <Parameter Name="longitude" Mode="In" Type="Double" />
+            <Parameter Name="radiusInMiles" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_getCardsByNameKeyword" ReturnType="Collection(BusidexModel.usp_getCardsByNameKeyword_Result)">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="latitude" Mode="In" Type="Double" />
+            <Parameter Name="longitude" Mode="In" Type="Double" />
+            <Parameter Name="radiusInMiles" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="usp_getAllCards_Result">
+          <Property Type="Int64" Name="CardId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="FrontType" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FrontOrientation" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="BackType" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="BackOrientation" Nullable="true" MaxLength="1" />
+          <Property Type="Boolean" Name="Searchable" Nullable="false" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="250" />
+          <Property Type="Int64" Name="CreatedBy" Nullable="true" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
+          <Property Type="Boolean" Name="Deleted1" Nullable="false" />
+          <Property Type="Int64" Name="OwnerId" Nullable="true" />
+          <Property Type="Guid" Name="FrontFileId" Nullable="true" />
+          <Property Type="Guid" Name="BackFileId" Nullable="true" />
+          <Property Type="DateTime" Name="Created" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="Updated" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="usp_getCardsByCompany_Result">
+          <Property Type="Int64" Name="CardId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="FrontType" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FrontOrientation" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="BackType" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="BackOrientation" Nullable="true" MaxLength="1" />
+          <Property Type="Boolean" Name="Searchable" Nullable="false" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="250" />
+          <Property Type="Int64" Name="CreatedBy" Nullable="true" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
+          <Property Type="Boolean" Name="Deleted1" Nullable="false" />
+          <Property Type="Int64" Name="OwnerId" Nullable="true" />
+          <Property Type="Guid" Name="FrontFileId" Nullable="true" />
+          <Property Type="Guid" Name="BackFileId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="usp_getCardsByNameKeyword_Result">
+          <Property Type="Int64" Name="CardId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="FrontType" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="FrontOrientation" Nullable="true" MaxLength="1" />
+          <Property Type="String" Name="BackType" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="BackOrientation" Nullable="true" MaxLength="1" />
+          <Property Type="Boolean" Name="Searchable" Nullable="false" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="250" />
+          <Property Type="Int64" Name="CreatedBy" Nullable="true" />
+          <Property Type="Boolean" Name="Deleted" Nullable="false" />
+          <Property Type="Boolean" Name="Deleted1" Nullable="false" />
+          <Property Type="Int64" Name="OwnerId" Nullable="true" />
+          <Property Type="Guid" Name="FrontFileId" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BusidexModelStoreContainer" CdmEntityContainer="BusidexEntities" >
+          <FunctionImportMapping FunctionImportName="usp_getAllCards" FunctionName="BusidexModel.Store.usp_getAllCards">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BusidexModel.usp_getAllCards_Result">
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FrontType" ColumnName="FrontType" />
+                <ScalarProperty Name="FrontOrientation" ColumnName="FrontOrientation" />
+                <ScalarProperty Name="BackType" ColumnName="BackType" />
+                <ScalarProperty Name="BackOrientation" ColumnName="BackOrientation" />
+                <ScalarProperty Name="Searchable" ColumnName="Searchable" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Deleted1" ColumnName="Deleted1" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="FrontFileId" ColumnName="FrontFileId" />
+                <ScalarProperty Name="BackFileId" ColumnName="BackFileId" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_getCardsByCompany" FunctionName="BusidexModel.Store.usp_getCardsByCompany">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BusidexModel.usp_getCardsByCompany_Result">
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FrontType" ColumnName="FrontType" />
+                <ScalarProperty Name="FrontOrientation" ColumnName="FrontOrientation" />
+                <ScalarProperty Name="BackType" ColumnName="BackType" />
+                <ScalarProperty Name="BackOrientation" ColumnName="BackOrientation" />
+                <ScalarProperty Name="Searchable" ColumnName="Searchable" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Deleted1" ColumnName="Deleted1" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="FrontFileId" ColumnName="FrontFileId" />
+                <ScalarProperty Name="BackFileId" ColumnName="BackFileId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_getCardsByNameKeyword" FunctionName="BusidexModel.Store.usp_getCardsByNameKeyword">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BusidexModel.usp_getCardsByNameKeyword_Result">
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FrontType" ColumnName="FrontType" />
+                <ScalarProperty Name="FrontOrientation" ColumnName="FrontOrientation" />
+                <ScalarProperty Name="BackType" ColumnName="BackType" />
+                <ScalarProperty Name="BackOrientation" ColumnName="BackOrientation" />
+                <ScalarProperty Name="Searchable" ColumnName="Searchable" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Deleted" ColumnName="Deleted" />
+                <ScalarProperty Name="Deleted1" ColumnName="Deleted1" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="FrontFileId" ColumnName="FrontFileId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

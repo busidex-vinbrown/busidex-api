@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<style type="text/css">
+    p.about {
+        height: auto;
+        font-size: 36px;
+        line-height: 40px;
+        vertical-align: middle;
+        padding: 50px 10px;
+        color: #444444;
+        
+    }
+        p.about a {
+            font-size: 36px;
+            line-height: 40px;
+        }
+    div.connector {
+        background-image: url('../../images/path.png');
+        background-repeat: no-repeat;
+        background-position: 47%;
+        height: 450px;
+        opacity: .7;
+        width: 100%;
+    }
+    div.flip {
+        background-image: url('../../images/path2.png');
+        background-position: 53%;
+    }
+</style>
+
+<p class="about">
+    <strong>What is Busidex?</strong> Busidex is a new way to keep up to date and in sync with your business contacts. 
+    When your information changes, all your contacts will know about it. And likewise, you'll know when 
+    they change theirs.
+</p>
+<div class="connector"></div>
+<p class="about">
+    <strong>Imagine</strong> all the people you gave your business card to, add onto that anyone else that might have given your 
+    card to others because you did a great job.  Unfortunately many of us will not have the same business 
+    card that we had a year ago.  If you had your picture on your business card you most likely have a new 
+    picture, you might have move to another location, added a toll-free number or changed your phone number.<br/><br/> 
+    Even though we have Facebook, Twitter, and  LinkedIn we still carry that little business card and we 
+    still give it out.  Not everyone is our friend. Not everyone wants to follow us and we might not want to be linked to them.
+    We give our business card to anyone that might use us and they do not have to have anything in common 
+    with us.
+</p>
+<div class="connector flip"></div>
+<p class="about">
+    <strong>So what does Busidex do for you?</strong> It makes sure that everyone that you gave your business card has your 
+    current card. 
+</p>
+<div class="connector"></div>
+<p class="about">
+    <strong>What else does Busidex do for you?</strong> It organizes you.  You can take all those business cards that 
+    others gave you and add them to your own Busidex collection. Better yet, if they have an account, just 
+    grab their card off of Busidex and add it to your collection with one click. 
+    @*The best part is that as soon as you put it in your 
+    Busidex, Busidex will automatically send an email to the owner of the card to verify that you have 
+    their current business card. Now you don't have to do anything if they upload a new card it will 
+    automatically update the card in your Busidex.*@
+    Now you're guaranteed to have all your contacts current without doing a thing.
+</p>
+<div class="connector flip"></div>
+<p class="about">
+    <strong>How can Busidex help your business grow?</strong> With everything out there why would you need something else? 
+    Here’s why. Busidex gives you privacy. You love your clients, but they are not family nor are they 
+    your intimate  friends.  You want to grow your business relationship but not *be* in everyone's 
+    business. Busidex can help because all you are doing is sharing your business card so anyone that 
+    needs your service will have it at hand and if they recommend you they can share your card. Now your 
+    card is being passed around, and if you change your card everyone who has it and everyone that 
+    received a recommendation has your updated information. 
+</p>
+<div class="connector"></div>
+<p class="about">
+    We’ve all written little notes in the back of the business card just to remind you of something or how you got 
+    their card. With Busidex, you can still do that, and even if you share the card you don’t have to worry about your 
+    comments being shared along with it.  
+</p>
+<div class="connector flip"></div>
+<p class="about">
+    Want to refer a professional to your clients? You can relate cards and share all of the 
+    individual’s cards you work with and now your client has your card as well as all the contact 
+    information of those that will be involve in helping you accomplish the job. 
+</p>
+<p class="about" style="text-align: center">
+    @Html.ActionLink("Ready to get started?", "Register", "Account", null, new{role="button", @class="btn btn-link"})
+</p>

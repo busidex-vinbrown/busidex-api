@@ -1,0 +1,73 @@
+﻿@model AddOrEditCardModel
+@using System.Configuration
+@using System.Web.Optimization
+@using Busidex.DAL;
+@using Busidex4.Helpers
+
+@{
+    ViewBag.Title = "Add";
+    var errors = Model.ModelErrors as AddOrUpdateCardErrors ?? new AddOrUpdateCardErrors();
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];
+}
+
+@section Styles{
+    @Styles.Render("~/Content/addcard")
+}
+@section Scripts{
+    @Scripts.Render("~/Scripts/addcard")
+}
+<div class="alert alert-error fade in" >
+    <button type="button" class="close" >x</button>
+    <span id="errorMessage"></span>            
+</div>
+<script type="text/javascript">
+    $( document ).ready( function ()
+    {
+        $(document).on("click", '.SelectExistingCard', function () {
+            $( ".submitExisting").attr( "disabled", "disabled" );
+            if ( $( this ).is( ":checked" ) )
+            {
+                $( ".submitExisting[cardId=" + $( this ).val() + "]" ).removeAttr( "disabled" );
+            } 
+        } );
+
+        $( ".validation-summary-errors" ).append( $( "#existingCards" ).hide().clone().show() );
+    } );
+</script>
+
+<div>
+    @Html.ValidationSummary("Please correct the following problems and try again.", new { @class = "errors" })
+
+    @if (errors.ExistingCards.Count > 0) {
+        
+        <form action="" method="post" id="existingCards">
+            <div>
+                <table class="existingCards">
+                    <tbody>
+                        @foreach (Card c in errors.ExistingCards) {
+                            <tr>
+                                <td><input type="radio" class="SelectExistingCard" name="SelectExistingCard" value="@c.CardId" /></td>
+                                <td class="existingInfo">@c.Name<br/>@( c.PhoneNumbers.Count > 0 ? CardHelper.FormatPhoneNumber( c.PhoneNumbers.First().Number ) : string.Empty )</td>
+                                <td><img src="@(cdnPath + c.FrontFileId + ".jpg")" /></td>
+                                <td><input cardId="@c.CardId" class="submitExisting" disabled="disabled" type="submit" value="Use this card" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form> 
+    }
+</div>
+
+<div class="uploadForm">
+   
+    <img src="" style="display:none" id="imgFrontReset" />
+    <img src="" style="display:none" id="imgBackReset" />        
+
+    @Html.Partial("_AddOrEdit", Model, ViewData)
+        
+    <div id="fileSizeInfoMessage">
+        @ViewData["FileSizeInfoContent"]
+        <label class="ClosePopup">Close</label>
+    </div>
+</div>

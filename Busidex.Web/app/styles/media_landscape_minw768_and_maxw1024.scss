@@ -1,0 +1,68 @@
+﻿/* iPads (landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape){
+/* Styles */
+    div.section.frame1 {
+        a.logo {
+            left: 5px;
+        }
+
+        div.links {
+            left: 490px;
+        }
+
+        /*span.title {
+            left: 30px;
+            top: 190px;
+        }*/
+
+        ul {
+            left: 0;
+        }
+
+        div.storelinks {
+            left: 34px;
+        }
+
+        div.image-right-side {
+            left: 550px;
+        }
+    }
+
+    div.section.frame4 {
+
+        div.blocks {
+            top: 100px;
+        }
+
+        div.title-block {
+            top: 108px;
+        }
+    }
+
+    div.section.frame5 {
+
+        div.title-block {
+            top: 50px;
+        }
+
+        .details{
+            top: 250px;
+        }
+    
+        div.registerContainer{
+            top: 390px;
+        }
+
+        div.storelinks {
+            top: 510px;
+        }
+
+        div.imgRightSide{
+            bottom: 0;
+            left: 660px;
+        }
+    }
+}

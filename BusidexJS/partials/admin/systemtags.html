@@ -1,0 +1,13 @@
+﻿<admin-menu></admin-menu>
+<div class="adminDiv">
+    <div>
+        <label>New Tag:</label><input type="text" ng-model="NewTag" /><input class="btn btn-info" type="button" ng-click="AddSystemTag()" value="Add Tag" />
+        <hr/>
+        <h2>System Tags</h2>
+        <ul>
+            <li ng-repeat="tag in SystemTags">
+                <h4>{{tag.Text}}</h4>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+﻿<div class="mb-card-container" style="padding:10px;">
+    <div ng-class="{'card-container manual-flip': true, 'hover': !card.ShowFront }">
+        <div class="card">
+            <div class="front" ng-class="{'showMe': card.ShowFront}">
+                <div class="cover">
+                    <div ng-show="vm.User !== null">
+                        <i class="remove-link fa fa-times pull-right"
+                           ng-if="card.ShowRemove"
+                           ng-click="vm.RemoveCard(card.CardId, vm.User.UserId)">
+                            <span style="position:absolute;z-index: 3;">REMOVE</span>
+                        </i>
+                        <i class="share-link fa fa-share pull-right"
+                           ng-if="!vm.CardIsInSharingCart(card.CardId)"
+                           ng-click="vm.AddSharedCard(card)">
+                            <span style="position:absolute;z-index: 3;">SHARE</span>
+                        </i>
+                        <img src="https://az381524.vo.msecnd.net/images/rotating_card_thumb2.png">
+                        
+                    </div>
+                </div>
+
+                <div ng-class="{'user': true, 'v_thumbnail': card.FrontOrientation === 'V', 'h_thumbnail': card.FrontOrientation === 'H'}">
+                    <img ng-class="card.FrontOrientationClass"
+                         ng-click="vm.showPopup(card)"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{::card.FrontFileId}}.{{::card.FrontType.replace('.','')}}">
+                </div>
+                <div class="content">
+                    <div class="main">
+                        <h3 ng-class="{'name': true, 'v_thumbnail': card.FrontOrientation === 'V', 'h_thumbnail': card.FrontOrientation === 'H'}">
+                            &nbsp;{{::card.Name}}&nbsp;
+                        </h3>
+                        <p ng-class="{'profession': true, 'v_thumbnail': card.FrontOrientation === 'V' }">&nbsp;{{::card.Title}}&nbsp;</p>
+                        <div class="col-md-7 col-sm-4">
+                            <h5 ng-if="card.Address.Display().trim().length > 0">
+                                <i class="fa fa-map-marker fa-fw text-muted"></i> <a target="_blank" ng-href="{{::card.MapInfo}}">{{::card.Address.Display()}}</a>
+                            </h5>
+                            <h5 ng-if="card.CompanyName !== null">
+                                <i class="fa fa-building-o fa-fw text-muted"></i> {{::card.CompanyName}}
+                            </h5>
+                            <h5 ng-if="card.Email !== null">
+                                <i class="fa fa-envelope-o fa-fw text-muted"></i> <a target="_blank" ng-href="mailto:{{::card.Email}}">{{::card.Email}}</a>
+                            </h5>
+                            <h5 ng-if="card.Url !== null">
+                                <i class="fa fa-globe fa-fw text-muted"></i> <a target="_blank" ng-href="http://{{::card.Url.replace('http://','')}}">{{::card.Url}}</a>
+                            </h5>
+                        </div>
+                        <div class="col-md-5 col-sm-6">
+                            <h5 ng-repeat="p in card.PhoneNumbers">
+                                <a href="tel:{{::p.Number}}">{{::p.Number}}</a> <span class="text-muted">({{::p.PhoneNumberType.Name}})</span>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="footer">
+                        <button class="btn btn-simple" ng-click="vm.rotateCard(card)">
+                            <i class="fa fa-mail-forward"></i> Details
+                        </button>
+                    </div>
+                </div>
+
+                <div ng-if="vm.ShowBusidexIcon && vm.User !== null">
+                    <img title="Add To My Busidex" class="card-icon pull-right" ng-if="!card.ExistsInMyBusidex" src="https://az381524.vo.msecnd.net/images/add.png" ng-click="vm.AddToMyBusidex(card)" />
+                    <img title="This card is in My Busidex" class="card-icon pull-right" ng-if="card.ExistsInMyBusidex" src="https://az381524.vo.msecnd.net/images/busidex_icon_100x100.png" />
+                </div>
+            </div> <!-- end front panel -->
+            <div class="back" ng-class="{'showMe': !card.ShowFront}">
+                <div class="cover">
+                    <img src="https://az381524.vo.msecnd.net/images/rotating_card_thumb2.png">
+                </div>
+                <!--<div class="header">-->
+                <div ng-class="{'user': true, 'v_thumbnail': card.FrontOrientation === 'V', 'h_thumbnail': card.FrontOrientation === 'H'}">
+                    <img ng-if="card.BackType !== null && card.BackFileId !== 'b66ff0ee-e67a-4bbc-af3b-920cd0de56c6'"
+                         ng-class="card.BackOrientationClass"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{::card.BackFileId}}.{{::card.BackType.replace('.','')}}">
+                    <img ng-if="card.BackType === null || card.BackFileId === 'b66ff0ee-e67a-4bbc-af3b-920cd0de56c6'"
+                         ng-class="card.FrontOrientationClass"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{::card.FrontFileId}}.{{::card.FrontType.replace('.','')}}">
+                </div>
+                <div class="content">
+                    <div class="main">
+                        &nbsp;
+                        <div ng-if="card.ShowNotes">
+                            <h4 ng-class="{'text-center': true, 'v_thumbnail': card.FrontOrientation === 'V' }">Notes</h4>
+                            <textarea style="width:100%;" ng-change="vm.EditNotes(card)" ng-model="card.Notes"
+                                      ng-class="card.FrontOrientationClass">
+                                {{card.Notes}}
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <button class="btn btn-simple" rel="tooltip" title="" ng-click="vm.rotateCard(card)" data-original-title="Flip Card">
+                        <i class="fa fa-reply"></i> Back
+                    </button>
+                </div>
+            </div> <!-- end back panel -->
+
+        </div> <!-- end card -->
+    </div> <!-- end card-container -->
+</div>

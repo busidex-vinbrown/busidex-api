@@ -1,0 +1,26 @@
+﻿[
+  {
+    "outputFile": "app/styles/filepicker.css",
+    "inputFile": "app/styles/filepicker.scss"
+  },
+  {
+    "outputFile": "app/styles/main.css",
+    "inputFile": "app/styles/main.scss"
+  },
+  {
+    "outputFile": "app/styles/media_minw1080.css",
+    "inputFile": "app/styles/media_minw1080.scss"
+  },
+  {
+    "outputFile": "app/styles/media_minw1224.css",
+    "inputFile": "app/styles/media_minw1224.scss"
+  },
+  {
+    "outputFile": "app/styles/media_minw1824.css",
+    "inputFile": "app/styles/media_minw1824.scss"
+  },
+  {
+    "outputFile": "app/styles/media_iphone4.css",
+    "inputFile": "app/styles/media_iphone4.scss"
+  }
+]

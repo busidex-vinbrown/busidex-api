@@ -1,0 +1,87 @@
+﻿<div class="myBusidex row" style="margin-top:20px;">&nbsp;</div>
+<img src="../../img/spinner.gif" ng-show="Waiting" />
+<div class="well" ng-show="$root.MyBusidex.length == 0 && !Waiting && !Error">
+   Only cards in your Busidex collection will be shown here. You can add cards by clicking "Find a Card" from the menu.
+</div>
+<div class="well alert alert-error" ng-show="Error">
+    There was a problem getting your cards.
+</div>
+<input type="button" value="" style="position: absolute;left:-100px;" ng-click="data.ShowMore(3)" when-scrolled="go" />
+<div>
+    <div ng-repeat="card in $root.MyBusidex | filter:SearchFilter.SearchFilters | limitTo: data.TotalToShow" class="detailRow row"
+         tags="{{card.Card.TagList.ToLowerCase()}}"
+         cardname="{{card.Card.Name.toLowerCase()}}"
+         email="{{card.Card.Email}}"
+         cardid="{{card.CardId}}"
+         company="{{card.Card.CompanyName.toLowerCase()}}"
+         ng-model="data.TotalToShow">
+
+        <div class="row">
+            <div class="span12 cardActions" ng-show="card.ShowControls">
+                <a ng-show="card.Card.ShowEdit" href="#/card/edit/{{card.CardId}}" title="Edit"><i class="icon-edit"></i></a>
+                <a ng-href="#/card/details/{{card.CardId}}" title="Details" ng-click="AddActivity($root.EventSources.DETAILS, card.Card.CardId)"><i class="icon-zoom-in"></i></a>
+                <a ng-click="RemoveCard($root.MyBusidex, card)" class="removeCard" cardid="{{card.CardId}}" title="Remove From MyBusidex"><i class=" icon-remove"></i></a>
+                <a ng-click="setShowControls($root.MyBusidex, card, false)" class="removeCover">&nbsp;</a>
+            </div>
+        </div>
+        <div style="position: absolute;z-index: 2;" ng-show="$root.IsSharing">
+            <input type="checkbox" class="sharedCard" cardid="{{card.CardId}}" ng-model="card.Share" />
+        </div>
+        <div class="span3" ng-click="setShowControls($root.MyBusidex, card, true)">
+            <a idx="{{card.CardId}}">
+                <img ng-src="{{card.Card.IconPath}}" class="{{card.Card.IconClass}}" title="{{card.Card.IconTitle}}" alt="" />
+                <img alt="{{card.Card.Name}}" ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType.replace('.','')}}"
+                     cardid="{{card.CardId}}" class="{{card.OrientationClass}}" style="position:relative" />
+            </a>
+        </div>
+        <div class="span9 cardInfo">
+            <div class="row">
+                <div class="span4" ng-click="setShowControls(card, true)">
+                    <strong>{{card.Card.Name}}</strong>
+                    <span class="label">{{card.Card.CompanyName}}</span>
+                    <div>
+                        <label ng-repeat="phone in card.Card.PhoneNumbers">{{phone.Number}}</label>
+                        <a ng-href="mailto:{{card.Card.Email}}"
+                           ng-click="AddActivity($root.EventSources.EMAIL, card.Card.CardId)"
+                           target="_blank">{{card.Card.Email}}</a>
+                        <br />
+                        <a ng-href="{{'http://' + card.Card.Url}}" target="_blank" ng-click="AddActivity($root.EventSources.WEBSITE, card.Card.CardId)">{{card.Card.Url}}</a>
+                    </div>
+                    <div>
+                        <a ng-show="card.Card.Addresses != null && card.Card.Addresses.length > 0 && card.Card.Addresses[0].Display().trim().length > 0"
+                           ng-href="{{card.Card.MapInfo}}"
+                           ng-click="AddActivity($root.EventSources.MAP, card.Card.CardId)"
+                           target="_blank">Map</a>
+                    </div>
+                </div>
+                <div class="span4 Notes">
+                    <notes card="card"></notes>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="clear: both">&nbsp;</div>
+<div id="cardPopup" class="cardPopup">
+    <div class="popupHeader">
+        <a href="#/card/edit/{{$scope.MyBusidex.CardId}}" id="editCard">Edit</a>
+        <a href="#" id="removeCard">Remove</a>
+        <span id="closePopup">Close X</span>
+    </div>
+</div>
+<div id="SharedCardPopup" class="modal hide fade" role="dialog">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="ToggleSharing()" data-dismiss="modal">&times;</button>
+        <h3>Share your cards</h3>
+    </div>
+    <div class="modal-body">
+        <label>Email:</label><input type="email" ng-model="ShareWithEmail" id="shareWithEmail" style="width: 200px;" />
+    </div>
+    <div class="modal-footer">
+        <a class="btn" ng-click="ToggleSharing()" data-dismiss="modal">Close</a>
+        <a id="sendShared" class="btn btn-primary" ng-click="share()" data-dismiss="modal">Send</a>
+    </div>
+</div>
+<script type="text/javascript">
+    ga('send', 'pageview');
+</script>

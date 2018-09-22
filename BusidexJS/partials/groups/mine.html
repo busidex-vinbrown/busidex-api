@@ -1,0 +1,82 @@
+﻿
+<style type="text/css">
+    html, body {
+        background: #fff;
+        min-height: 100%;
+    }
+    div.sideNav{ z-index: 1;}
+    .addressInfo span {
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+    }
+
+    .workArea ul {
+        margin-left: 0;
+    }
+
+    div.well {
+        margin-top: 20px;
+    }
+
+    h1.workAreaTitle {
+        margin-left: 40px;
+        width: 80%;
+        padding: 13px;
+    }
+    
+    .v_preview, .h_preview {
+        margin: 8px;
+        border: solid 1pt #ddd;
+    }
+    .workArea {
+        width: 95%;
+        margin-left: 0;
+    }
+    footer {
+        position: fixed;
+        bottom: 0;
+    }
+</style>
+
+<!--NAVIGATION-->
+<div class="sideNav">
+    <ul id="Sidebar">
+        <li>
+            <a href="#/groups/create" id="addGroup">Add a Group +</a>
+        </li>
+        <li ng-repeat="group in Groups" ng-class="{selected: Tabs[group.Description]}">
+            <h4 style="margin:0;">
+                <a ng-click="GetGroup(group.GroupId)">{{group.Description}}</a>
+            </h4>
+        </li>
+    </ul>
+</div>
+<div style="background: #fff;width:100%;margin-left:150px;overflow: auto;">    
+    <div class="workArea account-workArea" >
+        <h2 id="groupHeader" ng-show="Group.GroupId > 0">
+            {{Group.Description}}
+            <a class="btn btn-primary" ng-href="#/groups/edit/{{Group.GroupId}}">Edit</a>
+            <a class="btn btn-danger" ng-click="DeleteGroup(Group.GroupId)">Delete</a>
+            <a class="btn btn-link" ng-href="{{Group.EmailLink}}">Email The Group</a>
+        </h2>
+        <h2 ng-show="Group.GroupId == null">
+            You haven't added any groups yet
+        </h2>
+        <a ng-repeat="card in Cards | filter:SearchFilter.SearchFilters" ng-href="#/card/details/{{card.Card.CardId}}">
+            <img alt="{{card.Name}}"
+                 ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType}}"
+                 ng-show="(ShowSelectedOnly && card.Card.Selected) || !ShowSelectedOnly"
+                 cardid="{{card.Card.CardId}}"
+                 class="{{card.OrientationClass}}"
+                 ng-model="card.Card.Selected"
+                 style="position:relative"
+                 company="{{card.Card.CompanyName.toLowerCase()}}"
+                 tags="{{card.Card.TagList.ToLowerCase()}}"
+                 phone=""
+                 email="{{card.Card.Email}}"
+                 cardname="{{card.Card.Name.toLowerCase()}}" />
+        </a>
+    </div>
+</div>
+       

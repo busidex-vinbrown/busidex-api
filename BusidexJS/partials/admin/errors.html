@@ -1,0 +1,10 @@
+﻿<admin-menu></admin-menu>
+<div class="adminDiv">
+    <div>
+        <input class="btn btn-info" type="button" ng-click="LoadErrors()" value="Refresh" />
+        <small>Total errors in the past <select class="input-mini" ng-model="ErrorsDaysBack" ng-options="d for d in ErrorsDays"></select> days</small>
+        <div class="errorGrid" ng-grid="errorGridOptions">
+
+        </div>
+    </div>
+</div>

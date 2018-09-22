@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xsi:schemaLocation="BingMapKeyDetailsReport http://cloudcrmphxsrs/ReportServer?%2FBingMapsPlatform_MSCRM%2FBingMapKeyDetailsReport&amp;rs%3ACommand=Render&amp;rs%3AFormat=XML&amp;rs%3ASessionID=xyye0tqdrf0ltyf1ipc0zf24&amp;rc%3ASchema=True" 
+        Name="BingMapKeyDetailsReport" 
+        UsageReportByKeys="Bing Maps Keys associated with Account Id 1189020:" 
+        txtNoRecordsMsg="No Keys are associated with Account Id 1189020." 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns="BingMapKeyDetailsReport">
+  <Tablix1>
+    <Details_Collection>
+      <Details Application_Name="Busidex" Key="Ahd6VhfI4p_uTikyY90adnwso4NgHUYXuuhOJZz0gs6bPdkGNpb8IpEbFBwwq7TH" KeyType="Basic / Public website" Application_URL="http://www.busidex.com" />
+      <Details Application_Name="Busidex TEST" Key="AlKYWDI1LmWFbEwmtqJSq-4X9hUq05AtHBkYRvWDdKiR6XcNZEKzAcSywdu8mAkS" KeyType="Basic / Public website" Application_URL="http://local.busidex.com" />
+    </Details_Collection>
+  </Tablix1>
+</Report>

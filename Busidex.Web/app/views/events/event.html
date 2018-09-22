@@ -1,0 +1,76 @@
+﻿<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+
+<div class="container-fluid search-container my-busidex" ng-controller="EventController as vm">
+    <div class="jumbotron col-md-6 col-md-offset-4 alert alert-info" style="margin-top: 20px;" ng-if="vm.ShowPrivateEventMessage">
+        <h4>
+            This event is private and only those that attended the event and joined the event platform during the enrollment can view these Businesses.
+            If you believe that your card should be part of this event please <a href="mailto:busidex.help@gmail.com" target="_blank">contact support</a>.
+        </h4>
+    </div>
+    <div class="container-fluid my-busidex">
+        
+	    <div ng-if="vm.ten" class="jumbotron col-md-3 event-description event-placeholder" style="position: fixed; margin-left: 25px; margin-top: 20px;">
+		    <img src="/images/ten.jpg" style="height: 165px; width: 200px;" />
+
+		    <p col-sm-4>
+			    <label>Saturday, June 12 2017 5:30p.m.</label>
+			    <address style="font-size: 18px;">
+				    <strong>Sprout RI</strong><br />
+				    166 Valley Street<br />
+				    Building 6M<br />
+                  Providence, RI 02909
+			    </address>
+		    </p>
+	    </div>
+
+	    <div ng-if="vm.osbe" class="jumbotron col-md-3 event-description event-placeholder" style="position: fixed; margin-left: 25px; margin-top: 20px;">
+            <img src="/images/osbe.jpg" style="height: 165px; width: 200px;" />
+
+            <p col-sm-4>
+                <label>Thursday, September 29th 2016</label>
+                <address style="font-size: 18px;">
+                    <strong>Crowne Plaza</strong><br />
+                    801 Greenwich Avenue<br />
+                    Warwick, RI 02886
+                </address>
+            </p>
+            <p>
+                <a href ng-click="vm.showTerms()">Raffle Terms and Conditions</a>
+            </p>
+        </div>
+        <div ng-if="vm.rina" class="jumbotron col-md-3 event-description event-placeholder" style="position: fixed; margin-left: 25px; margin-top: 20px;">
+            <img src="/images/NaturalAwakeningsLogo.png" style="height: 95px; margin-bottom: 30px;" />
+
+            <p col-sm-4>
+                <label>Tuesday, September 6th 2016 5:00-7:00PM</label>
+                <address style="font-size: 18px;">
+                    <strong>Massage Envy - Providence</strong><br />
+                    229 Waterman Street<br />
+                    Providence, RI 02906
+                </address>
+            </p>
+        </div>
+        <div class="col-lg-offset-4">
+            <div style="display: inline-block; vertical-align: top;">
+                <div style="display: inline-block; vertical-align: top; cursor: pointer; margin: 4px 0; padding: 0 7px; border: solid 1pt silver; border-radius: 10px;">
+                    <input id="detailOff" type="radio" name="detailTogle" class="form-control with-font" ng-model="vm.CardOnly" ng-checked="vm.CardOnly === true" ng-value="true" /><label for="detailOff" class="css-label">Details</label>
+                </div>
+                <div style="display: inline-block; vertical-align: top; margin: 4px 0; cursor: pointer; padding: 0 7px; border: solid 1pt silver; border-radius: 10px;">
+                    <input id="detailOn" type="radio" name="detailTogle" class="form-control with-font" ng-model="vm.CardOnly" ng-checked="vm.CardOnly === false" ng-value="false" /><label for="detailOn" class="css-label">Thumbnails</label>
+                </div>
+            </div>
+            <div class="animate-repeat" ng-if="!vm.CardOnly">
+                <div ng-include="'views/fragments/card.html'" ng-repeat="card in vm.model.SearchModel.Results"></div>
+            </div>
+            <div class="animate-repeat" ng-if="vm.CardOnly">
+                <div class="col-md-4 col-sm-6"
+                     ng-include="'views/fragments/mybusidexcard.html'"
+                     ng-repeat="card in vm.model.SearchModel.Results"></div>
+            </div>
+        </div>
+    </div>
+</div>

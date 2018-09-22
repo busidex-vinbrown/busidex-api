@@ -1,0 +1,30 @@
+﻿@using Busidex4.Models
+@model Busidex.DAL.UserAccountModel
+
+@{
+    ViewBag.Title = "RegistrationComplete";
+    ViewBag.FormAction = "Login";
+    bool? validToken = ViewBag.ValidToken ?? false;
+}
+
+@if (validToken.GetValueOrDefault())
+{
+    <h2>Your registration is complete!</h2>
+    <h3 style="margin-top:20px; margin-bottom:20px;">@Model.Email Welcome to Busidex!</h3>
+    <p style="margin-top:10px; margin-bottom:10px;font-size:1.2em;width:90%;">
+        Your account has been activated! All cards under your ownership will now be searchable.  You may change, update, and add 
+        other cards.  Please remember that only the cards of which you claim ownership will be searchable. (It is against the @Html.ActionLink("terms of use", "TermsOfService", "Home") to take 
+        ownership of any card that is not yours)
+    </p>
+    <p style="margin-top:10px; margin-bottom:20px;font-size:1.2em;width:90%;">
+        NOTE:  During our Beta Testing all accounts are free.  You will be notified when we are no longer doing any 
+        beta testing at which time you will have the option to unsubscribe.
+    </p>
+    @Html.Partial("Login", new LoginModel())
+}else
+{
+    <p>
+        It seems there was a problem retrieving your account. Please verify that the token: @Model.UserAccount.ActivationToken is the same 
+        one that appeared in your confirmation email.
+    </p>
+}

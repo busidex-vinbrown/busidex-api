@@ -1,0 +1,34 @@
+﻿<nav class="navbar navbar-inverse navbar-fixed-top" ng-controller="HeaderController as vm" ng-show="vm.ShowHeader">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span style="color:#558c99;">MENU</span>
+            </button>
+            <a class="navbar-brand" ng-href="#/main"><img src="https://az381524.vo.msecnd.net/images/busidex_logo_hor.png" style="height:50px;" /></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" nav-collapse> 
+            <ul class="nav navbar-nav">
+                <li><a ng-href="#/main">HOME</a></li>
+                <li ng-show="vm.LoggedIn"><a ng-href="#/card/search" ng-class="{'selected': vm.ItemIndex === 0 }">SEARCH</a></li>
+                <li ng-show="vm.LoggedIn"><a ng-href="#/busidex/mine" ng-class="{'selected': vm.ItemIndex === 1 }">MY BUSIDEX</a></li>
+                <li ng-show="vm.LoggedIn && vm.User.CardId !== undefined"><a ng-class="{'selected': vm.ItemIndex === 2 }" ng-href="#/card/mine">MY CARD</a></li>
+                <li ng-show="vm.LoggedIn"><a ng-href="#/groups/mine" ng-class="{'selected': vm.ItemIndex === 3 }">GROUPS</a></li>
+                <li ng-show="vm.LoggedIn && vm.User.Organizations.length > 0" class="dropdown">
+                    <a class="dropdown-toggle" ng-class="{'selected': vm.ItemIndex === 6 }" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">MEMBERSHIPS <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="org in vm.User.Organizations">
+                            <a class="dropdown-item" href="https://org.busidex.com/start/{{org.Item2}}">{{org.Item1}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a ng-href="#/faq" ng-class="{'selected': vm.ItemIndex === 4 }">QUESTIONS</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ng-show="vm.LoggedIn && vm.notifications.length > 0"><span notifications></span></li>
+                <li ng-show="vm.LoggedIn && vm.count > 0"><span shared-cart></span></li>
+                <li><a ng-href="#/account/mine" ng-class="{'selected': vm.ItemIndex === 5 }">{{vm.User.DisplayName}}</a></li>
+                <li><a ng-href="{{vm.LoginRoute}}">{{vm.LoginText}}</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>

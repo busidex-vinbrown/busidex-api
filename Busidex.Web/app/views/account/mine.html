@@ -1,0 +1,204 @@
+﻿
+<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+<div class="container-fluid" ng-controller="AccountController as vm">
+
+    <!--VALIDATION MESSAGES-->
+    <div ng-class="{'animate-alert': vm.Saved}" class="alert-feedback">
+        <div class="alert alert-success" style="text-align: center;">
+            <button type="button" class="close" ng-click="vm.Saved = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2>Saved!</h2>
+            <h4>{{vm.SavedMessage}}</h4>
+        </div>
+    </div>
+    <div ng-class="{'animate-alert': vm.Error}" class="alert-feedback">
+        <div class="alert alert-danger" style="text-align: center;">
+            <button type="button" class="close" ng-click="vm.Error = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2>There was a problem</h2>
+            <h4>{{vm.ErrorMessage}}</h4>
+        </div>
+    </div>
+
+    <!--ACCOUNT INFO-->
+    <div class="well col-md-6 col-md-offset-3">
+        <h2>CONTACT INFORMATION</h2>
+        <form id="userDataForm" name="userDataForm" autocomplete="off" novalidate>
+            <input type="hidden" name="UserId" ng-model="vm.AccountInfoModel.UserInfo.UserId" />
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="Email">Email</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="Email" id="Email" ng-model="vm.AccountInfoModel.UserInfo.Email" valid-form />
+                    </div>
+                </div>
+                <h3>Address Information</h3>
+                            
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="Address1">Address1</label> 
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="Address1" id="Address1" ng-model="vm.AccountInfoModel.UserInfo.Address.Address1" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="Address2">Address2</label>  
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="Address2" id="Address2" ng-model="vm.AccountInfoModel.UserInfo.Address.Address2" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="City">City</label>  
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="City" id="City" ng-model="vm.AccountInfoModel.UserInfo.Address.City" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="State">State</label>  
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="State" id="State" ng-model="vm.AccountInfoModel.UserInfo.Address.State" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="ZipCode">Zip Code</label> 
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="ZipCode" id="ZipCode" ng-model="vm.AccountInfoModel.UserInfo.Address.ZipCode" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" class="col-sm-2 control-label" for="Region">Region</label> 
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="Region" id="Region" ng-model="vm.AccountInfoModel.UserInfo.Address.Region" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" for="Country">Country</label> 
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="Country" id="Country" ng-model="vm.AccountInfoModel.UserInfo.Address.Country" />
+                    </div>
+                </div>
+
+                <input type="button" class="btn btn-info" ng-click="vm.SaveAccountInfo()" value="Save" ng-disabled="!userDataForm.$dirty" />
+            </div>
+        </form>
+    </div>
+    
+    <!--CHANGE PASSWORD-->
+    <div class="well col-md-6 col-md-offset-3">
+        <form id="passwordForm" name="passwordForm" autocomplete="off" novalidate ng-model="vm.AccountInfoModel.UserInfo">
+            <div class="form-horizontal">
+                <h2>CHANGE YOUR PASSWORD<br />
+                    <small>
+                        New passwords are required to be a minimum of 8 characters in length.
+                    </small>
+                </h2>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Old Password</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="password" name="OldPassword" ng-model="vm.PasswordInfo.OldPassword" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">New Password</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="password" name="NewPassword" ng-model="vm.PasswordInfo.NewPassword" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Confirm Password</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="password" name="ConfirmPassword" ng-model="vm.PasswordInfo.ConfirmPassword" />
+                    </div>
+                </div>
+                <input type="submit" value="Change password" class="btn btn-info" role="button" ng-click="vm.SavePassword(this)" ng-disabled="!vm.PasswordModel.Validate()" />
+            </div>
+        </form>
+    </div>
+    
+    <!--CHANGE DISPLAY NAME-->
+    <div class="well col-md-6 col-md-offset-3">
+        <form id="displayNameForm" name="displayNameForm" autocomplete="off" novalidate>
+            <div class="form-horizontal">
+                <h2>
+                    CHANGE YOUR DISPLAY NAME<br />
+                    <small>This is the name that is shown when you share your card with others</small>
+                </h2>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Current Display Name</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" readonly="readonly" ng-model="vm.User.DisplayName" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">New Display Name</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" name="NewDisplayName" ng-model="vm.DisplayNameModel.NewDisplayName" ng-minlength="5" ng-maxlength="20" valid-form />
+                    </div>
+                </div>
+                <input type="submit" value="Change Display Name" class="btn btn-info" role="button" ng-click="vm.SaveDisplayName()" ng-disabled="vm.DisplayNameModel.NewUserName.length == 0" />
+            </div>
+        </form>
+    </div>
+             
+    <!--REPORT ABUSE-->
+    <div class="well col-md-6 col-md-offset-3">
+        <h2>REPORT ABUSE</h2>
+        <p>
+            Busidex takes security, privacy and the integrity of the information contained on our platform very seriously. If you have any concerns
+            about a particular card that you feel is being misrepresented in some way, you may use this link
+            to send us an email and we will investigate the matter. Please include as much detail as you can so we may fully understand
+            your concern and address it properly.
+        </p>
+        <p>
+            <a target="_blank" href="mailto:busidex.abuse@gmail.com" style="text-decoration: underline;">Report Abuse</a>
+        </p>
+    </div>
+
+    <!--REMOVE MY ACCOUNT-->
+    <div class="well col-md-6 col-md-offset-3">
+        <h2>DEACTIVATE MY ACCOUNT</h2>
+        <div class="alert alert-block alert-danger">
+            <strong>WARNING!</strong> Deactivating your account will cause the following:
+            <ul class="warningList">
+                <li>
+                    If you have a card, it will no longer be found in searches.
+                </li>
+                <li>
+                    If you have a card and others have it in their Busidex collection, it will be removed from their collections.
+                </li>
+                <li>
+                    You will be logged out immediately and you will no longer be able to log in.
+                </li>
+                <li>
+                    People that had your card on their mobile device will no longer have it.
+                </li>
+                <li>
+                    If you were in any organizations, you will be removed from them.
+                </li>
+            </ul>
+        </div>
+        <p class="alert alert-info">
+            Note: If you are having an account issue (e.g. poor quality card image, card is missing, search not working), deactivating and reactivating
+            your account will not resolve it. In those cases <a href="mailto:busidex.support@gmail.com" style="padding-left:0;padding-right:0;text-decoration:underline;" class="btn btn-link">please contact support</a>.
+        </p>
+        <p class="alert alert-info">
+            If you just want to remove your card, but would like to keep your Busidex collection, you might want to consider
+           changing your card visibility to 'Private' so only you can see it. You can <a style="padding-left:0;padding-right:0;text-decoration:underline;" class="btn btn-link"  href="https://start.busidex.com">change your card visibility here</a>.
+        </p>
+        <p>
+            <hr />
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="" ng-model="vm.ConfirmDelete">
+                    Please deactivate my account.
+                </label>
+            </div>
+            <div>
+                <a ng-href="#/account/deactivate" class="btn btn-danger" ng-disabled="!vm.ConfirmDelete">Continue</a>
+            </div>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+﻿CREATE LOGIN [vinbrown2] WITH PASSWORD = 'Ride9736'

@@ -1,0 +1,54 @@
+﻿@model Busidex.DAL.BusidexUser
+
+
+<h1>Account Information</h1>    
+
+<style type="text/css">
+    .addressInfo span{ display: inline-block;width: 90px;text-align: right;}
+</style>
+@using (Html.BeginForm("Save", "Account")) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Your account</legend>
+
+        @Html.HiddenFor(model => model.UserId)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UserName)
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+        <div class="editor-label">
+            <label>Address Information</label>
+        </div>
+        <div class="editor-field addressInfo">
+            <span>Address&nbsp;1</span> &nbsp; @Html.EditorFor(model=>model.Address.Address1)<br/>
+            <span>Address&nbsp;2</span>  &nbsp; @Html.EditorFor(model=>model.Address.Address2)<br/>
+            <span>City</span>  &nbsp; @Html.EditorFor(model=>model.Address.City)<br/>
+            <span>State</span>  &nbsp; @Html.EditorFor(model=>model.Address.State)<br/>
+            <span>Zip Code</span> &nbsp; @Html.EditorFor(model=>model.Address.ZipCode)<br/>
+            <span>Region</span> &nbsp; @Html.EditorFor(model=>model.Address.Region)<br/>
+            <span>Country</span> &nbsp; @Html.EditorFor(model=>model.Address.Country)<br/>
+            @Html.HiddenFor(model=>model.Address.UserAddressId)
+        </div>
+        <p>
+            <input type="submit" role="button" class="btn btn-main" value="Update your account" />
+        </p>
+    </fieldset>
+}
+
+<div style="margin-top:20px;font-size:1.5em;">
+    @Html.ActionLink("Change your password . . .", "ChangePassword")<br/><br/>
+    @Html.ActionLink("Settings", "Index", "Settings")
+</div>

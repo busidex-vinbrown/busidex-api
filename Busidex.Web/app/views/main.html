@@ -1,0 +1,163 @@
+<style type="text/css">
+    section.br-fullpage-wrapper {
+        overflow-y: visible;
+        overflow-x: hidden;
+    }
+     section.br-fullpage-wrapper section.page {
+         position: relative !important;
+         height: 100vh;
+     }
+</style>
+<div class="header-placeholder"></div>
+<div ng-controller="HomeController as vm">
+    <section class="br-fullpage-wrapper" page-class="page" style="height: 100vh; display: block;">
+
+        <section class="page frame1">
+
+            <div class="container-fluid">
+                <div class="row-fluid" ng-if="vm.ShowLinks">
+                    <div class="col-md-12">
+                        <a href="" class="brand logo">
+                            <img alt="" src="https://az381524.vo.msecnd.net/images/logo.png" />
+                        </a>
+                        <div class="links">
+                            <a href="/#/card/search">FIND A CARD</a>
+                            <span>|</span>
+                            <a href="https://register.busidex.com">CREATE AN ACCOUNT</a>
+                            <span>|</span>
+                            <a href="/#/login">LOGIN</a>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="!vm.ShowLinks" style="margin-bottom:40px;">&nbsp;</div>
+                <div class="row-fluid">
+                    <div class="col-md-8">
+                        <span class="title">{{vm.HomePageMessage}}</span>
+                        <ul class="sublinks">
+                            <li>
+                                <a class="site-link" ng-href="#/card/search">Get Involved</a> &bull; 
+                                <a class="site-link" ng-href="#/card/events">Find Events</a> &bull; 
+                                <a class="site-link" ng-href="#/faq">Learn More</a> &bull; 
+                                <a class="site-link" ng-href="#/card/events">Collaborate</a>
+                            </li>
+                        </ul>
+                        <div class="storelinks">
+                            <span>GET THE APP</span>
+                            <a href="https://itunes.apple.com/us/app/busidex/id801109889?ls=1&mt=8#" target="_blank">
+                                <img src="https://az381524.vo.msecnd.net/images/appleiconandborder.png" />
+                            </a>
+                            <a href="https://play.google.com/store/apps/details?id=com.busidex" target="_blank">
+                                <img src="https://az381524.vo.msecnd.net/images/playiconandborder.png" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="image-right-side">
+                        <img src="https://az381524.vo.msecnd.net/images/Frame1compandphone.png" style="" />
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="page frame2">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <img class="tablet" src="https://az381524.vo.msecnd.net/images/frame2tablet.png" />
+                </div>
+                <div class="title">
+                    <div class="normal">CREATE</div>
+                    <div class="dark">COLLABORATE</div>
+                    <div class="normal">CONNECT</div>
+                </div>
+                <ul class="details">
+                    <li>Get your business card into Busidex using your scanner or smartphone camara</li>
+                    <li>Find a card and add it to your Busidex Collection using the "Find a Card" option.</li>
+                    <li>Now make calls, text, email and get directions using the owner's business card.</li>
+                </ul>
+                <a ng-if="vm.ShowLinks" class="registerLink" href="https://register.busidex.com">CREATE AN ACCOUNT</a>
+            </div>
+        </section>
+
+        <section class="page frame3">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <img class="rightImage" src="https://az381524.vo.msecnd.net/images/rightlaptopandbackground.png" />
+                </div>
+                <div class="title">
+                    <div class="normal">EXPLORE</div>
+                    <div class="light">FOLLOW</div>
+                    <div class="normal">ACHIEVE</div>
+                </div>
+                <div class="details">
+                    Take your business to the next level! Busidex empowers your business card making it a dynamic networking tool. When you have 
+                    a card in your Busidex, you know you always have their up-to-the-minute information.
+                </div>
+                <a class="searchLink" href="/#/card/search">FIND A CARD</a>
+            </div>
+        </section>
+
+        <section class="page frame4">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="blocks">
+                        <div class="block block0">STUDENT ORGANIZATIONS</div>
+                        <div class="block block1">FACULTY COMMITTEES</div>
+                        <div class="block block2">DEPARTMENT STORES</div>
+                        <div class="block block3">ARTS + ENTERTAINMENT</div>
+                        <div class="block block4">ATHLETIC + RECREATION</div>
+                        <div class="block block5">CORPORATE GROUPS</div>
+                        <div class="block block6">POLITICAL ORGANIZATIONS</div>
+                        <div class="block block7">INTERIOR + ARCHITECTURAL</div>
+                        <div class="block block8">FASHION EVENTS + CLUBS</div>
+                    </div>
+                </div>
+                <div class="title-block">
+                    <div class="title">ONE PLACE</div>
+                    <div class="title title2">FOR ALL YOUR</div>
+                    <div class="title title3">BUSINESS CARDS</div>
+                    <div class="details">
+                        Find , follow, or join Busidex to connect to all kinds of people from all organizations.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page frame5">
+            <div class="container-fluid">
+                <div class="title-block">
+                    <div class="title">HELP</div>
+                    <div class="title title2">BUSIDEX</div>
+                    <div class="title title3">GET BETTER</div>
+                </div>
+                <div class="details">
+                    Join Busidex to give feedback, receive a weekly newsletter, and test out new features!
+                </div>
+                <div class="registerContainer" ng-if="vm.ShowLinks">
+                    <a href="https://register.busidex.com" class="registerLink">GET STARTED TODAY!</a>
+                    <img src="https://az381524.vo.msecnd.net/images/logo-blue.png" />
+                </div>
+                <div class="storelinks">
+                    <span>GET THE APP</span>
+                    <a href="https://itunes.apple.com/us/app/busidex/id801109889?ls=1&mt=8#" target="_blank">
+                        <img src="https://az381524.vo.msecnd.net/images/appleiconandborder.png" />
+                    </a>
+                    <a href="https://play.google.com/store/apps/details?id=com.busidex" target="_blank">
+                        <img src="https://az381524.vo.msecnd.net/images/playiconandborder.png" />
+                    </a>
+                </div>
+            </div>
+            <div class="imgRightSide">
+                <img src="https://az381524.vo.msecnd.net/images/phone-with-interior.png" />
+            </div>
+            <div class="site-footer">
+                <a class="site-link" ng-href="#/faq">SUPPORT</a>&nbsp;|&nbsp;
+                <a class="site-link" ng-href="#/account/privacy">PRIVACY</a>&nbsp;|&nbsp;
+                <a class="site-link" ng-href="#/account/terms">TERMS OF SERVICE</a>&nbsp;|&nbsp;
+                <a class="site-link" href="#/releases">RELEASE NOTES</a>&nbsp;|&nbsp;
+                <a class="site-link" ng-href="#/reportabuse">REPORT ABUSE</a>
+                <div class="trademark pull-right">BUSIDEX &reg; 2014</div>
+            </div>
+        </section>
+    </section>
+</div>

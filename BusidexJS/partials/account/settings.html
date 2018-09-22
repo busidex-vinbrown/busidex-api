@@ -1,0 +1,37 @@
+﻿
+<h3>
+    Startup Page
+</h3>
+<p>
+    You can choose which page you get redirected to after you login. That way, you can go directly to
+    your My Busidex page, the Search page or stay on the Home page.
+</p>
+
+<fieldset>
+    <legend>Setting</legend>
+
+    <input type="hidden" ng-model="SettingsInfo.UserId" />
+
+    <div class="setting">
+        <select name="StartPage" style="width:150px"
+                ng-model="SettingsInfo.CurrentSetting.StartPage"
+                ng-options="page.PageId as page.Title for page in SettingsInfo.SitePages">
+            <option value="" selected="selected" value="">Start Page</option>
+        </select>
+
+        <!--<select name="StartPage">
+            @foreach (Busidex.DAL.Page p in pages) {
+            <option @(p.pageid= =Model.StartPage ? "selected"
+            "" ) value="@p.PageId">@p.Title</option>
+            }
+        </select>-->
+    </div>
+    <!--<div class="setting">
+        <label>Sync Cards to Google Contacts</label>
+        <p>When you save card information, we'll update the contact list associated with the Google account of your choice.</p>
+        <input type="checkbox" ng-model="SettingsInfo.AllowGoogleSync" />
+    </div>-->
+    <p>
+        <input type="submit" value="Save" class="btn btn-main" role="button" ng-click="save()" />
+    </p>
+</fieldset>

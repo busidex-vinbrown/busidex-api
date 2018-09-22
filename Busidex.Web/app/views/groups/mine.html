@@ -1,0 +1,140 @@
+﻿<style type="text/css">
+    html, body {
+        background: #fff;
+        min-height: 100%;
+    }
+
+    div.sideNav {
+        z-index: 1;
+    }
+
+    .addressInfo span {
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+    }
+
+    .workArea ul {
+        margin-left: 0;
+    }
+
+    div.well {
+        margin-top: 20px;
+    }
+
+    h1.workAreaTitle {
+        margin-left: 40px;
+        width: 80%;
+        padding: 13px;
+    }
+
+    .v_preview, .h_preview {
+        margin: 8px;
+        border: solid 1pt #ddd;
+    }
+
+    img.h_preview {
+        height: 120px;
+        width: 220px;
+        margin-top: 0;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+    }
+
+    div.sideNav{
+        background: #004b5c;
+        height: 94.5vh;
+        left:0;
+        top:0;
+        bottom:0;
+        padding: 30px 0 0 0;
+    }
+    ul#Sidebar
+    {    
+        list-style: none;
+        margin-left: -30px;
+        height: 500px;
+    }
+    ul#Sidebar li
+    {
+        cursor: pointer;
+        height: auto;
+        line-height: 20px;
+        margin: 0;
+        padding: 12px 30px 7px 0;
+        text-align: right;
+        font-size:20px;
+    }
+
+    ul#Sidebar li.selected
+    {
+        color: #2589a0;
+        background-repeat: no-repeat;
+        background-position: left;
+        background-color:#fff;
+    
+    }
+
+    ul#Sidebar li:hover
+    {
+        color:#fff;
+    }
+        ul#Sidebar li a:hover, ul#Sidebar li a {
+            color:#fff;
+        }
+        ul#Sidebar li.selected a:hover, ul#Sidebar li.selected a {
+            color:#104e8b;
+            font-weight:bold;
+        }
+        ul#Sidebar li div.popover-content{
+            color: #2a6496;
+        }
+    ul#Sidebar li.spacer
+    {
+        background: none;
+        border: none;
+        cursor: default;	
+        height: 2px;
+        padding: 0;
+    }
+
+    div.thumbnail-card-container {
+        position: relative;
+    }
+</style>
+
+<div ng-controller="GroupsController as vm">
+    <div class="sideNav col-xs-3 col-sm-2 col-md-1 col-lg-1">
+        <ul id="Sidebar" style="margin:0; padding: 0;">
+            <li>
+                <a ng-href="#/groups/create" id="addGroup">Add a Group</a>
+            </li>
+            <li ng-repeat="group in vm.groups" ng-class="{selected: vm.Tabs[group.Description]}">
+                <h4 style="margin:0;">
+                    <a ng-click="vm.GetGroup(group.GroupId)">{{group.Description}}</a>
+                </h4>
+            </li>
+        </ul>
+    </div>
+    <div class="col-xs-9 col-sm-10 col-md-11 col-lg-11" style="background: #fff;  overflow: auto; padding-top: 20px;">
+        <div>
+            <h2 id="groupHeader" ng-show="vm.Group.GroupId > 0">
+                {{vm.Group.Description}}
+            </h2>
+            <div class="col-md-12" style="padding: 10px;" ng-show="vm.groups.length > 0">
+                <a class="btn btn-primary" ng-href="#/groups/edit/{{vm.Group.GroupId}}">Edit</a>
+                <a class="btn btn-danger" ng-click="vm.DeleteGroup(vm.Group.GroupId)">Delete</a>
+                <a class="btn btn-link" ng-href="{{vm.Group.EmailLink}}">Email The Group</a>
+            </div>
+            <h2 ng-show="vm.groups.length === 0">
+                You haven't added any groups yet
+            </h2>
+            <div ng-repeat="card in vm.Cards" ng-href="#/card/details/{{card.Card.CardId}}">
+                <div thumbnail card="card.Card"></div>
+            </div>
+        </div>
+    </div>
+</div>

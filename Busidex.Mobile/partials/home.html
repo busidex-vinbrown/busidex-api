@@ -1,0 +1,14 @@
+<div class="ui-body-c">
+    <div class="ui-page-active">
+        <div class="toolbar">
+            <h1 id="pageTitle">Busidex</h1>
+        </div>
+        <div data-role="navbar">
+            <a class="button whiteButton" ng-show="User == null" ng-tap="$navigate.go('/login')">Sign In</a>
+            <a class="button whiteButton" ng-show="User != null" ng-tap="$navigate.go('/search')">Search</a>
+            <a class="button whiteButton" ng-show="User != null" ng-tap="$navigate.go('/mine/')">My Busidex</a>
+            <a class="button whiteButton" ng-show="User != null" ng-tap="$navigate.go('/mine/sync')">Sync</a>
+            <a class="button whiteButton" ng-show="$parent.ShowAddCard()" ng-tap="$navigate.go('/card/add')">Add My Card</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿@using System.Configuration
+@using System.Web.Optimization
+@using Busidex.DAL
+@model Busidex4.Models.AddGroupModel
+
+@{
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"]; 
+}
+<div class="row">
+    
+    <div class="input-append pull-left">
+        <span class="pull-left" style="display:inline-block; padding:5px 10px 0 ; font-size: 22px;">BusiGroup Name:&nbsp;</span> 
+        <input type="text" id="description" value="@Model.Busigroup.Description" />
+        <button class="btn btn-primary" id="save" groupId="">Save</button>
+        <button class="btn btn-inverse" id="cancel">Cancel</button>  
+    </div>
+    
+    <div class="pull-right">
+        <ul>
+            <li>
+                <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Filter:</span>
+                <select name="select-choice-1" id="filter" class="input-medium" data-inline="false" style="margin-bottom: 0;">
+                    <option value="cardname">Name</option>
+                    <option value="company">Company</option>
+                    <option value="phone">Phone</option>
+                    <option value="email">Email</option>
+                    <option value="tags">Tags</option>
+                </select>
+                <div class="input-append" style="margin-bottom:0;">
+                    <input type="text" value="" id="filterVal" class="input-large" style="margin-bottom: 0;" />
+                    <input type="text" style="display: none;margin-bottom: 0;" value="" id="filterValTag" class="input-large" autocomplete="off" data-provide="typeahead" data-source="@("[\"" + new HtmlString(string.Join("\",\"", Model.TagCloud.Select(t => t.Key).ToArray())) + "\"]")" />
+                    <button class="btn" id="clearFilter" style="margin-top:0;">&times;</button>
+                </div>
+            </li>
+        </ul>
+        <div style="width: 300px; margin: 0 0 10px 25px">
+            <input type="checkbox" style="vertical-align:top;" id="showSelected" />
+            <span>Show selected only</span>
+            <label class="badge badge-info" id="cardCount"></label>
+        </div>
+    </div>
+</div>
+
+<div class="row busidexRow">
+    <div class="well">
+        @foreach (UserCard c in Model.Busidex)
+        {
+            string phoneNumber = (c.Card.PhoneNumbers != null && c.Card.PhoneNumbers.Count > 0) ? string.Join(",", c.Card.PhoneNumbers) : string.Empty;
+            if (!c.Card.FrontFileId.HasValue && string.IsNullOrEmpty(c.Card.Markup))
+            {
+                continue;
+            }
+            <img alt="@c.Card.Name" src="@(cdnPath + c.Card.FrontFileId.Value.ToString() + ".jpg")"
+                 class="myBusidexCard2 @(c.Card.FrontOrientation == "V" ? "v_preview" : "h_preview") @(c.Selected ? "selected" : "")" 
+                 tags="@c.Card.TagList.ToLower()" cardname="@(c.Card.Name == null ? string.Empty : c.Card.Name.ToLowerInvariant())"
+                 phone="@phoneNumber" email="@(string.IsNullOrEmpty(c.Card.Email) ? string.Empty : c.Card.Email.ToLowerInvariant())" 
+                 cardid="@c.Card.CardId" company="@(c.Card.CompanyName == null ? string.Empty : c.Card.CompanyName.ToLowerInvariant())" />
+        }
+    </div>
+</div>
+@Scripts.Render("~/Scripts/mygroups")

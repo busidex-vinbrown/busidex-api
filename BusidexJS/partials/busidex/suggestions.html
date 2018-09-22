@@ -1,0 +1,29 @@
+﻿<h2>Tell us what you think!</h2>
+<p>
+    Have a cool idea? Want to see a feature that we haven't thought of? Tell us what it is and we'll put it on the To Do list.
+</p>
+<div>
+    <label>What's your idea?</label><input type="text" id="newSuggestion" name="summary" style="width:400px;" maxlength="350" ng-model="Suggestion.Summary" /><br />
+    <label>Details</label><textarea id="suggestionDetails" name="details" style="width:400px;height:45px;" maxlength="350" ng-model="Suggestion.Details"></textarea><br />
+    <input type="button" class="btn btn-info" ng-click="save()" value="Save" />
+</div>
+<hr />
+<ul class="suggestionList">
+    <li ng-show ="Waiting"><img src="../../img/spinner.gif" alt="" /></li>
+    <li ng-repeat="suggestion in SuggestionInfo">
+        <div class="pull-left">
+            <div ng-show="suggestion.Done == false">
+                <div class="vote img-rounded">{{suggestion.Votes}}</div>
+                <input type="button" class="btn btn-info" value="Vote" ng-click="vote(suggestion.SuggestionId)" />
+            </div>
+            <div ng-show="suggestion.Done == true">
+                <img style="margin:0 13px;width: 30px;" ng-src="/img/checkmark.png"/>
+            </div>
+        </div>
+        <div class="pull-left suggestionDetails">
+            <h4>{{suggestion.Summary}}</h4>
+            <p>{{suggestion.Details}}</p>
+        </div>
+    </li>
+    
+</ul>

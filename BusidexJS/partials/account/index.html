@@ -1,0 +1,275 @@
+﻿
+<style type="text/css">
+    html, body {
+        background: #fff;
+        min-height: 100%;
+    }
+
+    .addressInfo span {
+        display: inline-block;
+        width: 90px;
+        text-align: right;
+    }
+
+    .workArea ul {
+        margin-left: 0;
+    }
+
+    div.well {
+        margin-top: 20px;
+    }
+
+    h1.workAreaTitle {
+        margin-left: 40px;
+        width: 80%;
+        padding: 13px;
+    }
+    ul.warningList {
+        margin-left: 20px;               
+    }
+    ul.warningList li{
+            list-style:disc
+        }
+</style>
+
+<!--NAVIGATION-->
+<div class="sideNav">
+    <ul id="Sidebar">
+        <li ng-class="{selected: Tabs['info']}"><a href="" ng-click="SetCurrentTab('info')">Account Info</a></li>
+        <li ng-class="{selected: Tabs['settings']}"><a href="" ng-click="SetCurrentTab('settings')">Settings</a></li>
+        <li ng-class="{selected: Tabs['username']}"><a href="" ng-click="SetCurrentTab('username')">User Name</a></li>
+        <li ng-class="{selected: Tabs['password']}"><a href="" ng-click="SetCurrentTab('password')">Password</a></li>
+        <li ng-class="{selected: Tabs['accounttype']}"><a href="" ng-click="SetCurrentTab('accounttype')">Account Type</a></li>
+        <li ng-class="{selected: Tabs['abuse']}"><a href="" ng-click="SetCurrentTab('abuse')">Report Abuse</a></li>
+        <li ng-class="{selected: Tabs['delete']}"><a href="" ng-click="SetCurrentTab('delete')">Delete Acount</a></li>
+    </ul>
+</div>
+<div style="background: #fff;">
+
+    <!--ACCOUNT INFO-->
+    <div class="animate" ng-class="{cardSaved: !AccountInfoModel.Saved}">
+        <div class="alert alert-success" style="text-align: center;">
+            <h2>Saved!</h2>
+            <h4>Your account information has been saved.</h4>
+        </div>
+    </div>
+    <div class="workArea account-workArea" ng-show="Tabs['info']">
+        
+        <div class="well">
+            <!--ACCOUNT INFO SAVED-->
+            
+            <form id="userDataForm" name="userDataForm" autocomplete="off" novalidate>
+                <input type="hidden" name="UserId" ng-model="AccountInfoModel.UserInfo.UserId" />
+                <ul class="formFields">
+                    <li>
+                        <label>Email</label>
+                        <input type="text" name="Email" ng-model="AccountInfoModel.UserInfo.Email" ng-blur="CheckEmailAvailability()" valid-form required />
+                        <img ng-src="img/checkmark.png" style="height:25px;width:25px;" ng-show="AccountInfoModel.EmailOkToUse==='OK'" />
+                        <img ng-src="img/delete.png" style="height:18px;width:18px;" ng-show="AccountInfoModel.EmailOkToUse==='USED' && !AccountInfoModel.Saved" />
+                        <span ng-show="AccountInfoModel.EmailOkToUse=='USED'">Email already used by another account</span>
+                    </li>
+                    <li>
+                        <h4>Address Information</h4>
+                    </li>
+                    <li>
+                        <ul class="subFormFields">
+                            <li>
+                                <label>Address&nbsp;1</label> &nbsp;
+                                <input type="text" name="Address1" ng-model="AccountInfoModel.UserInfo.Address.Address1" />
+                            </li>
+                            <li>
+                                <label>Address&nbsp;2</label>  &nbsp;
+                                <input type="text" name="Address2" ng-model="AccountInfoModel.UserInfo.Address.Address2" />
+                            </li>
+                            <li>
+                                <label>City</label>  &nbsp;
+                                <input type="text" name="City" ng-model="AccountInfoModel.UserInfo.Address.City" />
+                            </li>
+                            <li>
+                                <label>State</label>  &nbsp;
+                                <input type="text" name="State" ng-model="AccountInfoModel.UserInfo.Address.State" />
+                            </li>
+                            <li>
+                                <label>Zip Code</label> &nbsp;
+                                <input type="text" name="ZipCode" ng-model="AccountInfoModel.UserInfo.Address.ZipCode" />
+                            </li>
+                            <li>
+                                <label>Region</label> &nbsp;
+                                <input type="text" name="Region" ng-model="AccountInfoModel.UserInfo.Address.Region" />
+                            </li>
+                            <li>
+                                <label>Country</label> &nbsp;
+                                <input type="text" name="Country" ng-model="AccountInfoModel.UserInfo.Address.Country" />
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <input type="button" class="btn btn-info" ng-click="SaveAccountInfo()" value="Save" ng-disabled="EmailOkToUse == 'USED'" />
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+    <!--SETTINGS-->
+    <div class="workArea account-workArea" ng-show="Tabs['settings']">
+        <div class="well">
+            <h4>
+                Startup Page
+                <small>
+                    Choose which page you get redirected to after you login.
+                </small>
+            </h4>
+
+            <input type="hidden" ng-model="SettingsInfo.UserId" />
+
+            <div class="setting">
+                <select name="StartPage" style="width:150px"
+                        ng-model="SettingsInfo.CurrentSetting.StartPage"
+                        ng-options="page.PageId as page.Title for page in SettingsInfo.SitePages">
+                    <option value="" selected="selected" value="">Start Page</option>
+                </select>
+            </div>
+            <p>
+                <input type="submit" value="Save" class="btn btn-info" role="button" ng-click="SaveSettings()" />
+            </p>
+        </div>
+    </div>
+    <!--CHANGE PASSWORD-->
+    <div class="workArea account-workArea" ng-show="Tabs['password']">
+        <div class="animate" ng-class="{passwordChanged: !PasswordModel.SavingPassword}">
+            <div class="alert alert-success" style="text-align: center;">
+                <h2>Saved!</h2>
+                <h4>Your password has been changed.</h4>
+            </div>
+        </div>
+        <div class="animate" ng-class="{passwordChanged: !PasswordModel.PasswordError}">
+            <div class="alert alert-error" style="text-align: center;">
+                <h2>Error!</h2>
+                <h4>There was a problem changing your password.</h4>
+            </div>
+        </div>
+        <div class="well">
+            <small>
+                New passwords are required to be a minimum of 8 characters in length.
+            </small>
+            <ul>
+                <li>
+                    <label>Old Password</label>
+                    <input type="password" name="OldPassword" ng-model="PasswordInfo.OldPassword" />
+                </li>
+                <li>
+                    <label>New Password</label>
+                    <input type="password" name="NewPassword" ng-model="PasswordInfo.NewPassword" />
+                </li>
+                <li>
+                    <label>Confirm Password</label>
+                    <input type="password" name="ConfirmPassword" ng-model="PasswordInfo.ConfirmPassword" />
+                </li>
+            </ul>
+            <input type="submit" value="Change password" class="btn btn-info" role="button" ng-click="SavePassword()" ng-disabled="!PasswordModel.Validate()" />
+        </div>
+    </div>
+    <!--CHANGE USER NAME-->
+    <div class="workArea account-workArea" ng-show="Tabs['username']">
+        <div class="well">
+            <form id="userDataForm" name="userDataForm" autocomplete="off" novalidate>
+                <ul class="formFields" style="margin:0;">
+                    <li>
+                        <label>Current User Name</label>
+                        <input type="text" readonly="readonly" ng-model="UserNameModel.UserName" />
+                    </li>
+                    <li>
+                        <label>New User Name</label>
+                        <input type="text" name="NewUserName" ng-model="UserNameModel.NewUserName" ng-blur="CheckUserNameAvailability()" ng-minlength="5" ng-maxlength="20" valid-form required />
+                        <img ng-src="img/checkmark.png" style="height:25px;width:25px;" ng-show="UserNameMessages.ErrorCount==0 && UserNameModel.UserNameOkToUse=='OK'" />
+                        <img ng-src="img/delete.png" style="height:18px;width:18px;" ng-show="UserNameMessages.ErrorCount==0 && UserNameModel.UserNameOkToUse=='USED'" />
+                        <span ng-show="UserNameMessages.ErrorCount==0 && UserNameModel.UserNameOkToUse=='USED'">User name already taken</span>
+                    </li>
+                </ul>
+                <input type="submit" value="Change User Name" class="btn btn-info" role="button" ng-click="SaveUserName()" ng-disabled="UserNameModel.NewUserName.length == 0" />
+            </form>
+        </div>
+        <div class="alert alert-success" style="text-align: center;" ng-show="UserNameModel.UserNameChanged">
+            <h4>Your user name has been changed</h4>
+        </div>
+        <div class="alert alert-error" style="text-align: center;" ng-show="!UserNameChanged && (UserNameModel.BadUserName || UserNameModel.Error)">
+            <h4 ng-show="UserNameModel.BadUserName">This user name is already in use. Try another one.</h4>
+            <h4 ng-show="UserNameModel.Error">Sorry, we couldn't update your user name at this time.</h4>
+        </div>
+
+    </div>
+    <!--CHANGE ACCOUNT TYPE-->
+    <div class="workArea account-workArea" ng-show="Tabs['accounttype']">
+        <div class="well">
+            <ul>
+                <li class="planType" ng-repeat="plan in Plans">
+                    <input type="radio" name="AccountTypeId" ng-model="AccountTypeModel.AccountTypeId" value="{{plan.AccountTypeId}}" ng-checked="plan.Selected" required ng-disabled="plan.AccountTypeId ==5" />
+                    <span class="AccountType">{{plan.Name}}</span>&nbsp;-&nbsp;<span ng-bind-html="plan.Description"></span>
+                </li>
+            </ul>
+
+            <input type="button" value="Change Account Type" class="btn btn-info" ng-click="SaveAccountType()" />
+        </div>
+        <div class="alert alert-success" style="text-align: center;" ng-show="AccountTypeModel.Saved">
+            <h4>Your account type changed</h4>
+        </div>
+        <div class="alert alert-error" style="text-align: center;" ng-show="!AccountTypeModel.Saved && Model.Error">
+            <h4 ng-show="AccountTypeModel.Error">Sorry, we couldn't update your account type at this time.</h4>
+        </div>
+    </div>
+    <!--REPORT ABUSE-->
+    <div class="workArea account-workArea" ng-show="Tabs['abuse']">
+        <div class="well">
+            <p>
+                Busidex takes security, privacy and the integrity of the information contained on our platform very seriously. If you have any concerns
+                about a particular card that you feel is being misrepresented in some way, you may use this link
+                to send us an email and we will investigate the matter. Please include as much detail as you can so we may fully understand
+                your concern and address it properly.
+            </p>
+            <p>
+                <a target="_blank" href="mailto:busidex.abuse@gmail.com" style="text-decoration: underline;">Report Abuse</a>
+            </p>
+        </div>
+    </div>
+    <!--REMOVE MY ACCOUNT-->
+    <div class="workArea account-workArea" ng-show="Tabs['delete']">
+        <div class="well">
+            <div class="alert alert-block alert-danger">
+                <strong>WARNING!</strong> Deleting your account will cause the following:
+                <ul class="warningList">
+                    <li>
+                        If you have a card, it will no longer be found in searches.
+                    </li>
+                    <li>
+                        If you have a card and others have it in their Busidex collection, it will be removed from their collections.
+                    </li>
+                    <li>
+                        You will be logged out immediately and you will no longer be able to log in.
+                    </li>
+                    <li>
+                        People that had your card on their mobile device will no longer have it.
+                    </li>
+                    <li>
+                        If you were in any organizations, you will be removed from them.
+                    </li>
+                </ul>
+            </div>
+            <p class="alert alert-info">
+                Note: If you are having an account issue (e.g. poor quality card image, card is missing, search not working), deactivating and reactivating
+                your account will not resolve it. In those cases <a href="mailto:busidex.support@gmail.com" style="padding-left:0;padding-right:0;text-decoration:underline;" class="btn btn-link">please contact support</a>.
+            </p>
+            <p class="alert alert-info">
+                If you just want to remove your card, but would like to keep your Busidex collection, you might want to consider
+                <a href="" style="padding-left:0;padding-right:0;text-decoration:underline;" class="btn btn-link" ng-click="SetCurrentTab('accounttype')">changing your account type</a>
+                to a free Basic account (keep in mind, previous payments are non-refundable).
+            </p>
+            <p>
+                <hr />
+                
+                <div>
+                    <a href="" class="btn btn-danger" ng-click="DeleteAccount()" ng-disabled="false">Continue</a>
+                </div>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <CompiledOutputPath>distrib\</CompiledOutputPath>
+    <OutputPath>bin\$(Configuration)</OutputPath>
+    <CordovaVersion>3.1</CordovaVersion>
+    <Name>Busidex.Mobile</Name>
+    <RootNamespace>Busidex.Mobile</RootNamespace>
+    <ProjectGuid>{096a2002-a7b8-4dd2-befc-7a38943be127}</ProjectGuid>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Permissions>android.permission.ACCESS_FINE_LOCATION,android.permission.ACCESS_COARSE_LOCATION,android.permission.ACCESS_LOCATION_EXTRA_COMMANDS,android.permission.RECEIVE_SMS,android.permission.SEND_SMS,android.permission.READ_PHONE_STATE,android.permission.ACCESS_NETWORK_STATE,android.permission.INTERNET,android.permission.READ_CONTACTS,android.permission.WRITE_CONTACTS,android.permission.RECORD_AUDIO,android.permission.CAMERA,android.permission.WRITE_EXTERNAL_STORAGE,android.permission.GET_ACCOUNTS,android.permission.VIBRATE,android.permission.MODIFY_AUDIO_SETTINGS,android.permission.BROADCAST_STICKY</Permissions>
+    <BundleID>com.busidex.mobile</BundleID>
+    <Description />
+    <Version>1.0.0.*</Version>
+    <ProvisioningProfilePath>ProvisioningProfiles\busidex_distribution.mobileprovision</ProvisioningProfilePath>
+    <CertificatePath>Certificates\2014-02-09 - Nomad User</CertificatePath>
+    <LastBuildVersion>1.0.0.54</LastBuildVersion>
+    <PreviewMethod>NomadSimulator</PreviewMethod>
+    <HostingMethod>EmbeddedWebServer</HostingMethod>
+    <ProjectName>Busidex.Mobile</ProjectName>
+    <BuildCloudVersion>2.0</BuildCloudVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'QA' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\QA\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="config.xml">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="cordova.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\icon-hdpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\icon-ldpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\icon-mdpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\icon-xhdpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\splash-hdpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\splash-ldpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\splash-mdpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\android\splash-xhdpi.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\Default%402x~iphone.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\Default-568h%402x~iphone.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\Default-Landscape~ipad.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\Default-Portrait~ipad.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\Default~iphone.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\icon%402x.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\icon-72%402x.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\icon-72.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="icons\ios\icon.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\back-img.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\backButton.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\backButtonBack.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\backButtonBrdr.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\backButtonSel.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\blueButton.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\camera.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\cancel.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\checkmark.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\contact.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\createaccount.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\gear.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\grayButton.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\leftArrow.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\listArrow.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\listArrowSel.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\listGroup.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\loading.gif">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\login.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\map.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\notes.jpg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\notes.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\phone.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\pinstripes.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\redButton.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\rtArrow.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\searchIcon.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\selection.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\spinner.gif">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\thumb.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\title-img.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\toggle.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\toggleOn.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\toolbar.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\toolButton.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\whiteButton.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\whiteShim.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="index.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="images\choosephoto.png">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="partials\account\login.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="partials\account\terms.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="partials\busidex\mine.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="partials\busidex\search.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="partials\card\add.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="partials\home.html">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\angular-animate.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\angular-cookies.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\angular-resource.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\angular-route.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\angular-sanitize.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\angular-touch.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\angular.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\app.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\app.min.js.map">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\controllers.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\controllers.min.js.map">
+      <SubType>Content</SubType>
+      <DependentUpon>scripts\controllers.js</DependentUpon>
+    </Content>
+    <Content Include="scripts\cordova-2.7.0.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\directives.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\filters.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\mobile-nav.min.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\quo.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="scripts\services.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Settings.bundle\Root.plist">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\bootstrap.min.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\bundle.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\Busidex.min.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\default-theme.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\iui.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\jquery.mobile-1.3.1.min.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\mobile-nav.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\MyBusidex.min.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\reset-min.css">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="style\Site.min.css">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="icons\" />
+    <Folder Include="icons\android\" />
+    <Folder Include="icons\ios\" />
+    <Folder Include="images" />
+    <Folder Include="Settings.bundle" />
+    <Folder Include="partials" />
+    <Folder Include="partials\account\" />
+    <Folder Include="partials\busidex\" />
+    <Folder Include="partials\card" />
+    <Folder Include="style" />
+    <Folder Include="scripts" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Target Name="ResolveReferences" />
+  <Target Name="CoreCompile" />
+  <Target Name="CreateManifestResourceNames" />
+  <Target Name="CopyFilesToOutputDirectory">
+    <ItemGroup>
+      <AbsoluteContentDestinations Include="$(OutputPath)%(Content.Identity)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(Content)" DestinationFiles="@(AbsoluteContentDestinations)" />
+  </Target>
+</Project>

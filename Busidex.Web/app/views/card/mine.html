@@ -1,0 +1,142 @@
+﻿<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+<div class="container-fluid" ng-controller="MyCardController as vm">
+    <img src="../../images/spinner.gif" ng-show="vm.Waiting" />
+    <div class="jumbotron clearfix my-card" ng-show="!vm.AdvancedSharing">
+        <div class="card-container-outer" ng-show="!vm.loading">
+            <div class="col-md-1 card-container" style="float: none;">
+                <img ng-click="vm.NoCardClick ? null : vm.showPopup(card)"
+                     ng-class="vm.card.FrontOrientationClass" 
+                     ng-src="https://az381524.vo.msecnd.net/cards/{{vm.card.FrontFileId}}.{{vm.card.FrontFileType.replace('.','')}}" />
+            </div> <br/>
+            <div class="col-md-1 card-container">
+                <img ng-if="vm.card.ShowBack"
+                     ng-click="vm.NoCardClick ? null : vm.showPopup(card)"
+                     ng-class="vm.card.BackOrientationClass"
+                     ng-src="https://az381524.vo.msecnd.net/cards/{{vm.card.BackFileId}}.{{vm.card.BackFileType.replace('.','')}}"/>
+                <img ng-if="!vm.card.ShowBack"
+                     ng-class="vm.card.BackOrientationClass"
+                     ng-src="" />
+            </div>
+        </div>
+        <ul class="pull-left my-card-actions" ng-show="!vm.Waiting">
+            <li ng-if="vm.ShowActions" class="action-button-holder">
+                <a href="" class="btn btn-info btn-large" ng-click="vm.ShareMyCard()">Share</a>
+            </li>
+            <li ng-if="vm.ShowActions" class="action-button-holder">
+                <a href="https://start.busidex.com/#/front/{{vm.EncodeStr(vm.User.Token)}}?m=edit" class="btn btn-info btn-large">Edit</a>
+            </li>
+            <li ng-if="vm.ShowActions" class="action-button-holder">
+                <a href="https://start.busidex.com/#/front" class="DeleteCard btn btn-info btn-large">Replace My Card</a>
+            </li>
+            <li ng-if="!vm.ShowActions" style="margin: 0;">
+                <div class="pull-left" style="text-align: center;">
+
+                    <ul class="button-list" style="margin: 0; padding: 0;">
+                        <li>
+                            <input type="button" class="btn btn-info btn-large" ng-disabled="true" value="Edit"/>
+                        </li>
+                        <li>
+                            <input type="button" class="btn btn-info btn-large" ng-disabled="true" value="Share"/>
+                        </li>
+                        <li>
+                            <input type="button" class="btn btn-info btn-large" ng-disabled="true" value="Replace My Card"/>
+                        </li>
+                    </ul>
+                    <div class="pull-left prof-acct-required" style="text-align: left;">
+                        <h2>Professional Account Required</h2>
+
+                        <p>
+                            You can only edit or share your card if you own a professional account. You can
+                            <a class="link btn-link" ng-href="#/account/index?tab=accounttype">change your account type here</a>. If your
+                            account type has changed without your knowledge, please <a class="link btn-link" href="mailto:busidex.support@gmail.com">contact support</a>
+                            and we will help you resolve the situation.
+                        </p>
+                    </div>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="well" style="margin-top:20px;display:block;" ng-show="!AdvancedSharing">
+        <h1><label class="stats-title">MONTHLY ACTIVITY FOR {{vm.CurrentMonth.Name.toUpperCase()}}, {{vm.CurrentMonth.Year}}</label>
+            <small style="font-family: Arial">
+                <a href="" class="btn btn-primary" ng-click="vm.ShowPreviousMonth()">Previous Month</a>
+                <a href="" class="btn btn-primary" ng-click="vm.ShowNextMonth()">Next Month</a>
+            </small>
+        </h1>
+
+        <ul class="activity-list">
+            <li class="activity-item" ng-repeat="source in vm.MonthlyActivities">
+                <h4 class="activity-label">{{source.Description}}</h4>
+                <div class="activity-value" ng-style="vm.getGraphValueBackground($index)">{{source.Value}}</div>                
+            </li>
+            <li class="activity-item" ng-show="vm.MonthlyActivities.length===0">
+                <h4 class="activity-label">No Statistics for This Month</h4>
+            </li>
+        </ul>
+        <div class="activity-chart">
+            <div class="no-data" ng-show="vm.MonthlyActivities.length === 0">No Data To Display</div>
+            <canvas class="chart chart-doughnut" data="vm.Chart.data" labels="vm.Chart.labels" colours="vm.Chart.colours"></canvas> 
+        </div>
+             
+    </div>
+    <div class="well well-large" ng-show="vm.AdvancedSharing" style="min-height:210px;">
+        <h3>
+            Advanced Sharing <small>Showing {{vm.Contacts.length}} contacts <span ng-show="vm.Model.SelectedSharingOption === vm.AdvancedSharingOptions.Gmail">connected to <strong>{{vm.ConnectedAccount}}</strong></span></small>
+            <a href="" class="btn btn-info" ng-click="vm.SwitchAccounts()" ng-show="vm.Model.SelectedSharingOption == vm.AdvancedSharingOptions.Gmail">Switch Accounts</a>
+        </h3>
+        <hr />
+        <div class="advSharingTools">
+
+            <div class="span4">
+                <label style="vertical-align: middle;">Personalize Your Message <small>(up to 500 characters)</small></label><br />
+                <textarea maxlength="500" style="height:70px;width: 350px;" ng-model="vm.PersonalMessage"></textarea>
+            </div>
+            <div class="span4" style="margin-left:10px;">
+                <label>Filter:</label><br />
+                <input type="text" ng-model="vm.Filter" style="width:200px" /><br />
+                <a href="" class="btn btn-link" ng-click="vm.ToggleShowSelected()"><input type="checkbox" ng-model="vm.ShowSelectedOnly" />&nbsp;Show Selected Only</a>
+                <a href="" class="btn btn-link" ng-click="vm.ToggleSelectAll()"><input type="checkbox" ng-model="vm.SelectAll" />&nbsp;Select All</a>
+            </div>
+            <div class="span3">
+                <a href="" class="btn btn-primary btn-large btn-block" data-target="#EmailPreview" data-toggle="modal" ng-click="vm.ShowPreview()">Preview Your Message</a>
+                <a href="" class="btn btn-primary btn-large btn-block" ng-click="vm.SendTestEmail()">Send Yourself a Test Email</a>
+                <a href="" class="btn btn-primary btn-large btn-block" ng-click="vm.ShareWithAll()">Share Your Card Now</a>
+                <a href="" class="btn btn-inverse btn-large btn-block" ng-click="vm.ToggleAdvancedSharing()">Back To My Card</a>
+            </div>
+        </div>
+        <ul>
+            <li ng-repeat="contact in vm.Contacts | filter: vm.Filter | orderBy:'Name'" class="contactRow" ng-hide="vm.ShowSelectedOnly && !contact.Selected">
+
+                <input type="checkbox" class="pull-left" ng-checked="contact.Selected" ng-model="contact.Selected" />
+                <div class="contactInfo pull-left">
+                    <strong>{{contact.Name || '(name not available)'}}</strong><br />
+                    {{contact.Email}}
+                </div>
+                <div class="pull-right">
+                    <label>Last Contacted</label>
+                    <label>{{contact.LastSharedDate}}</label>
+                </div>
+
+            </li>
+        </ul>
+    </div>
+    <div id="EmailPreview" class="modal hide fade EmailPreview" role="dialog">
+        <div>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        </div>
+        <div class="Content" ng-bind-html="vm.PreviewBody"></div>
+        <div class="previewFooter">
+            <button class="btn btn-inverse pull-right" data-dismiss="modal" ng-click="vm.ClosePreview()">Close Preview</button>
+            <button class="btn btn-primary pull-right">Send Your Card Now</button>
+
+        </div>
+    </div>
+    <div ng-show="vm.NoCards">
+        You haven't uploaded your card yet. You can do that <a href="https://start.busidex.com" class="btn btn-main">here</a>.
+    </div>
+</div>

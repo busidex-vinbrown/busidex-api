@@ -1,0 +1,62 @@
+﻿/* Large screens ----------- */
+@media only screen 
+and (min-width : 1824px) {
+/* Styles */
+    section.frame1 {
+        a.logo {
+            left: 5px;
+        }
+
+        div.links {
+            left: 490px;
+        }
+
+        ul {
+            left: 0;
+        }
+
+        div.image-right-side {
+            left: 550px;
+        }
+    }
+
+    section.frame4 {
+
+        div.blocks {
+            top: 100px;
+        }
+
+        div.title-block {
+            top: 108px;
+        }
+    }
+
+    section.frame5 {
+
+        div.title-block {
+            top: 50px;
+        }
+
+        .details{
+            top: 250px;
+        }
+    
+        div.registerContainer{
+            top: 390px;
+        }
+
+        div.storelinks {
+            top: 510px;
+        }
+
+        div.imgRightSide{
+            bottom: 0;
+            left: 660px;
+        }
+    }
+
+    div.event-placeholder{
+		display: block;
+	}
+
+}

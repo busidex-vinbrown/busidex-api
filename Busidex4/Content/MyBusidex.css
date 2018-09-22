@@ -1,0 +1,299 @@
+﻿div#card{ margin-left:35%; width: 520px; height: 300px; margin-top: 200px; }
+
+img.myBusidexCard { 	
+	border: solid 1pt silver; 
+	cursor:pointer;
+	display: none;
+	height: 130px; 
+	margin-left:0; 
+	position: absolute; 
+	width: 210px; 
+}   
+
+div.cardContainer{
+	cursor: pointer;
+	float: left; 
+    margin-left:5px; 
+    margin-top:5px; 
+    position: relative;
+}
+
+img.myBusidexCard2 {
+    height: 90px;
+    position: absolute;
+    width: 170px;
+    z-index: 2;
+}
+
+div.cardDetail{		
+	background-color: transparent;
+	height: 80px;
+	margin-top: 0;
+	padding-top: 10px;
+	position: absolute;
+	width: 170px;
+	z-index: 2;
+}
+
+.Notes {
+    height: 80px;
+    width: 250px;    
+}
+
+img.HasOwner {
+    height: 18px;
+    width: 18px;
+    margin-top: -5px;
+    margin-left: -5px;
+    position: absolute;
+    z-index: 2;   
+}
+
+img.InMyBusidex {
+    height: 28px;
+    width: 28px;
+    margin-top: -10px;
+    margin-left: -10px;
+    position: absolute;
+    z-index: 2;   
+}
+
+div.detailLinks {
+    border-radius: 6px;
+    background: #fafad2;
+    padding: 8px 10px;
+}
+a.detailLinkLeft{ display: none; float: left; font-size: 10px; margin-bottom: 10px;}
+span.detailLinkRight{ color: #7A6A53; display: none; float: right; font-size: 10px; margin-bottom: 10px; margin-right: 3px; text-decoration: underline; }
+
+
+div.cardDetail label{	
+	display: none;
+	font-size: .7em;
+	padding: 2px 0 2px 5px;
+	width: 170px;
+}
+
+
+div.detailShow{
+	background: #7AC0DA;
+	border: solid 1pt silver;
+	color: #fff;
+	display: block;
+	padding: 3px;
+}
+
+div.detailShow label{
+	display: inline-block;
+}
+
+div.myBusidex div#categories{width: 130px;}
+
+div#MyBusidexView{
+	padding-top:24px;
+	bottom:0;
+}
+
+div#tagCloundContainer {
+	border-right: solid 1pt silver;
+	left:0;
+	margin-top: 0;
+	min-height: 300px;
+	top: 107px;
+	z-index: 0;
+}
+ul.tagcloud li {
+    float: left;
+    font-size: 12px;
+    padding: 3px 5px;
+    margin-top: 2px;
+    cursor: pointer;
+}
+ul.tagcloud li:hover, ul.tagcloud li.selected {
+    color: #fff;
+    background: #7ac0da;
+}
+#viewList, #viewDetail{ 
+	color: #99B2B7;
+	text-decoration:none;
+}
+#viewList:hover, #viewDetail:hover{ 
+	text-decoration: underline;
+}
+div.cardDisplay { 
+	float: left; 
+	height: auto; 
+	margin-left:15px;
+	}   
+
+label.categoryHeading {
+	display: inline-block; 
+	font-size: 10pt; 
+	font-weight: bold;	
+	padding: 10px 10px 15px 0;
+}
+
+div.EmptyBusidex{
+	font-size: 1.6em;
+	padding-top: 40px;
+	text-align: center;
+}
+
+div.cardPopup { display: none; position: absolute; width: 480px; height: 300px; margin-left: 35%; background-color: Silver; text-align: center; }
+div.cardPopup .popupHeader { height: 18px; background-color: Gray; color: #ffffff; text-align: right; }
+div.cardPopup .popupHeader #closePopup { font-size:10pt; cursor: pointer; padding:0 2px 0 2px; margin-right: 2px;}
+div.cardPopup .popupHeader #closePopup:hover { color: Yellow; }
+div.cardPopup .popupHeader #editCard,
+	div.cardPopup .popupHeader #removeCard { font-size:10pt; float: left; cursor: pointer; padding:0 2px 0 2px; margin-left: 5px; text-decoration: none }
+div.cardPopup .popupHeader #editCard:link,
+	div.cardPopup .popupHeader #removeCard:link { color: #ffffff; }
+div.cardPopup .popupHeader #editCard:hover,
+	div.cardPopup .popupHeader #removeCard:hover { color: Yellow; }
+div.cardPopup img { height: 240px; width: 440px; margin: 20px; }
+
+/*#cover
+{
+	display:none;
+    position:absolute;
+    height:100%; 
+    width:100%;
+    background-color:Silver;
+    z-index:90;
+    top:0px;
+    left:0px;
+    filter:alpha(opacity=50);
+	opacity:.50;
+	-moz-opacity:.50;
+}*/
+a.removeCover {
+    float: right;
+    border: solid 1pt #fff;
+    padding: 7px;
+    border-radius: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+    background: url('/content/images/close.gif');
+    background-repeat: no-repeat;
+    background-position: 7px;
+    width: 20px;
+    height: 20px;
+}
+    a.removeCover:hover {
+        border-color: #888;
+        background-color: #bbb;
+    }
+
+table.details{
+	border-collapse: collapse;
+	float: left;
+	font-size: 1.1em;
+	margin-left: 20px;
+	margin-top: 0;
+	margin-bottom: 25px;
+}
+
+table.details th{
+	border-bottom: dashed 1pt #7A6A53;
+	height: 25px;
+	font-weight: bold;
+	padding-left:10px;
+	
+}
+
+table.details td{
+	color: #7A6A53;
+	cursor: pointer;
+	padding: 3px;
+}
+
+table.details td img{
+	height: 60px;
+	padding: 0;
+	position: relative;
+	width: 140px;
+}
+
+div.detailRow  { padding-top: 13px;margin-bottom: 10px;cursor: pointer; min-height: 140px; }
+div.detailRow:hover, div.detailRow.selected  { background: #d5ded9;  }
+div.detailRow.selected div.cardActions i{ zoom: 1.5;padding: 5px;}
+/*div.detailRow.selected img{ height: inherit;width: inherit;}*/
+
+div.cardActions{ display: none;padding: 5px; margin-left: 55px;}
+
+span#showAll{ color: #99B2B7; cursor: pointer; }
+span#showAll:hover{ text-decoration: underline;} 
+
+label.qfLabel{ font-family: Verdana; color: #99B2B7; margin-left: 90px; }
+
+div.cardActions i {
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+    height: 14px;
+    width: 14px;
+    margin-top: 1px;
+    zoom: 1.4;
+}
+i.related {
+    background: url('/images/related.png');
+}
+i.unrelated {
+    background: url('/images/unrelated.png');
+}
+i.related input[type=checkbox], 
+i.unrelated input[type=checkbox] {
+    display: none;
+}
+span.categoryDetail {
+    font-weight: bold;
+    color: slategray;
+}
+
+div.row div.relatedCards {
+    display: none;
+    margin-top: 25px;
+}
+img.relatedCard_sm {
+    height: 80px;
+    width: 110px;
+    margin-right: 10px;       
+}
+
+div.selectShare {
+    display: none;
+}
+/*div.shareLinks {
+    float: right;
+    height: 30px;
+    margin-right: 205px;
+}*/
+div.shareLinks a {
+    height: 20px;
+    width: 120px;
+    color: #8B8B83;
+    border-radius: 4px;
+    background: #FAFAD2;
+    border: solid 1pt silver;
+    box-shadow: 3px 3px 3px #ccc;
+    font-weight: bold;
+    padding: 5px;
+    margin:5px;
+    line-height: 28px;
+}
+
+div.shareLinks a.cancel, div.shareLinks a.select {
+    display: none;
+}
+div#sharePopup {
+    display: none;
+}
+    div#sharePopup label {
+        display: inline-block;
+    }
+
+@media (max-width: 768px) {
+    div.detailRow div.cardInfo {
+        display: none;
+    }
+    div.notes{ margin-left: 10px;}
+}

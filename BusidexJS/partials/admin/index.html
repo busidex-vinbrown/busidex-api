@@ -1,0 +1,88 @@
+﻿<div>
+    <div class="well-large" ng-controller="AdminCtrl">
+        <ul>
+            <li class="row">
+                <div class="span4">
+                    <a ng-href="#/admin/errors">Errors</a>
+                    <div class="well">
+                        <h4>
+                            Total Errors: {{Totals.Errors}}
+                            <br/><small>Total errors in the past <select class="input-mini" ng-model="ErrorsDaysBack" ng-options="d for d in ErrorsDays"></select> days</small>
+                        </h4>
+                        <button class="btn btn-info" ng-click="LoadErrors()">Refresh</button>
+                    </div>
+                </div>
+                <div class="span4">
+                    <a ng-href="#/admin/newcards">New Cards</a>
+                    <div class="well">
+                        <h4>
+                            Recently Updated Cards: {{Totals.NewCards}}
+                            <br/><small>Cards updated in the past <select class="input-mini" ng-model="NewCardDaysBack" ng-options="d for d in NewCardDays"></select> days</small>
+                        </h4>
+                        <button class="btn btn-info" ng-click="LoadNewCards()">Refresh</button>
+                    </div>
+                </div>
+            </li>
+            <li class="row">
+                <div class="span4">
+                    <a ng-href="#/admin/users">User List</a>
+                    <div class="well">
+                        <h4>
+                            Total Users: {{Totals.Users}}
+                            <br/><small>Total number of users in the system</small>
+                        </h4>
+                        <button class="btn btn-info" ng-click="LoadUsers()">Refresh</button>
+                    </div>
+                </div>
+                <div class="span4">
+                    <a ng-href="#/admin/owners">Owner List</a>
+                    <div class="well">
+                        <h4>
+                            Total Card Owners: {{Totals.Owners}}
+                            <br/><small>Total number of users that own a card</small>
+                        </h4>
+                        <button class="btn btn-info" ng-click="LoadOwners()">Refresh</button>
+                    </div>
+                </div>
+            </li>
+            <li class="row">
+                <div class="span4">
+                    <a ng-href="#/admin/populartags">Popular Tags</a>
+                    <div class="well">
+                        <h4>
+                            Total Tags: {{Totals.Tags}}
+                            <br/><small>Total number of unique Tags in the system</small>
+                        </h4>
+                        <button class="btn btn-info" ng-click="LoadTags()">Refresh</button>
+                    </div>
+                </div>
+                <div class="span4">
+                    <a ng-href="#/admin/devicedetails">Device Details</a>
+                    <div class="well">
+                        <div ng-repeat="item in DeviceSummary">
+                            <span style="display: inline-block; width: 90px;"><strong>{{item.Name}}:</strong></span> &nbsp;{{item.Total}}
+                        </div>
+                        <div>
+                            
+                            <button class="btn btn-info" ng-click="LoadDeviceSummary()">Refresh</button>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="span4">
+                    <a>Other Links</a>
+                    <div class="well">
+                        <a class="btn btn-link" ng-href="#/admin/systemtags">System Tags</a><br/>
+                        <a class="btn btn-link" ng-href="#/admin/unownedcards">Send Owner Emails</a><br/>
+                        <a class="btn btn-link" ng-href="#/admin/communication">Send Communications</a>
+
+                    </div>
+                </div>
+                <div class="span4">
+
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

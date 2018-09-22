@@ -1,0 +1,69 @@
+﻿<div class="toolbar navbar-fixed-top" style="height:65px">
+    <h1 id="pageTitle" style="padding-top:0;">{{Title}}</h1>
+    <input type="text" value="" id="filterVal" placeholder="Filter" ng-model="SearchFilter.SearchFilters.$"
+           style="padding:0;margin:33px 0 0 0;width: 70%;height:25px;" /> 
+    <a ng-tap="GoToSettings()" class="ui-link" href="">Main Menu</a>    
+</div>
+   
+<img ng-tap="ImagePopup()" 
+     ng-src="{{PopupImage}}" 
+     ng-show="ShowImagePopup" 
+     style="width: 100%; height: 100%; position: fixed; z-index: 99999; top: 0; left: 0;" />
+<input type="button" value="" style="position: absolute;left:-100px;" ng-click="data.ShowMore(3)" when-scrolled="go" />
+<div style="padding:10px;margin-top:100px;text-align: center;" ng-show="$parent.MyBusidex.length==0 && !Waiting">
+    <h4>Welcome to Busidex! What Next? Choose one of these...</h4>
+    <a class="button whiteButton textbutton" ng-tap="$navigate.go('/card/add')">I'm a business owner and I want to add my card</a>
+    <br />
+    <a class="button whiteButton textbutton" ng-tap="$navigate.go('/search')">I'm looking for small businesses in my area</a>
+</div>
+<div>
+    <ul style="padding:10px;margin-top:65px;" class="ui-overlay-b">
+        <li ng-repeat="card in $parent.MyBusidex | filter:SearchFilter.SearchFilters | limitTo: data.TotalToShow"
+            class="detailRow row"
+            cardid="{{card.CardId}}"
+            tags="{{card.Card.TagList.ToLowerCase()}}"
+            cardname="{{card.Card.Name.toLowerCase()}}"
+            email="{{card.Card.Email.toLowerCase()}}"
+            company="{{card.Card.CompanyName.toLowerCase()}}"
+            ng-animate='animate'>
+            
+            <div style="float:left;">
+                <img ng-tap="ImagePopup(card.Card)" alt="{{card.Card.Name}}"
+                     ng-src="{{ImageRoot + card.Card.FrontFileId}}.{{card.Card.FrontType.replace('.','')}}"
+                     cardid="{{card.CardId}}" class="busidexCard {{card.OrientationClass}}" />
+                <button ng-tap="ToggleNotes(card)" class="notesIcon {{card.Card.VClass}}" ng-show="card.Notes.length > 0">
+                    <img ng-src="{{card.Card.NotesIcon}}" />
+                </button>
+                <button class="notesIcon {{card.Card.VClass}}" ng-show="card.Card.Addresses.length > 0"
+                        ng-tap="openMap(card.Card)">
+                    <img ng-src="{{card.Card.MapIcon}}" />
+                </button>
+            </div>
+            <div class="cardInfo">
+                <div ng-class="{'animate-enter': card.ShowingNotes, 'animate-leave': !card.ShowingNotes}"
+                     class="slide"
+                     style="width:550px;">
+
+                    <div class="contactInfo">
+                        <span class="cardInfoLabel nameLabel">{{card.Card.Name}}</span>
+                        <span class="cardInfoLabel">{{card.Card.CompanyName}}</span>
+                        <a class="cardInfoLabel phoneLink" ng-disabled="ShowImagePopup"
+                           ng-tap="AddActivity($parent.EventSources.CALL, card.Card.CardId)"
+                           ng-href="{{'tel:' + phone.Number.replace('.', '').replace('.', '')}}"
+                           ng-repeat="phone in card.Card.PhoneNumbers">{{phone.Number}}</a>
+                        <a class="cardInfoLabel mailLink" ng-disabled="ShowImagePopup"
+                           ng-href="{{'mailto:' + card.Card.Email}}"
+                           ng-tap="AddActivity($parent.EventSources.EMAIL, card.Card.CardId)">{{card.Card.Email}}</a>
+                        <a class="cardInfoLabel" ng-disabled="ShowImagePopup" ng-tap="openUrl(card.Card)" href="#/mine/">{{card.Card.Url}}</a>
+                    </div>
+                    <div class="notes">
+                        <div class="notes-inner"
+                             ng-bind-html="card.Notes.length > 0 ? card.Notes : 'No Notes To Display'"
+                             ng-animate='animate' class="slide"></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<h4 ng-show="Waiting">loading your busidex...</h4>

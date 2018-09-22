@@ -1,0 +1,33 @@
+﻿<style type="text/css">
+    html{
+        background: url('https://az381524.vo.msecnd.net/images/background2.png') no-repeat center center fixed;
+        background-color: #01262f !important;
+        -ms-background-size: cover !important;
+        background-size: cover !important;
+    }
+</style>
+<div ng-controller="LoginController as vm">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            
+            <div class="account-wall">
+                <img class="profile-img" src="../images/busidex_icon_100x100.png"
+                     alt="">
+                <form class="form-signin">
+                    <input type="text" class="form-control" placeholder="User Name or Email" required autofocus ng-model="vm.form.UserName">
+                    <input type="password" class="form-control" placeholder="Password" required ng-model="vm.form.Password">
+                    <div ng-if="vm.LoginErrors.length > 0" class="alert alert-danger" style="text-align: center;">
+                        {{vm.LoginErrors[0]}}
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="vm.doLogin()" ng-show="!vm.Waiting">
+                        Sign in
+                    </button>                    
+                    <img src="../images/spinner.gif" ng-show="vm.Waiting" class="wait-spinner"/>
+                    <a href="https://register.busidex.com" class="text-center new-account pull-left">Create an account </a>
+                    <a ng-href="#/account/passwordrecover" class="pull-right need-help">Forgot Your Password? </a><span class="clearfix"></span>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>

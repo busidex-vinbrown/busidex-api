@@ -1,0 +1,149 @@
+﻿<style type="text/css">
+    section.content-wrapper {
+        margin: 0;
+        max-width: 99999px;
+        background-position: 300px 0;
+    }
+
+    div.cardDisplay {
+        height: auto;        
+        width: 75%;
+        float: left;
+    }
+    div#cardDisplay {
+        min-height: 600px;
+    }
+</style>
+
+<input type="hidden" id="HasResults" value="HasResults" />
+<div>
+    <img src="/img/search-background.gif" style="position:fixed;left: 0; bottom:0; opacity: .5;z-index: 1;" />
+    <div class="row" style="z-index: 3;position:relative;">
+        <form novalidate class="searchForm">
+            <div class="row">
+                <div class="container">
+                    <div class="span12">
+                        <h3 style="display: inline-block;vertical-align:top;line-height:12px;">Find a Card<!--<a id="help" data-target="#SearchHelpContainer" role="button" class="btn btn-link" data-toggle="modal">Show Me How</a>--></h3>
+                        <div class="input-append" style="display: inline-block;vertical-align:top;margin-right:30px;">
+                            <input type="text" name="SearchText" id="search" placeholder="Search by name, company or tag" class="input-xlarge" ng-model="model.SearchText" ng-change="model.NoResults = false; model.SearchModel.Results =  [];model.SearchResultsMessage = ''" />
+                            <button class="btn btn-info" ng-click="doSearch()"><i class="icon-search"></i></button>
+                            <button class="btn" ng-click="Reset()"><i class="icon-remove"></i></button>
+                        </div>
+                        <div class="dropdown" style="display: inline-block;vertical-align:top;">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                Search By Event
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="SearchByTag('RIARExpo2015')">RIAR Expo 2015</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="SearchByTag('BNIStars2015')" class="in">BNI Evening with the Stars</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="SearchByTag('RIARExpo2014')">RIAR Expo 2014</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="SearchByTag('troopsupport')">Realtor Troop Support</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="SearchByTag('OSBE2014')">Ocean State Business Expo Exhibitors</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="" ng-click="SearchByTag('OSBE2014_Attendee')">Ocean State Business Expo Attendees</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown" style="display: inline-block;vertical-align:top;">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                Search By Organization
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li><a tabindex="-1" href="" class="link btn-link" ng-click="SearchByOrganization(8)">BNI - The 4th Tier</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="span12" id="cardDisplay" >
+           
+            <div class="SearchResults" style="z-index: 2;position:relative;margin-left:40px;">
+                
+                <div ng-show="model.ShowRIAR" class="well well-small pull-left">
+                    
+                    <a ng-href="#/riarexpo" class="pull-right span6">
+                        <img alt="RIAR Expo 2015" ng-src="/img/RIARExpoLogo.png" class="" 
+                             style="box-shadow: inherit; -webkit-box-shadow: inherit; height:150px" /><br/>
+                    </a>
+                    <div class="pull-left span4">
+                        <h3>COMMING SOON!</h3>
+                        <p style="font-size:18px;line-height: 24px;color: #363636;">
+                            We are in the process of creating the platform so you can view each individual business card of the RIARExpo Exhibitors!
+                        </p>
+                    </div>
+                </div>
+                
+                
+                <div ng-show="model.SearchResultsMessage.length > 0" class="search-message">
+                    {{model.SearchResultsMessage}}
+                </div>
+                <div ng-show ="model.PrivateMessage.length > 0" class="alert alert-info">
+                    <h3>{{model.PrivateMessage}}</h3>
+                </div>
+                <img src="../../img/spinner.gif" ng-show="Waiting" />
+                <div ng-model="model.SearchModel.Results"
+                     ng-repeat="card in model.SearchModel.Results"
+                     class="searchResult"
+                     tags="{{card.Card.TagList.ToLowerCase()}}"
+                     cardname="{{card.Card.Name.toLowerCase()}}" phone="" email="{{card.Card.Email}}" cardid="{{card.CardId}}" company="{{card.Card.CompanyName.toLowerCase()}}">
+
+                    <a ng-show="ExistsInMyBusidex" href="{{card.Card.IconLink}}">
+                        <img ng-src="{{card.Card.IconPath}}" class="{{card.Card.IconClass}}" title="{{card.Card.IconTitle}}" alt="" />
+                    </a>
+                    <a data-target="{{ card.FrontOrientationClass == 'h_preview' ? '#detailPopupH' : '#detailPopupV'}}" data-toggle="modal" ng-click="setPopupImage(card)" ng-show="card.HasOwner">
+                        <img alt="{{card.Name}}" title="{{card.Name}}" class="{{card.FrontOrientationClass}}" relations="{{card.BasicRelationsJSON}}."
+                             ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontFileType.replace('.','')}}" />
+                    </a>
+                    <img ng-show="!card.HasOwner" alt="Details Not Available" title="Details Not Available"
+                         class="{{card.FrontOrientationClass}}"
+                         relations="{{card.BasicRelationsJSON}}."
+                         ng-click="ShowNoOwnerMessage()"
+                         ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontFileType.replace('.','')}}" style="cursor:inherit;" />
+                    <div ng-show="!card.ExistsInMyBusidex && card.HasOwner">
+                        <label ng-click="AddToMyBusidex(card)" ng-class="{'label small h_footer': card.FrontOrientationClass == 'h_preview', 'label small v_footer': card.FrontOrientationClass == 'v_preview'}">
+                            <img ng-src="/img/add.png" /> Add to {{MyBusidexName}}
+                        </label>
+                    </div>
+                    <div ng-show="card.ExistsInMyBusidex && card.HasOwner">
+                        <label ng-click="GoToMyBusidex()" ng-class="{'label small h_footer': card.FrontOrientationClass == 'h_preview', 'label small v_footer': card.FrontOrientationClass == 'v_preview'}">
+                            <img ng-src="/img/searchIcon.png" /> View In {{MyBusidexName}}
+                        </label>
+                    </div>
+                    <div ng-show="!card.HasOwner" style="height:28px;">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="detailPopupH" class="modal hide fade h_preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header" style="height:15px">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body" >
+        <img ng-src="{{dynamicImg}}" class="popupImg" inmybusidex="" />
+    </div>
+    <div class="modal-footer">
+        <a ng-click="GoToDetails(popupCard.CardId)" class="btn btn-info detailLink pull-left" data-dismiss="modal">See the details...</a>
+        <a ng-show="ShowAddLink" href="" ng-click="AddToMyBusidex(popupCard)" ng-href="{{ViewBusidexLink}}"
+           class="btn btn-info detailLink addToMyBusidex pull-right" ng-bind-html="AddLinkMessage" data-dismiss="modal"></a>
+        <a ng-click="GoToMyBusidex()" ng-show="!ShowAddLink" href="" class="btn btn-info addToMyBusidex pull-right" data-dismiss="modal">View in {{MyBusidexName}}</a>
+    </div>
+</div>
+<div id="detailPopupV" class="modal hide fade v_preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header" style="height:10px">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    </div>
+    <div class="modal-body">
+        <img ng-src="{{dynamicImg}}" class="popupImg" inmybusidex="" />
+    </div>
+    <div class="modal-footer">
+        <a ng-click="GoToDetails(popupCard.CardId)" class="btn btn-info detailLink pull-left" data-dismiss="modal">See the details</a>
+        <a ng-show="ShowAddLink" href="" ng-click="AddToMyBusidex(popupCard)" ng-href="{{ViewBusidexLink}}"
+           class="btn btn-info detailLink addToMyBusidex pull-right" ng-bind-html="AddLinkMessage" data-dismiss="modal"></a>
+        <a ng-click="GoToMyBusidex()" ng-show="!ShowAddLink" href="" class="btn btn-info addToMyBusidex pull-right" data-dismiss="modal">View in {{MyBusidexName}}</a>
+    </div>
+</div>

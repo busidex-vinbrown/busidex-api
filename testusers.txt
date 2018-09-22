@@ -1,0 +1,47 @@
+busidex.testuser1@gmail.com	d3v3l0p3r
+
+
+ //var compassWatchID, geoWatchID;
+// Compass
+//compassWatchID = navigator.compass.watchHeading(function (heading) {
+//    $('span#heading').html(heading.magneticHeading.toFixed(2) + '&#176;');
+//}, function (error) {
+//    $('span#heading').text(error.code);
+//}, { frequency: 3000 });
+
+// Connection
+//var networkState = navigator.network.connection.type,
+//    states = {};
+
+//states[Connection.UNKNOWN] = 'Unknown';
+//states[Connection.ETHERNET] = 'Ethernet';
+//states[Connection.WIFI] = 'WiFi';
+//states[Connection.CELL_2G] = 'Cell 2G';
+//states[Connection.CELL_3G] = 'Cell 3G';
+//states[Connection.CELL_4G] = 'Cell 4G';
+//states[Connection.NONE] = 'No network';
+
+//$('span#connection').text(states[networkState]);
+
+// Contacts
+//navigator.contacts.find(['id'], function (contacts) {
+//    $('span#contacts').text(contacts.length + ' found');
+//}, function (error) {
+//    $('span#contacts').text(error.code);
+//}, { multiple: true });
+
+// Device properties
+//$('div#deviceprops').html(
+//    '<strong>Name:</strong> ' + device.name + '<br/>' +
+//    '<strong>Cordova version:</strong> ' + device.cordova + '<br/>' +
+//    '<strong>Platform:</strong> ' + device.platform + '<br/>' +
+//    '<strong>UUID:</strong> ' + device.uuid + '<br/>' +
+//    '<strong>Version:</strong> ' + device.version + '<br/>'
+//);
+
+// Geolocation
+//geoWatchID = navigator.geolocation.watchPosition(function (position) {
+//    $('span#geolocation').text(position.coords.latitude.toFixed(2) + 'N, ' + position.coords.longitude.toFixed(2) + 'E');
+//}, function (error) {
+//    $('span#geolocationerror').text(error.code + ': ' + error.message);
+//}, { frequency: 3000 });

@@ -1,0 +1,331 @@
+﻿@using System.Configuration
+@using System.Diagnostics
+@using Busidex.DAL
+
+@model AddOrEditCardModel
+
+@{
+    Debug.Assert(Model != null, "Model != null");
+    
+    long cardId = Model != null ? Model.CardId : -1;
+
+    string cdnPath = ConfigurationManager.AppSettings["imageCDNPath"];
+    string userCardPath = ConfigurationManager.AppSettings["userCardPath"];
+     
+    if (Model != null && cardId == -1){
+        Model.Searchable = true;          
+    }
+    
+    var frontCardMarkup = new HtmlString(Server.HtmlDecode(Model.Markup) ?? string.Empty);
+}
+<form id="cardForm" method="post" action="@Url.Action(Model.ActionMethod, "Card", new { id = cardId })" enctype = "multipart/form-data">   
+    
+    <h1 id="AddEditStepTitle">@Model.ActionMethod a Card</h1>
+
+    <input type="hidden" value="@cardId" name="CardId" />
+    <input type="hidden" value="@Model.MyEmail" id="myEmail" />
+    <input type="hidden" id="HasFrontImage" value="@Model.HasFrontImage.ToString()"/>
+    <input type="hidden" name="showImagePreview" id="showImagePreview" value="false"/>
+    <input type="hidden" name="Display" id="Display" value="@Model.Display" />
+    <input type="hidden" name="Markup" value="@(Server.HtmlEncode( Model.Markup))"/>
+    <!--DETAILS-->   
+    <div id="details" class="workArea">
+        <div class="directions">
+            All items with asterisk (*) are required. It is important that you check off if you are the owner of the card or not. 
+            All required fields will be associated with the business card that you upload. The file size for the business card you 
+            upload must be less than 150KB in size.
+        </div>        
+        <div style="clear: both;"></div>
+        <div style="width: 60%; float: left;">
+            <div id="selUploadTo" class="well-small" style="padding: 15px;display:none;">
+                <span class="required" style="position:absolute;margin-left:-6px">*</span>
+                <img src="@cdnPath/help_blue.png" class="help" alt="What does this mean?" title="What does this mean?"/>
+                <div class="ownerHelp">
+                    <h3>I am the owner of this card</h3>
+                    <p>When someone calls the number on this card or sends an email, I'm the one who is going to answer.</p>
+                    <h3>I am NOT the owner of this card</h3>
+                    <p>I call the number on this card to get whatever service or merchandise it is that they're offering.</p>
+                </div>
+            </div>
+            <div>
+                <h4>Details</h4>
+                <div id="cardName" class="cardField" style="margin-top:10px;" >
+                    <label class="fixedLabel" for="Name">Name:&nbsp;</label>
+                    @Html.TextBoxFor(c => c.Name, new { maxlength = 150})<span class="required ownerRequired">*</span>
+                    @Html.ValidationMessageFor(c=>c.Name)
+                </div>
+                <div id="Title" class="cardField">
+                    <label class="fixedLabel" for="Title">Title:&nbsp;</label>
+                    @Html.TextBoxFor(c => c.Title, new { maxlength = 150})
+                </div>
+                <div id="cardBusiness" class="cardField" >
+                    <label class="fixedLabel" for="Company">Company:&nbsp;</label>
+                    @Html.TextBoxFor(c => c.CompanyName, new { maxlength = 150})<span class="required ownerRequired">*</span>
+                </div>
+                <div id="cardEMail" class="cardField">
+                    
+                    <label class="fixedLabel" for="EMail">EMail:&nbsp;</label>
+                    @Html.TextBoxFor(c => c.Email, new { maxlength = 150 })<span class="required">*</span>
+                    @Html.ValidationMessageFor(c=>c.Email)
+                </div>
+                <div id="cardUrl" class="cardField" >
+                    <label class="fixedLabel" for="Url">Url:&nbsp;</label>
+                    @Html.TextBoxFor(c => c.Url, new { maxlength = 250 })
+                </div>
+                <div class="cardField" style="padding: 10px 0 10px 90px">
+                    <span class="required" style="position:absolute;margin-left:-6px">*</span>
+                    @if (Model.ActionMethod == "Edit")
+                    {
+                        <div><input type="radio" id="IsMyCard" name="IsMyCard" value="true" @(Model.IsMyCard.GetValueOrDefault() ? "checked" : "") />&nbsp;<span class="MyCardLabel">This is my personal card.</span></div>
+                        <div><input type="radio" id="NotMyCard" name="IsMyCard" value="false" @(Model.IsMyCard.HasValue && Model.IsMyCard.Value ? "" : "checked") />&nbsp;<span class="MyCardLabel">This is NOT my personal card.</span></div>
+                    }else
+                    {
+                        <div><input type="radio" id="IsMyCard" name="IsMyCard" value="true" @(Model.IsMyCard.GetValueOrDefault() ? "checked" : "")/>&nbsp;<span class="MyCardLabel">I am the business owner.</span></div>
+                        <div><input type="radio" id="NotMyCard" name="IsMyCard" value="false" />&nbsp;<span for="MyCard" class="MyCardLabel">I am NOT the business owner.</span></div>
+                    }
+                </div>
+            </div>
+            <div id="ContactNumbers">
+                <h4>Contact Numbers<span class="required" style="font-size:12px;">&nbsp;*</span></h4>
+                @foreach(var phoneNumber in Model.PhoneNumbers)
+                {
+                    string phoneElementId = "cardPhone" + phoneNumber.PhoneNumberId.ToString(); 
+                    <div id="@phoneElementId" class="phoneDiv cardField"  style="margin-top:10px;">
+                        <input type="hidden" name="PhoneNumberId" value="@phoneNumber.PhoneNumberId.ToString()" />
+                        @Html.DropDownList("PhoneNumberTypeId", new SelectList(Model.PhoneNumberTypes, "PhoneNumberTypeId", "Name", phoneNumber.PhoneNumberTypeId), new{@class="input-small"})
+                        :<input type='text' value="@phoneNumber.Number" maxlength="20" style="width:100px" name="Number" class="PhoneNumber"/>
+                        &nbsp;ext 
+                        <input type="text" value="@phoneNumber.Extension" maxlength="20" style="width:45px" name="Extension"/>&nbsp;
+                        <input type="hidden" name="PhoneDeleted" class="PhoneDeleted" value="@phoneNumber.Deleted.ToString()" />
+                        <a href="#" class="addPhone" target="cardPhone2" next="cardPhone2">Add another</a>
+                        <a href="#" class="removePhone" target="@phoneElementId.ToString()">Remove</a>
+                        
+                    </div>
+                }
+            </div>
+        </div>
+        <div style="float:left;width:25%;">
+            <span class="required" style="margin-left:-10px;position: absolute;">*</span><input type="file" id="getFrontImgHdn" target="frontPreview" name="CardFrontImage" />
+            
+            @Html.RadioButtonFor(m=>m.FrontOrientation, "H", new{ id = "o_fh"})<span>Horizontal</span>
+            @Html.RadioButtonFor(m=>m.FrontOrientation, "V", new{ id = "o_fv"})<span>Vertical</span>
+            @if (Model.Display == DisplayType.IMG)
+            {
+                <img alt="Front Image" id="frontPreview" class="preview frontPreview @(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")" style="margin-bottom: 20px;" src="@(userCardPath + Model.FrontFileId + "." + Model.FrontType)" />
+            }
+            else
+            {
+               @(frontCardMarkup)
+            }
+            <input type="file" id="getBackImgHdn" target="backPreview" name="CardBackImage" />
+            @Html.RadioButtonFor(o=>o.BackOrientation, "H", new{ id = "o_bh"})<span>Horizontal</span>
+            @Html.RadioButtonFor(o=>o.BackOrientation, "V", new{ id = "o_bv"})<span>Vertical</span>
+            @if (Model.BackFileId != null)
+            {
+            <img alt="Back Image" id="backPreview" class="preview backPreview  @(Model.BackOrientation == "H" ? "h_preview" : "v_preview")" src="@(userCardPath + Model.BackFileId + "." + (Model.BackType ?? "png"))" /> 
+            }
+             
+        </div>
+        @if (Model.CardId <= 1)
+        {
+            @*<div style="clear: both; padding: 20px; margin-right: 105px;" class="pull-right">
+                <span>Don't have a card? <a href="Create" role="button" class="btn btn-info">Create one now!</a></span>
+            </div>*@
+        }
+        else if(Model.Display == DisplayType.HTM)
+        {
+            <div style="clear: both; padding: 20px; margin-right: 105px;" class="pull-right">
+                <a href="../Create/@Model.CardId" role="button" class="btn btn-info">Edit Your Card</a>
+            </div>
+        }
+    </div>
+    <!--ADDRESSES-->
+    <div id="addresses" class="workArea">
+        <div class="directions">
+            Add 1 or more addresses for this card. This allows people to search.
+        </div>        
+        <div style="clear: both;"></div>
+        <div style="float:left;">&nbsp;            
+            <table id="addressList">
+                <tr id="addressTemplate" class="addressRow">
+                    <td class="removeAddress"><img src="~/Content/../Images/delete.png" addressId=""/></td>
+                    <td class="editAddress"><img src="~/Content/../Images/edit.png" addressId=""/></td>
+                    <td class="addressDisplay"></td>
+                    <td class="addressFields">
+                        <input type="hidden" name="CardAddressId" class="CardAddressId" value=""/>
+                        <input type="hidden" name="Address1" class="Address1" value=""/>
+                        <input type="hidden" name="Address2" class="Address2" value=""/>
+                        <input type="hidden" name="City" class="City" value=""/>
+                        <input type="hidden" name="State" class="State" value=""/>
+                        <input type="hidden" name="ZipCode" class="ZipCode" value=""/>
+                        <input type="hidden" name="Region" class="Region" value=""/>
+                        <input type="hidden" name="Country" class="Country" value=""/>
+                        <input type="hidden" name="AddressDeleted" class="Deleted" value=""/>
+                    </td>
+                </tr>
+                @foreach (var addr in Model.Addresses)
+                {
+                    <tr class="addressRow">
+                        <td class="removeAddress"><img src="/Images/delete.png" addressId="@addr.CardAddressId"/></td>
+                        <td class="editAddress"><img src="/Images/edit.png" addressId="@addr.CardAddressId"/></td>
+                        <td class="addressDisplay">@addr.ToString()</td>
+                        <td class="addressFields">
+                            <input type="hidden" name="CardAddressId" class="CardAddressId" value="@addr.CardAddressId"/>
+                            <input type="hidden" name="Address1" class="Address1" value="@addr.Address1"/>
+                            <input type="hidden" name="Address2" class="Address2" value="@addr.Address2"/>
+                            <input type="hidden" name="City" class="City" value="@addr.City"/>
+                            <input type="hidden" name="State" class="State" value="@addr.State"/>
+                            <input type="hidden" name="ZipCode" class="ZipCode" value="@addr.ZipCode"/>
+                            <input type="hidden" name="Region" class="Region" value="@addr.Region"/>
+                            <input type="hidden" name="Country" class="Country" value="@addr.Country"/>
+                            <input type="hidden" name="AddressDeleted" class="Deleted" value="@addr.Deleted"/>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @{
+            var address = new CardAddress();
+        }
+        
+        <div style="float: left; height: 370px;">
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel" for="Address1">Address&nbsp;1:&nbsp;</label>
+                <input class="addressField" id="Address1" type="text" value="@address.Address1" maxlength="150" style="width:200px"/>
+            </div>
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel" for="Address2">Address&nbsp;2:&nbsp;</label>
+                <input class="addressField" id="Address2" type="text" value="@address.Address2" maxlength="150" style="width:200px"/>
+            </div>
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel" for="City">City:&nbsp;</label>
+                <input class="addressField" id="City" type="text" value="@address.City" maxlength="150" style="width:200px"/>
+            </div>
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel" for="State">State:&nbsp;</label>
+               @* <input class="addressField" id="State" type="text" value="@address.State" maxlength="5" style="width:80px"/>*@
+                <select class="addressField" id="State" style="width:150px">
+                    <option value="" selected="selected">Select a State</option>
+                    @foreach (StateCode state in Model.StateCodes)
+                    {
+                        <option value="@state.Code">@state.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel" for="ZipCode">ZipCode:&nbsp;</label>
+                <input class="addressField" id="ZipCode" type="text" value="@address.ZipCode" maxlength="15" style="width:100px"/>
+            </div>
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel" for="Region">Region:&nbsp;</label>
+                <input class="addressField" id="Region" type="text" value="@address.Region" maxlength="150" style="width:200px"/>
+            </div>
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel" for="Country">Country:&nbsp;</label>
+                <input class="addressField" id="Country" type="text" value="@address.Country" maxlength="150" style="width:200px"/>
+            </div>
+            <div class="cardField" style="margin-top: 10px;" >
+                <label class="fixedLabel">&nbsp;</label>
+                <input type="button" id="addNewAddress" value="Add / Update" style="padding: 3px;"/>
+            </div>
+        </div>
+        
+        <div style="float: left;width:250px; margin-left:80px;">
+            @if (Model.Display == DisplayType.IMG)
+            {
+                <img alt="Front Image" style="margin-bottom: 20px;" id="frontPreview2" class="preview frontPreview @(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")" src="@(userCardPath + Model.FrontFileId + "." + Model.FrontType)" />
+            }
+            else
+            {
+                @frontCardMarkup
+            }
+            <br/><br/>
+            @if (Model.BackFileId != null)
+            {
+                <img alt="Back Image" id="backPreview2" class="preview backPreview @(Model.BackOrientation == "H" ? "h_preview" : "v_preview")" src="@(userCardPath + Model.BackFileId + "." + (Model.BackType ?? "png"))" />
+            }
+        </div>
+    </div>
+    <!--TAGS-->
+    <div id="tags" class="workArea">
+        <div class="directions">
+            Enter as many keywords as you want to associate with your card. These will help people find your card when they search.
+        </div>        
+        <div style="clear: both;"></div>
+        <div class="tagContainer">
+            <span>New Tag: </span>
+            <input type="text" id="newTag"/><input type="button" id="btnAddTag" value="Add Tag"/>
+            <ul id="tagList">
+                <li id="tagTemplate">
+                    <div>
+                        <input type="hidden" name="tagText" class="tag" value=""/>
+                        <label class="tagName"></label><span class="removeTag">X</span>
+                    </div>
+                </li>
+                @foreach (var tag in Model.Tags)
+                {
+                <li class="tag">
+                    <div>
+                        <input type="hidden" name="tagText" class="tag" value="@tag.Text"/>
+                        <label class="tagName"></label>@tag.Text<span class="removeTag">X</span>
+                    </div>
+                </li>
+                }
+            </ul>
+        </div>
+        <div style="float: left;width:25%;">
+            @if (Model.Display == DisplayType.IMG)
+            {
+                <img alt="Front Image" style="margin-bottom: 20px;" id="frontPreview4" class="preview frontPreview @(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")" src="@(userCardPath + Model.FrontFileId + "." + Model.FrontType)" />                
+            }
+            else
+            {
+                @frontCardMarkup
+            }    
+            <br/><br/>
+            @if (Model.BackFileId != null)
+            {
+            <img alt="Back Image" id="backPreview4" class="preview backPreview @(Model.BackOrientation == "H" ? "h_preview" : "v_preview")" src="@(userCardPath + Model.BackFileId + "." + (Model.BackType ?? "png"))" />       
+            }
+        </div>
+    </div>
+    <!--NOTES-->
+    <div id="notes" class="workArea">
+        <div class="directions">
+            Add your own notes to this card. You can update these notes here or in <a href="@Url.Action("Mine", "Busidex")">your Busidex collection</a>.
+        </div>        
+        <div style="clear: both;"></div>
+        <h4>Notes</h4>
+        <fieldset style="float:left;height:370px;width:50%;">
+            <textarea name="Notes" id="Notes" cols="50" rows="10" style="width: 90%">@(Server.UrlDecode(Server.HtmlDecode(Model.Notes)))</textarea>            
+        </fieldset>
+        <div style="float: left;width:25%;">
+            @if (Model.Display == DisplayType.IMG)
+            {
+                <img alt="Front Image" style="margin-bottom: 20px;" id="frontPreview2" class="preview frontPreview @(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")" src="@(userCardPath + Model.FrontFileId + "." + Model.FrontType)" />                
+            }
+            else
+            {
+                @frontCardMarkup
+            }
+            <br/><br/>
+            @if (Model.BackFileId != null)
+            {
+            <img alt="Back Image" id="backPreview2" class="preview backPreview @(Model.BackOrientation == "H" ? "h_preview" : "v_preview")" src="@(userCardPath + Model.BackFileId + "." + (Model.BackType ?? "png"))" />       
+            }
+        </div>
+    </div>
+    
+    <!--NAVIGATION-->
+    <div class="AddEditNav">
+        <input type="button" value="Details" class="step selected" target="details"/>
+        <input type="button" value="Addresses" class="step" target="addresses"/>
+        <input type="button" value="Notes" class="step" target="notes"/>
+        <input type="button" value="Tags" class="step" target="tags" />            
+        <input type="button" class="submitLink" value="Save"/>
+    </div>
+         
+    @Html.Hidden("Created", DateTime.Now.ToString())
+    @Html.Hidden("CreatedBy", Model.CreatedBy)
+    @Html.Hidden("Updated", DateTime.Now.ToString())
+</form>

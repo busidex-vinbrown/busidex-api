@@ -1,0 +1,38 @@
+﻿/* iPads (portrait) ----------- */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  /* Styles */
+  section.frame1 {
+    padding: 40px 5% !important; }
+    section.frame1 a.logo {
+      left: 0; }
+    section.frame1 ul {
+      left: 0; }
+    section.frame1 div.image-right-side {
+      left: 300px; }
+
+  section.frame2 div.title {
+    margin-left: 260px; }
+  section.frame2 ul.details {
+    left: 260px;
+    width: 480px; }
+  section.frame2 a.registerLink {
+    left: 300px; }
+  section.frame2 img.tablet {
+    left: -160px; }
+
+  section.frame3 .title {
+    left: 40px; }
+  section.frame3 .details {
+    left: 40px;
+    max-width: 390px; }
+  section.frame3 a.searchLink {
+    left: 40px; }
+
+  section.frame5 div.imgRightSide {
+    bottom: 0;
+    left: 500px; }
+  section.frame5 div.trademark {
+    margin-right: 43%; }
+ }
+
+/*# sourceMappingURL=media_portrait_minw768_and_maxw1024.css.map */

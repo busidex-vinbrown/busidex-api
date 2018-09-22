@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Busidex.DAL.Category> 
+
+@{
+    ViewBag.Title = "Card Categories";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("ul#menu li#Home, ul#menu li#Search, ul#menu li#Add, ul#menu li#Mine").show();
+
+        $(".catField").click(function () {
+            var o = $(this).position();
+            $("#editName").css({ top: (o.top + 20) + "px", left: o.left + "px" })
+                .show()
+                .val($(this).text())
+                .attr("categoryId", $(this).attr("categoryId"))
+                .focus();
+            return false;
+        });
+
+        $("#editName").blur(function () {
+            var id = $(this).attr("categoryId");
+            var n = $(this).val();
+            var $this = $(this);
+            $.ajax({
+                url: "@Url.Action("EditCategory", "Admin")",
+                data: { categoryId: id, name: $(this).val() },
+                success: function () {
+                    $("#catName" + id).text( n );
+                    $this.hide();
+                }
+            });
+            $(this).hide();
+        });
+
+        $("body").click(function(){
+            $("#editName").hide();
+        });
+    });
+</script>
+<h4>Admin Options</h4>
+<ul>
+    <li>@Html.ActionLink("Categories", "Categories", "Admin")</li>
+    <li>@Html.ActionLink("Card Maintenance", "CardMaintenance", "Admin")</li>
+</ul>
+
+<h2>Card Categories</h2>
+
+<div>
+    @using (Html.BeginForm("AddCategory", "Admin")) {
+        
+        <label>New Category Name:&nbsp;</label><input type="text" name="Name" />
+        <input type="submit" value="Add Category" />
+    }
+</div>
+<hr />
+<table>
+    <tbody>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Deleted
+        </th>                                                              
+        <th></th>
+    </tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <span id="@("catName" + item.CategoryId)" class="catField" prop="name" categoryId = "@item.CategoryId">@item.Name</span>
+        </td>
+        <td>
+            <input class="catField" prop="deleted"  type="checkbox" @(item.Deleted ? "checked" : "") categoryId = "@item.CategoryId" />
+        </td>
+    </tr>
+}
+</tbody>
+</table>
+
+@using (Html.BeginForm("EditCategory", "Admin", FormMethod.Post, new { id="categoryForm", style="position:absolute; top:0px; left: 0px;" })) {
+    <input id="editName" type="text" name="Name" value = "" style="display: none; position: absolute;" />
+    <input type="hidden" name="CategoryId" value="" />
+}

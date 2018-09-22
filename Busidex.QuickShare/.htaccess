@@ -1,0 +1,2 @@
+RewriteRule ^apple-app-site-association$ - [env=apple:1]
+Header set Content-type application/json env=apple

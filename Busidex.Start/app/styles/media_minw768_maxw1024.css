@@ -1,0 +1,8 @@
+﻿/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Styles */
+  div.section.frame1 a.logo {
+    left: 5px; }
+ }
+
+/*# sourceMappingURL=media_minw768_maxw1024.css.map */

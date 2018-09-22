@@ -1,0 +1,13 @@
+﻿@using Busidex.DAL
+@model List<Card>
+
+@foreach (var card in Model)
+{
+    <div style="margin:5px; border: solid 1pt silver;width: 300px; padding:5px;">
+        @card.Name<br/>
+        @foreach (PhoneNumber number in card.PhoneNumbers)
+        {
+            <label style="margin-left:10px;">@number.Number</label><br/>
+        }
+    </div>
+}

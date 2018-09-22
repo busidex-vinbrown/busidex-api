@@ -1,0 +1,13 @@
+﻿<div role="alert" class="alert alert-danger alert-dismissible" style="text-align: center;">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h3>Something Went Wrong</h3>
+    <p>Sorry, it seems there was a problem saving your card. We will look at the details of what happened and have this fixed as soon as possible.</p>
+    <p>
+        <a class="btn btn-sm btn-link" href ng-click="vm.showAdditionalErrorInfo()">Additional information...</a>
+        <div ng-if="vm.showErrorDetails" class="well well-sm">
+            <ul>
+                <li ng-repeat="error in vm.errorDetails">{{error}}</li>
+            </ul>
+        </div>
+    </p>
+</div>

@@ -1,0 +1,28 @@
+﻿<admin-menu></admin-menu>
+
+<div class="adminDiv">
+    <input class="btn btn-info" type="button" ng-click="LoadNewCards()" value="Refresh" />
+    <small>Total errors in the past <select class="input-mini" ng-model="NewCardDaysBack" ng-options="d for d in NewCardDays"></select> days</small>
+    <div ng-repeat="card in Cards" class="detailRow row" style="margin-bottom:25px;">
+        <div class="span3">
+            <img ng-show="card.FrontFileId != null" alt="{{card.Name}}" ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontType.replace('.','')}}"
+                 cardid="{{card.CardId}}" class="{{card.OrientationClass}}" style="position:relative" />
+            <label class="label label-info" ng-show="card.FrontFileId == null">No Card Image Available</label>
+        </div>
+        <div class="span9 cardInfo">
+            <div class="row">
+                <div class="span4">
+                    <strong>{{card.Name}}</strong>
+                    <span class="label">{{card.CompanyName}}</span><br />
+                    <label ng-repeat="phone in card.PhoneNumbers">{{phone.Number}}</label>
+                    <a href="mailto:{{card.Email}}">{{card.Email}}</a><br />
+                    <a ng-href="{{'http://' + card..Url}}" target="_blank">{{card.Url}}</a><br />
+                    <span>Date Added: {{card.Created}}</span><br />
+                    <span>Last Updated: {{card.Updated}}</span><br />
+                    <span ng-show="card.OwnerId > 0" class="badge badge-success">This card is owned</span>
+                    <span ng-show="card.OwnerId == null" class="badge badge-important">This card has no owner yet.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

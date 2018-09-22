@@ -1,0 +1,21 @@
+﻿
+<div class="well" style="margin-top: 40px;">
+    
+    <h3>Account Type</h3>
+    <ol>
+        <li class="planType" ng-repeat="plan in Plans">
+            <input type="radio" name="AccountTypeId" ng-model="Model.AccountTypeId" value="{{plan.AccountTypeId}}" ng-checked="plan.Selected" required ng-disabled="plan.AccountTypeId ==5" />
+            <span class="AccountType">{{plan.Name}}</span>&nbsp;-&nbsp;<span ng-bind-html="plan.Description"></span>
+        </li>
+    </ol>
+    
+    <p>
+        <input type="submit" value="Save" class="btn btn-main" role="button" ng-click="save()" />
+    </p>
+</div>
+<div class="alert alert-success" style="text-align: center;" ng-show="Model.Saved">
+    <h4>Your account type changed</h4>
+</div>
+<div class="alert alert-error" style="text-align: center;" ng-show="!Model.Saved && Model.Error">
+    <h4 ng-show="Model.Error">Sorry, we couldn't update your account type at this time.</h4>
+</div>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, Click Me!</string>
+	<string name="app_name">Busidex.Mobile</string>
+	<string name="myBusidex">My Busidex</string>
+	<string name="addACard">Add a Card</string>
+	<string name="busidex">Busidex</string>
+</resources>

@@ -1,0 +1,41 @@
+﻿<div class="container" ng-controller="TagController as vm">
+    <div class="jumbotron jumbotron-contactinfo">
+        <div ng-include="'views/fragments/logo.html'"></div>
+        <h2>Tag Your Card!</h2>
+        <div ng-show="vm.ModelError === true" ng-include="'views/fragments/error.html'"></div>
+        <p>
+            Tags are short keywords that describe your business so if people don't know your name, they can find
+            you by your tags. Tags can be up to 35 letters, and you can add up to 7.
+        </p>
+
+        <form class="form-inline"  ng-hide="vm.checkTagCount(vm.card)">
+            <div class="form-group">
+                <div class="input-group contactInfo">
+                    <input type="text" placeholder="New Tag" id="newTag" class="form-control" ng-model="vm.NewTag" ng-enter="vm.AddTag()" maxlength="35" ng-disabled="vm.checkTagCount(vm.card)" />
+                    <span class="input-group-addon" style="padding: 0;border: none; background: transparent;">
+                        <a id="btnAddTag" ng-enter="vm.AddTag()" ng-click="vm.AddTag()">
+                            <img src="../../images/add.png" style="padding:7px;" />
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </form>
+        <div class="form-group tag-list-container" ng-show="vm.card.Tags.length > 0">
+            <ul ng-model="vm.card.Tags">
+                <li ng-repeat="tag in vm.card.Tags" class="tag {{vm.TagTypes[tag.TagTypeId - 1]}}Tag" ng-show="tag.TagTypeId===1">
+                    <div class="">
+                        <input type="hidden" name="tagText" class="tag" value="{{tag.Text}}" maxlength="35" />
+                        <label class="tagName"></label>{{tag.Text}}<span class="removeTag" ng-show="tag.TagTypeId===1" ng-click="vm.RemoveTag(tag.Text)">X</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div ng-if="!vm.editmode">
+            <a class="btn btn-lg btn-info" ng-mouseup="vm.save(0)">&lt; Back</a>
+            <a class="btn btn-lg btn-success" ng-mouseup="vm.save(1)">Next &gt;</a>
+        </div>
+        <div ng-if="vm.editmode">
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.modified" ng-mouseup="vm.save(-1)">Save</a>
+        </div>
+    </div>
+</div>

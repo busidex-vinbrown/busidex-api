@@ -1,0 +1,11 @@
+﻿<ul id="groupList">
+    <li>
+        <h4 ng-repeat="group in Groups">
+            <i class="icon-remove deleteGroup" ng-click="DeleteGroup(group.GroupId)"></i>&nbsp;<a ng-href="#/groups/details/{{group.GroupId}}">{{group.Description}}</a>
+        </h4>
+    </li>
+</ul>
+
+<div class="EmptyBusidex">
+    <a href="#/groups/create" id="addGroup" class="btn btn-large">Click here to create a new BusiGroup!</a>
+</div>

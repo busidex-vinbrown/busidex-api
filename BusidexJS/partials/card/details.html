@@ -1,0 +1,47 @@
+﻿<style type="text/css">
+    /*.modal-backdrop {
+        display: none;
+    }*/
+</style>
+
+<div class="row" style="padding-top:20px;">
+    <img src="../../img/spinner.gif" ng-show="Waiting" />
+    <div class="span6 myCardDetail {{FrontOrientationClass}}">
+        <img ng-show="ShowFront" ng-src="https://az381524.vo.msecnd.net/cards/{{Card.FrontFileId}}.{{Card.FrontFileType}}" alt="{{Card.Name}}" class="{{FrontOrientationClass}}" />
+        <img ng-show="ShowBack" ng-src="https://az381524.vo.msecnd.net/cards/{{Card.BackFileId}}.{{Card.BackFileType}}" alt="{{Card.Name}}" class="{{BackOrientationClass}}" />
+    </div>
+    <ul class="cardDetail">
+        <li >
+            <strong>Name</strong><div>{{Card.Name}}</div>
+        </li>
+        <li >
+            <strong>Company Name</strong><div>{{Card.CompanyName}}</div>
+        </li>
+        <li >
+            <strong>Email</strong><a class="btn btn-link" style="color:#fff0f5;" target="_blank" ng-href="mailto:{{Card.Email}}">{{Card.Email}}</a>
+        </li>
+        <li >
+            <strong>Web Site</strong><a class="btn btn-link" style="color:#fff0f5;" ng-href="http://{{Card.Url.replace('http://','')}}" target="_blank">{{Card.Url}}</a>
+        </li>
+        <li><strong>Phone Numbers</strong></li>
+        <li  ng-repeat="phoneNumber in Card.PhoneNumbers">
+            <label class="label large">{{phoneNumber.PhoneNumberType.Name}}:</label><span>{{phoneNumber.Number}}</span>
+        </li>
+        <!--<li>
+            <strong>Tags: </strong>
+            <ul id="tagList" ng-model="Card.Tags">
+                <li ng-repeat="tag in Card.Tags" class="tag {{TagTypes[tag.TagType]}}Tag">
+                    <div>
+                        <label class="tagName">{{tag.Text}}</label>
+                    </div>
+                </li>
+            </ul>
+        </li>-->
+        <li ng-show="!ExistsInMyBusidex">
+            <a ng-href="" ng-click="AddToMyBusidex(Card.CardId)" class="btn btn-info" style="width:195px;">Add This to Your Collection</a>
+        </li>
+        <li >
+            <a class="btn btn-primary" href="javascript:history.back()"><< back</a>
+        </li>
+    </ul>
+</div>

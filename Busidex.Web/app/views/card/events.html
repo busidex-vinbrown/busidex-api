@@ -1,0 +1,73 @@
+﻿<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+<div ng-controller="SearchController as vm">
+    <div class="container-fluid my-busidex">
+
+        <h1>CURRENT EVENTS</h1>
+
+        <div class="jumbotron col-md-4 event-description">
+            <img src="/images/ten.jpg" style="height: 165px; width: 200px;" alt="Total Exposure Networking"/>
+
+            <p col-sm-4>
+                <label>Saturday, June 12 2017  5:30p.m.</label>
+                <address style="font-size: 18px;">
+                    <strong>Sprout RI</strong><br/>
+	                166 Valley Street<br/>
+	                Building 6M<br/>
+                    Providence, RI 02909
+                </address>
+            </p>
+            <a class="btn btn-primary" ng-href="#/events/TEN">Total Exposure Networking</a>
+        </div>
+    </div>
+    <div class="container-fluid my-busidex">
+	    <h1>PAST EVENTS</h1>
+	    <div class="well col-md-3 col-lg-2 event-description past-events">
+		    <div>
+			    <img src="/images/osbe.jpg" />
+			    <h2>OSBE 2016</h2>
+			    <a ng-href="#/card/search?_t=OSBE2016">OSBE 2016 Exhibitors</a>
+		    </div>
+	    </div>
+        <div class="well col-md-3 col-lg-2 event-description past-events">
+            <div>
+                <img src="/images/osbe.jpg" />
+                <h2>RIAR Expo 2015</h2>
+                <a ng-href="#/card/search?_t=RIARExpo2015">RIAR Expo exhibitors and attendees</a>
+            </div>
+        </div>
+        <div class="well col-md-3 col-lg-2 event-description past-events">
+            <div>
+                <img src="/images/RIARExpoLogo.png" />
+                <h2>RIAR Expo 2015</h2>
+                <a ng-href="#/card/search?_t=RIARExpo2015">RIAR Expo exhibitors and attendees</a>
+            </div>
+        </div>
+        <div class="well col-md-3 col-lg-2 event-description past-events">
+            <img src="/images/bnistars.png" style="height: 95px;" />
+            <h2>BNI Evening With The Stars</h2>
+            <a ng-href="#/card/search?_t=BNIStars2015">Event Attendees</a>
+        </div>
+        <div class="well col-md-3 col-lg-2 event-description past-events">
+            <img src="/images/osbe2014.jpg" style="height: 85px; width: 120px;" />
+            <h2>OSBE 2014</h2>
+            <a style="margin-bottom: 30px;" ng-href="#/card/search?_t=OSBE2014">OSBE 2014 Exhibitors</a>
+            <a ng-href="#/card/search?_t=OSBE2014_Attendee">OSBE 2014 Attendees</a>
+        </div>
+        <div class="well col-md-3 col-lg-2 event-description past-events">
+            <img src="/images/RealtorFoundation.png" style="height: 75px;" />
+            <h2>Realtor Troop Support 2014</h2>
+            <a ng-href="#/card/search?_t=troopsupport">Event Attendees</a>
+        </div>
+        <div class="well col-md-3 col-lg-2 event-description past-events">
+            <div>
+                <img src="/images/conference-logo-w-blue-box-trnsp.png" />
+                <h2>RIAR Expo 2014</h2>
+                <a ng-href="#/card/search?_t=RIARExpo2014">RIAR Expo Exhibitors</a>
+            </div>
+        </div>
+    </div>
+</div>

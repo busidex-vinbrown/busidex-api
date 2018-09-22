@@ -1,0 +1,418 @@
+﻿<!doctype html>
+<html lang="en" ng-app="Busidex" ng-csp class="ng-cloak">
+<head>
+    <title>Busidex</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Who is Busidex for? Busidex is for anyone that uses business cards. Busidex was created with the idea of keeping your clients and business associates up to date about Your Business and making sure your current with Their Business. While you want people to know about your business you also enjoy your privacy. Busidex is not about You but about Your Business. It is a business platform where you empower your Business Card. Peter J. Furness of Boyajian Harrington Richardson & Furness, Attorney; Todd E. McNamara of DeAngelis & McNamara, P.C., Attorney; Tom & Christine Kaine of Miracle Method Surface Restoration, Owner; John E. Olson of Province Mortgage Associates, Inc., Mortgage Loan Officer; Stephen J. Digianfilippo, Esq. of Vieira DiGianfilippo, Attorney; Mary Ann Nassa of Yoga Concepts, Director; Paul Iorio of StormTree, ; Steve De Angelis of Keller Williams Realty, Real Estate Sales Associate; Chris Ferreira of WebsterBank, Mortgage Banking Officer; Elsie Wright of Barrington Christian Academy, Head of School; Lizzabeth Brown of HomeSmart, Realtor; Tracy Barac of Global View Communications, Account Director; Andrew J. White of Amica Mutual Insurance Company, Sales Representative; Barbara Scanlon of Re/Max Town and Country, Broker Associate; Joe Arpin of J.M.A. Electrical Services LLC, Owner ; Roberto Leon of Agaves, Owner; Sandy Tremblay of Virtually Yours, LLC, President; Dean A. deTonnancourt of HomeSmart Professionals Real Estate, Broker/Owner; Vincent Brown of Busidex, LLC, CTO; Nick Sungenis of , ; Boots Crossley of , ; Steven Proulx of , ; Daniel Holmander of Barlow, Josephs & Holmes Ltd., Attorney; Cayte Burdick of Virgin Pulse, Web Designer; Lizzabeth Brown of Busidex, LLC, Managing Director; Branch Manager II of William Marcello, wmarcello@websterbank.com; Christon of Liberty Title & Escrow, Gibson;  of , ; Joshua Hardyt of , ; David Grudzinski of Advantage Home Inspections LLC, Owner; Julie LeBlanc of Keller Williams Realty, Realtor; Nick of ND Training, Personal Trainer; Carl Coutu of Keller Williams Realty, Operating Principal, Broker Owner; Matt Kachanis of Williams & Stuart Real Estate, Realtor; Reba Golden of KELLER WILLIAMS REALTY, Sales Associate; Name of Honey Extractor, Beekeeper; Li Lin of Virgin Pulse, Senior Software Engineer II; Name Bee of Honeybee, Beekeeper; Name of QueenBee, Beekeeper;  of , ; Vincent Brown III of Busidex L.L.C, CMO; Hank Richter of HomePro Inspections of RI, General Manager; Gregory J. Schadone of The Law Offices of Gregory J. Schadone LTD., Attorney at Law; Crystal D'Agostino of HomeSmart Professionals Real Estate, Career Services Director; Audrey Diehl of HomeSmart Professionals Real Estate, Realtor®; Eric Anderson of Keller Williams Realty, Anderson Real Estate Group; Vincent Brown of Virgin Pulse, Software Engineering Manager; Bobby Kayrouz of Prospect Mortgage, Branch Manager; Luis Caceres of HomeSmart Professional Real Estate, Realtor; Cathy Smith of HomeSmart Professionals, Realtor; Busidex of Busidex, LLC, LLC; Darren Marinelli of Artinium Inc., Design Einstein; Michael Letendre of State-Wide MLS, Inc., CIO; Michelle Richard of Weichert, Realtors Suburban Properties, Broker Associate, Military Relocation Professional,, ABR, GREEN; Marci Shepherd of HomeSmart, Real Estate Consultant; Paula J. Allin of HomeSmart, Realtor; Lisa Fisher of HomeSmart Professionals Real Estate, Realtor; Lizzabeth Brown of Virgin Pulse, Account Specialist; John A. Eunis of HomeSmart Professionals, Broker/Associate; Arthur A. Yatsko of , Real Estate Counselor; Stephanie Baker of Century 21, Realtor; Patricia A. Tripodi of Equinox Properties, Realtor - Sales Associate; Business Development of Lynch's Cleaning & Restoration Service, Jlevin@lynchsrestoration.com">
+    <meta name="author" content="Busidex,LLC">
+    <meta name="fragment" content="!">
+    <meta name="norton-safeweb-site-verification" content="nwfhm8mn-4f4kqnx6je5cn6h107f-55fb5bn3mxqhtix2flcbmtr7-kjjpvdqxvp2m0ol93b1uqukoi6awil5cf9mi3ycgftky21hhkuvrnbywgfphgrz8insb80t95c" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.min.js"></script>
+    <link rel="stylesheet" href="css/reset-min.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" media="screen" />
+    <link rel="stylesheet" href="css/ng-grid.min.css" media="screen" />
+
+    <link rel="stylesheet" href="css/AddCard.min.css" media="screen" />
+    <link rel="stylesheet" href="css/search.min.css" media="screen" />
+    <link rel="stylesheet" href="css/site.css" media="screen" />
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+    <link rel="stylesheet" href="css/busidex.min.css?v=1" media="screen" />
+    <link rel="stylesheet" href="css/MyBusidex.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-csp.css" type="text/css" />
+    <style type="text/css">
+        .browsehappy {
+            margin: 0.2em 0;
+            background: #ccc;
+            color: #000;
+            padding: 0.2em 0;
+        }
+
+        [ng\\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+            display: none !important;
+        }
+
+        ng\\:form {
+            display: block;
+        }
+    </style>
+    <base href="/">
+    <!-- Don't forget to place the script that does the asynchronous loading of Google+ JavaScript API.
+             Because it is loaded asynchronously, it might take some time to load.
+             Place some loading notification, so user won't get confused.
+             You can use ng-show and ng-hide to show or hide your notification and accomplish best user experience. -->
+    <script src="https://apis.google.com/js/client:plusone.js" type="text/javascript"></script>
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+
+    <!--<script type="text/javascript">
+    window.NREUM || (NREUM = {}), __nr_require = function (t, e, n) { function r(n) { if (!e[n]) { var o = e[n] = { exports: {} }; t[n][0].call(o.exports, function (e) { var o = t[n][1][e]; return r(o ? o : e) }, o, o.exports) } return e[n].exports } if ("function" == typeof __nr_require) return __nr_require; for (var o = 0; o < n.length; o++) r(n[o]); return r }({ QJf3ax: [function (t, e) { function n(t) { function e(e, n, a) { t && t(e, n, a), a || (a = {}); for (var c = s(e), f = c.length, u = i(a, o, r), d = 0; f > d; d++) c[d].apply(u, n); return u } function a(t, e) { f[t] = s(t).concat(e) } function s(t) { return f[t] || [] } function c() { return n(e) } var f = {}; return { on: a, emit: e, create: c, listeners: s, _events: f } } function r() { return {} } var o = "nr@context", i = t("gos"); e.exports = n() }, { gos: "7eSDFh" }], ee: [function (t, e) { e.exports = t("QJf3ax") }, {}], 3: [function (t) { function e(t, e, n, i, s) { try { c ? c -= 1 : r("err", [s || new UncaughtException(t, e, n)]) } catch (f) { try { r("ierr", [f, (new Date).getTime(), !0]) } catch (u) { } } return "function" == typeof a ? a.apply(this, o(arguments)) : !1 } function UncaughtException(t, e, n) { this.message = t || "Uncaught error with no additional information", this.sourceURL = e, this.line = n } function n(t) { r("err", [t, (new Date).getTime()]) } var r = t("handle"), o = t(5), i = t("ee"), a = window.onerror, s = !1, c = 0; t("loader").features.err = !0, window.onerror = e, NREUM.noticeError = n; try { throw new Error } catch (f) { "stack" in f && (t(1), t(4), "addEventListener" in window && t(2), window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.addEventListener && t(3), s = !0) } i.on("fn-start", function () { s && (c += 1) }), i.on("fn-err", function (t, e, r) { s && (this.thrown = !0, n(r)) }), i.on("fn-end", function () { s && !this.thrown && c > 0 && (c -= 1) }), i.on("internal-error", function (t) { r("ierr", [t, (new Date).getTime(), !0]) }) }, { 1: 8, 2: 5, 3: 9, 4: 7, 5: 20, ee: "QJf3ax", handle: "D5DuLP", loader: "G9z0Bl" }], 4: [function (t) { function e() { } if (window.performance && window.performance.timing && window.performance.getEntriesByType) { var n = t("ee"), r = t("handle"), o = t(2); t("loader").features.stn = !0, t(1), n.on("fn-start", function (t) { var e = t[0]; e instanceof Event && (this.bstStart = Date.now()) }), n.on("fn-end", function (t, e) { var n = t[0]; n instanceof Event && r("bst", [n, e, this.bstStart, Date.now()]) }), o.on("fn-start", function (t, e, n) { this.bstStart = Date.now(), this.bstType = n }), o.on("fn-end", function (t, e) { r("bstTimer", [e, this.bstStart, Date.now(), this.bstType]) }), n.on("pushState-start", function () { this.time = Date.now(), this.startPath = location.pathname + location.hash }), n.on("pushState-end", function () { r("bstHist", [location.pathname + location.hash, this.startPath, this.time]) }), "addEventListener" in window.performance && (window.performance.addEventListener("webkitresourcetimingbufferfull", function () { r("bstResource", [window.performance.getEntriesByType("resource")]), window.performance.webkitClearResourceTimings() }, !1), window.performance.addEventListener("resourcetimingbufferfull", function () { r("bstResource", [window.performance.getEntriesByType("resource")]), window.performance.clearResourceTimings() }, !1)), document.addEventListener("scroll", e, !1), document.addEventListener("keypress", e, !1), document.addEventListener("click", e, !1) } }, { 1: 6, 2: 8, ee: "QJf3ax", handle: "D5DuLP", loader: "G9z0Bl" }], 5: [function (t, e) { function n(t) { i.inPlace(t, ["addEventListener", "removeEventListener"], "-", r) } function r(t) { return t[1] } var o = (t(1), t("ee").create()), i = t(2)(o), a = t("gos"); if (e.exports = o, n(window), "getPrototypeOf" in Object) { for (var s = document; s && !s.hasOwnProperty("addEventListener") ;) s = Object.getPrototypeOf(s); s && n(s); for (var c = XMLHttpRequest.prototype; c && !c.hasOwnProperty("addEventListener") ;) c = Object.getPrototypeOf(c); c && n(c) } else XMLHttpRequest.prototype.hasOwnProperty("addEventListener") && n(XMLHttpRequest.prototype); o.on("addEventListener-start", function (t) { if (t[1]) { var e = t[1]; "function" == typeof e ? this.wrapped = t[1] = a(e, "nr@wrapped", function () { return i(e, "fn-", null, e.name || "anonymous") }) : "function" == typeof e.handleEvent && i.inPlace(e, ["handleEvent"], "fn-") } }), o.on("removeEventListener-start", function (t) { var e = this.wrapped; e && (t[1] = e) }) }, { 1: 20, 2: 21, ee: "QJf3ax", gos: "7eSDFh" }], 6: [function (t, e) { var n = (t(2), t("ee").create()), r = t(1)(n); e.exports = n, r.inPlace(window.history, ["pushState"], "-") }, { 1: 21, 2: 20, ee: "QJf3ax" }], 7: [function (t, e) { var n = (t(2), t("ee").create()), r = t(1)(n); e.exports = n, r.inPlace(window, ["requestAnimationFrame", "mozRequestAnimationFrame", "webkitRequestAnimationFrame", "msRequestAnimationFrame"], "raf-"), n.on("raf-start", function (t) { t[0] = r(t[0], "fn-") }) }, { 1: 21, 2: 20, ee: "QJf3ax" }], 8: [function (t, e) { function n(t, e, n) { var r = t[0]; "string" == typeof r && (r = new Function(r)), t[0] = o(r, "fn-", null, n) } var r = (t(2), t("ee").create()), o = t(1)(r); e.exports = r, o.inPlace(window, ["setTimeout", "setInterval", "setImmediate"], "setTimer-"), r.on("setTimer-start", n) }, { 1: 21, 2: 20, ee: "QJf3ax" }], 9: [function (t, e) { function n() { c.inPlace(this, d, "fn-") } function r(t, e) { c.inPlace(e, ["onreadystatechange"], "fn-") } function o(t, e) { return e } var i = t("ee").create(), a = t(1), s = t(2), c = s(i), f = s(a), u = window.XMLHttpRequest, d = ["onload", "onerror", "onabort", "onloadstart", "onloadend", "onprogress", "ontimeout"]; e.exports = i, window.XMLHttpRequest = function (t) { var e = new u(t); try { i.emit("new-xhr", [], e), f.inPlace(e, ["addEventListener", "removeEventListener"], "-", function (t, e) { return e }), e.addEventListener("readystatechange", n, !1) } catch (r) { try { i.emit("internal-error", [r]) } catch (o) { } } return e }, window.XMLHttpRequest.prototype = u.prototype, c.inPlace(XMLHttpRequest.prototype, ["open", "send"], "-xhr-", o), i.on("send-xhr-start", r), i.on("open-xhr-start", r) }, { 1: 5, 2: 21, ee: "QJf3ax" }], 10: [function (t) { function e(t) { if ("string" == typeof t && t.length) return t.length; if ("object" != typeof t) return void 0; if ("undefined" != typeof ArrayBuffer && t instanceof ArrayBuffer && t.byteLength) return t.byteLength; if ("undefined" != typeof Blob && t instanceof Blob && t.size) return t.size; if ("undefined" != typeof FormData && t instanceof FormData) return void 0; try { return JSON.stringify(t).length } catch (e) { return void 0 } } function n(t) { var n = this.params, r = this.metrics; if (!this.ended) { this.ended = !0; for (var i = 0; c > i; i++) t.removeEventListener(s[i], this.listener, !1); if (!n.aborted) { if (r.duration = (new Date).getTime() - this.startTime, 4 === t.readyState) { n.status = t.status; var a = t.responseType, f = "arraybuffer" === a || "blob" === a || "json" === a ? t.response : t.responseText, u = e(f); if (u && (r.rxSize = u), this.sameOrigin) { var d = t.getResponseHeader("X-NewRelic-App-Data"); d && (n.cat = d.split(", ").pop()) } } else n.status = 0; r.cbTime = this.cbTime, o("xhr", [n, r, this.startTime]) } } } function r(t, e) { var n = i(e), r = t.params; r.host = n.hostname + ":" + n.port, r.pathname = n.pathname, t.sameOrigin = n.sameOrigin } if (window.XMLHttpRequest && XMLHttpRequest.prototype && XMLHttpRequest.prototype.addEventListener && !/CriOS/.test(navigator.userAgent)) { t("loader").features.xhr = !0; var o = t("handle"), i = t(2), a = t("ee"), s = ["load", "error", "abort", "timeout"], c = s.length, f = t(1); t(4), t(3), a.on("new-xhr", function () { this.totalCbs = 0, this.called = 0, this.cbTime = 0, this.end = n, this.ended = !1, this.xhrGuids = {} }), a.on("open-xhr-start", function (t) { this.params = { method: t[0] }, r(this, t[1]), this.metrics = {} }), a.on("open-xhr-end", function (t, e) { "loader_config" in NREUM && "xpid" in NREUM.loader_config && this.sameOrigin && e.setRequestHeader("X-NewRelic-ID", NREUM.loader_config.xpid) }), a.on("send-xhr-start", function (t, n) { var r = this.metrics, o = t[0], i = this; if (r && o) { var f = e(o); f && (r.txSize = f) } this.startTime = (new Date).getTime(), this.listener = function (t) { try { "abort" === t.type && (i.params.aborted = !0), ("load" !== t.type || i.called === i.totalCbs && (i.onloadCalled || "function" != typeof n.onload)) && i.end(n) } catch (e) { try { a.emit("internal-error", [e]) } catch (r) { } } }; for (var u = 0; c > u; u++) n.addEventListener(s[u], this.listener, !1) }), a.on("xhr-cb-time", function (t, e, n) { this.cbTime += t, e ? this.onloadCalled = !0 : this.called += 1, this.called !== this.totalCbs || !this.onloadCalled && "function" == typeof n.onload || this.end(n) }), a.on("xhr-load-added", function (t, e) { var n = "" + f(t) + !!e; this.xhrGuids && !this.xhrGuids[n] && (this.xhrGuids[n] = !0, this.totalCbs += 1) }), a.on("xhr-load-removed", function (t, e) { var n = "" + f(t) + !!e; this.xhrGuids && this.xhrGuids[n] && (delete this.xhrGuids[n], this.totalCbs -= 1) }), a.on("addEventListener-end", function (t, e) { e instanceof XMLHttpRequest && "load" === t[0] && a.emit("xhr-load-added", [t[1], t[2]], e) }), a.on("removeEventListener-end", function (t, e) { e instanceof XMLHttpRequest && "load" === t[0] && a.emit("xhr-load-removed", [t[1], t[2]], e) }), a.on("fn-start", function (t, e, n) { e instanceof XMLHttpRequest && ("onload" === n && (this.onload = !0), ("load" === (t[0] && t[0].type) || this.onload) && (this.xhrCbStart = (new Date).getTime())) }), a.on("fn-end", function (t, e) { this.xhrCbStart && a.emit("xhr-cb-time", [(new Date).getTime() - this.xhrCbStart, this.onload, e], e) }) } }, { 1: "XL7HBI", 2: 11, 3: 9, 4: 5, ee: "QJf3ax", handle: "D5DuLP", loader: "G9z0Bl" }], 11: [function (t, e) { e.exports = function (t) { var e = document.createElement("a"), n = window.location, r = {}; e.href = t, r.port = e.port; var o = e.href.split("://"); return !r.port && o[1] && (r.port = o[1].split("/")[0].split(":")[1]), r.port && "0" !== r.port || (r.port = "https" === o[0] ? "443" : "80"), r.hostname = e.hostname || n.hostname, r.pathname = e.pathname, "/" !== r.pathname.charAt(0) && (r.pathname = "/" + r.pathname), r.sameOrigin = !e.hostname || e.hostname === document.domain && e.port === n.port && e.protocol === n.protocol, r } }, {}], gos: [function (t, e) { e.exports = t("7eSDFh") }, {}], "7eSDFh": [function (t, e) { function n(t, e, n) { if (r.call(t, e)) return t[e]; var o = n(); if (Object.defineProperty && Object.keys) try { return Object.defineProperty(t, e, { value: o, writable: !0, enumerable: !1 }), o } catch (i) { } return t[e] = o, o } var r = Object.prototype.hasOwnProperty; e.exports = n }, {}], D5DuLP: [function (t, e) { function n(t, e, n) { return r.listeners(t).length ? r.emit(t, e, n) : (o[t] || (o[t] = []), void o[t].push(e)) } var r = t("ee").create(), o = {}; e.exports = n, n.ee = r, r.q = o }, { ee: "QJf3ax" }], handle: [function (t, e) { e.exports = t("D5DuLP") }, {}], XL7HBI: [function (t, e) { function n(t) { var e = typeof t; return !t || "object" !== e && "function" !== e ? -1 : t === window ? 0 : i(t, o, function () { return r++ }) } var r = 1, o = "nr@id", i = t("gos"); e.exports = n }, { gos: "7eSDFh" }], id: [function (t, e) { e.exports = t("XL7HBI") }, {}], loader: [function (t, e) { e.exports = t("G9z0Bl") }, {}], G9z0Bl: [function (t, e) { function n() { var t = p.info = NREUM.info; if (t && t.agent && t.licenseKey && t.applicationID && c && c.body) { p.proto = "https" === d.split(":")[0] || t.sslForHttp ? "https://" : "http://", a("mark", ["onload", i()]); var e = c.createElement("script"); e.src = p.proto + t.agent, c.body.appendChild(e) } } function r() { "complete" === c.readyState && o() } function o() { a("mark", ["domContent", i()]) } function i() { return (new Date).getTime() } var a = t("handle"), s = window, c = s.document, f = "addEventListener", u = "attachEvent", d = ("" + location).split("?")[0], p = e.exports = { offset: i(), origin: d, features: {} }; c[f] ? (c[f]("DOMContentLoaded", o, !1), s[f]("load", n, !1)) : (c[u]("onreadystatechange", r), s[u]("onload", n)), a("mark", ["firstbyte", i()]) }, { handle: "D5DuLP" }], 20: [function (t, e) { function n(t, e, n) { e || (e = 0), "undefined" == typeof n && (n = t ? t.length : 0); for (var r = -1, o = n - e || 0, i = Array(0 > o ? 0 : o) ; ++r < o;) i[r] = t[e + r]; return i } e.exports = n }, {}], 21: [function (t, e) { function n(t) { return !(t && "function" == typeof t && t.apply && !t[i]) } var r = t("ee"), o = t(1), i = "nr@wrapper", a = Object.prototype.hasOwnProperty; e.exports = function (t) { function e(t, e, r, a) { function nrWrapper() { var n, i, s, f; try { i = this, n = o(arguments), s = r && r(n, i) || {} } catch (d) { u([d, "", [n, i, a], s]) } c(e + "start", [n, i, a], s); try { return f = t.apply(i, n) } catch (p) { throw c(e + "err", [n, i, p], s), p } finally { c(e + "end", [n, i, f], s) } } return n(t) ? t : (e || (e = ""), nrWrapper[i] = !0, f(t, nrWrapper), nrWrapper) } function s(t, r, o, i) { o || (o = ""); var a, s, c, f = "-" === o.charAt(0); for (c = 0; c < r.length; c++) s = r[c], a = t[s], n(a) || (t[s] = e(a, f ? s + o : o, i, s, t)) } function c(e, n, r) { try { t.emit(e, n, r) } catch (o) { u([o, e, n, r]) } } function f(t, e) { if (Object.defineProperty && Object.keys) try { var n = Object.keys(t); return n.forEach(function (n) { Object.defineProperty(e, n, { get: function () { return t[n] }, set: function (e) { return t[n] = e, e } }) }), e } catch (r) { u([r]) } for (var o in t) a.call(t, o) && (e[o] = t[o]); return e } function u(e) { try { t.emit("internal-error", e) } catch (n) { } } return t || (t = r), e.inPlace = s, e.flag = i, e } }, { 1: 20, ee: "QJf3ax" }] }, {}, ["G9z0Bl", 3, 10, 4]);
+    ; NREUM.info = { beacon: "bam.nr-data.net", errorBeacon: "bam.nr-data.net", licenseKey: "d2c2c91324", applicationID: "3799078", sa: 1, agent: "js-agent.newrelic.com/nr-476.min.js" }
+    </script>-->
+</head>
+<body ng-controller="GenericViewCtrl">
+    <!-- Navigation -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a href="" class="deploy-sidebar" ng-click="$parent.ToggleMenu()"></a>
+                <div id="sidebar" class="page-sidebar" ng-class="{showMenu : $parent.ShowMenu, hideMenu : !$parent.ShowMenu}">
+                    <div class="page-sidebar-scroll">
+                        <div class="nav-item selected-nav-item">
+                            <a href="#/home" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/home.png" alt="img">
+                                HOME
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="#/busidex/mine" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="https://az381524.vo.msecnd.net/images/Busidex_logo_hor.png" alt="img">
+                                {{MyBusidexMenuName}}
+                            </a>
+                        </div>
+                        <div class="nav-item no-border">
+                            <a href="#/card/search" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/search.png" alt="img">
+                                SEARCH
+                            </a>
+                        </div>
+                        <div class="nav-item" ng-show="$parent.User.HasCard">
+                            <a href="#/card/mine" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/mycard.png" alt="img">
+                                MY CARD
+                            </a>
+                        </div>
+                        <div class="nav-item no-border" ng-show="$parent.ShowAddCard()">
+                            <a href="#/card/add" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/add_mobile.png" alt="img">
+                                ADD CARD
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="#/groups/mine" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/groups.png" alt="img" width="30">
+                                BUSIGROUPS
+                            </a>
+                        </div>
+                        <div class="nav-item">
+                            <a href="#/busidex/suggestions" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/suggestion.png" alt="img" width="30">
+                                SUGGESTIONS
+                            </a>
+                        </div>
+                        <div class="nav-item" ng-show="IsLoggedIn">
+                            <a href="#/account/index" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/myaccount.png" alt="img" width="30">
+                                MY ACCOUNT
+                            </a>
+                        </div>
+                        <div class="nav-item" ng-show="User.IsAdmin">
+                            <a href="#/admin/index" class="nav-icon" ng-click="$parent.ToggleMenu()">
+                                <img src="img/admin.png" alt="img" width="30">
+                                ADMIN
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a class="brand" href="#/home">
+                    <img ng-src="https://az381524.vo.msecnd.net/images/Busidex_logo_hor.png" class="homeImage" style="width:170px;margin-left:-150px; margin-top:-12px; position: fixed;" alt="" />
+                </a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li ng-class="{active: NavItems['Home']}"><home-link></home-link></li>
+                        <li ng-class="{active: NavItems['Search']}"><a href="#/card/search" ng-click="SetCurrentMenuItem('Search')">Find a Card</a></li>
+                        <li class="dropdown" ng-show="IsLoggedIn && User.IsAdmin">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add a Card <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li ng-show="User.IsAdmin"><a href="#/card/add">Manually</a></li>
+                                <li><a href="#/card/search">From a Search</a></li>
+                                <li ng-show="!$parent.User.HasCard" class="divider"></li>
+                                <li ng-show="!$parent.User.HasCard"><a href="#/card/add/mine">Add My Card</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown" ng-show="$parent.ShowAddCard()">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add a Card <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#/card/search">From a Search</a></li>
+                                <li ng-show="!$parent.User.HasCard" class="divider"></li>
+                                <li ng-show="!$parent.User.HasCard"><a href="#/card/add/mine">Add My Card</a></li>
+                            </ul>
+                        </li>
+                        <li ng-class="{active: NavItems['Mine']}" ng-show="$parent.User.HasCard">
+                            <a href="#/card/mine" ng-click="SetCurrentMenuItem('Mine')">My Card</a>
+                        </li>
+                        <li ng-class="{active: NavItems['Busidex']}" ng-show="IsLoggedIn"><a href="#/busidex/mine" ng-bind-html="MyBusidexMenuName"></a></li>
+                        <li class="dropdown" ng-show="IsLoggedIn"><a href="#/groups/mine">My Groups</a></li>
+                        <li class="dropdown" ng-show="ShowMemberships()" ng-class="{active: NavItems['Memberships']}">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Memberships <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="org in User.Organizations"><a href="#/groups/organization/{{org.Item2}}">{{org.Item1}}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <div class="pull-right" style="margin-left:20px;">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img class="icon-gear" src="/img/gear.png" /></a>
+                        <ul class="dropdown-menu" style="margin-top:30px;">
+                            <li ng-show="IsLoggedIn"></li>
+                            <li><a href="#/busidex/suggestions">Suggestions</a></li>
+                            <li ng-show="IsLoggedIn"><a title="My Account" href="#/account/index">My Account</a></li>
+                            <li ng-show="User.IsAdmin"><a title="Admin Options" href="#/admin/index">Admin Options</a></li>
+                        </ul>
+                    </div>
+                    <ul class="nav pull-right">
+                        <sharedcardicon></sharedcardicon>
+                        <li style="color: #fff;padding-top:10px;padding-left:10px;" ng-bind-html="User.DisplayName"></li>
+                        <login userobject="{{User}}"></login>
+                        <li ng-show="!User"><a href="#/account/register/">Create an Account</a></li>
+                    </ul>
+
+
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <div class="subnav" style="" ng-show="ShowFilterControls">
+        <div class="container">
+            <ul class="nav nav-pills">
+                <li>
+                    <div class="shareLinks">
+                        <!--CARD SHARING-->
+                        <button ng-click="ToggleSharing()" ng-show="!IsSharing" class="share btn btn-info">Share</button>
+                        <button ng-click="ToggleSharing()" ng-show="IsSharing" class="cancel btn btn-inverse">Cancel</button>
+                        <a data-target="#SharedCardPopup" role="button" data-toggle="modal" class="select btn btn-info"
+                           ng-click="LoadSharedCards()" ng-show="IsSharing">Send To...</a>
+                        <!--<a id="help" data-target="#SharedCardHelpContainer" role="button" class="btn btn-link" data-toggle="modal">Show Me How</a>-->
+                    </div>
+                </li>
+                <li>
+                    <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 1.2em;">Filter:</span>
+                    <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                </li>
+                <li><span class="label label-info myBusidexCount">{{MyBusidex.length}} Cards in Your Busidex</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+
+        <!--Here go the partials -->
+        <input type="hidden" id="UserId" name="UserId" value="{{$rootScope.UserId}}" />
+        <div ng-view></div>
+        <!-- Footer -->
+
+        <footer ng-controller="ApplicationVersionCtrl">
+            <p style="margin-left: 50px;">
+                &copy; Busidex 2013 - v{{ Version }}
+                &nbsp;|&nbsp;
+                <a href="mailto:busidex.help@gmail.com" target="_blank">Support</a>&nbsp;|&nbsp;
+                <a href="#/account/privacy" target="_blank">Privacy Policy</a>&nbsp;|&nbsp;
+                <a href="#/account/terms" target="_blank">Terms of Service</a>&nbsp;|&nbsp;
+                <a href="#/newsletters/index" target="_blank">Newsletters</a>&nbsp;|&nbsp;
+                <a target="_blank" href="mailto:busidex.abuse@gmail.com">Report Abuse</a>
+            </p>
+
+        </footer>
+    </div>
+
+    <div id="notificationPopup" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="SharedCardCtrl" style="width:650px;">
+        <form id="AddSharedCardsToMyBusidexForm">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Someone shared some cards!</h3>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    These cards have been shared by {{SendFromEmail}}. Select <strong>Accept</strong> for the ones you want to add to your Busidex collection,
+                    or <strong>Decline</strong> for the ones you don't want to add.
+                </div>
+                <fieldset>
+                    <div style="height:320px;padding:15px; margin-bottom: 35px; overflow: auto;">
+                        <ul>
+                            <li style="vertical-align: top;list-style:none;padding-top:10px;" ng-repeat="sharedCard in $parent.SharedCards">
+                                <img ng-src="https://az381524.vo.msecnd.net/cards/{{sharedCard.Card.FrontFileId}}.{{sharedCard.Card.FrontType}}" style="height:120px;width:220px;vertical-align:top; border:solid 1pt silver;display: inline-block;" />
+                                <div ng-if="sharedCard.Recommendation.length > 0" style="border: solid 1pt silver;padding: 5px;border-radius: 6px;overflow: auto;width: 120px;vertical-align:top;display: inline-block;height:110px;margin:0 10px;">{{sharedCard.Recommendation}}</div>
+                                <label style="display:inline-block">Accept </label><input type="radio" name="cardIdAccept{{sharedCard.SendFrom + sharedCard.CardId}}" value="true" ng-model="sharedCard.Accepted" style="margin-left: 10px;" />
+                                <label style="display:inline-block">Decline </label><input type="radio" name="cardIdAccept{{sharedCard.SendFrom + sharedCard.CardId}}" value="false" ng-model="sharedCard.Accepted" style="margin-left: 10px;" checked="checked" />
+                            </li>
+
+                        </ul>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <button class="btn btn-primary" ng-click="AcceptSharedCards()" data-dismiss="modal" id="submitSharedCards">Save</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="RegisterHelpContainer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 790px;height:auto;left:45%;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="stopVideo(register_player)">×</button>
+            <h3 id="myModalLabel">How To Register With Busidex</h3>
+        </div>
+        <div class="modal-body" id="helpContent" style="max-height:800px;">
+            <div id="register_player"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+    <div id="SearchHelpContainer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 790px;height:auto;left:45%;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="stopVideo(search_player)">×</button>
+            <h3 id="myModalLabel">How To Search For a Card Using Busidex</h3>
+        </div>
+        <div class="modal-body" id="helpContent" style="max-height:800px;">
+            <div id="search_player"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+    <div id="SharedCardHelpContainer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 790px;height:auto;left:45%;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="stopVideo(share_player)">×</button>
+            <h3 id="myModalLabel">Sharing Cards Using Busidex</h3>
+        </div>
+        <div class="modal-body" id="helpContent" style="max-height:800px;">
+            <div id="share_player"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+    </div>
+    <!-- Finally load libraries -->
+    <!--[if lte IE 9]>
+        <script src="lib/angular/xdomain.js" slave="https://www.busidexapi.com/proxy.html"></script>
+    <![endif]-->
+
+    <script src="lib/jquery/jquery-1.9.1.min.js"></script>
+    <script src="lib/jquery/jquery.form.js"></script>
+    <script src="lib/bootstrap/bootstrap.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-sanitize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-cookies.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-animate.min.js"></script>
+    <script src="lib/angular/angular-google-analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="lib/angular/ng-grid-2.0.7.min.js"></script>
+    <script src="lib/angular/textAngular.js"></script>
+    <script src="lib/angular/rangy-core.js"></script>
+    <script src="lib/angular/rangy-cssclassapplier.js"></script>
+    <script src="lib/angular/rangy-selectionsaverestore.js"></script>
+    <script src="lib/angular/rangy-serializer.js"></script>
+    <script src="//cdn.jsdelivr.net/satellizer/0.8.3/satellizer.min.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=JSON_CALLBACK&v=1"></script>
+    <script src="js/app.js?v=19"></script>
+    <script src="js/services.js?v=14"></script>
+    <script src="js/controllers.js?v=29"></script>
+    <script src="js/filters.min.js?v=4"></script>
+    <script src="js/directives.js?v=6"></script>
+
+    <script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-29820162-1']);
+        _gaq.push(['_trackPageview']);
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g;
+            m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-29820162-1', 'busidex.com');
+        ga('send', 'pageview');
+
+    </script>
+    <script>
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var register_player;
+        var search_player;
+        var share_player;
+        function onYouTubeIframeAPIReady() {
+            search_player = new YT.Player('search_player', {
+                height: '500',
+                width: '700',
+                videoId: 'H0qq2N1G8fQ',
+                autoplay: false,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            register_player = new YT.Player('register_player', {
+                height: '500',
+                width: '700',
+                videoId: '2ejf6_aWDCw',
+                autoplay: false,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            share_player = new YT.Player('share_player', {
+                height: '500',
+                width: '700',
+                videoId: 'cELZuPZ-Tj0',
+                autoplay: false,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        //var search_player;
+        //function onYouTubeIframeAPIReady() {
+        //    search_player = new YT.Player('search_player', {
+        //        height: '500',
+        //        width: '700',
+        //        videoId: 'H0qq2N1G8fQ',
+        //        autoplay: false,
+        //        events: {
+        //            'onReady': onPlayerReady,
+        //            'onStateChange': onPlayerStateChange
+        //        }
+        //    });
+        //}
+
+        function onPlayerReady(event) {
+            //event.target.playVideo();
+        }
+
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                //setTimeout(stopVideo, 6000);
+                done = true;
+            }
+        }
+        function stopVideo(player) {
+            if (player) {
+                player.stopVideo();
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        var appInsights=window.appInsights||function(config){
+            function s(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},r=document,f=window,e="script",o=r.createElement(e),i,u;for(o.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(e)[0].parentNode.... config.disableExceptionTracking||(i="onerror",s("_"+i),u=f[i],f[i]=function(config,r,f,e,o){var s=u&&u(config,r,f,e,o);return s!==!0&&t["_"+i](config,r,f,e,o),s}),t
+            }({
+                instrumentationKey:"08c3a772-8872-4179-b282-baa043c900f3"
+            });
+
+        window.appInsights=appInsights;
+        appInsights.trackPageView();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+﻿<h2 id="groupHeader" ng-click="showCards()">
+    {{Group.Description}}
+    <a class="btn btn-link" ng-href="#/groups/mine" style="margin-left:20px;">Back</a>
+    <a class="btn btn-link" ng-href="#/groups/edit/{{GroupId}}" id="editGroup">Edit</a>
+</h2>
+
+<div ng-repeat="card in Cards" class="detailRow row" cardid="card.CardId" tags="card.Card.TagList" cardname="card.Name" phone="" email="card.Card.Email"
+     cardid="card.CardId" company="card.Card.CompanyName">
+    <div class="span3">
+        <a idx="{{card.CardId}}">
+            <img alt="{{card.Name}}" ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType}}"
+                 cardid="{{card.CardId}}" class="{{card.OrientationClass}}" />
+        </a>
+    </div>
+    <div class="span9 cardInfo">
+        <div class="row">
+            <div class="span4">
+                <strong>{{card.Name}}</strong>
+                <span class="label">{{card.Card.CompanyName}}</span>
+                <label ng-repeat="phone in card.Card.PhoneNumbers">{{phone.Number}}</label>
+                <a href="mailto:{{card.Card.Email}}">{{card.Card.Email}}</a><br />
+                <a ng-href="{{'http://' + card.Card.Url}}" target="_blank">{{card.Card.Url}}</a>
+            </div>
+            <div class="span4 Notes">
+                <textarea class="groupNotes" ucid="{{card.UserGroupCardId}}" data="{{card.Notes}}" cardid="{{card.CardId}}" ng-model="card.Notes" name="Notes"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

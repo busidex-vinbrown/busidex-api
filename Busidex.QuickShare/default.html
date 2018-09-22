@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="apple-mobile-web-app-capable"/>
+    <meta property="al:ios:url" content="busidex://quickshare"/>
+    <meta property="al:ios:app_store_id" content="801109889"/>
+    <meta property="al:ios:app_name" content="Busidex"/>
+
+    <!--<meta property="al:iphone:url" content="busidex://quickshare"/>
+    <meta property="al:iphone:app_store_id" content="801109889"/>
+    <meta property="al:iphone:app_name" content="Busidex"/>-->
+    <meta name="google-play-app" content="app-id=com.busidex">
+    <meta property="al:android:app_name" content="Busidex"/>
+    <meta property="al:android:package" content="com.busidex"/>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js" type="text/javascript"></script>
+    <script src="/scripts/jquery.smartappbanner.js" type="text/javascript"></script>
+    <meta name="apple-itunes-app" content="app-id=801109889">
+
+    <link type="text/css" media="screen" rel="stylesheet" href="scripts/jquery.smartappbanner.css"/>
+    <link rel="android-touch-icon" href="https://pro.busidex.com/img/busidex_icon.png"/>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            //$.smartbanner({
+            //    title: 'Busidex'
+            //});
+            //dom is ready, window.onload fires later
+            var tag = document.createElement('meta');
+            tag.setAttribute('property', 'al:ios:url');
+            tag.content = 'busidex://quickshare' + window.location.search;
+            document.getElementsByTagName('head')[0].appendChild(tag);
+
+            var deviceAgent = navigator.userAgent;
+            var ios = deviceAgent.toLowerCase().match(/(iphone|ipod|ipad)/);
+
+            if (ios) {
+                setTimeout(function () {
+                   //window.location.href = 'http://jqle.app.link' + window.location.search;
+                    window.location.href = 'busidex://quickshare' + window.location.search;
+                },
+                 500);
+            } else {
+                setTimeout(function() {
+                        window.location.href = 'busidex://quickshare' + window.location.search;
+                    },
+                    500);
+            }
+        });
+
+
+    </script>
+    <script type="text/javascript">
+        new SmartBanner({
+            daysHidden: 0, // days to hide banner after close button is clicked (defaults to 15)
+            daysReminder: 0, // days to hide banner after "VIEW" button is clicked (defaults to 90)
+            appStoreLanguage: 'us', // language code for the App Store (defaults to user's browser language)
+            title: 'Busidex',
+            author: 'BVL LLC',
+            button: 'VIEW',
+            store: {
+                ios: 'On the App Store',
+                android: 'In Google Play',
+                windows: 'In Windows store'
+            },
+            price: {
+                ios: 'FREE',
+                android: 'FREE',
+                windows: 'FREE'
+            }
+            //, force: 'ios' // Uncomment for platform emulation
+        });
+    </script>
+</head>
+<body>
+
+<!--<div style="padding: 50px; text-align: center;">
+    <a href="https://geo.itunes.apple.com/us/app/busidex/id801109889?mt=8" style="display: inline-block; overflow: hidden; background: url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg) no-repeat; width: 165px; height: 40px;"></a>
+</div>
+<div style="padding: 50px; text-align: center;">
+    <a href="https://play.google.com/store/apps/details?id=com.busidex" target="_blank">
+        <img src="https://pro.busidex.com/img/google-play-lg.jpg" alt="Google Play Store" class="homeMobileUnAuth" style="width: 155px; "/>
+    </a>
+</div>-->
+    
+</body>
+</html>

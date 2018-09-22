@@ -1,0 +1,42 @@
+﻿<div ng-show="RegistrationErrors.length == 0">
+    <h1 class="registerTitle">REGISTRATION COMPLETE!</h1>
+    <h3>Redirecting...</h3>
+    <p>
+        If you are not redirected within a few seconds, you can log in here: <a href="#/account/login" class="btn btn-info">Sign In</a>
+    </p>
+    <!--<h3 style="margin-top:20px; margin-bottom:20px;">{{Email}} Welcome to Busidex!</h3>
+    <p style="margin-top:10px; margin-bottom:10px;font-size:1.2em;width:90%;">
+        Your account has been activated! We hope you have a great experience using the site and mobile app. 
+        <div>
+            <a href="#/account/login" class="btn btn-info">Sign In</a>
+        </div>
+    </p>
+    <p style="margin-top:30px;">
+        <strong class="text-info lead">Get the Mobile App</strong><br />
+        <a href="https://play.google.com/store/apps/details?id=com.busidex" target="_blank" class="btn-link">
+            <img src="https://www.busidex.com/img/google-play-lg.jpg" alt="Google Play Store" style="width:126px;">
+        </a>
+        <a href="https://itunes.apple.com/us/app/busidex/id801109889?ls=1&amp;mt=8#" target="_blank" class="btn-link">
+            <img src="https://www.busidex.com/img/app-store-lg.jpg" alt="iTunes App Store" style="width:123px;">
+        </a>
+
+        <p style="margin-top:20px;">
+            <div>
+                <a style="color:#666666;display:block;" href="https://twitter.com/Busidex" target="_blank">
+                    <img src="https://www.busidex.com/img/twitter2.jpg" style="height:50px;width:50px;" /> &nbsp;
+                    <strong class="text-info lead" style="text-decoration: underline;">Follow Us On Twitter!</strong><br />
+                </a>
+            </div>
+        </p>
+    </p>-->
+    <p style="margin-top:10px; margin-bottom:20px;font-size:1.2em;width:90%;">
+        NOTE:  During our Beta Testing all accounts are free.  You will be notified when we are no longer doing any
+        beta testing at which time you will have the option to unsubscribe.
+    </p>
+</div>
+
+<div class="alert alert-error" ng-show="RegistrationErrors.length > 0" ng-model="RegistrationErrors" style="margin-top:25px;">
+    <ul>
+        <li ng-repeat="error in RegistrationErrors">{{error}}</li>
+    </ul>
+</div>

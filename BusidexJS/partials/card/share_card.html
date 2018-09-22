@@ -1,0 +1,13 @@
+﻿<div ng-controller="ShareCardCtrl">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="close(result)">&times;</button>
+        <h3>Share your cards</h3>
+    </div>
+    <div class="modal-body">
+        <label>Email:</label><input type="email" ng-model="ShareWithEmail" id="shareWithEmail" style="width: 200px;" />
+    </div>
+    <div class="modal-footer">
+        <a class="btn" ng-click="close(result)" ng-click="ToggleSharing()">Close</a>
+        <a id="sendShared" class="btn btn-primary" ng-click="share()">Send</a>
+    </div>
+</div>

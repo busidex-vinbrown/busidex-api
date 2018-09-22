@@ -1,0 +1,38 @@
+﻿<div>
+    <nav class="navbar navbar-inverse navbar-static-top" ng-controller="HeaderController as vm">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span style="color: #558c99;">MAIN</span>
+                </button>
+                <button ng-if="vm.editmode" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-sub" aria-expanded="false" aria-controls="navbar-sub">
+                    <span style="color:#558c99;">EDIT</span>
+                </button>
+                <a class="navbar-brand" href="https://www.busidex.com"><img src="/images/busidex_logo_hor.png" style="height:50px;" /></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse" nav-collapse>
+                <ul class="nav navbar-nav">
+                    <li><a href="https://www.busidex.com/#/card/search">SEARCH</a></li>
+                    <li ng-show="vm.HasCard"><a href="https://www.busidex.com/#/card/mine">MY CARD</a></li>
+                    <li ng-show="vm.LoggedIn"><a href="https://www.busidex.com/#/busidex/mine">MY BUSIDEX</a></li>
+                    <li ng-show="vm.LoggedIn"><a href="https://www.busidex.com/#/faq">QUESTIONS</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a ng-href="{{vm.LoginRoute}}">{{vm.LoginText}}</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+            <div ng-if="vm.editmode" id="navbar-sub" class="navbar-collapse collapse navbar-sub" nav-collapse>
+                <ul class="nav navbar-nav">
+                    <li><a ng-class="{'selected': vm.ItemIndex === 1 }" ng-href="#/front?m={{vm.mode}}">Front Image</a></li>
+                    <li><a ng-class="{'selected': vm.ItemIndex === 2 }" ng-href="#/back?m={{vm.mode}}">Back Image</a></li>
+                    <li><a ng-class="{'selected': vm.ItemIndex === 3 }" ng-href="#/visibility?m={{vm.mode}}">Visibility</a></li>
+                    <li><a ng-class="{'selected': vm.ItemIndex === 4 }" ng-href="#/contactinfo?m={{vm.mode}}">Contact Info</a></li>
+                    <li><a ng-class="{'selected': vm.ItemIndex === 5 }" ng-href="#/searchinfo?m={{vm.mode}}">Search Info</a></li>
+                    <li><a ng-class="{'selected': vm.ItemIndex === 6 }" ng-href="#/tags?m={{vm.mode}}">Tags</a></li>
+                    <li><a ng-class="{'selected': vm.ItemIndex === 7 }" ng-href="#/addressinfo?m={{vm.mode}}">Address</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+    <div ng-if="vm.startmode === true" ng-include="'../views/fragments/progress.html'" ng-controller="ProgressController as prog" style="margin-top:-20px;"></div>
+</div>

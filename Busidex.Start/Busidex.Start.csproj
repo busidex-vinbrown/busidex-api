@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F50F199A-36BC-4320-A49F-F51BD7A784D2}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Busidex.Start</RootNamespace>
+    <AssemblyName>Busidex.Start</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app\404.html" />
+    <Content Include="app\favicon.ico" />
+    <Content Include="app\images\add.png" />
+    <Content Include="app\images\background2a.png" />
+    <Content Include="app\images\browser.jpg" />
+    <Content Include="app\images\busidex_icon_100x100.png" />
+    <Content Include="app\images\busidex_icon_57x57.png" />
+    <Content Include="app\images\busidex_icon_80x80.png" />
+    <Content Include="app\images\busidex_logo_hor.png" />
+    <Content Include="app\images\default.png" />
+    <Content Include="app\images\delete.png" />
+    <Content Include="app\images\email.jpg" />
+    <Content Include="app\images\map.jpg" />
+    <Content Include="app\images\minus.jpg" />
+    <Content Include="app\images\spinner.gif" />
+    <Content Include="app\images\yeoman.png" />
+    <Content Include="app\index.html" />
+    <Content Include="app\proxy.html" />
+    <Content Include="app\robots.txt" />
+    <Content Include="app\scripts\app.js" />
+    <Content Include="app\scripts\controllers\AddCardController.js" />
+    <Content Include="app\scripts\controllers\AddressInfoController.js" />
+    <Content Include="app\scripts\controllers\NextStepsController.js" />
+    <Content Include="app\scripts\controllers\HeaderController.js" />
+    <Content Include="app\scripts\controllers\ProgressController.js" />
+    <Content Include="app\scripts\controllers\LogoutController.js" />
+    <Content Include="app\scripts\controllers\LoginController.js" />
+    <Content Include="app\scripts\controllers\HelpController.js" />
+    <Content Include="app\scripts\controllers\TagController.js" />
+    <Content Include="app\scripts\controllers\StartController.js" />
+    <Content Include="app\scripts\controllers\LoginFragmentController.js" />
+    <Content Include="app\scripts\controllers\VisibilityController.js" />
+    <Content Include="app\scripts\controllers\CardImageController.js" />
+    <Content Include="app\scripts\controllers\ContactInfoController.js" />
+    <Content Include="app\scripts\controllers\SearchInfoController.js" />
+    <Content Include="app\scripts\directives\CancelButton.js" />
+    <Content Include="app\scripts\directives\FileModifiedWarning.js" />
+    <Content Include="app\scripts\directives\nav-collapse.js" />
+    <Content Include="app\scripts\directives\ngFileSelect.js" />
+    <Content Include="app\scripts\directives\header.js" />
+    <Content Include="app\scripts\directives\progress.js" />
+    <Content Include="app\scripts\directives\WaitSpinner.js" />
+    <Content Include="app\scripts\directives\Login.js" />
+    <Content Include="app\scripts\directives\CardTemplate.js" />
+    <Content Include="app\scripts\directives\FileUpload.js" />
+    <Content Include="app\scripts\directives\ng-enter.js" />
+    <Content Include="app\scripts\services\FileModifiedService.js" />
+    <Content Include="app\scripts\services\FileReaderService.js" />
+    <Content Include="app\scripts\services\RegistrationService.js" />
+    <Content Include="app\scripts\services\CacheService.js" />
+    <Content Include="app\scripts\services\LoginService.js" />
+    <Content Include="app\scripts\services\CardService.js" />
+    <Content Include="app\scripts\services\ProgressService.js" />
+    <Content Include="app\scripts\services\StateCodeService.js" />
+    <Content Include="app\scripts\services\PhoneNumberTypeService.js" />
+    <Content Include="app\scripts\services\ActivityService.js" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.svg" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.svg" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.svg" />
+    <Content Include="app\styles\main.css">
+      <DependentUpon>main.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\main.min.css">
+      <DependentUpon>main.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_iphone4.css">
+      <DependentUpon>media_iphone4.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_landscape_minw768_and_maxw1024.css">
+      <DependentUpon>media_landscape_minw768_and_maxw1024.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_landscape_minw768_and_maxw1024.min.css">
+      <DependentUpon>media_landscape_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_maxw320.css">
+      <DependentUpon>media_maxw320.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_maxw320.min.css">
+      <DependentUpon>media_maxw320.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1080.css">
+      <DependentUpon>media_minw1080.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1080.min.css">
+      <DependentUpon>media_minw1080.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1224.css">
+      <DependentUpon>media_minw1224.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1224.min.css">
+      <DependentUpon>media_minw1224.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1824.css">
+      <DependentUpon>media_minw1824.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1824.min.css">
+      <DependentUpon>media_minw1824.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1920.css">
+      <DependentUpon>media_minw1920.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw1920.min.css">
+      <DependentUpon>media_minw1920.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw320_and_maxw480.css">
+      <DependentUpon>media_minw320_and_maxw480.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw320_and_maxw480.min.css">
+      <DependentUpon>media_minw320_and_maxw480.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw321.css">
+      <DependentUpon>media_minw321.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw321.min.css">
+      <DependentUpon>media_minw321.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw768_maxw1024.css">
+      <DependentUpon>media_minw768_maxw1024.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw768_maxw1024.min.css">
+      <DependentUpon>media_minw768_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_portrait_minw768_and_maxw1024.css">
+      <DependentUpon>media_portrait_minw768_and_maxw1024.scss</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_portrait_minw768_and_maxw1024.min.css">
+      <DependentUpon>media_portrait_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\views\fragments\file_error.html" />
+    <Content Include="app\views\fragments\error.html" />
+    <Content Include="app\views\fragments\card.html" />
+    <Content Include="app\views\addressinfo.html" />
+    <Content Include="app\views\fragments\file_modified_warning.html" />
+    <Content Include="app\views\fragments\progress.html" />
+    <Content Include="app\views\fragments\overlay.html" />
+    <Content Include="app\views\fragments\logo.html" />
+    <Content Include="app\views\backimage.html" />
+    <Content Include="app\views\nextsteps.html" />
+    <Content Include="app\views\help.html" />
+    <Content Include="app\views\redirect.html" />
+    <Content Include="app\views\logout.html" />
+    <Content Include="app\views\login.html" />
+    <Content Include="app\views\tags.html" />
+    <Content Include="app\views\visibility.html" />
+    <Content Include="app\views\searchinfo.html" />
+    <Content Include="app\views\contactinfo.html" />
+    <Content Include="app\views\fragments\header.html" />
+    <Content Include="app\views\frontimage.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="Gruntfile.js" />
+    <Content Include="test\karma.conf.js" />
+    <Content Include="test\spec\controllers\about.js" />
+    <Content Include="test\spec\controllers\main.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bower.json" />
+    <Content Include="package.json" />
+    <Content Include="test\.jshintrc" />
+    <Content Include="app\.buildignore" />
+    <Content Include="app\.htaccess" />
+    <Content Include="app\styles\main.scss" />
+    <Content Include="app\styles\media_iphone4.scss" />
+    <Content Include="app\styles\media_landscape_minw768_and_maxw1024.css.map">
+      <DependentUpon>media_landscape_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_landscape_minw768_and_maxw1024.scss" />
+    <Content Include="app\styles\media_maxw320.css.map">
+      <DependentUpon>media_maxw320.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_maxw320.scss" />
+    <Content Include="app\styles\media_minw1080.scss" />
+    <Content Include="app\styles\media_minw1224.scss" />
+    <Content Include="app\styles\media_minw1824.scss" />
+    <Content Include="app\styles\media_minw1920.scss" />
+    <Content Include="app\styles\media_minw1920.css.map">
+      <DependentUpon>media_minw1920.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw320_and_maxw480.css.map">
+      <DependentUpon>media_minw320_and_maxw480.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw320_and_maxw480.scss" />
+    <Content Include="app\styles\media_minw321.css.map">
+      <DependentUpon>media_minw321.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw321.scss" />
+    <Content Include="app\styles\media_minw768_maxw1024.css.map">
+      <DependentUpon>media_minw768_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_minw768_maxw1024.scss" />
+    <Content Include="app\styles\media_portrait_minw768_and_maxw1024.css.map">
+      <DependentUpon>media_portrait_minw768_and_maxw1024.css</DependentUpon>
+    </Content>
+    <Content Include="app\styles\media_portrait_minw768_and_maxw1024.scss" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\styles\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Bla-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Bla.ttf" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Black-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Black.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BlackItalic.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BlaIta-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BlaIta.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Bol-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Bol.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Bold-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Bold.ttf" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BoldItalic.ttf" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-BolIta-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-BolIta.ttf" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-Hai-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-Hai.ttf" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.eot" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.ttf" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.woff" />
+    <Content Include="app\styles\fonts\Lato-HaiIta-webfont.woff2" />
+    <Content Include="app\styles\fonts\Lato-HaiIta.ttf" />
+    <Content Include=".ftppass" />
+    <Content Include="app\styles\fonts\Lato-Reg.ttf" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.eot" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.woff" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.woff2" />
+    <Content Include="app\styles\fonts\lato-reg-webfont.ttf" />
+    <None Include="compilerconfig.json" />
+    <None Include="Properties\PublishProfiles\busidexstart - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\busidexstart - Web Deploy.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62617</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:62617/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

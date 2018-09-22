@@ -1,0 +1,164 @@
+@using System.Configuration
+@using Busidex.DAL
+@using Busidex4.Controllers
+@{
+    ViewBag.Title = "Busidex";
+}
+
+@{
+    string cdnPath = ConfigurationManager.AppSettings["imageCDNPath"];
+
+    var sharedCards = ViewBag.SharedCards as List<SharedCard>;
+}
+@section Scripts{
+}
+@section Styles{
+    <style type="text/css">
+        img#NotificationIcon {
+            height: 100px;
+            width: 100px;
+            float: right;
+            cursor: pointer;
+        }
+
+        
+    </style>
+}
+
+
+@section featured {
+    <div class="row-fluid">
+        @if (sharedCards != null && sharedCards.Count > 0)
+        {
+            <a href="#notificationPopup" role="button" data-toggle="modal">
+                <img id="NotificationIcon" src="@Url.Content("~/Images/notification1.gif")" style="position:absolute; z-index:1; margin-left: 60px; height: 100px; width: 100px; float: right; cursor: pointer;"alt="Someone sent you some cards!" title="Someone sent you some cards!" />
+            </a>
+        }
+
+        <div id="myCarousel" class="carousel slide" data-interval="36000" style="background: #444444; border-radius: 10px;">
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+            </ol>
+            <!-- Carousel items -->
+            <div class="carousel-inner">
+                <div class="active item">
+                    <p class="span6 carousel-subtext" style="width: 70%; margin-left: 15%;">
+                        @(new HtmlString(ViewBag.Content[HomeController.HomeContentKeys.HomeElevatorPitch]))<br/>
+                        
+                    </p>
+                    <div class="carousel-caption">
+                        <h4><a href="@Url.Action("About", "Home")">Take the tour</a></h4>
+                    </div>
+                </div>
+                <div class="item">
+                    <p class="span6 carousel-subtext" style="width: 70%; margin-left: 15%;">
+                        <strong>Got a pile of cards?</strong>
+                        <a href="../Busidex/Mine">Keep them here</a>, get them from anywhere.
+                        @ViewBag.Content[HomeController.HomeContentKeys.HomeMyBusidex]
+                    </p>
+                    <div class="carousel-caption">
+                       <h4><a href="@Url.Action("About", "Home")">Take the tour</a></h4>
+                    </div>
+                </div>
+                <div class="item">
+                    <p class="span6 carousel-subtext" style="width: 70%; margin-left: 15%;">
+                        @ViewBag.Content[HomeController.HomeContentKeys.HomeAddACard]
+                    </p>
+                    <div class="carousel-caption">
+                        <h4><a href="@Url.Action("About", "Home")">Take the tour</a></h4>
+                    </div>
+
+                </div>
+                <div class="item">
+                    <p class="span6 carousel-subtext" style="width: 70%; margin-left: 15%;">
+                        @ViewBag.Content[HomeController.HomeContentKeys.HomeFindACard]
+                    </p>
+                    <div class="carousel-caption">
+                       <h4><a href="@Url.Action("About", "Home")">Take the tour</a></h4>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Carousel nav -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+        </div>
+    </div>
+}
+<div class="row-fluid">
+    <div class="span12">
+        <div class="span3 feature">
+            <a href="~/Card/Search" class="homeLink">
+                <img src="@cdnPath/Search2.png" class="homeImage" alt="" />
+                <h3>Find a Card</h3>
+                <p>
+                    @ViewBag.Content[HomeController.HomeContentKeys.HomeFindACard]
+                </p>
+            </a>
+        </div>
+        <div class="span3 feature">
+            <a href="~/Card/Add" class="homeLink">
+                <img src="@cdnPath/add.png" class="homeImage" alt="" />
+                <h3>Add a Card</h3>
+                <p>
+                    @ViewBag.Content[HomeController.HomeContentKeys.HomeAddACard]
+                </p>
+            </a>
+        </div>
+        <div class="span3 feature">
+            <a href="~/Busidex/Mine" class="homeLink">
+                <img src="@cdnPath/BusidexLogo4a.png" class="homeImage" alt="" />
+                <h3>My Busidex</h3>
+                <p>
+                    @ViewBag.Content[HomeController.HomeContentKeys.HomeMyBusidex]
+                </p>
+            </a>
+        </div>
+        <div class="span3 feature">
+            <a href="~/Groups/Mine" class="homeLink">
+                <img src="@cdnPath/Busigroup2.png" class="homeImage homeImageLarge" alt="" />
+                <h3>My BusiGroups</h3>
+                <p>
+                    @ViewBag.Content[HomeController.HomeContentKeys.HomeMyBusiGroups]
+                </p>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row-fluid">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="span12">
+            <div style="width: 530px; margin-left: auto; margin-right: auto;">
+                <ol class="round" style="margin:0;padding:0;">
+                    <li>
+                        <a title="Settings" href="@Url.Action("Index", "Settings")">
+                            <h5>Preferences</h5>
+                            <img src="@cdnPath/settings_small.png" />
+                        </a>
+                    </li>
+                    <li>
+                        <a title="My Account" href="@Url.Action("Index", "Account")">
+                            <h5>My Account</h5>
+                            <img src="@cdnPath/myAccount_small.png" />
+                        </a>
+                    </li>
+                    @if (ViewBag.IsAdmin)
+                    {
+                        <li>
+                            <a title="Admin Options" href="@Url.Action("Index", "Admin")">
+                                <h5>Admin</h5>
+                                <img src="@cdnPath/admin_small.png" />
+                            </a>
+                        </li>
+                    }
+                </ol>
+            </div>
+        </div>
+    }
+</div>
+
+

@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="fdab0533-5f41-4905-aa0f-323ce9d7c58b" name="Busidex Data Service" linkedPackageId="3873eef7-8126-49ce-9a85-b7cfe7e2a01d" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="dc015287-5c71-4544-a2b2-2874bd191114">
+      <profileInstance Id="efcc5e34-f0d1-4356-bf22-69338877d892" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="d8d21827-74fb-403f-b9ab-1872b06f37c3">
+      <profileInstance Id="bfe0a2ae-1435-4bc6-aaaa-97025eaf4dfc" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction Id="b8037b1e-7219-41ec-a6b6-3aeb1739e4e9" name="Busidex Data Service" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
+        <elementDefinition Id="7d73a1cf-915d-4160-b485-40bc11e21353" />
+        <fragments>
+          <behaviorExecutionSpecification Id="4d212766-4654-4dcb-9248-e77a624c2632" name="BehaviorExecutionSpecification2">
+            <elementDefinition Id="3e4a1a1a-4db4-4f78-9d2d-847cd8cc0cca" />
+            <coveredLifelines>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="4ca43e4f-9832-430c-821d-4d2bfabfd5f0" LastKnownName="ExecutionOccurrenceSpecification4" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="4f15a46f-4506-4de9-8599-3f2627c25d7d" LastKnownName="ExecutionOccurrenceSpecification3" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="6e2fbbb9-00d4-46e2-b900-c91ea6bf181a" LastKnownName="MessageOccurrenceSpecification4" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="4f15a46f-4506-4de9-8599-3f2627c25d7d" name="ExecutionOccurrenceSpecification3">
+            <elementDefinition Id="c09f60f1-c68f-4dcb-95fc-95d56dde1859" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="bc55b7a6-394f-4a2d-8fb9-495d7e858dbd" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="6e2fbbb9-00d4-46e2-b900-c91ea6bf181a" name="MessageOccurrenceSpecification4">
+            <elementDefinition Id="c7f6b177-7174-44c1-81ce-7d5e048a54ef" />
+            <covered>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="72b60416-732c-491e-9824-e0150afa91a6" name="MessageOccurrenceSpecification3">
+            <elementDefinition Id="bb20f130-6064-46ed-b26c-e165e24f1c14" />
+            <covered>
+              <lifelineMoniker Id="036e26da-e85a-4ac2-9b7e-e1ab5aa8d439" LastKnownName="Holders of User's card" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="4ca43e4f-9832-430c-821d-4d2bfabfd5f0" name="ExecutionOccurrenceSpecification4">
+            <elementDefinition Id="6412ceb8-095d-48c9-8097-07bea6f04a62" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="f99139b9-d31d-406d-8e2a-47fc79342545" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification Id="b04777a7-059e-4bf9-8426-964880eacd4b" name="BehaviorExecutionSpecification1">
+            <elementDefinition Id="bb959899-1a55-4816-9712-66234280e360" />
+            <coveredLifelines>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="787c7b79-df8d-4aba-bf97-3700d173adfc" LastKnownName="ExecutionOccurrenceSpecification2" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="a934e9a5-ed04-46a9-9779-1181f87192af" LastKnownName="ExecutionOccurrenceSpecification1" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="2050d33d-1a5a-410b-9be9-6758c4e66f86" LastKnownName="MessageOccurrenceSpecification2" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="a934e9a5-ed04-46a9-9779-1181f87192af" name="ExecutionOccurrenceSpecification1">
+            <elementDefinition Id="dec85b69-c764-43b9-b5fa-b6ebbfa8053b" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="484758e8-1a76-4abd-8ffc-59bf5d44a8f3" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="2050d33d-1a5a-410b-9be9-6758c4e66f86" name="MessageOccurrenceSpecification2">
+            <elementDefinition Id="4f9fab13-ccfc-408b-b5f3-cecbcfdbee55" />
+            <covered>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="ec1b88d6-0daf-4061-b966-136992ec28ba" name="MessageOccurrenceSpecification1">
+            <elementDefinition Id="8dbcbcda-fc7b-434e-adaa-65da9745039b" />
+            <covered>
+              <lifelineMoniker Id="ea5d5368-3d3a-4113-8880-6501d50ec5e5" LastKnownName="Busidex Card Owner" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="787c7b79-df8d-4aba-bf97-3700d173adfc" name="ExecutionOccurrenceSpecification2">
+            <elementDefinition Id="f0fa106e-4bd3-4beb-96a0-2d229b895e4d" />
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="f7775cad-bd69-49a7-be7e-0584a4c5bc8a" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="d5640584-3494-4f21-8c8f-38d584c6caa8" LastKnownName="Busidex Data Service" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline Id="ea5d5368-3d3a-4113-8880-6501d50ec5e5" name="Busidex Card Owner" isActor="false" lifelineDisplayName="Busidex Card Owner">
+            <elementDefinition Id="1dd2e682-cd09-4d30-a298-d114413cc657" />
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="ec1b88d6-0daf-4061-b966-136992ec28ba" LastKnownName="MessageOccurrenceSpecification1" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline Id="d5640584-3494-4f21-8c8f-38d584c6caa8" name="Busidex Data Service" isActor="false" lifelineDisplayName="Busidex Data Service">
+            <elementDefinition Id="5cc2ee6e-70e8-4754-ba0c-e24e2232423f" />
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker Id="4f15a46f-4506-4de9-8599-3f2627c25d7d" LastKnownName="ExecutionOccurrenceSpecification3" />
+              <executionOccurrenceSpecificationMoniker Id="4ca43e4f-9832-430c-821d-4d2bfabfd5f0" LastKnownName="ExecutionOccurrenceSpecification4" />
+              <executionOccurrenceSpecificationMoniker Id="a934e9a5-ed04-46a9-9779-1181f87192af" LastKnownName="ExecutionOccurrenceSpecification1" />
+              <executionOccurrenceSpecificationMoniker Id="787c7b79-df8d-4aba-bf97-3700d173adfc" LastKnownName="ExecutionOccurrenceSpecification2" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline Id="036e26da-e85a-4ac2-9b7e-e1ab5aa8d439" name="Holders of User's card" isActor="false" lifelineDisplayName="Holders of User's card">
+            <elementDefinition Id="5e6e4b97-74ca-4d4e-b918-476970d49d86" />
+            <topLevelOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="72b60416-732c-491e-9824-e0150afa91a6" LastKnownName="MessageOccurrenceSpecification3" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message Id="7979b62a-78ec-4d9a-8db6-7396270ad97b" name="User's see updated information" messageKind="Complete" messageSort="AsynchCall" createSelfMessage="false">
+            <elementDefinition Id="787dec0c-d905-4a61-952d-38f1a9b18642" />
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="72b60416-732c-491e-9824-e0150afa91a6" LastKnownName="MessageOccurrenceSpecification3" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="6e2fbbb9-00d4-46e2-b900-c91ea6bf181a" LastKnownName="MessageOccurrenceSpecification4" />
+            </receiveEvent>
+          </message>
+          <message Id="936be078-55fc-45d2-b3b0-8fbed3745d19" name="Update Contact/Relation Information" messageKind="Complete" messageSort="AsynchCall" createSelfMessage="false">
+            <elementDefinition Id="afb845ce-12ea-41e6-b16e-aee2902aa543" />
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="ec1b88d6-0daf-4061-b966-136992ec28ba" LastKnownName="MessageOccurrenceSpecification1" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="2050d33d-1a5a-410b-9be9-6758c4e66f86" LastKnownName="MessageOccurrenceSpecification2" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="484758e8-1a76-4abd-8ffc-59bf5d44a8f3" name="ExecutionEvent">
+        <elementDefinition Id="0e587cd4-bd5b-44e3-a047-daa088a0556c" />
+      </executionEvent>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="f7775cad-bd69-49a7-be7e-0584a4c5bc8a" name="ExecutionEvent">
+        <elementDefinition Id="f8ddb2db-c8af-4a13-93c4-81dda61763d8" />
+      </executionEvent>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="bc55b7a6-394f-4a2d-8fb9-495d7e858dbd" name="ExecutionEvent">
+        <elementDefinition Id="0558e3ea-a074-446f-923e-58356676fc8e" />
+      </executionEvent>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="f99139b9-d31d-406d-8e2a-47fc79342545" name="ExecutionEvent">
+        <elementDefinition Id="e8afa81e-8ef3-4686-b3a9-1ec11949e489" />
+      </executionEvent>
+    </packageHasNamedElement>
+  </packagedElements>
+  <package Id="3873eef7-8126-49ce-9a85-b7cfe7e2a01d" name="Busidex.Architecture">
+    <elementDefinition Id="bae227f6-1bc6-4b08-aec6-ba1fa3d2765c" />
+  </package>
+</SequenceDesignerModel>

@@ -1,0 +1,34 @@
+﻿
+    
+<div class="toolbar navbar-fixed-top">
+    <h1 id="pageTitle" style="padding-top:0;">Search</h1>
+    <a ng-tap="GoToSettings()" class="ui-link" style="margin-top:10px;" href="">Main Menu</a>          
+</div>
+<div style="margin-top:45px;" data-role="navbar">
+    <input type="text" name="SearchText" id="search" ng-model="model.SearchText" />
+    <a class="button whiteButton" ng-click="doSearch()">Go</a>
+    <!--<input type="text" value="" id="filterVal" placeholder="Filter" ng-model="SearchFilter.SearchFilters.$" style="padding:0;width: 92%;height:25px;" />-->            
+</div>
+<img ng-tap="ImagePopup()" ng-src="{{PopupImage}}" ng-show="ShowImagePopup" style="width: 100%; height: 100%; position: fixed; z-index: 99999; top: 0; left: 0;" />
+<ul style="padding:10px;" class="ui-overlay-b">
+    <li ng-repeat="card in model.SearchModel.Results" class="detailRow row">
+
+        <button class="notesIcon {{card.VClass}}" ng-show="card.Addresses.length > 0" style="float:right;margin-top:0;position:relative;" ng-click="openMap(card)">
+            <img ng-src="{{card.MapIcon}}" />
+        </button>
+        <a href="" class="searchLink" ng-tap="AddToMyBusidex(card)" ng-show="!card.ExistsInMyBusidex">Add To My Busidex</a>
+        <img class="searchLink" ng-src="{{CheckImage}}" ng-show="card.ExistsInMyBusidex" />
+        <a ng-tap="ImagePopup(card)">
+            <img alt="{{card.Name}}" ng-src="{{ImageRoot + card.FrontFileId}}.{{card.FrontFileType.replace('.','')}}" class="busidexCard {{card.OrientationClass}}" />
+        </a>
+        <div class="cardInfo">
+            <span class="cardInfoLabel nameLabel">{{card.Name}}</span>
+            <span class="cardInfoLabel">{{card.CompanyName}}</span>
+            <a class="cardInfoLabel phoneLink" ng-tap="AddActivity($parent.EventSources.CALL, card.CardId)" ng-href="{{'tel:' + phone.Number.replace('.', '').replace('.', '')}}" ng-repeat="phone in card.PhoneNumbers">{{phone.Number}}</a>
+            <a class="cardInfoLabel mailLink" ng-tap="AddActivity($parent.EventSources.EMAIL, card.CardId)" ng-href="{{'mailto:' + card.Email}}">{{card.Email}}</a>
+            <a class="cardInfoLabel" ng-tap="openUrl(card)" target="_blank">{{card.Url}}</a>
+        </div>
+
+    </li>
+</ul>
+

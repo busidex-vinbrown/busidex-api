@@ -1,0 +1,30 @@
+﻿<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+<div class="container-fluid">
+    <div ng-controller="ShareCardController as vm">
+        <div style="max-width: 600px">
+            
+            <div class="form-group">
+                <h2>Share A Card</h2>
+                <label>Personal Message</label>
+                <textarea maxlength="250" ng-model="vm.message" style="max-width: 600px;height:100px;line-height: 21px;" class="form-control" placeholder="Add a personal message to those with whom you are sharing your card."></textarea>
+            </div>
+            
+            <div>
+                <div class="input-group" style="margin-bottom:15px;">
+                    <div class="input-group-addon">
+                        <img style="width:20px;" src="../../images/email.jpg" />
+                    </div>
+                    <input type="text" ng-model="vm.email" class="form-control" placeholder="Email to share with" />
+                </div>
+                <div ng-include="'/views/fragments/sharedcard.html'" ng-repeat="card in vm.cards" class="row-fluid"></div>
+            </div>
+            <div>
+                <button class="btn btn-block btn-success" ng-disabled="vm.email.length === 0" ng-click="vm.share()">SHARE THESE CARDS</button>
+            </div>
+        </div>
+    </div>
+</div>

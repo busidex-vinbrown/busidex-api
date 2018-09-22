@@ -1,0 +1,114 @@
+﻿<style type="text/css">
+    html, body {
+        background: #4f8498;
+        min-height: 100%;
+    }
+
+    .workArea ul {
+        margin-left: 0;
+    }
+
+    div.well {
+        margin-top: 20px;
+    }
+
+    h1.workAreaTitle {
+        margin-left: 40px;
+        width: 80%;
+        padding: 13px;
+    }
+
+    .v_preview, .h_preview {
+        margin: 8px;
+        border: solid 1pt #ddd;
+    }
+
+    img.h_preview {
+        height: 120px;
+        width: 220px;
+        margin-top: 0;
+    }
+    img.v_preview {
+        height: 210px;
+        width: 140px;
+        margin-top: 0;
+    }
+    .busidexRow img {
+        margin-left: 15px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        -ms-opacity: .3;
+        opacity: .3;
+        padding: 0;
+        border: dashed 1pt #000;
+}
+
+        .busidexRow img.selected {
+            -ms-opacity: 1;
+            opacity: 1;
+            padding: 1px;
+            border: none;
+        }
+
+i.deleteGroup {
+    cursor: pointer;
+}
+</style>
+<div class="container-fluid" ng-controller="EditGroupController as vm">
+    <div ng-class="{'animate-alert': vm.SaveError}" class="alert-feedback">
+        <div class="alert alert-danger" style="text-align: center;">
+            <button type="button" class="close" ng-click="vm.SaveError = false" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h2>There was a problem saving your group</h2>
+            <h4>
+                We couldn't save your group at this time. If the problem continues, please email <a href="mailto:busidex.help@gmail.com">support@busidex.com</a>. 
+            </h4>
+        </div>
+    </div>
+    <div class="row col-md-12" style="margin-top: 20px;">
+        <div class="well pull-left">
+            <div class="pull-left col-md-6 col-lg-3">
+                <h3>Group Name:&nbsp;</h3>
+                <div class="input-group ">
+                    <input type="text" class="form-control" id="description" ng-model="vm.group.Description" value="" />
+                    <span class="input-group-btn">
+                        <button id="save" groupid="" type="button" class="btn btn-primary" ng-click="vm.save()">Save</button>
+                    </span>
+                    <span class="input-group-btn">
+                        <a class="btn btn-danger" type="button" ng-href="#/groups/mine" id="cancel">Cancel</a>
+                    </span>
+                </div>
+            </div>
+            <div class="pull-right col-md-4 col-lg-2">
+                <h3 for="select-choice-1" class="select">Filter:</h3>
+                <div class="input-group">
+                    <input type="text" value="" id="filterVal" ng-model="vm.SearchFilter.SearchFilters.$" class="form-control" style="margin-bottom: 0;" />
+                    <a href="" class="input-group-addon" id="clearFilter" ng-click="vm.SearchFilter.SearchFilters = ''">&times;</a>
+                </div>
+                <div>
+                    <input type="checkbox" style="vertical-align: top;" id="showSelected" ng-model="vm.ShowSelectedOnly" />
+                    <span>Show selected only</span>
+                    <label class="badge badge-info" id="cardCount"></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row busidexRow col-md-12">
+        <div class="well" style="padding-left: 0; padding-right: 5px;">
+            <img ng-repeat="card in vm.Busidex | filter:vm.SearchFilter.SearchFilters"
+                 alt="{{card.Card.Name}}"
+                 ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType}}"
+                 ng-show="(vm.ShowSelectedOnly && card.Selected) || !vm.ShowSelectedOnly"
+                 cardid="{{card.Card.cardid}}"
+                 ng-class="{'{{card.OrientationClass}} selected ': card.Selected, '{{card.OrientationClass}}': !card.Selected }"
+                 ng-model="card.Selected"
+                 style="position: relative"
+                 company="{{card.Card.CompanyName.toLowerCase()}}"
+                 tags="{{card.Card.TagList.ToLowerCase()}}"
+                 phone=""
+                 email="{{card.Card.Email}}"
+                 cardname="{{card.Card.Name.toLowerCase()}}"
+                 ng-click="vm.ToggleSelected(card)"/>
+        </div>
+    </div>
+</div>

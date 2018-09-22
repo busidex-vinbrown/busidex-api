@@ -1,0 +1,69 @@
+﻿/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1080px) {
+/* Styles */
+	section.frame1 {
+		a.logo {
+			left: -110px;
+		}
+
+		div.links {
+			left: 70px;
+		}
+
+		ul {
+			left: 0;
+		}
+
+		div.image-right-side {
+			left: 550px;
+		}
+	}
+
+	section.frame4 {
+
+		div.blocks {
+			top: 100px;
+		}
+
+		div.title-block {
+			top: 108px;
+		}
+	}
+
+	section.frame5 {
+
+		div.imgRightSide{
+			bottom: 0;
+			left: 660px;
+		}
+	}
+
+	div.prof-acct-required{
+		width: 70%;
+		padding-left: 20px;
+	}
+	ul.my-card-actions{
+		list-style: none;
+		width: 70%;
+		padding-left: 40px;
+	}
+	div.my-card{
+		ul.button-list{
+			float: left;
+		}
+		.action-button-holder{
+			width: 80%;
+		}
+		div.card-container-outer{
+			width: auto;
+			float: left;
+			margin-left: inherit;
+			margin-right: inherit;
+		}
+
+		div.event-placeholder{
+			display: block;
+		}
+	} 
+}

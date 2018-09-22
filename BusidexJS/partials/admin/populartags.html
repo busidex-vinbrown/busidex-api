@@ -1,0 +1,11 @@
+﻿<admin-menu></admin-menu>
+<div class="adminDiv">
+    <div>
+        Sort By:&nbsp;<a ng-click="SortFilter = 'Tag';Reverse=!Reverse" class="btn btn-link">Tag</a>&nbsp;<a ng-click="SortFilter = 'Count';Reverse=!Reverse" class="btn btn-link">Count</a>
+        <ul>
+            <li ng-repeat="tag in Tags | orderBy: SortFilter:Reverse">
+                <label class="label label-info">{{tag.Tag}}</label>:&nbsp;{{tag.Count}}
+            </li>
+        </ul>
+    </div>
+</div>

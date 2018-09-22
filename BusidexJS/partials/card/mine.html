@@ -1,0 +1,144 @@
+﻿<h2>My Card</h2>
+
+<img src="../../img/spinner.gif" ng-show="Waiting" />
+<div class="well clearfix" ng-repeat="card in MyCards" ng-show="!AdvancedSharing">
+    <div class="pull-left">
+        <img ng-show="card.ShowFront" alt="Front Image" class="preview {{card.FrontOrientationClass}}" ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontFileType}}" />
+        <img ng-show="card.ShowBack" alt="Back Image" class="preview {{card.BackOrientationClass}}" ng-src="https://az381524.vo.msecnd.net/cards/{{card.BackFileId}}.{{card.BackFileType}}" />
+    </div>
+    <ul class="pull-left my-card-actions" style="width:55%;">
+        <li ng-if="ShowActions">
+            <a ng-href="#/card/edit/{{card.CardId}}" class="btn btn-info">Edit</a>
+        </li>
+        <li ng-if="ShowActions">
+            <a href="" class="btn btn-info" ng-click="ToggleSharing()">Share</a>
+            <div class="ShareMyCard" ng-show="Sharing">
+                Email Address: <input type="email" ng-model="Model.ShareWith" value="" /><br />
+                <input type="button" value="Send My Card" class="btn btn-info" ng-click="ShareMyCard()" /> &nbsp;
+                <input type="button" class="btn btn-inverse" value="Cancel" ng-click="CancelSharing()" />
+
+                <h4 class="moreLabel">More Options</h4>
+                <img ng-src="/img/gmail-logo.png" alt="GMail" ng-class="{'shareExternal': true, 'selectedShare': Model.SelectedSharingOption == AdvancedSharingOptions.Gmail}" ng-click="ToggleAdvancedSharing(AdvancedSharingOptions.Gmail)" />
+                <img ng-src="/img/yahoo-mail.png" alt="Yahoo" ng-class="{'shareExternal': true, 'selectedShare': Model.SelectedSharingOption == AdvancedSharingOptions.Yahoo}" ng-click="ToggleAdvancedSharing(AdvancedSharingOptions.Yahoo)" />
+                <img ng-src="/img/outlook-logo.png" alt="Outlook" ng-class="{'shareExternal': true, 'selectedShare': Model.SelectedSharingOption == AdvancedSharingOptions.Outlook}" ng-click="ToggleAdvancedSharing(AdvancedSharingOptions.Outlook)" />
+                <div ng-show="Model.SelectedSharingOption == AdvancedSharingOptions.Outlook">
+                    <span>
+                        Select the .csv file you exported from your Outlook Contacts. For information on how to do that, click
+                        <a class="link btn-link" href="http://office.microsoft.com/en-001/outlook-help/export-contacts-HA101870639.aspx" target="_blank">here</a>.
+                    </span>
+                    <input type="file" file-model="Model.OutlookFile" accept=".csv" cb="LoadOutlookContacts" />
+                </div>
+                <div ng-show="Model.SelectedSharingOption == AdvancedSharingOptions.Yahoo">
+                    <span>Sharing with Yahoo contacts is not yet available. Send us an email if you'd like us to hurry with this feature.</span>
+                </div>
+            </div>
+        </li>
+        <li ng-if="ShowActions">
+            <a ng-href="#/card/edit/{{card.CardId}}?mycard=1" class="DeleteCard btn btn-info">Replace My Card</a>
+        </li>
+        <li ng-if="!ShowActions" style="margin:0;">
+            <div class="alert alert-error" style="text-align: center;float:left;">                
+                <p style="text-align: left;">
+                    <ul class="pull-left" style="margin:0;">
+                        <li>
+                            <a href="" class="btn btn-info">Edit</a>
+                        </li>
+                        <li>
+                            <a href="" class="btn btn-info">Share</a><br />
+                        </li>
+                        <li>
+                            <a href="" class="btn btn-info">Replace My Card</a><br />
+                        </li>
+                    </ul>
+                    <div class="pull-left" style="text-align:left; padding-left:20px;width: 70%;">
+                        <h3>Professional Account Required</h3>
+
+                        <div class="pull-left">
+                            You can only edit or share your card if you own a professional account. You can
+                            <a class="link btn-link" ng-href="#/account/index?tab=accounttype">change your account type here</a>. If your
+                            account type has changed without your knowledge, please <a class="link btn-link" href="mailto:busidex.support@gmail.com">contact support</a>
+                            and we will help you resolve the situation.
+                        </div>
+                    </div>
+                </p>
+            </div>
+        </li>
+    </ul>
+</div>
+<div class="well" style="margin-top:20px;display:block;" ng-show="!AdvancedSharing">
+    <h1>
+        MONTHLY ACTIVITY FOR {{CurrentMonth.Name.toUpperCase()}}, {{CurrentMonth.Year}}
+        <small style="font-family: Arial">
+            <a href="" class="btn btn-link" ng-click="ShowPreviousMonth()"><< Previous Month</a>
+            <a href="" class="btn btn-link" ng-click="ShowNextMonth()">Next Month >></a>
+        </small>
+    </h1>
+
+    <table class="activityTable">
+        <thead>
+        <th ng-repeat="source in Sources">{{source.Description}}</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td ng-repeat="source in Sources">
+                    {{MonthlyActivities[source.EventCode] || 0}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="well well-large" ng-show="AdvancedSharing" style="min-height:210px;">
+    <h3>
+        Advanced Sharing <small>Showing {{Contacts.length}} contacts <span ng-show="Model.SelectedSharingOption == AdvancedSharingOptions.Gmail">connected to <strong>{{ConnectedAccount}}</strong></span></small>
+        <a href="" class="btn btn-info" ng-click="SwitchAccounts()" ng-show="Model.SelectedSharingOption == AdvancedSharingOptions.Gmail">Switch Accounts</a>
+    </h3>
+    <hr />
+    <div class="advSharingTools">
+
+        <div class="span4">
+            <label style="vertical-align: middle;">Personalize Your Message <small>(up to 500 characters)</small></label><br />
+            <textarea maxlength="500" style="height:70px;width: 350px;" ng-model="PersonalMessage"></textarea>
+        </div>
+        <div class="span4" style="margin-left:10px;">
+            <label>Filter:</label><br />
+            <input type="text" ng-model="Filter" style="width:200px" /><br />
+            <a href="" class="btn btn-link" ng-click="ToggleShowSelected()"><input type="checkbox" ng-model="ShowSelectedOnly" />&nbsp;Show Selected Only</a>
+            <a href="" class="btn btn-link" ng-click="ToggleSelectAll()"><input type="checkbox" ng-model="SelectAll" />&nbsp;Select All</a>
+        </div>
+        <div class="span3">
+            <a href="" class="btn btn-primary btn-large btn-block" data-target="#EmailPreview" data-toggle="modal" ng-click="ShowPreview()">Preview Your Message</a>
+            <a href="" class="btn btn-primary btn-large btn-block" ng-click="SendTestEmail()">Send Yourself a Test Email</a>
+            <a href="" class="btn btn-primary btn-large btn-block" ng-click="ShareWithAll()">Share Your Card Now</a>
+            <a href="" class="btn btn-inverse btn-large btn-block" ng-click="ToggleAdvancedSharing()">Back To My Card</a>
+        </div>
+    </div>
+    <ul>
+        <li ng-repeat="contact in Contacts | filter: Filter | orderBy:'Name'" class="contactRow" ng-hide="ShowSelectedOnly && !contact.Selected">
+
+            <input type="checkbox" class="pull-left" ng-checked="contact.Selected" ng-model="contact.Selected" />
+            <div class="contactInfo pull-left">
+                <strong>{{contact.Name || '(name not available)'}}</strong><br />
+                {{contact.Email}}
+            </div>
+            <div class="pull-right">
+                <label>Last Contacted</label>
+                <label>{{contact.LastSharedDate}}</label>
+            </div>
+
+        </li>
+    </ul>
+</div>
+<div id="EmailPreview" class="modal hide fade EmailPreview" role="dialog">
+    <div>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    </div>
+    <div class="Content" ng-bind-html="PreviewBody"></div>
+    <div class="previewFooter">
+        <button class="btn btn-inverse pull-right" data-dismiss="modal" ng-click="ClosePreview()">Close Preview</button>
+        <button class="btn btn-primary pull-right">Send Your Card Now</button>
+
+    </div>
+</div>
+<div ng-show="NoCards">
+    You haven't uploaded your card yet. You can do that <a href="#/card/add/mine" class="btn btn-main">here</a>.
+</div>

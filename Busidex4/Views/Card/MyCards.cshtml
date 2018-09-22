@@ -1,0 +1,65 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+@model IEnumerable<CardDetailModel>
+
+@{
+    ViewBag.Title = "MyCards";
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];
+    
+}
+
+<script type="text/javascript">
+    $( document ).ready( function ( ) {
+
+        $( ".DeleteCard" ).click( function ( ) {
+            return confirm( "Are you sure you want to delete this card?" );
+        });
+        $("#MyCards a").css('color', '#fff');
+    } );
+</script>
+<h2>My Cards</h2>
+
+<table class="cardDetailList">
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    var frontCardMarkup = new HtmlString("&nbsp;");
+    if (item.Markup != null)
+    {
+        frontCardMarkup = new HtmlString(HttpUtility.HtmlDecode(item.Markup));
+    }
+    
+    <tr>
+        <td class="detailCell">
+            @if (item.Display == DisplayType.IMG)
+            {
+                    <img alt="Front Image" class="preview @(item.FrontOrientation == "H" ? "h_preview" : "v_preview")" src="@(cdnPath + item.FrontFileId + "." + item.FrontFileType)" />
+            }
+            else
+            {
+                    @frontCardMarkup
+            }
+            </td>
+        <td class="detailCell">
+            @if (item.BackFileType != null)
+            {
+                    <img alt="Back Image" class="preview @(item.BackOrientation == "H" ? "h_preview" : "v_preview")" src="@(cdnPath + item.BackFileId + "." + item.BackFileType)" />
+            }
+        </td>
+        <td class="detailCell">
+            @Html.ActionLink("Edit", "Edit", new { id = item.CardId }, new { @class = "btn btn-main", role = "button" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.CardId }, new { @class = "DeleteCard btn btn-main", role = "button" })
+                </td>
+    </tr>
+}
+@if (!Model.Any()){ 
+    <div>
+        You haven't uploaded your card yet. You can do that <a href="@Url.Action("Add", "Card")">here</a>.
+    </div>
+}
+</table>

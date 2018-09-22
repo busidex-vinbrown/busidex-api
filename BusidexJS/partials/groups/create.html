@@ -1,0 +1,46 @@
+﻿<div id="workarea">
+    <div class="row" style="margin-top:20px;">
+        <div class="input-append pull-left">
+            <span class="pull-left" style="display:inline-block; padding:5px 10px 0 ; font-size: 22px;">BusiGroup Name:&nbsp;</span>
+            <input type="text" id="description" ng-model="Group.Description" value="" />
+            <button class="btn btn-primary" id="save" groupid=""ng-click="save()">Save</button>
+            <a href="#/groups/mine" class="btn btn-inverse" id="cancel">Cancel</a>
+        </div>
+
+        <div class="pull-right">
+            <ul>
+                <li>
+                    <span for="select-choice-1" class="select" style="width: 70px; padding-top: 10px; font-size: 22px;">Filter:</span>
+                    <div class="input-append" style="margin-bottom:0;">
+                        <input type="text" value="" id="filterVal" ng-model="SearchFilter.SearchFilters.$" class="input-large" style="margin-bottom: 0;" />
+                        <button class="btn" id="clearFilter" style="margin-top:0;" ng-click="SearchFilter.SearchFilters = ''">&times;</button>
+                    </div>
+                </li>
+            </ul>
+            <div style="width: 300px; margin: 0 0 10px 25px">
+                <input type="checkbox" style="vertical-align:top;" id="showSelected" ng-model="ShowSelectedOnly" />
+                <span>Show selected only</span>
+                <label class="badge badge-info" id="cardCount"></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row busidexRow">
+        <div class="well" style="padding-left:0;padding-right:5px;">
+            <img ng-repeat="card in MyBusidex | filter:SearchFilter.SearchFilters"
+                 alt="{{card.Card.Name}}"
+                 ng-src="https://az381524.vo.msecnd.net/cards/{{card.Card.FrontFileId}}.{{card.Card.FrontType}}"
+                 ng-show="(ShowSelectedOnly && card.Selected) || !ShowSelectedOnly"
+                 cardid="{{card.Card.cardid}}"
+                 ng-class="{'{{card.OrientationClass}} selected ': card.Selected, '{{card.OrientationClass}}': !card.Selected }"
+                 ng-model="card.Selected"
+                 style="position:relative"
+                 company="{{card.Card.CompanyName.toLowerCase()}}"
+                 tags="{{card.Card.TagList.ToLowerCase()}}"
+                 phone=""
+                 email="{{card.Card.Email}}"
+                 cardname="{{card.Card.Name.toLowerCase()}}"
+                 ng-click="ToggleSelected(card)" />
+        </div>
+    </div>
+</div>

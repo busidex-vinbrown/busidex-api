@@ -1,0 +1,24 @@
+﻿<div class="container" ng-controller="SearchInfoController as vm">
+    <div class="jumbotron jumbotron-contactinfo">
+        <div ng-include="'views/fragments/logo.html'"></div>
+        <h2>How will your card be found?</h2>
+        <div ng-show="vm.ModelError === true" ng-include="'views/fragments/error.html'"></div>
+        <!--<h3>I want my card to be found by...</h3>-->
+        <div class="form-group contactInfo">
+            <input type="text" placeholder="What is your company name?" class="form-control contactInfo" ng-model="vm.card.CompanyName" maxlength="150" name="CompanyName" />
+        </div>
+        <div class="form-group contactInfo">
+            <input placeholder="What is your name?" type="text" class="form-control contactInfo" ng-model="vm.card.Name" maxlength="150" name="Name" />
+        </div>
+        <div class="form-group contactInfo">
+            <input type="text" placeholder="What is your title?" class="form-control contactInfo" ng-model="vm.card.Title" maxlength="150" name="Title" />
+        </div>
+        <div ng-if="!vm.editmode">
+            <a class="btn btn-lg btn-info" ng-mouseup="vm.save(0)">&lt; Back</a>
+            <a class="btn btn-lg btn-success" ng-mouseup="vm.save(1)">Next &gt;</a>
+        </div>
+        <div ng-if="vm.editmode">
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.modified" ng-mouseup="vm.save(-1)">Save</a>
+        </div>
+    </div>
+</div>

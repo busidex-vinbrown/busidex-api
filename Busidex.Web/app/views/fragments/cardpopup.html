@@ -1,0 +1,16 @@
+﻿<div id="detailPopupH" class="h_preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-body">
+        <img ng-class="card.FrontOrientationClass"
+             ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontType.replace('.','')}}">
+    </div>
+    <div class="modal-footer">
+        <a ng-href="https://profile.busidex.com/details/{{card.SEO_Name}}" target="_blank"
+           class="btn btn-info pull-left" data-dismiss="modal">See the details</a>
+
+        <a ng-show="!card.ExistsInMyBusidex" href="" ng-click="AddToMyBusidex(card)"
+           class="btn btn-info pull-right" data-dismiss="modal">Add To My Busidex</a>
+
+        <a ng-show="card.ExistsInMyBusidex" ng-href="https://www.busidex.com/#/busidex/mine"
+           class="btn btn-info pull-right" data-dismiss="modal">View in My Busidex</a>
+    </div>
+</div>

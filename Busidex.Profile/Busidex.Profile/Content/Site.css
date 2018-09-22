@@ -1,0 +1,246 @@
+﻿@font-face {
+  font-family: 'Lato';
+  src: url('webfont.eot'); /* IE9 Compat Modes */
+  src: url('webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('webfont.woff2') format('woff2'), /* Super Modern Browsers */
+       url('webfont.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/Lato-Bla.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+html {
+     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABEwAAAMiAQMAAABOlsRdAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABlBMVEW+1d8AAAC6hZIsAAAAAWJLR0QB/wIt3gAAAAlwSFlzAAALEgAACxIB0t1+/AAAAINJREFUeNrtwYEAAAAAw6D5U1/gCFUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8A7OFAAFSiwwVAAAAAElFTkSuQmCC') /*/content/images/back.png*/;
+}
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    
+}
+div.jumbotron {
+    background: none;
+}
+img.search-background {
+        position:fixed;
+        left: 0; 
+        bottom:0; 
+        opacity: .3;
+        z-index: 0;
+
+    }
+div.background {
+    /*background: url('/content/images/background1.jpg');*/
+    /*background-image: url('https://az381524.vo.msecnd.net/images/search-background.gif');*/
+    background-color: #4f8498;
+    -ms-background-size: 100vh; /*cover;*/
+    background-size:cover;
+    background-repeat: no-repeat;
+    opacity: .8;
+    position: fixed;
+    z-index: 0;
+    left: 0;
+    background-size: cover;
+    height: 100%;
+    width: 100vw;
+}
+ul {
+    padding-left: 20px;
+}
+
+.jumbotron {
+    /*opacity: .8;*/
+    position: relative;
+    z-index: 1;
+    max-width: 75vw;
+    margin-top: 25px;
+    background: #bbb;
+}
+.jumbotron img {
+    max-width: 100%;
+    width: 100%;
+    border: solid 1pt silver;
+}
+
+div.storelinks {
+    font-size: 16px;
+    line-height: 1.286;
+    position: relative;
+    margin-top: 60px;
+    z-index: 109;
+}
+
+ div.storelinks a {
+        margin-left: 10px;
+    }
+
+ div.storelinks a:hover {
+        text-decoration: none;
+    }
+  div.storelinks a img {
+      height: 53px;
+      width: 53px;
+  }
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.main-menu{
+  font-size: 16px;
+  font-family: "Lato";
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1.125;
+  text-align: right;
+  left: 594.448px;
+  top: 65.591px;
+  width: 388px;
+  height: 16px;
+  z-index: 114;
+}
+
+img.contact-icon {
+    height: 45px; width: 45px;
+    display: inline-block;
+    border: 0;
+    padding: 4px;
+    padding-left: 0;
+}
+
+@media screen and (max-width: 360px) {
+    .jumbotron {
+        max-width: 100%;
+    }
+    .contact-info {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+    .contact-info a {
+        font-size: 14px;
+        line-height: 1;
+    }
+    img.contact-icon {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+/*@media only screen and (min-width : 1080px) {
+    .jumbotron {
+        max-width: 100%;
+    }
+    .contact-info {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+    .contact-info a {
+        font-size: 14px;
+        line-height: 1;
+    } 
+    img.contact-icon {
+        height: 25px;
+        width: 25px;
+    }
+}*/
+
+/*@media only screen and (min-width : 1224px) {
+    .jumbotron {
+        max-width: 100%;
+    }
+    .contact-info {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+    .contact-info a {
+        font-size: 14px;
+        line-height: 1;
+    } 
+    img.contact-icon {
+        height: 25px;
+        width: 25px;
+    }
+}*/
+
+/*@media only screen and (min-width : 1824px) {
+    .jumbotron {
+        max-width: 100%;
+    }
+    .contact-info {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+    .contact-info a {
+        font-size: 14px;
+        line-height: 1;
+    } 
+    img.contact-icon {
+        height: 25px;
+        width: 25px;
+    }
+}*/
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape), screen and (max-width: 640px) {
+    .jumbotron {
+        max-width: 100%;
+    }.contact-info {
+        margin-top: 20px;
+         padding-left: 10px;
+    }
+     .contact-info a {
+        font-size: 14px;
+        line-height: 1;
+    } 
+     img.contact-icon {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .jumbotron {
+        max-width: 100%;
+    }.contact-info {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+     .contact-info a {
+        font-size: 14px;
+        line-height: 1;
+    } 
+     img.contact-icon {
+        height: 25px;
+        width: 25px;
+    }
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+    .jumbotron {
+        max-width: 100%;
+    }.contact-info {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+     .contact-info a {
+        font-size: 14px;
+        line-height: 1;
+    } 
+     img.contact-icon {
+        height: 25px;
+        width: 25px;
+    }
+}

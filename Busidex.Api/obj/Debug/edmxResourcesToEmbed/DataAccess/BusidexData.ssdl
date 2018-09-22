@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="busidexModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Card">
+    <Key>
+      <PropertyRef Name="CardId" />
+    </Key>
+    <Property Name="CardId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="150" />
+    <Property Name="Title" Type="varchar" MaxLength="150" />
+    <Property Name="FrontImage" Type="varbinary(max)" />
+    <Property Name="FrontType" Type="varchar" MaxLength="10" />
+    <Property Name="FrontOrientation" Type="varchar" MaxLength="1" />
+    <Property Name="BackImage" Type="varbinary(max)" />
+    <Property Name="BackType" Type="varchar" MaxLength="10" />
+    <Property Name="BackOrientation" Type="varchar" MaxLength="1" />
+    <Property Name="BusinessId" Type="int" />
+    <Property Name="Searchable" Type="bit" Nullable="false" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="150" />
+    <Property Name="Email" Type="varchar" MaxLength="150" />
+    <Property Name="Url" Type="varchar" MaxLength="250" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="bigint" />
+    <Property Name="OwnerId" Type="bigint" />
+    <Property Name="OwnerToken" Type="uniqueidentifier" />
+    <Property Name="Updated" Type="datetime" Nullable="false" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+    <Property Name="FrontFileId" Type="uniqueidentifier" />
+    <Property Name="BackFileId" Type="uniqueidentifier" />
+    <Property Name="DisplayType" Type="varchar" MaxLength="3" />
+    <Property Name="Markup" Type="varchar" MaxLength="2000" />
+    <Property Name="Visibility" Type="int" Nullable="false" />
+    <Property Name="CardTypeId" Type="int" Nullable="false" />
+    <Property Name="SEO_Name" Type="varchar" MaxLength="150" />
+    <Property Name="CustomContent" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="CardAddress">
+    <Key>
+      <PropertyRef Name="CardAddressId" />
+    </Key>
+    <Property Name="CardAddressId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CardId" Type="bigint" Nullable="false" />
+    <Property Name="Address1" Type="varchar" MaxLength="50" />
+    <Property Name="Address2" Type="varchar" MaxLength="50" />
+    <Property Name="City" Type="varchar" MaxLength="150" />
+    <Property Name="State" Type="varchar" MaxLength="150" />
+    <Property Name="ZipCode" Type="char" MaxLength="10" />
+    <Property Name="Region" Type="varchar" MaxLength="50" />
+    <Property Name="Country" Type="varchar" MaxLength="100" />
+    <Property Name="Deleted" Type="bit" Nullable="false" />
+    <Property Name="GeoLocation" Type="geography" />
+  </EntityType>
+  <EntityContainer Name="busidexModelStoreContainer">
+    <EntitySet Name="Card" EntityType="Self.Card" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CardAddress" EntityType="Self.CardAddress" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

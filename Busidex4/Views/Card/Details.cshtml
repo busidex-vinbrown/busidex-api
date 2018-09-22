@@ -1,0 +1,59 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+
+@model  CardDetailModel
+
+@{
+    string returnUrl = Request.QueryString["returnUrl"] != null ? Server.HtmlDecode(Request.QueryString["returnUrl"]) : "javascript:history.back();";
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];
+    var frontCardMarkup = new HtmlString(Server.HtmlDecode(Model.Markup) ?? string.Empty);
+}
+
+    <div class="row">
+        @if (Model != null)
+        {
+            <div class="span6 myCardDetail @(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")">
+                @if (Model.Display == DisplayType.IMG)
+                {
+                    <img src="@(cdnPath + Model.FrontFileId + ".jpg")"  alt="@Model.Name" class="@(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")"/>
+                }
+                else
+                {
+                    @(frontCardMarkup)
+                }
+                @if (Model.HasBackImage)
+                {
+                    <img src="@(cdnPath + Model.BackFileId + ".jpg")" alt="@Model.Name" class="@(Model.BackOrientation == "H" ? "h_preview" : "v_preview")"/>
+                }
+            </div>
+            <div class="span6">
+                <div class="row>">
+                    <label class="label large">Name</label>@Html.DisplayTextFor(c => c.Name)
+                </div>
+                <div class="row>">
+                    <label class="label large">Company Name</label>@Html.DisplayTextFor(c => c.CompanyName)
+                </div>
+                <div class="row>">
+                    <label class="label large">Email</label>@Html.DisplayTextFor(c => c.Email)
+                </div>
+                @foreach (PhoneNumber phone in Model.PhoneNumbers)
+                {
+                    if (phone.PhoneNumberType != null && !string.IsNullOrEmpty(phone.Number))
+                    {
+                        <div class="row>">
+                            <label class="label large">@phone.PhoneNumberType:</label><span>@phone.Number</span>
+                        </div>
+                    }
+                }
+                <div class="row>">
+                    <a href="@returnUrl">back</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div>Card not found.</div>
+        }
+    </div>
+    
+

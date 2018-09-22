@@ -1,0 +1,131 @@
+﻿@using System.Web.Optimization
+@using Busidex.DAL
+@model SearchResultModel
+
+@{
+    ViewBag.Title = "Search";
+}
+@section Styles{
+    @Styles.Render("~/Content/search")
+    <style type="text/css">
+        section.content-wrapper {
+            margin: 0;
+            max-width: 99999px;
+            background-position: 300px 0;
+        }
+
+        div.cardDisplay {
+            height: auto;
+            width: 75%;
+            float: left;
+        }
+    </style>
+}
+
+@section Scripts{
+    @Scripts.Render("~/Scripts/search")
+}
+@section SubNav{
+    @if (@Model.Results.Count > 0)
+    {
+        <div class="subnav" style="margin-bottom:0;">
+            <div class="container">
+                <ul class="nav nav-pills">
+                    <li>
+                        <span for="select-choice-1" class="select" style="width: 70px; margin-left: 265px; padding-top: 10px; font-size: 1.2em;">Filter:</span>
+                        <select name="select-choice-1" id="filter" class="input-medium" data-inline="false" style="margin-bottom: 0;">
+                            <option value="cardname">Name</option>
+                            <option value="company">Company</option>
+                            <option value="phone">Phone</option>
+                            <option value="email">Email</option>
+                            <option value="tags">Tags</option>
+                        </select>
+                        <div class="input-append" style="margin-bottom:0;">
+                            <input type="text" value="" id="filterVal" class="input-large" style="margin-bottom: 0;"/>
+                            <input type="text" style="display: none;margin-bottom: 0;" value="" id="filterValTag" class="input-large" autocomplete="off" data-provide="typeahead" data-source="@("[\"" + new HtmlString(string.Join("\",\"", Model.TagCloud.Select(t => t.Key).ToArray())) + "\"]")" />
+                            <button class="btn" id="clearFilter" style="margin-top:0;">&times;</button>
+                        </div>
+                    </li>
+                    <li><span class="label label-info" style="line-height: 25px; padding: 2px 15px;">@Model.Results.Count Cards Found!</span></li>
+                </ul>
+            </div>
+        </div>
+    }
+}
+@Html.Partial("_DetailPopup", Model)
+<input type="hidden" id="HasResults" value="@Model.HasResults" />
+
+<div class="row">
+    <div class="span3">
+        <form action="@Url.Action("Search", "Card")" method="post" class="searchForm"  >
+
+            <h3>Find a Card<a id="help" href="#HelpContainer" role="button" class="btn btn-link" data-toggle="modal">Show Me How</a></h3>
+            <div>
+                
+                <div class="input-append">
+                    <input type="text" name="SearchText" id="search" class="span2" value="@Model.Criteria" />
+                    <button id="doSearch" class="btn" type="submit"><i class="icon-search"></i></button>
+                    <a class="btn btn-primary" data-toggle="collapse" data-target="#searchTools" href="#" id="toggleDistance" style="display:none;"><span class="caret"></span></a>
+                </div>
+                
+                <div id="searchTools" class="searchTitle collapse out" style="margin-top: 15px;">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <label class="radio">
+                            <input type="radio" @(Model.SearchLocation == 0 ? "checked=\"checked\"" : string.Empty) value="0" name="searchLocation" id="useAccountLocation"/>
+                            Show cards near my account address
+                        </label>
+                        <label class="radio">
+                            <input type="radio" @(Model.SearchLocation == 1 ? "checked=\"checked\"" : string.Empty) name="searchLocation" value="1" id="useCustomLocation"/>
+                            Show cards near this address
+                        </label>
+                    }
+                    else
+                    {
+                        <label for="useAccountLocation">Show cards near this address</label>
+                    }
+                    <label for="useCustomLocation">
+                        <input type="text" name="searchAddress" id="altSearchAddress" style="width: 245px;" value="@Model.SearchAddress"/>
+                    </label>
+                    <div><span>Within</span> 
+                        <select id="searchRadius" name="Distance" class="input-mini">
+                            <option @(Model.Distance == 10 ? "selected" : string.Empty) value="10">10</option>
+                            <option @(Model.Distance == 15 ? "selected" : string.Empty) value="15">15</option>
+                            <option @(Model.Distance == 20 ? "selected" : string.Empty) value="20">20</option>
+                            <option @(Model.Distance == 25 ? "selected" : string.Empty) value="25">25</option>
+                            <option @(Model.Distance == 30 ? "selected" : string.Empty) value="30">30</option>
+                            <option @(Model.Distance == 50 ? "selected" : string.Empty) value="50">50</option>
+                            <option @(Model.Distance == 70 ? "selected" : string.Empty) value="70">70</option>
+                            <option @(Model.Distance == 100 ? "selected" : string.Empty) value="100">100</option>
+                            <option @(Model.Distance == 150 ? "selected" : string.Empty) value="150">150</option>
+                        </select>
+                        <span>miles</span>
+                    </div>
+                </div>
+                    
+            </div>
+        </form>
+    </div>
+
+    <div class="span9" id="cardDisplay">
+        <div id="OtherSearchResults" class="SearchResults">
+            @Html.Partial(Model.Display.ToString(), Model.Results)
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal -->
+<div id="HelpContainer" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 790px;height:auto;left:45%;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">How To Search For a Card Using Busidex</h3>
+    </div>
+    <div class="modal-body" id="helpContent" style="max-height:800px;">
+        
+    </div>
+    <div class="modal-footer">
+        <button class="btn close" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>

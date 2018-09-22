@@ -1,0 +1,80 @@
+﻿/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Styles */
+  section.frame1 {
+    /*div.links {
+            left: 490px;
+        }*/
+  }
+  section.frame1 a.logo {
+    left: -110px;
+  }
+  section.frame1 ul {
+    left: 0;
+    width: 70%;
+  }
+  section.frame1 div.image-right-side {
+    left: 550px;
+  }
+  section.frame4 {
+    /*div.blocks {
+            top: 100px;
+        }*/
+  }
+  section.frame4 div.title-block {
+    top: 108px;
+  }
+  section.frame4 div.title-block .title {
+    font-size: 65px;
+  }
+  section.frame4 div.title-block .title2 {
+    font-size: 53px;
+  }
+  section.frame4 div.title-block .title3 {
+    font-size: 51px;
+  }
+  section.frame5 {
+    /*div.title-block {
+            top: 50px;
+        }
+
+        .details{
+            top: 250px;
+        }
+    */
+  }
+  section.frame5 div.registerContainer {
+    margin-top: 10px;
+  }
+  section.frame5 div.storelinks {
+    margin-top: 10px;
+  }
+  section.frame5 div.imgRightSide {
+    bottom: -130px;
+    left: 560px;
+  }
+  .container-fluid .jumbotron {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  div.prof-acct-required {
+    width: 60%;
+    padding-left: 20px;
+  }
+  ul.my-card-actions {
+    list-style: none;
+    width: 70%;
+    padding-left: 40px;
+  }
+  div.my-card ul.button-list {
+    float: left;
+  }
+  div.my-card div.card-container-outer {
+    width: auto;
+    float: left;
+    margin-left: inherit;
+    margin-right: inherit;
+  }
+}
+
+/*# sourceMappingURL=media_minw768_maxw1024.css.map */

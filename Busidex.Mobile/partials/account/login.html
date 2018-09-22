@@ -1,0 +1,32 @@
+﻿
+<div class="ui-page-active">
+    <div class="toolbar">
+        <h1 id="pageTitle">{{LoginText}}</h1>
+    </div>
+    <div data-role="content" data-theme="b">
+        <form novalidate name="loginForm" ng-controller="LoginViewCtrl">
+            <div data-role="navbar">
+                <ul style="padding-left:0;">
+                    <li style="float:none;">
+                        <label>User Name</label>&nbsp;
+                        <input name="UserName" type="text" ng-model="form.UserName" maxlength="50" />
+                    </li>
+                    <li style ="float:none;">
+
+                        <label>Password</label>&nbsp;
+                        <input name="Password" type="password" ng-model="form.Password" />
+                    </li>
+                    <li style="float:none;">
+                        <a class="button whiteButton" ng-click="sendForm()" ng-disabled="loginForm.$invalid">Login</a>
+                        <a class="button whiteButton" ng-tap="$navigate.go('/')">Cancel</a>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    <div class="alert alert-error" ng-show="LoginErrors.length > 0" ng-model="LoginErrors" style="display:none;margin-top:25px;">
+        <ul>
+            <li ng-repeat="error in LoginErrors">{{error}}</li>
+        </ul>
+    </div>
+</div>

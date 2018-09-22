@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Busidex.DAL.Category> 
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#Admin a").css('color', '#fff');
+    });
+</script>
+<h2>Admin Options</h2>
+<ul>
+    <li>@Html.ActionLink("Card Maintenance", "CardMaintenance", "Admin")</li>
+    <li>@Html.ActionLink("Send Owner Email", "OwnerEmails", "Admin")</li>
+    <li>@Html.ActionLink("New Cards", "NewCards", "Admin")</li>
+</ul>

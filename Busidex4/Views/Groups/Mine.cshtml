@@ -1,0 +1,184 @@
+﻿@model List<Busidex.DAL.Group>
+@using System.Web.Optimization
+
+@{
+    ViewBag.Title = "My Busigroups";
+    Layout = "~/Views/Shared/_BootstrapLayout.basic.cshtml";
+}
+@section Styles{
+    @Styles.Render("~/Content/mygroups")
+}
+@section Scripts{
+   @Scripts.Render("~/Scripts/mygroups")
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#MyGroups a").css('color', '#fff');
+
+            $("#addGroup").unbind('click').click(function () {
+                $.ajax({
+                    url: "/Groups/Add",
+                    cache: false,
+                    success: function (view) {
+                        $(".EmptyBusidex").hide();
+                        $("#workarea").empty().html(view);
+                        $("#groupList").hide();
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                });
+            });
+
+            $("#editGroup").click(function () {
+                var groupId = $(this).attr("groupId");
+                $.ajax({
+                    url: "/Groups/Edit",
+                    data: { id: groupId },
+                    success: function (view) {
+                        $(".detailRow").hide();
+                        $("#groupHeader").hide();
+                        $("#workarea").html(view);
+                        $("#save").attr("groupId", groupId);
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                });
+            });
+
+            $(document).on('click', ".busidexRow img", function () {
+                $(this).toggleClass("selected");
+                $("#cardCount").text($(".selected").length + ' selected');
+            });
+            $(document).on('click', "button#cancel", function () {
+                $(".EmptyBusidex").show();
+                $("#workarea").html('');
+                $("#groupList").show();
+                $(".detailRow").show();
+                $("#groupHeader").show();
+            });
+            $(document).on('click', "input#showSelected", function () {
+                if ($(this).is(":checked")) {
+                    $(".busidexRow img").hide();
+                    $(".busidexRow img.selected").show();
+                } else {
+                    $(".busidexRow img").show();
+                }
+            });
+
+            $("i.deleteGroup").click(function () {
+
+                if (confirm('Are you sure you want to delete this group?')) {
+                    var id = $(this).attr("groupId");
+                    var row = $(this).parent().parent();
+                    $.ajax({
+                        url: "/Groups/Delete",
+                        data: { id: id },
+                        success: function () {
+                            $(row).remove();
+                        },
+                        error: function () {
+                            alert('error');
+                        }
+                    });
+                }
+            });
+
+            $(document).on('click', "textarea.groupNotes", function (e) {
+                e.cancelBubble = true;
+                return false;
+            });
+            $(document).on('change', "textarea.groupNotes", function () {
+
+                var data = { id: $(this).attr("ugcId"), notes: escape($(this).val()) };
+
+                $.ajax({
+                    url: '/Groups/SaveGroupCardNotes',
+                    data: data,
+                    cache: false,
+                    type: 'POST'
+                });
+
+            });
+
+            $(document).on('click', "#save", function () {
+                var idList = new Array();
+                var groupId = $("#save").attr("groupId");
+
+                $(".selected").each(function () {
+                    var id = $(this).attr("cardId");
+                    if (id != null && id.length > 0) {
+                        idList.push(id);
+                    }
+                });
+
+                var data = { id: groupId, cardIds: idList.join(), description: $('#description').val() };
+                $.ajax({
+                    url: '/Groups/Update',
+                    data: data,
+                    type: 'POST',
+                    success: function (id) {
+
+                        if (id > 0) {
+                            window.location.href = '../details/' + id;
+                        }
+                    },
+                    error: function () {
+                        alert('error');
+                    }
+                })
+            });
+
+            $(document).on("change", "#filter", function () {
+                if ($(this).val() == "tags") {
+                    $("input#filterVal").hide();
+                    $("input#filterValTag").show();
+                } else {
+                    $("input#filterVal").show();
+                    $("input#filterValTag").hide();
+                }
+            });
+            $("#cardCount").text($(".selected").length + ' selected');
+
+            $(document).on('click', "#clearFilter", function () {
+                $("#filterVal").val("");
+                doFilter("");
+            });
+
+            $(document).on("keyup", "input#filterVal,input#filterValTag", function () {
+
+                var val = $(this).val().toLowerCase().trim();
+                doFilter(val);
+                $("input#showSelected").removeAttr("checked");
+            });
+
+            var doFilter = function (val) {
+                if (val.length == 0) {
+                    $("img.myBusidexCard2").show();
+                } else {
+
+                    var filter = $("#filter").val().trim();
+
+                    $("img.myBusidexCard2").hide();
+
+                    var selector = "img.myBusidexCard2[" + filter + "*='" + val + "']";
+                    $(selector).show();
+                }
+            };
+        });
+    </script>
+}
+<ul id="groupList">
+    @foreach (var group in Model)
+    {
+        <li>
+            <h4><i class="icon-remove deleteGroup" groupId="@group.GroupId"></i>&nbsp;<a href="/Groups/Details/@group.GroupId">@group.Description</a> </h4>
+        </li>
+    }
+</ul>
+
+<div class="EmptyBusidex">
+    <a href="#" id="addGroup" class="btn btn-large">Click here to create a new BusiGroup!</a>
+</div>
+<div id="workarea"></div>

@@ -1,0 +1,31 @@
+﻿<style type="text/css">
+    body {
+        background: #4f8498;
+    }
+</style>
+<div ng-controller="MyBusidexController as vm">
+    <ul class="busidex-dictionary"   >
+        <li class="dictionary-item" style="-webkit-transition-delay:500ms" ng-class="{'selected': vm.dictionaryVal === letter}" ng-repeat="letter in vm.dictionary" ng-click="vm.setFilterVal(letter)">{{letter}}</li>
+    </ul>   
+    
+    <img ng-show="vm.loading" src="../../images/loading2.gif" style="position: absolute; margin-top:35vh;margin-left:45vw; height: 55px; width: 55px;" />
+    <div class="row" style="display:block;margin-left:40px;">
+        <form novalidate class="searchForm">
+            <div class="col-lg-4">
+                <div class="input-group">
+                    <h4 class="input-group-addon">Filter</h4>
+                    <input type="text" name="SearchText" placeholder="Filter by name, company or tag" id="search" class="form-control" ng-model="vm.q" />                    
+                </div>
+            </div>
+        </form>
+        
+    </div>
+    
+    <div>
+        <div class="animate-repeat container-fluid my-busidex" ng-if="!vm.showDetails">
+            <div ng-repeat="card in vm.model.cards  | filter: vm.q | filter: vm.customFilter">
+                <div thumbnail card="card"></div>
+            </div>
+        </div>
+    </div>
+</div>

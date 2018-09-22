@@ -1,0 +1,37 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+@model Busidex.DAL.CardDetailModel
+
+@{
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];
+    string iconPath = Model.OwnerId.HasValue ? "~/Images/searchIcon.png" : "~/Images/phone.png";
+    string iconClass = Model.OwnerId.HasValue ? "Owned" : "InMyBusidex";
+    string iconTitle = Model.OwnerId.HasValue ? "In My Busidex" : "Send an invite";
+    string iconLink = Model.OwnerId.HasValue ? "../Busidex/Mine/#" + Model.CardId : Url.Action("Invite", "Card", new { id = Model.CardId });
+    string phoneNumber = (Model.PhoneNumbers != null && Model.PhoneNumbers.Count > 0) ? string.Join(",", Model.PhoneNumbers) : string.Empty;
+    var frontCardMarkup = new HtmlString(Server.HtmlDecode(Model.Markup) ?? string.Empty);
+}
+
+<div class="searchResult" cardId="@Model.CardId" style="position:relative;" tags="@Model.TagList.ToLower()" cardname="@(Model.Name == null ? string.Empty : Model.Name.ToLowerInvariant())" 
+     phone="@phoneNumber" email="@Model.Email" cardId="@Model.CardId" company="@(Model.CompanyName == null ? string.Empty : Model.CompanyName.ToLowerInvariant())">
+    @if (Model.ExistsInMyBusidex)
+    {
+        <a href="@iconLink">
+            <img src="@Url.Content(iconPath)" class="@iconClass" title="@iconTitle" alt="" />
+        </a>
+    }
+    <a href="@("#detailPopup" + Model.FrontOrientation)" data-toggle="modal">
+        @if (Model.Display == DisplayType.IMG)
+        {
+            <img alt="@Model.Name" title="@Model.Name"  
+                 class="@(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")" 
+                 relations="@Model.BasicRelationsJSON" 
+                 inmybusidex="@Model.ExistsInMyBusidex.ToString().ToLower()"
+                 src="@(cdnPath + Model.FrontFileId + ".jpg")" />
+        }
+        else
+        {
+            @(frontCardMarkup)
+        }
+    </a>
+</div>

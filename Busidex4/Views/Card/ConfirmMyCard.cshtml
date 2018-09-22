@@ -1,0 +1,89 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+@model Busidex.DAL.CardDetailModel
+
+@{
+    ViewBag.Title = "ConfirmMyCard";
+     string cdnPath = ConfigurationManager.AppSettings["userCardPath"];
+}
+<style type="text/css">
+	.display-label{ float: left;font-weight: bold;width: 120px;text-align: right;padding-right: 5px;}
+	img.h_preview{ border: none;margin-top: 0px; }
+	div.DetailImage{ float: left; width: 250px;}
+    h2.Title{ margin-top: 20px;margin-bottom: 10px;margin-left: 5px;}
+</style>   
+
+<h2 class="Title">@Html.DisplayFor(model => model.Name)</h2>
+
+<div class="DetailImage">
+    <div>
+        <img alt="Front Image" id="frontPreview" class="h_preview" src="@(cdnPath + Model.FrontFileId + ".jpg")" />
+    </div>
+    @if(Model.HasBackImage) {
+        <div>
+            <img alt="Back Image" id="backPreview" class="h_preview" src="@(cdnPath + Model.BackFileId + ".jpg")" />
+        </div>
+    }
+</div>
+<div>
+    
+    @if (!string.IsNullOrEmpty(Model.Title))
+    {
+        <div class="display-label">
+            Title
+        </div>
+        <div class="display-field">
+            @Model.Title
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.CompanyName))
+    {
+        <div class="display-label">
+            Company Name
+        </div>
+        <div class="display-field">
+            @Model.CompanyName 
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(Model.Email))
+    {
+        <div class="display-label">
+            Email
+        </div>
+        <div class="display-field">
+            <a href="mailto:@Model.Email">@Model.Email</a> 
+        </div>
+    }
+    
+    @if (!string.IsNullOrEmpty(Model.Url))
+    {
+        <div class="display-label">
+            Url
+        </div>
+        <div class="display-field">
+            <a href="@Model.Url">@Model.Url</a>
+        </div>
+    }
+
+    @if (Model.PhoneNumbers.Count > 0)
+    {
+        <div class="display-label">
+            Phone Numbers
+        </div>
+
+        foreach ( PhoneNumber phone in Model.PhoneNumbers )
+        {
+            <div class="display-field">
+                @phone.ToString()
+            </div>
+        }
+    }
+</div>
+<div style="margin-bottom:15px;padding-top:20px;clear:both;">
+    <input type="checkbox" name="" />&nbsp;<label for="agree" style="display:inline-block; font-size:1.2em; font-weight: bold;">This is my card.</label>
+</div>
+<div>
+    @Html.ActionLink("Continue", "SaveCardOwner", "Card", new{ token = Model.OwnerToken.ToString()}, null)
+</div>

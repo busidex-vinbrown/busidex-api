@@ -1,0 +1,71 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+@model Card
+
+@{
+    ViewBag.Title = "Invite";
+    Layout = "~/Views/Shared/_BootstrapLayout.basic.cshtml";
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];
+}
+
+<h2>Tell @(string.IsNullOrEmpty(Model.Name) ? "Someone" : Model.Name) That Their Card is in Busidex!</h2>
+<div class="row">
+    <div class="well">
+        Confirm that you want to send an email to @(string.IsNullOrEmpty(Model.Name) ? "this person" : Model.Name) so that they may create their own Busidex account.
+    </div>
+</div>
+<div class="row">
+    @if (Model != null)
+    {
+        <div class="span6 myCardDetail @(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")">
+            <img src="@(cdnPath + Model.FrontFileId.ToString() + ".jpg")"  alt="@Model.Name" class="@(Model.FrontOrientation == "H" ? "h_preview" : "v_preview")"/>
+            @if (Model.BackImage != null && Model.BackImage.Length > 0)
+            {
+                <img src="@(cdnPath + Model.BackFileId.ToString() + ".jpg")" alt="@Model.Name" class="@(Model.BackOrientation == "H" ? "h_preview" : "v_preview")"/>
+            }
+        </div>
+        <div class="span6">
+            <div class="row>">
+                <label class="label large">Name</label>@Html.DisplayTextFor(c => c.Name)
+            </div>
+            <div class="row>">
+                <label class="label large">Company Name</label>@Html.DisplayTextFor(c => c.CompanyName)
+            </div>
+            <div class="row>">
+                <label class="label large">Email</label>@Html.DisplayTextFor(c => c.Email)
+            </div>
+            @foreach (PhoneNumber phone in Model.PhoneNumbers)
+            {
+                <div class="row>">
+                    <label class="label large">@phone.PhoneNumberType.Name:</label><span>@phone.Number</span>
+                </div>
+            }
+        </div>
+        <hr />
+        <div class="span4" style="margin-top: 20px;">
+            <form method="POST" action="@Url.Action("SendOwnerEmail", "Card")">
+                <label>Send To:</label>
+                <input type="text" name="email" style="margin: 0;" value="@Model.Email"/>
+                <a href="#comingSoon" role="button" class="btn" data-toggle="modal">Send</a>
+                <input type="submit" value="Send" style="padding: 3px;display:none;" onclick="return false;" />
+                <input type="hidden" name="cardId" value="@Model.CardId"/>
+            </form>
+        </div>
+        <div id="comingSoon" class="modal hide fade">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Comming Soon!</h3>
+            </div>
+            <div class="modal-body">
+                <p>This feature is currently disable while we're in our beta phase. Hope you find it useful.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-primary" data-dismiss="modal">Close</a>
+            </div>
+        </div> 
+    }
+    else
+    {
+        <div>Card not found.</div>
+    }
+</div>

@@ -1,0 +1,69 @@
+﻿/* iPads (portrait) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+ /* Styles */
+    section.frame1 {
+
+        padding: 40px 5% !important;
+
+        a.logo {
+            left: 0;
+        }
+
+        ul {
+            left: 0;
+        }
+
+        div.image-right-side {
+            left: 300px;
+        }
+    }
+
+    section.frame2 {
+        div.title{
+            margin-left: 260px;
+        }
+
+        ul.details{
+            left: 260px;
+            width: 480px;
+        }
+
+        a.registerLink{
+            left: 300px;
+        }
+
+        img.tablet{
+            left: -160px;
+        }
+    }
+
+    section.frame3{
+        .title{
+            left: 40px;
+        }
+
+        .details{
+            left: 40px;
+            max-width: 390px;
+        }
+
+        a.searchLink{
+            left: 40px;
+        }
+    }
+
+    section.frame5 {
+
+        div.imgRightSide{
+            bottom: 0;
+            left: 500px;
+        }
+
+        div.trademark{
+            margin-right: 43%;
+        }
+    }
+}

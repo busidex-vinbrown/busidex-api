@@ -1,0 +1,34 @@
+﻿<div class="container" ng-controller="AddressInfoController as vm">
+    <div class="jumbotron jumbotron-contactinfo">
+        <div ng-include="'views/fragments/logo.html'"></div>
+        <h2>What is your office address?</h2>
+        <div ng-show="vm.ModelError === true" ng-include="'views/fragments/error.html'"></div>
+        <div class="form-group contactInfo">
+            <span class="input-group-addon" style="padding: 0;border: none;"></span>
+            <input placeholder="Address 1" class="form-control" autocomplete="off" id="Address1" type="text" ng-model="vm.card.Addresses[0].Address1" maxlength="150" />
+        </div>
+        <div class="form-group contactInfo">
+            <input placeholder="Addres 2" class="form-control" autocomplete="off" id="Address2" type="text" ng-model="vm.card.Addresses[0].Address2" maxlength="150" />
+        </div>
+        <div class="form-group contactInfo">
+            <input class="form-control" placeholder="City" autocomplete="off" id="City" type="text" ng-model="vm.card.Addresses[0].City" maxlength="150" />
+        </div>
+        <div class="form-group contactInfo">
+            <select class="form-control addressField"
+                    ng-model="vm.card.Addresses[0].State"
+                    ng-options="state as state.Name for state in vm.StateCodes track by state.Code">
+                <option value="" selected="selected">Select a State</option>
+            </select>
+        </div>
+        <div class="form-group contactInfo">
+            <input placeholder="ZipCode" class="form-control" autocomplete="off" id="ZipCode" type="text" ng-model="vm.card.Addresses[0].ZipCode" maxlength="15" />
+        </div>
+        <div ng-if="!vm.editmode">
+            <a class="btn btn-lg btn-info" ng-mouseup="vm.save(0)">&lt; Back</a>
+            <a class="btn btn-lg btn-success" ng-mouseup="vm.save(1)">Finish</a>
+        </div>
+        <div ng-if="vm.editmode">
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.modified" ng-mouseup="vm.save(-1)">Save</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,47 @@
+﻿<div ng-controller="RegistrationController as vm">
+    <div class="row">
+        <div class="col-sm-8 col-md-6 col-md-offset-3">
+            <div class="jumbotron jumbotron-contactinfo" style="margin-top:20px;">
+                <div ng-include="'views/fragments/logo.html'" ng-show="!vm.Model.ShowOwnerCard"></div>
+                <div ng-include="'views/fragments/card-image.html'" ng-show="vm.Model.ShowOwnerCard"></div>
+                <form id="verificationData" name="verificationData" novalidate style="text-align: left;">
+                    <h3 class="formTitle">Review and Finish</h3>
+                    <div class="form-group" style="margin-top:10px;">
+                        <label><strong>How did you hear about us?</strong></label>
+                        <ul class="contact-options">
+                            <li>
+                                <input type="radio" value="{{vm.Model.ReferralTypes.Email}}" ng-model="vm.Model.ReferredBy" name="ReferredBy" />Email/Promotion
+                            </li>
+                            <li>
+                                <input type="radio" value="{{vm.Model.ReferralTypes.Shared}}" ng-model="vm.Model.ReferredBy" name="ReferredBy" />Someone shared their card
+                            </li>
+                            <li>
+                                <label for="ReferredByPersonal" style="display: block;">
+                                    <input type="radio" value="{{vm.Model.ReferralTypes.Personal}}" ng-model="vm.Model.ReferredBy" id="ReferredByPersonal" name="ReferredBy" />Personal Reference
+                                    <input class="form-control" ng-class="{'MissingReferrance': vm.Model.MissingPersonalReference}" ng-maxlength="250" type="text" ng-model="vm.Model.ReferredByPerson" placeholder="Who referred you?" />
+                                </label>
+                            </li>
+                            <li>
+                                <label for="ReferredByOther" style="display: block;">
+                                    <input type="radio" value="{{vm.Model.ReferralTypes.Other}}" ng-model="vm.Model.ReferredBy" id="ReferredByOther" name="ReferredBy" />Other
+                                    <input class="form-control" ng-class="{'MissingReferrance': vm.Model.MissingOtherReference}" ng-maxlength="250" type="text" ng-model="vm.Model.ReferredByOther" /> 
+                                </label>
+                            </li>   
+                        </ul>
+                    </div>
+                    <div class="humanQuestion">                       
+                        <label>{{vm.Model.HumanQuestion}}</label>
+                        <input type="text" ng-model="vm.Model.HumanAnswer" style="width:70px;" human-question required />
+                    </div>
+                    <div style="margin-bottom:15px;margin-top:10px;">
+                        <input type="checkbox" ng-model="Model.Agree" required />&nbsp;
+                        <label for="agree" style="display:inline-block">I have read the <a href="https://www.busidex.com/#/account/terms" target="_blank">Terms of Use</a> and agree.</label>
+                    </div>
+                    <input type="hidden" ng-model="vm.Model.Created" />
+                    <input type="button" class="btn btn-info" role="button" value="Back" ng-click="vm.MoveTo('/accounttype')"/>
+                    <input type="button" class="btn btn-success" role="button" ng-disabled="verificationData.$invalid || vm.EmailOkToUse=='USED'" value="Register" ng-click="vm.Regsister()" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

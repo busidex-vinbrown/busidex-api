@@ -1,0 +1,35 @@
+﻿<div class="container" ng-controller="ContactInfoController as vm">
+    <div class="jumbotron jumbotron-contactinfo">
+        <div ng-include="'views/fragments/logo.html'"></div>
+        <h2>How will they contact you?</h2>
+        <div ng-show="vm.ModelError === true" ng-include="'views/fragments/error.html'"></div>
+        <form name="frmInfo">
+            <div class="input-group contactInfo">
+                <span class="input-group-addon" style="padding: 0;border: none;"><img src="../images/email.jpg" style="height:35px; width: 35px; " /></span>
+                <input placeholder="What's Your Email?" class="form-control contactInfo" type="email" ng-model="vm.card.Email" maxlength="150" name="Email" />
+            </div>
+            <div class="input-group contactInfo">
+                <span class="input-group-addon" style="padding: 0;border: none;"><img src="../images/browser.jpg" style="height:35px; width: 35px; " /></span>
+                <input placeholder="What's Your Website?" class="form-control contactInfo" type="text" ng-model="vm.card.Url" maxlength="250" name="Url" />
+            </div>
+        </form>
+        <label class="">Your Phone Numbers</label><br />
+        <form class="form-inline">
+            <div class="form-group phoneNumbers" ng-repeat="phoneNumber in vm.card.PhoneNumbers | filter:{Deleted:false}" id="cardphone{{phoneNumber.PhoneNumberId}}">
+                <input type="hidden" name="PhoneNumberId" ng-model="phoneNumber.PhoneNumberId" />
+                <select class="form-control" style="max-width: 23%;" ng-model="phoneNumber.PhoneNumberTypeId" ng-options="pnType.PhoneNumberTypeId as pnType.Name for pnType in vm.PhoneNumberTypes"></select>
+                <input type="tel" maxlength="20" style="max-width:45%" ng-required="true" name="Number" class="form-control" ng-model="phoneNumber.Number" ng-enter="vm.AddPhoneNumber($index)"/>
+                <input type="hidden" name="PhoneDeleted" class="PhoneDeleted" ng-model="phoneNumber.Deleted" />
+                <a href="" class="removePhone" ng-click="vm.RemovePhoneNumber($index)" ng-show="vm.card.PhoneNumbers.length > 1 "><img src="../../images/minus.jpg" /></a>
+                <a href="" class="addPhone" next="cardPhone2" ng-mouseup="vm.AddPhoneNumber($index)" ng-show="vm.card.PhoneNumbers.indexOf(phoneNumber) == vm.card.PhoneNumbers.length-1"><img src="../../images/add.png" /></a>
+            </div>
+        </form>
+        <div style="margin-top: 20px;" ng-if="!vm.editmode">
+            <a class="btn btn-lg btn-info" ng-mouseup="vm.save(0)">&lt; Back</a>
+            <a class="btn btn-lg btn-success" ng-mouseup="vm.save(1)">Next &gt;</a>
+        </div>
+        <div style="margin-top: 20px;" ng-if="vm.editmode">
+            <a class="btn btn-lg btn-success" ng-disabled="!vm.modified" ng-mouseup="vm.save(-1)">Save</a>
+        </div>
+    </div>
+</div>

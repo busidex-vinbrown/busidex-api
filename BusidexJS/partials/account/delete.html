@@ -1,0 +1,24 @@
+﻿
+<div class="well well-large" style="margin-top: 50px;">
+
+    <h2>Is This Goodbye?</h2>
+    <p>
+        We're sorry to see you go. If there is anything we could do to provide the kind of value that you were looking for - perhaps
+        add a missing feature or fix a feature that is difficult to use - you could email us at
+        <a href="mailto:busidex.org@gmail.com" target="_blank" class="btn btn-link" style="padding-left: 0; padding-right: 0;">busidex.org@gmail.com</a>.
+    </p>
+    <p>
+        <label class="label">For security purposes, please enter your username and password to complete this operation.</label>
+        <div class="alert alert-error" ng-show="Model.Errors.length > 0">
+            <span ng-repeat="error in Model.Errors">{{error}}</span>
+        </div>
+        <div>
+            <label>User Name</label><input type="text" ng-model="DeleteAccountModel.UserName" />
+            <label>Password</label><input type="password" ng-model="DeleteAccountModel.Password" />
+        </div>
+        <div>
+            <a href="" class="btn btn-danger" ng-click="DeleteAccount()" ng-disabled="false">Delete My Account</a>
+            <a href="#/account/index" class="btn btn-inverse" ng-disabled="false">Cancel</a>
+        </div>
+    </p>
+</div>

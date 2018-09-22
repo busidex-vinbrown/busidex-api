@@ -1,0 +1,38 @@
+﻿@model Busidex.DAL.Setting
+
+@{
+    ViewBag.Title = "Index";
+    IEnumerable<Busidex.DAL.Page> pages = ViewBag.SystemPages;
+}
+
+<h2>User Preferences</h2>
+
+@using (Html.BeginForm("Save", "Settings", new { id = Model.SettingsId })) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Setting</legend>
+
+        @Html.HiddenFor(model => model.UserId)
+
+        <div class="setting">
+            <label>Startup Page</label>
+            <p>You can choose which page you get redirected to after you login. That way, you can go directly to
+                your My Busidex page, the Search page or stay on the Home page.</p>
+            <select name="StartPage">
+                @foreach (Busidex.DAL.Page p in pages) {
+                    <option @(p.PageId == Model.StartPage ? "selected" : "") value="@p.PageId">@p.Title</option>
+                }
+            </select>
+        </div>
+        @*<div class="setting">
+            <label>Sync Cards to Google Contacts</label>
+            <p>When you save card information, we'll update the contact list associated with the Google account of your choice.</p>
+            @Html.CheckBoxFor(g=>g.AllowGoogleSync)
+        </div>*@
+        <p>
+            <input type="submit" value="Save" class="btn btn-main" role="button" />
+        </p>
+    </fieldset>
+}
+

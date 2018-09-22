@@ -1,0 +1,32 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+@{
+    
+    var sharedCards = ViewBag.SharedCards as List<SharedCard>;
+}
+    @if (Request.IsAuthenticated)
+    {
+        <ul class="nav pull-right">
+            <li id="MyCards">@Html.ActionLink("My Cards", "MyCards", "Card")</li>
+            <li>@Html.ActionLink("Suggestions", "Suggestions", "Busidex")</li>
+            <li><a href="@Url.Action("Index", "Account")">Hello @User.Identity.Name</a></li>
+            <li><a href="@Url.Action("LogOff", "Account")">Log off</a></li>   
+        </ul>
+        
+        if (sharedCards != null && sharedCards.Count > 0 && ViewBag.HomePage != true)
+        {
+            <a href="#notificationPopup" role="button" data-toggle="modal">
+                <img id="NotificationIcon" class="pull-right" src="@Url.Content("~/Images/notification1.gif")" 
+                     alt="Someone sent you some cards!" title="Someone sent you some cards!" />
+            </a>
+        }
+    }
+    else
+    {        
+        <ul class="nav pull-right">
+            <li>@Html.ActionLink("Create an Account", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink", data_dialog_title = "Registration"})</li>
+            <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink", data_dialog_title = "Identification"})</li>
+        </ul>
+    }
+
+

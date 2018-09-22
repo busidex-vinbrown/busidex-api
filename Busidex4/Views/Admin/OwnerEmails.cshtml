@@ -1,0 +1,50 @@
+﻿@using System.Configuration
+@using Busidex.DAL
+@using Busidex4.Helpers
+@model List<Card>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#Admin a").css('color', '#fff');
+    });
+</script>
+@{
+    string cdnPath = ConfigurationManager.AppSettings["userCardPath"];    
+}
+<h2>Send Owner Email</h2>
+<table style="width:70%">
+@foreach (Card c in Model)
+{
+    if (!c.FrontFileId.HasValue)
+    {
+        continue;
+    }
+                
+    <div class="row" style="margin-bottom:20px;">
+        <div class="span3">
+            <img alt="@c.Name" src="@(cdnPath + c.FrontFileId.Value.ToString() + ".jpg")"  
+                    class="myBusidexCard2 @(c.FrontOrientation == "V" ? "v_preview" : "h_preview")" style="position:relative" />
+        </div>
+        <div class="span9 cardInfo">
+            <div class="row">
+                <div class="span4">
+                    <strong>@c.Name</strong>
+                    <span class="label">@c.CompanyName</span>
+                    @foreach (var phone in c.PhoneNumbers.Where(pn=>!pn.Deleted))
+                    {
+                        <label>@(string.IsNullOrEmpty ( phone.Number ) ? "(no phone available)" : CardHelper.FormatPhoneNumber ( phone.Number ) )</label>
+                    }
+                    @(string.IsNullOrEmpty ( c.Email ) ? "(no email available)" : c.Email)
+                </div>   
+                <div class="span4">
+                    <form method="POST" action="@Url.Action("SendOwnerEmail")">
+                        <label>Send To:</label>
+                        <input type="text" name="email" style="margin: 0;"/><input type="submit" value="Send" style="padding:3px;"/>
+                        <input type="hidden" name="cardId" value="@c.CardId"/>
+                    </form>
+                </div>              
+            </div> 
+                      
+        </div>
+    </div>    
+}
+</table>

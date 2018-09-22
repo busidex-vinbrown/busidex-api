@@ -1,0 +1,461 @@
+﻿a:hover {
+  background: none;
+}
+a:link {
+  text-decoration: none;
+}
+div#card {
+  margin-left: 160px;
+  width: 520px;
+  height: 300px;
+  margin-top: 200px;
+}
+hr {
+  clear: both;
+}
+div.sideNav {
+  width: 160px;
+  /*border-right:solid 1pt #999;*/
+  background: #104E8B;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding-top: 80px;
+  padding-left: 15px;
+}
+ul#Sidebar {
+  float: left;
+  list-style: none;
+  margin-left: -30px;
+  height: 500px;
+  width: 100%;
+}
+ul#Sidebar li {
+  cursor: pointer;
+  height: auto;
+  margin: 0;
+  padding: 12px 30px 7px 0;
+  text-align: right;
+  font-size: 20px;
+  width: 100%;
+}
+ul#Sidebar li.selected {
+  color: #53868B;
+  background-repeat: no-repeat;
+  background-position: left;
+  background-color: #fff;
+}
+ul#Sidebar li:hover {
+  color: #fff;
+}
+ul#Sidebar li a:hover,
+ul#Sidebar li a {
+  color: #fff;
+}
+ul#Sidebar li.selected a:hover,
+ul#Sidebar li.selected a {
+  color: #104e8b;
+  font-weight: bold;
+}
+ul#Sidebar li div.popover-content {
+  color: #2a6496;
+}
+ul#Sidebar li.spacer {
+  background: none;
+  border: none;
+  cursor: default;
+  height: 2px;
+  padding: 0;
+}
+#addressList {
+  width: 170px;
+}
+#addressList tr#addressTemplate {
+  display: none;
+}
+#addressList td.removeAddress,
+#addressList td.editAddress {
+  cursor: pointer;
+  text-align: center;
+  width: 35px;
+}
+#addressList td.removeAddress:hover {
+  color: #c0c0c0;
+}
+#addressList tr.deleted td {
+  text-decoration: line-through;
+}
+ul#AddCardSidebar li.step_disabled {
+  color: #c0c0c0;
+}
+ul#AddCardSidebar li.step_disabled span {
+  font-style: italic;
+  font-size: .7em;
+  color: #CC0000;
+}
+li a {
+  color: #ffffff;
+  text-decoration: none;
+}
+form#cardForm {
+  padding: 15px;
+}
+table.existingCards {
+  width: 85%;
+}
+table.existingCards td {
+  padding: 3px;
+}
+input.submitExisting {
+  padding: 6px;
+}
+h1#AddEditStepTitle {
+  margin: 0 0 10px 50px;
+}
+p#stepProgress {
+  float: right;
+  margin-top: -55px;
+  width: 395px;
+}
+p#stepProgress img {
+  cursor: pointer;
+}
+.workArea {
+  background: #fff;
+  position: relative;
+  margin-left: 40px;
+  padding: 13px;
+  width: 80%;
+  min-height: 500px;
+  z-index: 1;
+}
+div.directions {
+  background-color: #7AC0DA;
+  border-radius: 12px;
+  color: #fff;
+  float: left;
+  font-size: 1.2em;
+  line-height: 22px;
+  margin-bottom: 15px;
+  margin-left: -3%;
+  margin-top: -15px;
+  padding: 15px;
+  width: 103%;
+}
+div.AddEditNav {
+  clear: both;
+  background-color: buttonface;
+}
+input:focus {
+  outline: 0;
+}
+div input[type="button"].step {
+  width: 130px;
+  height: 35px;
+  border: none;
+}
+div input[type="button"].submitLink {
+  color: blue;
+  float: right;
+  width: 130px;
+  padding: 3px;
+}
+div input[type="button"].step.selected {
+  background: #fff;
+  border: solid 1pt #fff;
+  font-weight: bold;
+  color: #0000EE;
+}
+.field {
+  width: 70%;
+}
+input[type=radio] {
+  margin-right: 3px;
+  vertical-align: top;
+}
+#frontReset,
+#backReset {
+  margin-top: 45px;
+  margin-bottom: 10px;
+}
+div#selUploadTo {
+  margin: 0 0 10px 0;
+  background: #cccccc;
+  padding-left: 10px;
+  height: 50px;
+  width: 70%;
+}
+div#details input[type=radio] {
+  vertical-align: top;
+}
+.oSelectDiv {
+  margin-top: 7px;
+}
+.uploadForm {
+  padding-bottom: 5px;
+}
+#left {
+  float: left;
+  width: 600px;
+  border: none;
+  padding: 5px;
+}
+#right {
+  float: left;
+  width: 350px;
+  border: none;
+  padding: 5px;
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
+#fontImgLeft,
+#backImgLeft {
+  float: left;
+}
+.categoryList {
+  border-collapse: collapse;
+  float: left;
+  margin: 15px 0 10px 15px;
+  width: 100%;
+}
+.categoryList li {
+  height: 25px;
+  display: none;
+}
+.categoryList li span.categoryItem {
+  padding-right: 10px;
+}
+a.letter {
+  font-size: 1.3em;
+  padding: 0 5px 0 5px;
+}
+a.letter:hover {
+  background: #D3DCE0;
+}
+a.disabled:hover {
+  background: #fff;
+}
+.MyCardLabel {
+  display: inline-block;
+  font-size: 1.1em;
+}
+#categoryDiv {
+  float: left;
+  width: 300px;
+  margin-left: 10px;
+}
+.h_previewDiv {
+  border: none;
+  margin: 5px;
+  padding: 10px;
+}
+.v_previewDiv {
+  border: none;
+  margin: 25px 5px;
+  padding: 10px;
+}
+label.legend {
+  position: absolute;
+  margin-top: -33px;
+  padding: 0 5px 0 5px;
+}
+.preview {
+  border: solid 1pt grey;
+}
+.imgContainer {
+  width: 230px;
+  float: left;
+}
+div#navDiv {
+  clear: both;
+  padding-bottom: 2px;
+}
+.cardField {
+  height: 30px;
+  margin: 7px 0 7px 0;
+}
+.cardField input[type=text] {
+  width: 200px;
+}
+#selBusiness {
+  height: 35px;
+}
+#selSearchable {
+  height: 35px;
+}
+#selCategory {
+  height: 280px;
+}
+#selUploadTo {
+  height: 35px;
+}
+#selCategory select {
+  height: 260px;
+  width: 160px;
+}
+div.strip {
+  display: none;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: -1;
+}
+div.bottomStrip {
+  background-color: #948C75;
+  height: 23px;
+  margin-top: 77px;
+}
+.resetLink {
+  text-decoration: underline;
+  cursor: pointer;
+  color: Gray;
+}
+.fixedLabel {
+  width: 87px;
+  display: inline-block;
+  text-align: right;
+  padding-right: 3px;
+}
+.SizeWarning {
+  color: #ff0000;
+  display: none;
+  position: absolute;
+  font-size: 10pt;
+  cursor: pointer;
+}
+.SizeWarning:hover {
+  text-decoration: underline;
+}
+#fileSizeInfoMessage {
+  display: none;
+  font-size: 9pt;
+  padding: 10px;
+  height: 110px;
+  width: 220px;
+  border: solid 1pt silver;
+  background-color: #948C75;
+  color: #D5DED9;
+  position: absolute;
+  left: 45%;
+  top: 35%;
+}
+.ClosePopup {
+  font-size: 10px;
+  color: #ffffff;
+  text-decoration: underline;
+  cursor: pointer;
+  float: right;
+  margin-top: 10px;
+}
+span.link {
+  margin-top: 10px;
+  color: #7A6A53;
+  display: block;
+}
+span.link:hover {
+  text-decoration: underline;
+}
+.relCardView {
+  cursor: pointer;
+  height: 70px;
+  width: 105px;
+}
+.relSelected {
+  display: none;
+}
+img.help {
+  float: right;
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+}
+div.ownerHelp {
+  display: none;
+  height: 100px;
+  width: 300px;
+  resize: none;
+}
+div.ownerHelp h3 {
+  margin-top: 10px;
+}
+span.required {
+  color: red;
+  font-size: 1.3em;
+}
+ul#tagList {
+  margin-top: 15px;
+}
+input#btnAddTag {
+  padding: 2px 7px 2px 7px;
+}
+li#tagTemplate {
+  display: none;
+}
+div.tagContainer {
+  width: 50%;
+  height: 370px;
+  float: left;
+}
+span.removeTag {
+  cursor: pointer;
+  padding: 4px;
+  color: #7a6a53;
+  margin-left: 5px;
+}
+li.tag {
+  border-radius: 4px;
+  float: left;
+  width: auto;
+  margin: 5px;
+}
+li.tag.UserTag {
+  background: #ccc;
+}
+li.tag.SystemTag {
+  background: #BDB76B;
+}
+li.tag div {
+  margin: 4px;
+  color: #fff;
+  padding: 3px;
+}
+li.tag div label.tagName {
+  display: inline-block;
+}
+a.addPhone,
+a.removePhone {
+  border: solid 1pt #ddd;
+  vertical-align: super;
+}
+.toggle {
+  padding: 10px;
+}
+.toggle.ng-hide-add,
+.toggle.ng-hide-remove {
+  -webkit-transition: all linear 0.5s;
+  -moz-transition: all linear 0.5s;
+  -o-transition: all linear 0.5s;
+  transition: all linear 0.5s;
+  display: block!important;
+}
+.toggle.ng-hide-add.ng-hide-add-active,
+.toggle.ng-hide-remove {
+  opacity: 0;
+}
+.toggle.ng-hide-add,
+.toggle.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+}
+@media only screen and (max-width: 1400px) {
+  .account-workArea {
+    background: #fff;
+    position: relative;
+    margin-left: 170px;
+    padding: 13px;
+    width: 80%;
+    min-height: 500px;
+    z-index: 1;
+  }
+}
+/*# sourceMappingURL=AddCard.css.map */

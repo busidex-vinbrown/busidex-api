@@ -1,0 +1,6 @@
+﻿<div class="col-md-1 search-result card-container">
+    
+    <img ng-click="vm.NoCardClick ? null : vm.showPopup(card)"
+         ng-class="card.FrontOrientationClass" 
+         ng-src="https://az381524.vo.msecnd.net/cards/{{card.FrontFileId}}.{{card.FrontFileType.replace('.','')}}" />
+</div>

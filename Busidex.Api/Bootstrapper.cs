@@ -2,7 +2,8 @@ using System.Web.Http;
 using Busidex.Api.DataAccess;
 using Busidex.Api.DataServices;
 using Busidex.Api.DataServices.Interfaces;
-using Microsoft.Practices.Unity;
+using Unity;
+using Unity.Injection;
 using AccountRepository = Busidex.Api.DataServices.AccountRepository;
 using BusidexDataContext = Busidex.Api.DataAccess.BusidexDataContext;
 

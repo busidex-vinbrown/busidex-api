@@ -6,7 +6,7 @@
     <AzureDeploymentLabel>Busidex.EmailServiceQueue</AzureDeploymentLabel>
     <AzureDeploymentReplacementMethod>AutomaticUpgrade</AzureDeploymentReplacementMethod>
     <AzureSlot>Staging</AzureSlot>
-    <AzureEnableRemoteDesktop>True</AzureEnableRemoteDesktop>
+    <AzureEnableRemoteDesktop>False</AzureEnableRemoteDesktop>
     <AzureEnableWebDeploy>False</AzureEnableWebDeploy>
     <AzureFallbackToDeleteAndRecreateIfUpgradeFails>False</AzureFallbackToDeleteAndRecreateIfUpgradeFails>
     <AzureHostedServiceLabel>busidex</AzureHostedServiceLabel>
@@ -19,5 +19,6 @@
     <AzureStorageAccountName>busidexcdn</AzureStorageAccountName>
     <AzureAppendTimestampToDeploymentLabel>True</AzureAppendTimestampToDeploymentLabel>
     <AzureHostedServiceResourceGroup />
+    <EnableApplicationInsights>True</EnableApplicationInsights>
   </PropertyGroup>
 </Project>

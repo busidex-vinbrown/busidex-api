@@ -28,12 +28,15 @@ img.search-background {
         z-index: 0;
 
     }
+
+
+
 div.background {
     /*background: url('/content/images/background1.jpg');*/
     /*background-image: url('https://az381524.vo.msecnd.net/images/search-background.gif');*/
     background-color: #4f8498;
     -ms-background-size: 100vh; /*cover;*/
-    background-size:cover;
+    background-size: cover;
     background-repeat: no-repeat;
     opacity: .8;
     position: fixed;
@@ -56,9 +59,15 @@ ul {
     background: #bbb;
 }
 .jumbotron img {
-    max-width: 100%;
     width: 100%;
     border: solid 1pt silver;
+}
+.jumbotron img.card_image_H {
+    max-width: 500px;
+}
+
+.jumbotron img.card_image_V {
+    max-width: 275px;
 }
 
 div.storelinks {

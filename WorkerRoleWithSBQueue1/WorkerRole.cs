@@ -1,18 +1,18 @@
-﻿using Busidex.Api.DataAccess;
+﻿using System;
+using System.Linq;
+using System.Net;
+using System.Threading;
+using Busidex.Api.DataAccess;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
+using Microsoft.Azure;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
-using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
-using System;
-using System.Linq;
-using System.Net;
-using System.Threading;
 
-namespace WorkerRoleWithSBQueue1
+namespace SharedCardQueue
 {
     public class WorkerRole : RoleEntryPoint
     {

@@ -2,9 +2,6 @@ using Busidex.Api.DataAccess;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices;
 using Busidex.Api.DataServices.Interfaces;
-using Microsoft.ServiceBus;
-using Microsoft.ServiceBus.Messaging;
-using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using System;
 using System.Collections.Specialized;
@@ -13,6 +10,10 @@ using System.Net;
 using System.Net.Mail;
 using System.Threading;
 using Microsoft.Azure;
+using Microsoft.ServiceBus;
+using Microsoft.ServiceBus.Messaging;
+
+//using Microsoft.ServiceBus.Messaging;
 
 namespace EmailQueue
 {
@@ -21,7 +22,7 @@ namespace EmailQueue
         // The name of your queue
         private const string QUEUE_NAME = "email";
         private const string EMAIL_USER = "azure_fb3e7fc30477e746ae332a32b77defde@azure.com";
-        private const string EMAIL_PASSWORD = "f277xoet";
+        private const string EMAIL_PASSWORD = "g388ypfu";
 
         private NameValueCollection _section;
 

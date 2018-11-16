@@ -9,8 +9,8 @@ using System.Web.Configuration;
 using System.Web.Http;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
+using Microsoft.Azure;
 using Microsoft.ServiceBus.Messaging;
-using Microsoft.WindowsAzure;
 
 
 namespace Busidex.Api.Controllers

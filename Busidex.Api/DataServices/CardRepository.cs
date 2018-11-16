@@ -13,7 +13,6 @@ using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Microsoft.ServiceBus.Messaging;
-using Microsoft.WindowsAzure;
 using Newtonsoft.Json;
 using Group = Busidex.Api.DataAccess.DTO.Group;
 
@@ -21,6 +20,7 @@ using Group = Busidex.Api.DataAccess.DTO.Group;
 using System.IO.Compression;
 using System.Text;
 using System.Xml.Serialization;
+using Microsoft.Azure;
 using CloudStorageAccount = Microsoft.WindowsAzure.Storage.CloudStorageAccount;
 
 namespace Busidex.Api.DataServices

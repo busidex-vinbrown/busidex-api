@@ -136,6 +136,9 @@ DocProject/Help/*.hhp
 DocProject/Help/Html2
 DocProject/Help/html
 
+**/dist/
+**/obj/*
+
 # Click-Once directory
 publish/
 

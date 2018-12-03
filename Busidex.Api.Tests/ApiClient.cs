@@ -8,8 +8,10 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using Busidex.Api.Models;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using RestSharp;
+using RestSharp.Serializers;
 
 namespace Busidex.Api.Tests
 {
@@ -187,7 +189,7 @@ namespace Busidex.Api.Tests
                 }
                 else
                 {
-                    payloadContent = new StringContent(SimpleJson.SerializeObject(payloadEntity), new UTF8Encoding(), "application/json");
+                    payloadContent = new StringContent(JsonConvert.SerializeObject(payloadEntity), new UTF8Encoding(), "application/json");
                 }
             }
 

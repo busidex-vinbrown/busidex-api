@@ -2,8 +2,6 @@
 using System.Web.Mvc;
 using System.Web.Routing;
 //using Busidex.Api.App_Start;
-using log4net.Core;
-using Microsoft.WindowsAzure.Storage.Auth;
 using Ms.Azure.Logging.Helpers;
 
 namespace Busidex.Api
@@ -15,7 +13,7 @@ namespace Busidex.Api
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            //AreaRegistration.RegisterAllAreas();
             Bootstrapper.Initialise();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
@@ -27,7 +25,7 @@ namespace Busidex.Api
 
             //LoggingHelper.InitializeAzureTableLogging(account, "busidexlogging", Level.All);
             //LoggingHelper.InitializeFromConfiguration();
-            log4net.Config.XmlConfigurator.Configure(); 
+            //log4net.Config.XmlConfigurator.Configure(); 
             
         }
 

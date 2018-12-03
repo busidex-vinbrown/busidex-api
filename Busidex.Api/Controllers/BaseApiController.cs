@@ -10,6 +10,7 @@ using System.Web.Http;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
 using Microsoft.Azure;
+using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 
 
@@ -101,16 +102,31 @@ namespace Busidex.Api.Controllers
         {
 
             // Create the queue client.
-            QueueClient queueClient = QueueClient.CreateFromConnectionString(_connectionString, "email");
+            //QueueClient queueClient = QueueClient.CreateFromConnectionString(_connectionString, "email");
 
+            //var message = new BrokeredMessage(communication)
+            //{
+            //    Label = communication.Email,
+            //    TimeToLive = new TimeSpan(7, 0, 0, 0)
+            //};
+
+            //queueClient.Send(message);
+            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
+                "busidex", string.Empty);
+
+            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+
+            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
+            QueueClient sendClient = mf.CreateQueueClient("email");
+
+            //Sending hello message to queue.
             var message = new BrokeredMessage(communication)
             {
                 Label = communication.Email,
                 TimeToLive = new TimeSpan(7, 0, 0, 0)
             };
-
-            queueClient.Send(message);
-
+            sendClient.Send(message);
         }
         
     }

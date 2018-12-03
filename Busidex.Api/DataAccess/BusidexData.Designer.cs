@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\vinbrown2\Source\Workspaces\busidex\trunk\Busidex4\Busidex.Api\DataAccess\BusidexData.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Projects\busidex-api\Busidex.Api\DataAccess\BusidexData.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

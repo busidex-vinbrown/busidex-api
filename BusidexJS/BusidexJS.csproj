@@ -14,7 +14,7 @@
     <RootNamespace>BusidexJS</RootNamespace>
     <AssemblyName>BusidexJS</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -28,6 +28,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>efe9a432</NuGetPackageImportStamp>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -442,8 +443,6 @@
     <Content Include="partials\newsletters\newsletter_4.html" />
     <Content Include="partials\newsletters\newsletter_3.html" />
     <Content Include="partials\settings\index.html" />
-    <Content Include="Scripts\underscore.js" />
-    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -455,7 +454,6 @@
     <Content Include="css\.gitkeep" />
     <Content Include="img\.gitkeep" />
     <Content Include="partials\.gitkeep" />
-    <Content Include="Scripts\underscore.min.map" />
     <Content Include="packages.config" />
     <Content Include="package.json" />
     <Content Include="video\FindACard.flv" />

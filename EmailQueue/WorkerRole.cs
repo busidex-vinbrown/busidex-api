@@ -9,7 +9,7 @@ using System.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
-using Microsoft.Azure;
+//using Microsoft.Azure;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 
@@ -22,7 +22,7 @@ namespace EmailQueue
         // The name of your queue
         private const string QUEUE_NAME = "email";
         private const string EMAIL_USER = "azure_fb3e7fc30477e746ae332a32b77defde@azure.com";
-        private const string EMAIL_PASSWORD = "g388ypfu";
+        private const string EMAIL_PASSWORD = "Guvw7_WuvuMomu";
 
         private NameValueCollection _section;
 
@@ -36,18 +36,20 @@ namespace EmailQueue
             // Set the maximum number of concurrent connections 
             ServicePointManager.DefaultConnectionLimit = 12;
 
-            // Create the queue if it does not exist already
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
-            var namespaceManager = NamespaceManager.CreateFromConnectionString(connectionString);
-            if (!namespaceManager.QueueExists(QUEUE_NAME))
-            {
-                namespaceManager.CreateQueue(QUEUE_NAME);
-            }
-
+            
             _section = (NameValueCollection)ConfigurationManager.GetSection("emailInfo");
 
             // Initialize the connection to Service Bus Queue
-            _client = QueueClient.CreateFromConnectionString(connectionString, QUEUE_NAME);
+            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
+                             "busidex", string.Empty);
+
+            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+
+            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
+
+            _client = mf.CreateQueueClient(QUEUE_NAME);
+            
             return base.OnStart();
         }
 

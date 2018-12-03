@@ -17,6 +17,7 @@ using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
 using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
 using UserAccount = Busidex.Api.DataAccess.DTO.UserAccount;
 
@@ -654,24 +655,31 @@ namespace Busidex.Api.Controllers
                 int codeLength = int.Parse(ConfigurationManager.AppSettings["SMSCodeLength"]);
 
                 // Create an instance of the Twilio client.
-                var client = new TwilioRestClient(sId, authToken);
+                //var client = new TwilioRestClient(sId, authToken);
+                TwilioClient.Init(sId, authToken);
 
                 // Generate the confirmation code
                 string code = GenerateNewCode(codeLength);
 
                 _accountRepository.SaveUserAccountCode(userId, code);
 
-                // Send SMS message with registration code.
-                SMSMessage result = client.SendSmsMessage(
-                    busidexNumber, 
-                    number,
-                    "Use this code to complete your Busidex Registration: " + code);
+                var message = MessageResource.Create(
+                    from: new Twilio.Types.PhoneNumber(busidexNumber),
+                    to: new Twilio.Types.PhoneNumber(number),
+                    body: "Use this code to complete your Busidex Registration: " + code);
 
-                if (result.RestException != null)
-                {
-                    //an exception occurred making the REST call
-                    _cardRepository.SaveApplicationError(new Exception(result.RestException.Message), userId);
-                }
+                //// Send SMS message with registration code.
+                //var result = client.SendSmsMessage(
+                //    busidexNumber, 
+                //    number,
+                //    "Use this code to complete your Busidex Registration: " + code);
+
+               
+                //if (result.RestException != null)
+                //{
+                //    //an exception occurred making the REST call
+                //    _cardRepository.SaveApplicationError(new Exception(result.RestException.Message), userId);
+                //}
             }
             catch (Exception ex)
             {

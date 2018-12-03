@@ -37,13 +37,22 @@ namespace WorkerRole1
                 ServicePointManager.DefaultConnectionLimit = 12;
 
                 // Create the queue if it does not exist already
-                string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
-                var namespaceManager = NamespaceManager.CreateFromConnectionString(connectionString);
-                if (!namespaceManager.QueueExists(QUEUE_NAME))
-                {
-                    namespaceManager.CreateQueue(QUEUE_NAME);
-                }
-                _client = QueueClient.CreateFromConnectionString(connectionString, QUEUE_NAME);
+                //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+                //var namespaceManager = NamespaceManager.CreateFromConnectionString(connectionString);
+                //if (!namespaceManager.QueueExists(QUEUE_NAME))
+                //{
+                //    namespaceManager.CreateQueue(QUEUE_NAME);
+                //}
+                //_client = QueueClient.CreateFromConnectionString(connectionString, QUEUE_NAME);
+                var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
+                    "busidex", string.Empty);
+
+                var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                    "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+
+                var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
+
+                _client = mf.CreateQueueClient(QUEUE_NAME);
             }
             catch (Exception ex)
             {

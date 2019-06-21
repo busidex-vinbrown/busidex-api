@@ -2,7 +2,7 @@ using System;
 
 namespace Busidex.Api.DataAccess.DTO
 {
-
+    [Serializable]
     public class EmailTemplate
     {
         public int EmailTemplateId { get; set; }
@@ -48,7 +48,7 @@ namespace Busidex.Api.DataAccess.DTO
             Populate(card, account);
         }
 
-        private void Populate(Card card, UserAccount account)
+        public void Populate(Card card, UserAccount account)
         {
             string height = card.FrontOrientation == "H" ? "120px" : "220px";
             string width = card.FrontOrientation == "H" ? "210px" : "140px";

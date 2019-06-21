@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
+using Newtonsoft.Json;
 
 namespace Busidex.Api.Controllers
 {
@@ -52,17 +53,18 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public async Task<HttpResponseMessage> SendCommunication([FromBody] AdminCommunication model)
+        public async Task<HttpResponseMessage> SendCommunication([FromBody] object request)
         {
             //TODO: This could potentially be a long-running process so try it asynchronously. Might have to refactor this someday.
             bool error = false;
-            var communication = new Communication();
-
+            AdminCommunication model = null;
             try
             {
+                model = JsonConvert.DeserializeObject<AdminCommunication>(request.ToString());
+                _cardRepository.SaveApplicationError(new Exception("Testing: " + model.Template.Subject), 0);
                 foreach (var email in model.SendTo)
                 {
-                    communication = new Communication
+                    var communication = new Communication
                     {
                         EmailTemplate = model.Template,
                         Email = email,
@@ -82,8 +84,6 @@ namespace Busidex.Api.Controllers
             {
                 error = true;
                 _cardRepository.SaveApplicationError(ex, model.UserId);
-                communication.Failed = true;
-
             }
 
             return await Task<HttpResponseMessage>.Factory.StartNew(() =>

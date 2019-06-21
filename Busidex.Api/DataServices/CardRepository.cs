@@ -5,7 +5,6 @@ using System.Data.Linq;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using Busidex.Api.DataAccess;
@@ -15,12 +14,10 @@ using Busidex.Api.Models;
 using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
 using Group = Busidex.Api.DataAccess.DTO.Group;
-
-
 using System.IO.Compression;
 using System.Text;
 using System.Xml.Serialization;
-using Microsoft.Azure;
+using Microsoft.ServiceBus;
 using CloudStorageAccount = Microsoft.WindowsAzure.Storage.CloudStorageAccount;
 
 namespace Busidex.Api.DataServices
@@ -56,13 +53,14 @@ namespace Busidex.Api.DataServices
             _dao.AddUserCard(userCard);
 
             // Send an email notification to the card owner
-
-
+            
             var template = _dao.GetEmailTemplate(EmailTemplateCode.CardAdded);
             var card = GetCardById(id);
             var account = _dao.GetUserAccountByUserId(card.OwnerId.GetValueOrDefault());
             if (account != null)
             {
+                template.Populate(card, account);
+
                 var communication = new Communication
                 {
                     EmailTemplate = template,
@@ -766,19 +764,35 @@ namespace Busidex.Api.DataServices
             const int MAX_MESSAGE_SIZE = 1024*256;
             const string MESSAGE_SIZE_EXCEEDED = "This message is too big for the queue: size = {0} bytes";
 
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 
-            // Create the queue client.
-            QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "cards");
+            //// Create the queue client.
+            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "cards");
 
-            // squish it
+            //// squish it
             var compressedModel = model.Compress();
 
+            //var message = new BrokeredMessage(compressedModel)
+            //{
+            //    Label = model.Name,
+            //    TimeToLive = new TimeSpan(7, 0, 0, 0)
+            //};
+            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
+                "busidex", string.Empty);
+
+            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+
+            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
+            var queueClient = mf.CreateQueueClient("cards");
+
+            //Sending hello message to queue.
             var message = new BrokeredMessage(compressedModel)
             {
                 Label = model.Name,
                 TimeToLive = new TimeSpan(7, 0, 0, 0)
             };
+            
             // send it
             if (message.Size <= MAX_MESSAGE_SIZE)
             {
@@ -793,10 +807,20 @@ namespace Busidex.Api.DataServices
 
         public void AddSharedCardsToQueue(List<SharedCard> sharedCardList)
         {
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 
             // Create the queue client.
-            QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "shared-card");
+            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "shared-card");
+            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
+                "busidex", string.Empty);
+
+            var tokenProvider = TokenProvider
+                .CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                    "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+
+            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
+
+            var queueClient = mf.CreateQueueClient("shared-card");
 
             foreach (var sharedCardModel in sharedCardList)
             {                
@@ -812,10 +836,20 @@ namespace Busidex.Api.DataServices
 
         public void AddSharedCardToQueue(SharedCard sharedCard)
         {
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 
             // Create the queue client.
-            QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "shared-card");
+            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "shared-card");
+            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
+                "busidex", string.Empty);
+
+            var tokenProvider = TokenProvider
+                .CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                    "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+
+            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
+
+            var queueClient = mf.CreateQueueClient("shared-card");
 
             var message = new BrokeredMessage(sharedCard)
             {
@@ -974,19 +1008,34 @@ namespace Busidex.Api.DataServices
 
         private void SendEmail(Communication communication)
         {
-            string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
 
-            // Create the queue client.
-            QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "email");
+            //// Create the queue client.
+            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "email");
 
+            //var message = new BrokeredMessage(communication)
+            //{
+            //    Label = communication.Email,
+            //    TimeToLive = new TimeSpan(7, 0, 0, 0)
+            //};
+
+            //queueClient.Send(message);
+            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
+                "busidex", string.Empty);
+
+            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+            
+            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
+            var sendClient = mf.CreateQueueClient("email");
+
+            //Sending hello message to queue.
             var message = new BrokeredMessage(communication)
             {
                 Label = communication.Email,
                 TimeToLive = new TimeSpan(7, 0, 0, 0)
             };
-
-            queueClient.Send(message);
-            
+            sendClient.Send(message);
         }
 
         public void AddSystemTagToCard(long cardid, string tag)
@@ -1402,7 +1451,7 @@ namespace Busidex.Api.DataServices
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
-                TypeNameAssemblyFormat = FormatterAssemblyStyle.Simple,
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 Formatting = Formatting.Indented
             };
 

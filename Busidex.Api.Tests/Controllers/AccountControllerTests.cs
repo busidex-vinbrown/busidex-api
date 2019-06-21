@@ -72,7 +72,6 @@ namespace Busidex.Api.Tests.Controllers
         }
 
         [Test]
-        [ExpectedException(typeof(ApiException), ExpectedMessage = "User Not Found")]
         public void TestAccountLoginWithBadLoginParamsObject()
         {
             var param = new LoginParams

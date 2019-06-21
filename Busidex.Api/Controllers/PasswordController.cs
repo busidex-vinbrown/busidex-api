@@ -37,7 +37,6 @@ namespace Busidex.Api.Controllers
 
         public HttpResponseMessage Put(ChangePasswordModel model)
         {
-
             if (model == null || model.NewPassword != model.ConfirmPassword ||
                 string.IsNullOrEmpty(model.OldPassword)
                 || string.IsNullOrEmpty(model.NewPassword) || string.IsNullOrEmpty(model.ConfirmPassword))

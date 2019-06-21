@@ -358,103 +358,122 @@ div.notification-back{
 
 /*#region FRAME 1*/
 section.frame1 {
-   
-	background: image-url('https://az381524.vo.msecnd.net/images/background2.png');
-	background-color: $main-text-color !important;
-	-ms-background-size: cover !important;
-	background-size: cover !important;
-	background-repeat: no-repeat;
-	padding: 40px 10% !important;
+    background: image-url('https://az381524.vo.msecnd.net/images/background2.png');
+    background-color: $main-text-color !important;
+    -ms-background-size: cover !important;
+    background-size: cover !important;
+    background-repeat: no-repeat;
+    padding: 40px 10% !important;
 
-	a.logo {
-		position: relative;
-		max-width:300px;
-		z-index: 117;
-	}
+    a.logo {
+        position: relative;
+        max-width: 300px;
+        z-index: 117;
+    }
 
-	div.links {
-		font-size: 16px;
-		font-family: "latobold";
-		color: rgb(255, 255, 255);
-		display: inline-block;
-		font-weight: bold;
-		text-transform: uppercase;
-		line-height: 1.5;
-		position: relative;
-		margin-bottom: 60px;
-		max-width: 388px;
-		margin-top: 20px;
-		height: 16px;
-		z-index: 116;
-	}
+    div.links {
+        font-size: 16px;
+        font-family: "latobold";
+        color: rgb(255, 255, 255);
+        display: inline-block;
+        font-weight: bold;
+        text-transform: uppercase;
+        line-height: 1.5;
+        position: relative;
+        margin-bottom: 60px;
+        max-width: 388px;
+        margin-top: 20px;
+        height: 16px;
+        z-index: 116;
+    }
 
-	a.logo img {
-		width: 100%;
-		max-width: 300px;
-	}
+    a.logo img {
+        width: 100%;
+        max-width: 300px;
+    }
 
-	a, h1 {
-		color: #ffffff;
-	}
+    a, h1 {
+        color: #ffffff;
+    }
 
-	span.title {
-		font-size: 64px;
-		font-family: "latoblack";
-		font-weight: bold;
-		color: rgb(247, 248, 248);
-		display:block;
-		text-transform: uppercase;
-		text-align: left;
-		position: relative;
-		top: 0;
-		left: 0;        
-		width: 100%;
-		z-index: 108;
-	}
+    span.title {
+        font-size: 64px;
+        font-family: "latoblack";
+        font-weight: bold;
+        color: rgb(247, 248, 248);
+        display: block;
+        text-transform: uppercase;
+        text-align: left;
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 108;
+    }
 
-	ul {
-		position: relative;
-		padding:0;
-		left: 0;
-		margin-top: 50px;
-		width: 95%;
-		z-index: 107;
-	}
+    ul {
+        position: relative;
+        padding: 0;
+        left: 0;
+        margin-top: 50px;
+        width: 95%;
+        z-index: 107;
+    }
 
-	div.storelinks {
-		font-size: 14px;
-		font-family: "latobold";
-		color: rgb(171, 196, 208);
-		line-height: 1.286;
-		position: relative;
-		margin-top: 60px;
-		z-index: 109;
+    div.storelinks {
+        font-size: 14px;
+        font-family: "latobold";
+        color: rgb(171, 196, 208);
+        line-height: 1.286;
+        position: relative;
+        margin-top: 60px;
+        z-index: 109;
 
-		a {
-			margin-left: 10px;
-		}
+        a {
+            margin-left: 10px;
+        }
 
-		a:hover {
-			text-decoration: none;
-		}
-	}
+        a:hover {
+            text-decoration: none;
+        }
+    }
 
-	ul.sublinks li {
-		color: rgb(247, 248, 248);
-		display: inline-block;
-		font-size: 18px;
-		font-family: "latohairline";
-		font-weight: bold;
-		line-height: 1.2;
-	}
+    div.meeting-info {
+        font-size: 24px;
+        font-family: "latobold";
+        color: white;
+        line-height: 1.75;
+        position: relative;
+        margin-top: 20px;
+        z-index: 109;
 
-	div.image-right-side {
-		position: absolute;
-		bottom: 0;
-		left: 650px;
-		z-index: 93;
-		zoom: 1.1;
-	}
+        .sub-header {
+            color: white;
+            font-size: 16px;
+
+            a, a:visited {
+                color: rgb(171, 196, 208);
+                text-decoration: underline;
+            }
+        }
+    }
+
+    ul.sublinks li {
+        color: rgb(247, 248, 248);
+        display: inline-block;
+        font-size: 18px;
+        font-family: "latohairline";
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    div.image-right-side {
+        position: absolute;
+        bottom: 0;
+        left: 650px;
+        z-index: 93;
+        zoom: 1.1;
+    }
 }
 /*#endregion*/
 

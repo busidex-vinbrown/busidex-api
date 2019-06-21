@@ -34,7 +34,10 @@ namespace WorkerRole1
             try
             {
                 // Set the maximum number of concurrent connections 
-                ServicePointManager.DefaultConnectionLimit = 12;
+                ServicePointManager.UseNagleAlgorithm = true;
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.CheckCertificateRevocationList = true;
+                ServicePointManager.DefaultConnectionLimit = 24;
 
                 // Create the queue if it does not exist already
                 //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
@@ -51,8 +54,9 @@ namespace WorkerRole1
                     "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
 
                 var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
-
+                
                 _client = mf.CreateQueueClient(QUEUE_NAME);
+               
             }
             catch (Exception ex)
             {

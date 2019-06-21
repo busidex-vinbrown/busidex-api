@@ -2,6 +2,7 @@ using System;
 
 namespace Busidex.Api.DataAccess.DTO
 {
+    [Serializable]
     public class Communication
     {
         public long CommunicationId { get; set; }

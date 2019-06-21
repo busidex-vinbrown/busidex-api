@@ -2,8 +2,10 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ActivePublishProfile>busidexProduction</ActivePublishProfile>
-    <PackageProfile>Local</PackageProfile>
+    <PackageProfile>Cloud</PackageProfile>
     <PackageSolutionConfiguration>Release</PackageSolutionConfiguration>
     <PackageEnableRemoteDesktop>False</PackageEnableRemoteDesktop>
+    <DeploymentProfilingMode>Sampling</DeploymentProfilingMode>
+    <DeploymentEnableTierInteractionProfiling>False</DeploymentEnableTierInteractionProfiling>
   </PropertyGroup>
 </Project>

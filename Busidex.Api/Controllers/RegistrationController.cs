@@ -257,22 +257,7 @@ namespace Busidex.Api.Controllers
                 string uidId = form.uidId;
                 string email = form.email;
                 string password = form.pswd;
-                //bool? acceptTerms = form.acceptTerms;
-
-                //if (acceptTerms.HasValue && !acceptTerms.GetValueOrDefault())
-                //{
-                //    return new HttpResponseMessage
-                //    {
-                //        Content = new JsonContent(new
-                //        {
-                //            Success = false,
-                //            UserId = -1
-                //        }),
-                //        StatusCode = HttpStatusCode.BadRequest,
-                //        ReasonPhrase = "Terms not accepted"
-                //    }; 
-                //}
-
+                
                 if (string.IsNullOrEmpty(uidId) || string.IsNullOrEmpty(email))
                 {
                     return new HttpResponseMessage

@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Configuration;
 using System.Web.Http;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
 using Microsoft.Azure;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 
@@ -98,7 +102,7 @@ namespace Busidex.Api.Controllers
             return new string(chars);
         }
 
-        protected void SendEmail(Communication communication)
+        protected async void SendEmail(Communication communication)
         {
 
             // Create the queue client.
@@ -117,8 +121,8 @@ namespace Busidex.Api.Controllers
             var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
                 "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
 
-            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
-            QueueClient sendClient = mf.CreateQueueClient("email");
+            var mf = MessagingFactory.Create(runtimeUri, tokenProvider);
+            var sendClient = mf.CreateQueueClient("email");
 
             //Sending hello message to queue.
             var message = new BrokeredMessage(communication)
@@ -127,6 +131,8 @@ namespace Busidex.Api.Controllers
                 TimeToLive = new TimeSpan(7, 0, 0, 0)
             };
             sendClient.Send(message);
+            // await sendClient.CloseAsync();
+           // return true;
         }
         
     }

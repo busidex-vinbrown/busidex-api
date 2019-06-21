@@ -339,16 +339,12 @@
     <Content Include="lib\jquery\jquery-ui-1.10.0.min.js" />
     <Content Include="lib\jquery\jquery.js" />
     <Content Include="lib\jquery\jquery.min.js" />
-    <Content Include="newrelic\extensions\CoreInstrumentation.xml" />
     <Content Include="newrelic\extensions\Providers\TransactionContext\Asp\NewRelic.Agent.Extensions.dll" />
     <Content Include="newrelic\extensions\Providers\TransactionContext\Asp\NewRelic.Providers.TransactionContext.Asp.Repacked.dll" />
     <Content Include="newrelic\extensions\Providers\TransactionContext\Default\NewRelic.Agent.Extensions.dll" />
     <Content Include="newrelic\extensions\Providers\TransactionContext\Default\NewRelic.Providers.TransactionContext.Default.Repacked.dll" />
     <Content Include="newrelic\extensions\Providers\TransactionContext\Wcf3\NewRelic.Agent.Extensions.dll" />
     <Content Include="newrelic\extensions\Providers\TransactionContext\Wcf3\NewRelic.Providers.TransactionContext.Wcf3.Repacked.dll" />
-    <Content Include="newrelic\NewRelic.Agent.Core.dll" />
-    <Content Include="newrelic\NewRelic.Agent.Extensions.dll" />
-    <Content Include="newrelic\NewRelic.Profiler.dll" />
     <Content Include="partials\about.html" />
     <Content Include="partials\account\delete.html" />
     <Content Include="partials\account\index.html" />
@@ -454,7 +450,6 @@
     <Content Include="css\.gitkeep" />
     <Content Include="img\.gitkeep" />
     <Content Include="partials\.gitkeep" />
-    <Content Include="packages.config" />
     <Content Include="package.json" />
     <Content Include="video\FindACard.flv" />
     <Content Include="lib\flash\FindACard.flv" />
@@ -547,7 +542,6 @@
     <Content Include="css\font-awesome.css.map">
       <DependentUpon>font-awesome.css</DependentUpon>
     </Content>
-    <Content Include="newrelic\newrelic.config" />
     <Content Include="css\mixins.css.map">
       <DependentUpon>mixins.css</DependentUpon>
     </Content>
@@ -557,13 +551,7 @@
     <Content Include="js\app - Copy.min.js.map">
       <DependentUpon>app - Copy.min.js</DependentUpon>
     </Content>
-    <Content Include="newrelic\extensions\extension.xsd">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="downloads\GenesisApp-Release-Custom.ipa" />
-    <None Include="newrelic\newrelic.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\PublishProfiles\busidex - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\busidex - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\busidex - FTP %284%29.pubxml" />
@@ -586,10 +574,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="NewRelic.Api.Agent, Version=3.10.43.0, Culture=neutral, PublicKeyToken=06552fced0b33d87, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NewRelic.Azure.WebSites.x64.3.10.43.0\lib\NewRelic.Api.Agent.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DynamicData" />

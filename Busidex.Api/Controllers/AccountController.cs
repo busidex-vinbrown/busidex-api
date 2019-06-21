@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
@@ -566,6 +567,24 @@ namespace Busidex.Api.Controllers
                 };
             }
 
+        }
+
+        [HttpGet]
+        public async Task<HttpResponseMessage> CheckEmailAvailability(string email)
+        {
+            var result = await Task.Factory.StartNew(()=>{
+                return _accountRepository.GetUserAccountByEmail(email);
+            });
+
+            return new HttpResponseMessage
+            {
+                Content = new JsonContent(new
+                {
+                    Success = false,
+                    Message = "User Not Found",
+                }),
+                StatusCode = HttpStatusCode.NotFound
+            };
         }
 
         [System.Web.Http.HttpPut]

@@ -48,17 +48,13 @@
     <Folder Include="SharedCardQueueContent" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SharedCardQueueContent\diagnostics.wadcfg">
-      <SubType>Content</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\WorkerRoleWithSBQueue1\SharedCardQueue.csproj">
       <Name>SharedCardQueue</Name>
       <Project>{a4bb087d-10b9-4e1f-a511-ceeb2c712ec4}</Project>
       <Private>True</Private>
       <RoleType>Worker</RoleType>
       <RoleName>SharedCardQueue</RoleName>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

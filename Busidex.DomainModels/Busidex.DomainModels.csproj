@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{96A3DF77-FC93-4253-BF08-928CA4FB1B63}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Busidex.DomainModels</RootNamespace>
+    <AssemblyName>Busidex.DomainModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountType.cs" />
+    <Compile Include="AddOrEditCardModel.cs" />
+    <Compile Include="AddOrUpdateCardErrors.cs" />
+    <Compile Include="AdminCommunication.cs" />
+    <Compile Include="ApplicationError.cs" />
+    <Compile Include="BasicCard.cs" />
+    <Compile Include="BusidexMembership.cs" />
+    <Compile Include="BusidexUser.cs" />
+    <Compile Include="Business.cs" />
+    <Compile Include="Captcha.cs" />
+    <Compile Include="Card.cs" />
+    <Compile Include="CardAddress.cs" />
+    <Compile Include="CardAddressDTO.cs" />
+    <Compile Include="CardBase.cs" />
+    <Compile Include="CardCategory.cs" />
+    <Compile Include="CardDetailModel.cs" />
+    <Compile Include="CardImage.cs" />
+    <Compile Include="CardRelation.cs" />
+    <Compile Include="CardTag.cs" />
+    <Compile Include="CardType.cs" />
+    <Compile Include="Card_Validation.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="Communication.cs" />
+    <Compile Include="ContactData.cs" />
+    <Compile Include="CustomContent.cs" />
+    <Compile Include="DeviceDetail.cs" />
+    <Compile Include="DeviceSummary.cs" />
+    <Compile Include="DisplayType.cs" />
+    <Compile Include="DTO\AccountType.cs" />
+    <Compile Include="DTO\ActivityDTO.cs" />
+    <Compile Include="DTO\ApplicationError.cs" />
+    <Compile Include="DTO\BusiGroupModel.cs" />
+    <Compile Include="DTO\CardDTO.cs" />
+    <Compile Include="DTO\CardEditType.cs" />
+    <Compile Include="DTO\ChangePasswordModel.cs" />
+    <Compile Include="DTO\DeleteAccountParams.cs" />
+    <Compile Include="DTO\DeviceType.cs" />
+    <Compile Include="DTO\ErrorException.cs" />
+    <Compile Include="DTO\ErrorMessage.cs" />
+    <Compile Include="DTO\EventActivity.cs" />
+    <Compile Include="DTO\EventSource.cs" />
+    <Compile Include="DTO\EventSources.cs" />
+    <Compile Include="DTO\GeoCoding.cs" />
+    <Compile Include="DTO\JobCode.cs" />
+    <Compile Include="DTO\JsonContent.cs" />
+    <Compile Include="DTO\LoginParams.cs" />
+    <Compile Include="DTO\LoginResetParams.cs" />
+    <Compile Include="DTO\MobileCardImage.cs" />
+    <Compile Include="DTO\MyBusidex.cs" />
+    <Compile Include="DTO\OAuthRefreshTokenResponse.cs" />
+    <Compile Include="DTO\OAuthTokenRequest.cs" />
+    <Compile Include="DTO\OAuthTokenResponse.cs" />
+    <Compile Include="EmailAddress.cs" />
+    <Compile Include="EmailAttribute.cs" />
+    <Compile Include="EmailTemplate.cs" />
+    <Compile Include="EmailTemplateCodes.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="EventTag.cs" />
+    <Compile Include="FeeSchedule.cs" />
+    <Compile Include="Group.cs" />
+    <Compile Include="GroupCard Result.cs" />
+    <Compile Include="GroupCard.cs" />
+    <Compile Include="Lizzidex.cs" />
+    <Compile Include="MobileCard.cs" />
+    <Compile Include="MobileCardSmall.cs" />
+    <Compile Include="MobileSearchResultModel.cs" />
+    <Compile Include="ModelErrorsBase.cs" />
+    <Compile Include="Notification.cs" />
+    <Compile Include="NotificationType.cs" />
+    <Compile Include="Organization.cs" />
+    <Compile Include="OrganizationGuest.cs" />
+    <Compile Include="OrgCardDetailModel.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="PhoneNumber.cs" />
+    <Compile Include="PhoneNumberDTO.cs" />
+    <Compile Include="PhoneNumberType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DTO\RegisterModel.cs" />
+    <Compile Include="DTO\RevokeRequest.cs" />
+    <Compile Include="DTO\SettingsModel.cs" />
+    <Compile Include="DTO\SharedCardDTO.cs" />
+    <Compile Include="DTO\SharedCardModel.cs" />
+    <Compile Include="DTO\SuggestionModel.cs" />
+    <Compile Include="DTO\User.cs" />
+    <Compile Include="SearchResultModel.cs" />
+    <Compile Include="SEOCardResult.cs" />
+    <Compile Include="Setting.cs" />
+    <Compile Include="SharedCard.cs" />
+    <Compile Include="SharedCardTemplate.cs" />
+    <Compile Include="SharedGroup.cs" />
+    <Compile Include="SidebarAd.cs" />
+    <Compile Include="SMSShare.cs" />
+    <Compile Include="StateCode.cs" />
+    <Compile Include="Suggestion.cs" />
+    <Compile Include="Tag.cs" />
+    <Compile Include="TagType.cs" />
+    <Compile Include="TempCard.cs" />
+    <Compile Include="UnownedCard.cs" />
+    <Compile Include="UserAccount.cs" />
+    <Compile Include="UserAccountModel.cs" />
+    <Compile Include="UserAddress.cs" />
+    <Compile Include="UserAuth.cs" />
+    <Compile Include="UserCard.cs" />
+    <Compile Include="UserCardAddStatus.cs" />
+    <Compile Include="UserCardResult.cs" />
+    <Compile Include="UserDevice.cs" />
+    <Compile Include="UserGroupCard.cs" />
+    <Compile Include="UserTerm.cs" />
+    <Compile Include="usp_getMyBusidexResult.cs" />
+    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DTO\packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

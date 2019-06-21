@@ -7,7 +7,6 @@ using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
-using Microsoft.Azure;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure.ServiceRuntime;
@@ -131,27 +130,22 @@ namespace SharedCardQueue
         public override bool OnStart()
         {
             // Set the maximum number of concurrent connections 
-            ServicePointManager.DefaultConnectionLimit = 12;
+            ServicePointManager.UseNagleAlgorithm = true;
+            ServicePointManager.Expect100Continue = true;
+            //ServicePointManager.CheckCertificateRevocationList = true;
+            ServicePointManager.DefaultConnectionLimit = 24;
 
-            // Create the queue if it does not exist already
-            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
-            //var namespaceManager = NamespaceManager.CreateFromConnectionString(connectionString);
-            //if (!namespaceManager.QueueExists(QUEUE_NAME))
-            //{
-            //    namespaceManager.CreateQueue(QUEUE_NAME);
-            //}
-
-            //// Initialize the connection to Service Bus Queue
-            //_client = QueueClient.CreateFromConnectionString(connectionString, QUEUE_NAME);
             var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
                 "busidex", string.Empty);
 
-            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
-                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
+            var tokenProvider = TokenProvider
+                .CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
+                    "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
 
             var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
 
             _client = mf.CreateQueueClient(QUEUE_NAME);
+            
             return base.OnStart();
         }
 

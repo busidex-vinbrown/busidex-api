@@ -12,6 +12,8 @@ using System.Threading;
 //using Microsoft.Azure;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 //using Microsoft.ServiceBus.Messaging;
 
@@ -23,6 +25,7 @@ namespace EmailQueue
         private const string QUEUE_NAME = "email";
         private const string EMAIL_USER = "azure_fb3e7fc30477e746ae332a32b77defde@azure.com";
         private const string EMAIL_PASSWORD = "Guvw7_WuvuMomu";
+        private const string API_KEY = "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";
 
         private NameValueCollection _section;
 
@@ -89,21 +92,22 @@ namespace EmailQueue
                     }
                     else
                     {
+                        var from = new SendGrid.Helpers.Mail.EmailAddress(_section["Support"], "Busidex");
+                        var to = new SendGrid.Helpers.Mail.EmailAddress(model.Email, model.Email);
+                        var subject = model.EmailTemplate != null ? model.EmailTemplate.Subject : "(no subject)";
+                        var htmlContent = model.EmailTemplate != null ? model.EmailTemplate.Body : "";
+                        var plainTextContent = htmlContent;
+                        var client = new SendGridClient(API_KEY);
+                        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
 
-                        var email = SendGrid.Mail.GetInstance();
-                        email.From = new MailAddress(_section["Support"], "Busidex");
-                        email.AddTo(model.Email);
-                        email.Subject = model.EmailTemplate != null ? model.EmailTemplate.Subject : "(no subject)";
-                        email.Html = model.EmailTemplate != null ? model.EmailTemplate.Body : "";
-
-                        var transportInstance =
-                            SendGrid.Transport.SMTP.GetInstance(
-                                new NetworkCredential(EMAIL_USER, EMAIL_PASSWORD));
-                        transportInstance.DeliverAsync(email);
-
-                        message.Complete();
+                        client.SendEmailAsync(msg).ContinueWith(response => {
+                            if (response.Result.StatusCode != HttpStatusCode.Accepted)
+                            {
+                                LogError(new Exception("Response was: " + response.Result.StatusCode + msg.ToString()), 0);
+                            }
+                            message.Complete();
+                        });        
                     }
-
                 }
                 catch (Exception ex)
                 {

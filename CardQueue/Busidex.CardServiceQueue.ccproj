@@ -16,7 +16,7 @@
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
-    <PackageEnableRemoteDebugger>True</PackageEnableRemoteDebugger>
+    <PackageEnableRemoteDebugger>False</PackageEnableRemoteDebugger>
     <UseWebProjectPorts>True</UseWebProjectPorts>
     <UseEmulatorExpressByDefault>False</UseEmulatorExpressByDefault>
   </PropertyGroup>
@@ -46,11 +46,6 @@
   <ItemGroup>
     <Folder Include="CardQueueContent" />
     <Folder Include="Profiles" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="CardQueueContent\diagnostics.wadcfg">
-      <SubType>Content</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WorkerRole1\CardQueue.csproj">

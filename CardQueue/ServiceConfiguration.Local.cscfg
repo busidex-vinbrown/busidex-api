@@ -4,7 +4,7 @@
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.Enabled" value="false" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountUsername" value="busidex.vinbrown@gmail.com" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEHc00hv42L6NSsacb54zUO0wDQYJKoZIhvcNAQEBBQAEggEAbyk0fGTFjOdJkC7Um8reBAPvihRQlS174cal4VAEyONAAX7dj3eBUlqHSEJphOvlxRQPPI9a28s4IIdWV7hxuvE9y8M+peJfvqRuKro8vtsDBRFJjc1jz3nKvtXjg0P2i4t5kOyAwYnR6oZcBFr8o4awyJsZFzT/yDk3VwDmfndGpLrey/FIKoTzNBFsMc44SYYzlWMbkFO6A4BF0GejgWDlwfQHSR4oeoofBzFz9GwsXyKk8xVnTKHpEfWmqY7s91NawE6lBhW5yxhEpclNtwtuf4VRjQT6q4kZWG3RGaYhHoG91QrIre7mZd1OoNR5hFO1XGBCfjCCu78iEO45KjAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECKUC7RqcwN4OgBCTJQkk8gOGcf5dRqGFdq3S" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2095-01-24T23:59:59.0000000-05:00" />

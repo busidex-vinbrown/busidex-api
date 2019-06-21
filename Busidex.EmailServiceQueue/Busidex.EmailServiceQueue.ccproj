@@ -57,6 +57,7 @@
       <RoleType>Worker</RoleType>
       <RoleName>EmailQueue</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
   </ItemGroup>
   <!-- Import the target files for this project template -->

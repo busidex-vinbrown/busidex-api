@@ -25,7 +25,7 @@ namespace EmailQueue
         private const string QUEUE_NAME = "email";
         private const string EMAIL_USER = "azure_fb3e7fc30477e746ae332a32b77defde@azure.com";
         private const string EMAIL_PASSWORD = "Guvw7_WuvuMomu";
-        private const string API_KEY = "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";
+        private const string API_KEY = "<hidden>";
 
         private NameValueCollection _section;
 

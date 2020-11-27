@@ -90,8 +90,9 @@ namespace Busidex.Api.Controllers
 
         protected static byte[] GetBytes(string str)
         {
-            var bytes = new byte[str.Length * sizeof(char)];
-            Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            var bytes = Encoding.ASCII.GetBytes(str);
+            //var bytes = new byte[str.Length * sizeof(char)];
+            //Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
             return bytes;
         }
 

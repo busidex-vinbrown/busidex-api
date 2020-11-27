@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-md-6">
             <img class="card_image_@Model.FrontOrientation" src="https://az381524.vo.msecnd.net/cards/@(Model.FrontFileId + "." + Model.FrontType)" /><br /><br />
-            @if (Model.BackFileId != null && Model.BackFileId.ToString() != "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6")
+            @if (Model.BackFileId != null && Model.BackFileId != Guid.Empty && Model.BackFileId.ToString() != "b66ff0ee-e67a-4bbc-af3b-920cd0de56c6")
             {
                 <img class="card_image_@Model.BackOrientation" src="https://az381524.vo.msecnd.net/cards/@(Model.BackFileId + "." + Model.BackType)" />
             }
@@ -22,20 +22,37 @@
             <div class="well well-sm contact-info">
                 <h2>@Model.CompanyName</h2>
                 <h3>@Model.Name</h3>
-                <img src="/Content/Images/browser.jpg" class="contact-icon" /> <a href="@Model.Url" target="_blank">@(Model.Url)</a><br />
-                <img src="/Content/Images/email.jpg" class="contact-icon" /> <a target="_blank" href="mailto:@Model.Email">@Model.Email</a>
-
-                <ul>
-                    @foreach (var number in Model.PhoneNumbers)
+                    @if (!string.IsNullOrEmpty(@Model.Url))
                     {
-                        <li><small>@number.PhoneNumberType:<a href="tel:@number.Number"> @number.Number</a></small></li>
+                        <img src="/Content/Images/browser.jpg" class="contact-icon"/>
+                        <a href="@Model.Url" target="_blank">@(Model.Url)</a>
+                        <br/>
+                    }                                                                                                   
+                    @if (!string.IsNullOrEmpty(@Model.Email))
+                    {
+                        <img src="/Content/Images/email.jpg" class="contact-icon" /> 
+                        <a target="_blank" href="mailto:@Model.Email">@Model.Email</a>
+                        <br/>
                     }
-                </ul>
-            </div>
+
+                    @if (Model.Addresses != null && Model.Addresses.Count > 0)
+                    {
+                        <a target="_blank" href="https://www.google.com/maps?q=@(new HtmlString(Model.Addresses[0].ToString()))&output=embed">
+                            <img src="/Content/Images/maps.png" class="contact-icon" style="padding-right:10px;" />Get Directions
+                        </a>
+                        <br/>
+                    }
+                    <ul>
+                        @foreach (var number in Model.PhoneNumbers)
+                        {
+                            <li><small>@number.PhoneNumberType:<a href="tel:@number.Number"> @number.Number</a></small></li>
+                        }
+                    </ul>
+                </div>
         </div>
     </div>
 </div>
-<div class="row">
+@*<div class="row">
     @if (Model.Addresses != null && Model.Addresses.Count > 0)
     {
         <div class="jumbotron" id="mapHolder" style="height: 430px;">
@@ -43,10 +60,10 @@
             <iframe src="https://www.google.com/maps?q=@(new HtmlString(Model.Addresses[0].ToString()))&output=embed" onload="javascript:resizeIframe(this);" frameborder="0" style="border: 0;  width: 100%; height:90%"></iframe>
         </div>
     }
-</div>
-<script language="javascript" type="text/javascript">
+</div>*@
+@*<script language="javascript" type="text/javascript">
     function resizeIframe(obj) {
         obj.height = parseInt(obj.style.pixelHeight);//obj.contentWindow.document.body.scrollHeight;
         obj.width = parseInt(obj.style.pixelWidth);
     }
-</script>
+</script>*@

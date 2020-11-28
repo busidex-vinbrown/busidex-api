@@ -2,6 +2,8 @@
 <div class="adminDiv">
     <div>
         <input class="btn btn-info" type="button" ng-click="LoadOwners()" value="Refresh" />
+        <strong>Filter:</strong><input type="text" ng-model="ownerFilterOptions.filterText" />
+        <br />
         <div class="errorGrid" style="height:800px;" ng-grid="ownerGridOptions">
 
         </div>

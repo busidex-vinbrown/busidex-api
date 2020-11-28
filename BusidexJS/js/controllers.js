@@ -301,6 +301,12 @@ function AdminMenuCtrl($scope) {
 /*ADMIN*/
 function AdminCtrl($scope, $rootScope, $cookieStore, $location, $http, $sce, SharedCard) {
 
+    $scope.filterOptions = {
+        filterText: ''
+    };
+    $scope.ownerFilterOptions = {
+        filterText: ''
+    };
     $scope.Errors = {};
     $scope.errorGridOptions = {
         data: 'Errors',
@@ -310,12 +316,16 @@ function AdminCtrl($scope, $rootScope, $cookieStore, $location, $http, $sce, Sha
     $scope.userGridOptions = {
         data: 'Users',
         enableCellEdit: true,
-        enableColumnResize: true
+        enableColumnResize: true,
+        filterOptions: $scope.filterOptions,
+        useExternalFilter: true
     };
     $scope.ownerGridOptions = {
         data: 'Owners',
         enableCellEdit: true,
         enableColumnResize: true,
+        filterOptions: $scope.ownerFilterOptions,
+        useExternalFilter: true,
         columnDefs: [
             { field: 'UserId', displayName: 'User Id' },
             { field: 'UserName', displayName: 'User Name' },

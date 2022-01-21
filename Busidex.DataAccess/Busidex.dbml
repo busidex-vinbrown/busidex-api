@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="busidex" Class="BusidexDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=(local);Initial Catalog=busidex;Integrated Security=True;User ID=vinbrown2_admin;Connect Timeout=30" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="busidex" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(local);Initial Catalog=busidex;Integrated Security=False;Persist Security Info=True;User ID=vinbrown2_admin;MultipleActiveResultSets=True;Connect Timeout=30;Application Name=EntityFramework" SettingsObjectName="Busidex.DataAccess.Properties.Settings" SettingsPropertyName="busidexConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.SystemSetting" Member="SystemSettings">
+    <Type Name="SystemSetting">
+      <Column Name="SystemSettingId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Setting" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
   <Function Name="dbo.usp_updateSharedById" Method="_UpdateSharedById">
     <Parameter Name="CardId" Parameter="cardId" Type="System.Int64" DbType="BigInt" />
     <Parameter Name="UserId" Parameter="userId" Type="System.Int64" DbType="BigInt" />
@@ -1333,6 +1340,23 @@
     <Parameter Name="CardTypeId" Parameter="cardTypeId" Type="System.Int32" DbType="Int" />
     <ElementType Name="usp_addCardResult">
       <Column Name="CardId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetSystemSettings" Method="_GetSystemSettings">
+    <ElementType Name="usp_GetSystemSettingsResult">
+      <Column Name="SystemSettingId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Setting" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetExternalLinksByCardId" Method="usp_GetExternalLinksByCardId">
+    <Parameter Name="CardId" Parameter="cardId" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="usp_GetExternalLinksByCardIdResult">
+      <Column Name="ExternalLinkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CardId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Link" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ExternalLinkTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LinkType" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
 </Database>

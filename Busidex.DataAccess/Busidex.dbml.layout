@@ -1,4 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Busidex">
   <DataContextMoniker Name="/BusidexDataContext" />
+  <nestedChildShapes>
+    <classShape Id="669e62f7-b452-451b-b5c2-1373ed1ad7bc" absoluteBounds="4.25, 3, 2, 1.3638329929113389">
+      <DataClassMoniker Name="/BusidexDataContext/SystemSetting" />
+      <nestedChildShapes>
+        <elementListCompartment Id="29a350ab-1cef-4110-aad9-28ec16bd5a56" absoluteBounds="4.265, 3.46, 1.9700000000000002, 0.80383299291133881" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
 </ordesignerObjectsDiagram>

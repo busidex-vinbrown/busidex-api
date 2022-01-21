@@ -1335,4 +1335,91 @@
       <Column Name="CardId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.usp_GetExternalLinksByCardId" Method="usp_GetExternalLinksByCardId">
+    <Parameter Name="CardId" Parameter="cardId" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="usp_GetExternalLinksByCardIdResult">
+      <Column Name="ExternalLinkId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CardId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Link" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="ExternalLinkTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LinkType" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetSystemSettings" Method="_GetSystemSettings">
+    <ElementType Name="usp_GetSystemSettingsResult">
+      <Column Name="SystemSettingId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Setting" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="VarChar(500) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetUserCard" Method="usp_GetUserCard">
+    <Parameter Name="cardId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="userId" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="usp_GetUserCardResult1">
+      <Column Name="UserCardId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="CardId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="OwnerId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SharedById" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Created" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Notes" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_UpdateCardFileId" Method="usp_UpdateCardFileId">
+    <Parameter Name="CardId" Parameter="cardId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="FrontFileId" Parameter="frontFileId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="FrontType" Parameter="frontType" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="BackFileId" Parameter="backFileId" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="BackType" Parameter="backType" Type="System.String" DbType="VarChar(10)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_getCardById" Method="usp_getCardById">
+    <Parameter Name="cardId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="userId" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="usp_getCardByIdResult1">
+      <Column Name="CardId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="FrontType" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="FrontOrientation" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="BackType" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="BackOrientation" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="Searchable" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CompanyName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="Url" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="OwnerId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="FrontFileId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="FrontImage" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" />
+      <Column Name="BackFileId" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="BackImage" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" />
+      <Column Name="DisplayType" Type="System.String" DbType="VarChar(3)" CanBeNull="true" />
+      <Column Name="Markup" Type="System.String" DbType="VarChar(2000)" CanBeNull="true" />
+      <Column Name="Visibility" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CardType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ExistsInMyBusidex" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SEO_Name" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="CustomContent" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_UpdateCardOrientation" Method="usp_UpdateCardOrientation">
+    <Parameter Name="CardId" Parameter="cardId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="FrontOrientation" Parameter="frontOrientation" Type="System.String" DbType="VarChar(1)" />
+    <Parameter Name="BackOrientation" Parameter="backOrientation" Type="System.String" DbType="VarChar(1)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_AddUserCard" Method="usp_AddUserCard">
+    <Parameter Name="CardId" Parameter="cardId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="OwnerId" Parameter="ownerId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="SharedById" Parameter="sharedById" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="Notes" Parameter="notes" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="AddStatus" Parameter="addStatus" Type="System.Int32" DbType="Int" />
+    <ElementType Name="usp_AddUserCardResult1">
+      <Column Name="UserCardId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

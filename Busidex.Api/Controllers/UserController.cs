@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
 using System.Web;
+using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -410,6 +411,40 @@ namespace Busidex.Api.Controllers
                 };
             }
 
+        }
+
+        [System.Web.Http.HttpPut]
+        public HttpResponseMessage UpdateUser([FromBody] UserDTO userDto)
+        {
+            var userId = ValidateUser();
+            if (userId <= 0 || userId != userDto?.UserId)
+            {
+                return new HttpResponseMessage
+                {
+                    Content = null,
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+            }
+
+            var user = _accountRepository.GetBusidexUserById(userId);
+            if (user.UserAccount.DisplayName != userDto.DisplayName)
+            {
+                _accountRepository.UpdateDisplayName(user.UserAccount.UserAccountId, userDto.DisplayName);
+            }
+            
+            if (user.Email != userDto.Email)
+            {
+                _accountRepository.UpdateEmail(userId, userDto.Email);
+            }
+
+            return new HttpResponseMessage
+            {
+                Content = new JsonContent(new
+                {
+                    Success = true
+                }),
+                StatusCode = HttpStatusCode.OK
+            };;
         }
     }
 }

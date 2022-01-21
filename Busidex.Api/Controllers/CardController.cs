@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
-//using System.Web.Http.Cors;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
@@ -19,6 +18,7 @@ using Busidex.Api.DataAccess.DTO;
 using log4net;
 using Microsoft.ServiceBus.Messaging;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
+using System.Configuration;
 
 namespace Busidex.Api.Controllers {
 	[RequireHttps]
@@ -30,12 +30,13 @@ namespace Busidex.Api.Controllers {
 		private readonly IAccountRepository _accountRepository;
 		private static readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
 		const string OLD_DEFAULT_CARD_FILE_ID = "B66FF0EE-E67A-4BBC-AF3B-920CD0DE56C6";
-
+		private readonly string cardUpdateStorageConnectionString;
 		public CardController(ICardRepository cardRepository, IAccountRepository accountRepository)
 		{
 			_cardRepository = cardRepository;
 			_accountRepository = accountRepository;
 			_log = _log ?? LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+			cardUpdateStorageConnectionString = ConfigurationManager.AppSettings["BusidexQueuesConnectionString"];
 		}
 
 		[System.Web.Http.HttpGet]
@@ -292,6 +293,31 @@ namespace Busidex.Api.Controllers {
 			return HttpStatusCode.OK;
 		}
 
+        [System.Web.Http.HttpPut]
+        public HttpResponseMessage ConfirmCardOwner(long cardId, long ownerId)
+        {
+            var userId = ValidateUser();
+            //var buser = _accountRepository.GetBusidexUserById(userId);
+            //var isAdmin = Roles.IsUserInRole(buser.UserName, "Administrator");
+
+            if (userId != ownerId)
+            {
+                return new HttpResponseMessage
+                {
+                    Content = new JsonContent(new { Success = false }),
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+            }
+
+            var ok = _cardRepository.SaveCardOwner(cardId, ownerId);
+
+            return new HttpResponseMessage
+            {
+                Content = new JsonContent(new { Success = ok }),
+                StatusCode = ok ? HttpStatusCode.OK : HttpStatusCode.NotModified
+            };
+        }
+
 		[System.Web.Http.HttpPut]
 		public HttpResponseMessage SaveMobileCardImage([FromBody] MobileCardImage card)
 		{
@@ -400,7 +426,9 @@ namespace Busidex.Api.Controllers {
 					editModel.UpdateBackImage = editModel.UpdateFrontImage = false;
 				}
 
-				_cardRepository.AddCardToQueue(editModel);
+				var cardRef = Guid.NewGuid().ToString();
+				_cardRepository.UploadCardUpdateToBlobStorage(editModel, cardUpdateStorageConnectionString, cardRef);
+				_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
 
 				return new HttpResponseMessage
 				{
@@ -521,7 +549,9 @@ namespace Busidex.Api.Controllers {
 
 				} else
 				{
-					_cardRepository.AddCardToQueue(editModel);
+					var cardRef = Guid.NewGuid().ToString();
+					_cardRepository.UploadCardUpdateToBlobStorage(editModel, cardUpdateStorageConnectionString, cardRef);
+					_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
 				}
 
 				return new HttpResponseMessage
@@ -542,6 +572,8 @@ namespace Busidex.Api.Controllers {
 
 		private byte[] GetImageFromStream(string url)
 		{
+			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
 			var client = new WebClient();
 			//byte[] imageBytes = new byte[0];
 			//client.OpenReadCompleted += (s, e) =>
@@ -585,7 +617,9 @@ namespace Busidex.Api.Controllers {
 					_cardRepository.EditCard(card, true, userId, string.Empty);
 				} else
 				{
-					_cardRepository.AddCardToQueue(model);
+					var cardRef = Guid.NewGuid().ToString();
+					_cardRepository.UploadCardUpdateToBlobStorage(model, cardUpdateStorageConnectionString, cardRef);
+					_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
 				}
 
 				return new HttpResponseMessage
@@ -594,6 +628,60 @@ namespace Busidex.Api.Controllers {
 					StatusCode = HttpStatusCode.OK
 				};
 			} catch (Exception ex)
+			{
+				_cardRepository.SaveApplicationError(ex, userId);
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = false }),
+					StatusCode = HttpStatusCode.InternalServerError
+				};
+			}
+		}
+
+		[System.Web.Http.HttpPut]
+		//[System.Web.Http.Route("SaveCardExternalLinks")]
+		public HttpResponseMessage SaveCardExternalLinks([FromBody] CardLinksModel model)
+		{
+			var userId = ValidateUser();
+
+			try
+			{
+				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault();
+				if (myCard == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.NotFound
+					};
+				}
+
+				if (model == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.BadRequest
+					};
+				}
+
+				var links = new List<DataAccess.ExternalLink>();
+				links.AddRange(model.Links?.Select(link => new DataAccess.ExternalLink
+				{
+					Link = link.Link,
+					ExternalLinkId = link.ExternalLinkId,
+					ExternalLinkTypeId = link.ExternalLinkTypeId,
+					CardId = link.CardId
+				}));
+				_cardRepository.UpdateCardLinks(model.CardId, links);
+
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = true }),
+					StatusCode = HttpStatusCode.OK
+				};
+			}
+			catch (Exception ex)
 			{
 				_cardRepository.SaveApplicationError(ex, userId);
 				return new HttpResponseMessage
@@ -659,7 +747,9 @@ namespace Busidex.Api.Controllers {
 					_cardRepository.EditCard(card, true, userId, string.Empty);
 				} else
 				{
-					_cardRepository.AddCardToQueue(model);
+					var cardRef = Guid.NewGuid().ToString();
+					_cardRepository.UploadCardUpdateToBlobStorage(model, cardUpdateStorageConnectionString, cardRef);
+					_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
 				}
 
 				return new HttpResponseMessage
@@ -796,7 +886,9 @@ namespace Busidex.Api.Controllers {
 							addedModel.BackImage, addedModel.BackFileId.GetValueOrDefault(), addedModel.BackType, userId);
 					} else
 					{
-						_cardRepository.AddCardToQueue(addedModel);
+						var cardRef = Guid.NewGuid().ToString();
+						_cardRepository.UploadCardUpdateToBlobStorage(addedModel, cardUpdateStorageConnectionString, cardRef);
+						_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
 					}
 					_cardRepository.ClearBusidexCache();
 
@@ -834,7 +926,34 @@ namespace Busidex.Api.Controllers {
 			}
 		}
 
-		[System.Web.Http.HttpPut]
+        [System.Web.Http.HttpPut]
+        public HttpResponseMessage UpdateCardOrientation(long id, long userId)
+        {
+            userId = ValidateUser();
+            if (userId <= 0)
+            {
+                return new HttpResponseMessage
+                {
+                    Content = new JsonContent(new
+                    {
+                        Success = false
+                    }),
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+            }
+
+            return new HttpResponseMessage
+            {
+                Content = new JsonContent(new
+                {
+                    Success = true
+                }),
+                StatusCode = HttpStatusCode.OK
+            };
+
+        }
+
+        [System.Web.Http.HttpPut]
 		public HttpResponseMessage Put(long id, long userId)
 		{
 			userId = ValidateUser();
@@ -972,7 +1091,9 @@ namespace Busidex.Api.Controllers {
 							}
 						} else
 						{
-							_cardRepository.AddCardToQueue(updatedModel);
+							var cardRef = Guid.NewGuid().ToString();
+							_cardRepository.UploadCardUpdateToBlobStorage(updatedModel, cardUpdateStorageConnectionString, cardRef);
+							_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
 						}
 
 						return new HttpResponseMessage

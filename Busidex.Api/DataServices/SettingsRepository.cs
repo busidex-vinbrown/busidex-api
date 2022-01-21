@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Busidex.Api.DataAccess;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
@@ -35,6 +36,11 @@ namespace Busidex.Api.DataServices
         public void UpdateSetting(Setting setting)
         {
             BusidexDAL.UpdateSetting(setting);
+        }
+
+        public async Task<List<SystemSettingDto>> GetSystemSettings()
+        {
+            return BusidexDAL.GetSystemSettings();
         }
     }
 }

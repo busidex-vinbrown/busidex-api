@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,8 +15,8 @@ using System.Web.Security;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
+//using Twilio;
+//using Twilio.Rest.Api.V2010.Account;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
 using UserAccount = Busidex.Api.DataAccess.DTO.UserAccount;
 
@@ -246,6 +245,7 @@ namespace Busidex.Api.Controllers
             public string uidId { get; set; }
             public string email { get; set; }
             public string pswd { get; set; }
+            public string dspname { get; set; }
             //public bool? acceptTerms { get; set;  }
         }
 
@@ -257,7 +257,8 @@ namespace Busidex.Api.Controllers
                 string uidId = form.uidId;
                 string email = form.email;
                 string password = form.pswd;
-                
+                string displayName = form.dspname;
+
                 if (string.IsNullOrEmpty(uidId) || string.IsNullOrEmpty(email))
                 {
                     return new HttpResponseMessage
@@ -272,13 +273,13 @@ namespace Busidex.Api.Controllers
                     };
                 }
 
-                string userName = email.Substring(0, email.IndexOf("@", StringComparison.Ordinal));
+                // string userName = email.Substring(0, email.IndexOf("@", StringComparison.Ordinal));
 
                 var user = _accountRepository.GetUserAccountByEmail(email);
                 if (user == null)
                 {
                     MembershipCreateStatus createStatus;
-                    MembershipUser newMobileUser = Membership.CreateUser(userName, password, email, null, null, true,
+                    MembershipUser newMobileUser = Membership.CreateUser(email, password, email, null, null, true,
                         null,
                         out createStatus);
                     if (newMobileUser != null)
@@ -299,6 +300,9 @@ namespace Busidex.Api.Controllers
                         _accountRepository.ActivateUserAccount(token.ToString());
 
                         _accountRepository.AcceptUserTerms(newUserAccount.UserId);
+
+                        var newUser = _accountRepository.GetBusidexUserById(userId);
+                        _accountRepository.UpdateDisplayName(newUser.UserAccount.UserAccountId,  displayName);
 
                         //If this person does not have a card, give them a stub record 
                         if (_cardRepository.GetCardsByOwnerId(userId).Count == 0)
@@ -439,7 +443,8 @@ namespace Busidex.Api.Controllers
 
                 if (jsmodel.IsMobile)
                 {
-                    SendSMS(userId, jsmodel.MobileNumber);
+                    // NOT USED ANY MORE
+                    // SendSMS(userId, jsmodel.MobileNumber);
                 }
                 else
                 {
@@ -535,25 +540,25 @@ namespace Busidex.Api.Controllers
             }
         }
 
-        [System.Web.Http.HttpGet]
-        public HttpResponseMessage TestSMS(long userId, string number)
-        {
-            try
-            {
-                SendSMS(userId, number);
-                return new HttpResponseMessage
-                {
-                    Content = new JsonContent(new {Success = true})
-                };
-            }
-            catch (Exception ex)
-            {
-                return new HttpResponseMessage
-                {
-                    Content = new JsonContent(new { Success = false, Error = ex.Message })
-                };
-            }
-        }
+        //[System.Web.Http.HttpGet]
+        //public HttpResponseMessage TestSMS(long userId, string number)
+        //{
+        //    try
+        //    {
+        //        SendSMS(userId, number);
+        //        return new HttpResponseMessage
+        //        {
+        //            Content = new JsonContent(new {Success = true})
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new HttpResponseMessage
+        //        {
+        //            Content = new JsonContent(new { Success = false, Error = ex.Message })
+        //        };
+        //    }
+        //}
 
         private void ProcessPromoCode(UserAccount ua, string code)
         {
@@ -629,49 +634,49 @@ namespace Busidex.Api.Controllers
             }
         }
 
-        private void SendSMS(long userId, string number)
-        {
-            try
-            {
+        //private void SendSMS(long userId, string number)
+        //{
+        //    try
+        //    {
                 
-                string sId = ConfigurationManager.AppSettings["SMSsId"];
-                string authToken = ConfigurationManager.AppSettings["SMSAuthToken"];
-                string busidexNumber = ConfigurationManager.AppSettings["SMSNumber"];
-                int codeLength = int.Parse(ConfigurationManager.AppSettings["SMSCodeLength"]);
+        //        string sId = ConfigurationManager.AppSettings["SMSsId"];
+        //        string authToken = ConfigurationManager.AppSettings["SMSAuthToken"];
+        //        string busidexNumber = ConfigurationManager.AppSettings["SMSNumber"];
+        //        int codeLength = int.Parse(ConfigurationManager.AppSettings["SMSCodeLength"]);
 
-                // Create an instance of the Twilio client.
-                //var client = new TwilioRestClient(sId, authToken);
-                TwilioClient.Init(sId, authToken);
+        //        // Create an instance of the Twilio client.
+        //        //var client = new TwilioRestClient(sId, authToken);
+        //        TwilioClient.Init(sId, authToken);
 
-                // Generate the confirmation code
-                string code = GenerateNewCode(codeLength);
+        //        // Generate the confirmation code
+        //        string code = GenerateNewCode(codeLength);
 
-                _accountRepository.SaveUserAccountCode(userId, code);
+        //        _accountRepository.SaveUserAccountCode(userId, code);
 
-                var message = MessageResource.Create(
-                    from: new Twilio.Types.PhoneNumber(busidexNumber),
-                    to: new Twilio.Types.PhoneNumber(number),
-                    body: "Use this code to complete your Busidex Registration: " + code);
+        //        var message = MessageResource.Create(
+        //            from: new Twilio.Types.PhoneNumber(busidexNumber),
+        //            to: new Twilio.Types.PhoneNumber(number),
+        //            body: "Use this code to complete your Busidex Registration: " + code);
 
-                //// Send SMS message with registration code.
-                //var result = client.SendSmsMessage(
-                //    busidexNumber, 
-                //    number,
-                //    "Use this code to complete your Busidex Registration: " + code);
+        //        //// Send SMS message with registration code.
+        //        //var result = client.SendSmsMessage(
+        //        //    busidexNumber, 
+        //        //    number,
+        //        //    "Use this code to complete your Busidex Registration: " + code);
 
                
-                //if (result.RestException != null)
-                //{
-                //    //an exception occurred making the REST call
-                //    _cardRepository.SaveApplicationError(new Exception(result.RestException.Message), userId);
-                //}
-            }
-            catch (Exception ex)
-            {
-                _cardRepository.SaveApplicationError(ex, userId);
-            }
+        //        //if (result.RestException != null)
+        //        //{
+        //        //    //an exception occurred making the REST call
+        //        //    _cardRepository.SaveApplicationError(new Exception(result.RestException.Message), userId);
+        //        //}
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _cardRepository.SaveApplicationError(ex, userId);
+        //    }
             
-        }
+        //}
 
         public static string GenerateNewCode(int len)
         {

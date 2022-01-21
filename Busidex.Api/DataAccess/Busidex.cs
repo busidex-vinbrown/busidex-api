@@ -139,7 +139,16 @@ namespace Busidex.Api.DataAccess
                                                                       State = stateCodes.SingleOrDefault(sc => sc.Code == a.State),
                                                                       ZipCode = a.ZipCode
                                                                   })
-                    select new CardDetailModel(new DataAccess.DTO.Card
+                    let links = usp_GetExternalLinksByCardId(result.CardId)
+                    .Select(link => new DTO.ExternalLink
+                    {
+                        CardId = link.CardId,
+                        Link = link.Link,
+                        ExternalLinkId = link.ExternalLinkId,
+                        ExternalLinkTypeId = link.ExternalLinkTypeId
+                    }).ToList()
+
+                    select new CardDetailModel(new DTO.Card
                                {
                                    BackFileId = result.BackFileId,
                                    BackOrientation = result.BackOrientation,
@@ -160,7 +169,8 @@ namespace Busidex.Api.DataAccess
                                    Tags = cardTags.ToList(),
                                    Addresses = cardAddresses.ToList(),
                                    Display = result.DisplayType == null ? DisplayType.IMG : (DisplayType)Enum.Parse(typeof(DisplayType), result.DisplayType),
-                                   Markup = result.Markup
+                                   Markup = result.Markup,
+                                   ExternalLinks = links
                                })).ToList();
 
             results.ForEach(c=>c.HasBackImage = cardsByOwner.Single(o=>o.CardId == c.CardId).HasBackImage != 0);
@@ -462,6 +472,17 @@ namespace Busidex.Api.DataAccess
 
         }
 
+        public List<SystemSettingDto> GetSystemSettings()
+        {
+            var settings = _GetSystemSettings();
+            return settings.Select(s => new SystemSettingDto
+            {
+                SystemSettingId = s.SystemSettingId,
+                Setting = s.Setting,
+                Value = s.Value
+            }).ToList();
+        }
+
         public List<UnownedCard> GetAllUnownedCards()
         {
 
@@ -558,9 +579,9 @@ namespace Busidex.Api.DataAccess
             }
         }
 
-        public void UpdateCardFileId(long cardId, Guid frontFileId, Guid backFileId)
+        public void UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
         {
-            _UpdateCardFileIds(cardId, frontFileId, backFileId);
+            usp_UpdateCardFileId(cardId, frontFileId, frontType, backFileId, backType);
         }
 
         public List<DTO.Card> GetAllCards()
@@ -650,15 +671,145 @@ namespace Busidex.Api.DataAccess
             return id.Single().CardId.GetValueOrDefault();
         }
 
-        //public void AddTag(long cardId, Tag tag)
-        //{
-        //    _AddCardTag(cardId, tag.Text);
-        //}
+        public void AddTag(long cardId, Tag tag)
+        {
+            _AddCardTag(cardId, tag.Text);
+        }
 
-        //public void DeleteTag(long cardId, long tagId)
-        //{
-        //    _DeleteCardTag(cardId, tagId);
-        //}
+        public void DeleteTag(long cardId, long tagId)
+        {
+            _DeleteCardTag(cardId, tagId);
+        }
+
+        public UserCard GetUserCard(long id, long userId)
+        {
+            var uc = usp_GetUserCard(id, userId).FirstOrDefault();
+            var result = new UserCard
+            {
+                CardId = uc.CardId,
+                Created = uc.Created,
+                Deleted = uc.Deleted,
+                Notes = uc.Notes,
+                OwnerId = uc.OwnerId,
+                UserId = uc.UserId,
+                UserCardId = uc.UserCardId,
+                SharedById = uc.SharedById
+            };
+            return result;
+        }
+
+        public void AddUserCard(UserCard uc)
+        {
+            usp_AddUserCard(uc.CardId, uc.UserId, uc.OwnerId, uc.SharedById, uc.Notes, (int)UserCardAddStatus.Accepted);
+        }
+
+        public DTO.Card GetCardById(long? id, long? userId)
+        {
+            var result = _GetCardById(id).SingleOrDefault();
+            return _populateCard(result);
+        }
+
+        private DTO.Card _populateCard(usp_getCardByIdResult c)
+        {
+            DTO.Card card = new DTO.Card();
+            card.BackFileId = c.BackFileId;
+            card.BackImage = c.BackImage.ToArray();
+            card.BackOrientation = c.BackOrientation;
+            card.BackType = c.BackType;
+            card.Title = c.Title;
+            card.CardId = c.CardId;
+            card.CardType = CardType.Professional;
+            card.CompanyName = c.CompanyName;
+            card.CreatedBy = c.CreatedBy;
+            card.Deleted = c.Deleted;
+            card.Email = c.Email;
+            card.FrontFileId = c.FrontFileId;
+            card.FrontImage = c.FrontImage.ToArray();
+            card.FrontOrientation = c.FrontOrientation;
+            card.FrontType = c.FrontType;
+            card.Name = c.Name;
+            card.OwnerId = c.OwnerId;
+            card.Searchable = c.Searchable;
+            card.Title = c.Title;
+            card.Url = c.Url;
+            //card.Visibility = (byte)c.Visibility;
+
+            var cardPhoneNumbers = _GetCardPhoneNumber(card.CardId);
+            var phoneNumberTypes = GetAllPhoneNumberTypes().ToDictionary(t => t.PhoneNumberTypeId, t => t.Name);
+
+            var phoneNumbers = cardPhoneNumbers.Select(p => new PhoneNumber
+            {
+                CardId = p.CardId,
+                Created = p.Created,
+                Deleted = p.Deleted,
+                Extension = p.Extension,
+                Number = p.Number,
+                PhoneNumberTypeId = p.PhoneNumberTypeId,
+                Updated = p.Updated,
+                PhoneNumberId = p.PhoneNumberId,
+                PhoneNumberType = new PhoneNumberType
+                {
+                    PhoneNumberTypeId = p.PhoneNumberTypeId,
+                    Name = phoneNumberTypes[p.PhoneNumberTypeId]
+                }
+            }).ToList();
+
+            var tags = GetCardTags(card.CardId);
+            var cardTags = tags.Select(t => new Tag
+            {
+                TagId = t.TagId,
+                Text = t.Text,
+                TagType = (TagType)t.TagTypeId
+            }).ToList();
+
+            var addresses = _GetCardAddresses(card.CardId);
+            var stateCodes = GetAllStateCodes();
+            var cardAddresses = addresses.Select(a => new DTO.CardAddress
+            {
+                Address1 = a.Address1,
+                Address2 = a.Address2,
+                CardAddressId = a.CardAddressId,
+                CardId = a.CardId,
+                City = a.City,
+                Country = a.Country,
+                Deleted = a.Deleted,
+                Region = a.Region,
+                State = stateCodes.SingleOrDefault(sc => sc.Name == a.State),
+                ZipCode = a.ZipCode
+            }).ToList();
+
+            var links = GetExternalLinks(card.CardId);
+
+            card.PhoneNumbers = phoneNumbers;
+            card.Tags = cardTags;
+            card.Addresses = cardAddresses;
+            card.ExternalLinks = links;
+
+            return card;
+        }
+
+        public List<DTO.ExternalLink> GetExternalLinks(long cardId)
+        {
+            var links = usp_GetExternalLinksByCardId(cardId)
+                .Select(link => new DTO.ExternalLink
+                {
+                    Link = link.Link,
+                    ExternalLinkId = link.ExternalLinkId,
+                    ExternalLinkTypeId = link.ExternalLinkTypeId,
+                    ExternalLinkType = new DTO.ExternalLinkType
+                    {
+                        ExternalLinkTypeId = link.ExternalLinkTypeId,
+                        LinkType = link.LinkType,
+                    },
+                    CardId = link.CardId,
+                }).ToList();
+            return links;
+        }
+
+        public void UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
+        {
+            usp_UpdateCardOrientation(cardId, frontOrientation, backOrientation);
+        }
 
         public void UpdateAddress(DTO.CardAddress address)
         {
@@ -724,16 +875,16 @@ namespace Busidex.Api.DataAccess
             return id != null ? id.GroupId : 0;
         }
 
-        //public List<Tag> GetCardTags(long cardId)
-        //{
-        //    return _GetCardTags(cardId).Select(t=> new Tag
-        //    {
-        //        TagId = t.TagId, 
-        //        Text = t.Text, 
-        //        Deleted = false,
-        //        TagType = (TagType)t.TagTypeId
-        //    }).ToList();
-        //}
+        public List<Tag> GetCardTags(long cardId)
+        {
+            return _GetCardTags(cardId).Select(t => new Tag
+            {
+                TagId = t.TagId,
+                Text = t.Text,
+                Deleted = false,
+                TagType = (TagType)t.TagTypeId
+            }).ToList();
+        }
 
         public void UpdatePhonenumber(PhoneNumber phoneNumber)
         {

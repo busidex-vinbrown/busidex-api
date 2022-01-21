@@ -7,6 +7,8 @@
       <Diagram DiagramId="5ee86f4e54044981b48454241033640f" Name="Diagram1" >
         <EntityTypeShape EntityType="busidexModel.Card" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="busidexModel.CardAddress" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="busidexModel.ExternalLink" Width="1.5" PointX="3" PointY="5" />
+        <AssociationConnector Association="busidexModel.FK_ExternalLink_Card" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -37,7 +37,8 @@ namespace Busidex.Api.DataAccess.DTO
 
             //Subject = Subject.Replace("%NAME_ON_CARD%", name);
             //Body = Body.Replace("%NAME_ON_CARD%", name);
-            Subject = Subject.Replace("%SENT_FROM%", string.IsNullOrEmpty(account.DisplayName) ? "Someone" : account.DisplayName);
+            var sentFrom = sharedCardModel.SendFromDisplayName ?? account.DisplayName;
+            Subject = Subject.Replace("%SENT_FROM%", string.IsNullOrEmpty(sentFrom) ? "Someone" : sentFrom);
             Body = Body.Replace("%PERSONAL_MESSAGE%", message);
 
             if (card == null)

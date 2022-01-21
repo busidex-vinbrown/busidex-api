@@ -8,6 +8,7 @@ using System.Web.Http.Cors;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
+using System.Configuration;
 
 namespace Busidex.Api.Controllers
 {
@@ -16,11 +17,13 @@ namespace Busidex.Api.Controllers
     public class SharedCardController : BaseApiController
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly string _sharedCardStorageConnectionString;
 
         public SharedCardController(ICardRepository cardRepository, IAccountRepository accountRepository)
         {
             _cardRepository = cardRepository;
             _accountRepository = accountRepository;
+            _sharedCardStorageConnectionString = ConfigurationManager.AppSettings["BusidexQueuesConnectionString"];
         }
 
 		[HttpGet]
@@ -299,7 +302,6 @@ namespace Busidex.Api.Controllers
 
                 foreach (var recipient in recipients)
                 {                    
-
                     foreach (var sharedCard in sharedCardList)
                     {
                         sharedCard.Email = recipient.Trim();
@@ -326,7 +328,7 @@ namespace Busidex.Api.Controllers
                         }
                         if (!System.Diagnostics.Debugger.IsAttached && !Request.RequestUri.Host.Contains("local"))
                         {
-                            _cardRepository.AddSharedCardToQueue(sharedCard);
+                            _cardRepository.AddSharedCardToQueue(_sharedCardStorageConnectionString, sharedCard);
                         }
                         else
                         {

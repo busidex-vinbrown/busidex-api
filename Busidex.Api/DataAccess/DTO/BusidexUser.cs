@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace Busidex.Api.DataAccess.DTO
 {
     public class BusidexUser
@@ -19,10 +18,11 @@ namespace Busidex.Api.DataAccess.DTO
 
         public Guid CardFileId { get; set; }
         public string CardFileType { get; set; }
-        //public virtual ICollection<Card> Cards { get; set; }
+
         public UserAccount UserAccount { get; set; }
-        //public virtual ICollection<UserCard> UserCards { get; set; }
-        //public virtual ICollection<UserCard> UserCards1 { get; set; }
+
+        public bool IsAdmin { get; set; }
+
 
         public void OnCreated()
         {

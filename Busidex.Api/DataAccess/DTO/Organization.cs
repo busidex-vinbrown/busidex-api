@@ -27,7 +27,7 @@ namespace Busidex.Api.DataAccess.DTO
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public bool Deleted { get; set; }
-        public List<Group> Groups { get; set; } 
+        public List<Group> Groups { get; set; }
         public string ReferralLabel { get; set; }
         public byte Visibility { get; set; }
         public bool IsMember { get; set; }

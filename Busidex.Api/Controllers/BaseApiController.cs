@@ -16,7 +16,7 @@ using Microsoft.Azure;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
-
+using Newtonsoft.Json;
 
 namespace Busidex.Api.Controllers
 {   
@@ -105,35 +105,20 @@ namespace Busidex.Api.Controllers
 
         protected async void SendEmail(Communication communication)
         {
-
-            // Create the queue client.
-            //QueueClient queueClient = QueueClient.CreateFromConnectionString(_connectionString, "email");
-
-            //var message = new BrokeredMessage(communication)
-            //{
-            //    Label = communication.Email,
-            //    TimeToLive = new TimeSpan(7, 0, 0, 0)
-            //};
-
-            //queueClient.Send(message);
-            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
-                "busidex", string.Empty);
-
-            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
-                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
-
-            var mf = MessagingFactory.Create(runtimeUri, tokenProvider);
-            var sendClient = mf.CreateQueueClient("email");
-
-            //Sending hello message to queue.
-            var message = new BrokeredMessage(communication)
+            try
             {
-                Label = communication.Email,
-                TimeToLive = new TimeSpan(7, 0, 0, 0)
-            };
-            sendClient.Send(message);
-            // await sendClient.CloseAsync();
-           // return true;
+                const string QUEUE_NAME = "email";
+                var connectionString = ConfigurationManager.AppSettings["BusidexQueuesConnectionString"];
+                var queueClient = new Azure.Storage.Queues.QueueClient(connectionString, QUEUE_NAME);
+                queueClient.CreateIfNotExists();
+                var json = JsonConvert.SerializeObject(communication);
+                var msg = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes(json));
+                await queueClient.SendMessageAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                _cardRepository.SaveApplicationError(ex, 0);
+            }
         }
         
     }

@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -65,6 +64,8 @@ namespace Busidex.Api.Controllers
                 }
 
                 var busidexUser = _accountRepository.GetBusidexUserById(id.GetValueOrDefault());
+                busidexUser.IsAdmin = Roles.IsUserInRole(busidexUser.UserName, "Administrator");
+
                 var message = new HttpResponseMessage
                 { 
                     Content = new JsonContent(busidexUser),
@@ -205,10 +206,9 @@ namespace Busidex.Api.Controllers
             long userId = -1;
             try
             {
-                // users can login using their email, username or display name
                 var user = _accountRepository.GetUserByEmail(model.UserName);
                 user = user ?? _accountRepository.GetUserByUserName(model.UserName);
-                user = user ?? _accountRepository.GetUserByDisplayName(model.UserName);
+                // user = user ?? _accountRepository.GetUserByDisplayName(model.UserName);
 
                 if(user == null)
                 {
@@ -413,13 +413,15 @@ namespace Busidex.Api.Controllers
             {
                 // the encrypted data contains the user's password followed by a space followed by the temporary password
                 // the password will be reset after successfully logging in making it unusable after this. 
-                string decodedData = HttpUtility.UrlDecode(model.TempData);
-                decodedData = decodedData ?? string.Empty;
+                //string decodedData = HttpUtility.UrlDecode(model.TempData);
+                //decodedData = decodedData ?? string.Empty;
 
-                byte[] decryptedData = Convert.FromBase64String(decodedData);
-                string[] decryptedString = GetString(decryptedData).Split(' ');
-                string email = decryptedString[0];
-                string tempPassword = decryptedString[1];
+                byte[] decryptedData = Convert.FromBase64String(model.TempData);
+                //string[] decryptedString = GetString(decryptedData).Split(' ');
+                var decryptedString = System.Text.Encoding.Default.GetString(decryptedData);
+                var parts = decryptedString.Split(' ');
+                string email = parts[0];
+                string tempPassword = parts[1];
 
                 var user = _accountRepository.GetUserByUserName(model.UserName);
                 user = user ?? _accountRepository.GetUserByEmail(model.UserName);
@@ -569,7 +571,8 @@ namespace Busidex.Api.Controllers
 
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
+        [Route("CheckEmailAvailability")]
         public async Task<HttpResponseMessage> CheckEmailAvailability(string email)
         {
             var result = await Task.Factory.StartNew(()=>{

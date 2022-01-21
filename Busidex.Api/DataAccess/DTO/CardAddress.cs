@@ -4,6 +4,7 @@ using System;
 
 namespace Busidex.Api.DataAccess.DTO
 {
+    [Serializable]
     public class CardAddress
     {
         public long CardAddressId { get; set; }
@@ -22,13 +23,7 @@ namespace Busidex.Api.DataAccess.DTO
 
         public override string ToString()
         {
-            if (string.IsNullOrEmpty(Address1) && string.IsNullOrEmpty(Address2) && string.IsNullOrEmpty(City) &&
-                string.IsNullOrEmpty(State.Code)
-                && string.IsNullOrEmpty(ZipCode) && string.IsNullOrEmpty(Region) && string.IsNullOrEmpty(Country))
-            {
-                return string.Empty;
-            }
-            return string.Join(" ", new[] {Address1, Environment.NewLine, Address2, Environment.NewLine, City, State.Code, ZipCode, Region, Country});
+            return $"{Address1} {Address2} {Environment.NewLine} {City}, {State?.Code} {ZipCode} {Region} {Country}";
         }
     }
 }

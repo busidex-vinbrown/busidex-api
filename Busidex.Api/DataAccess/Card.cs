@@ -14,6 +14,11 @@ namespace Busidex.Api.DataAccess
     
     public partial class Card
     {
+        public Card()
+        {
+            this.ExternalLinks = new HashSet<ExternalLink>();
+        }
+    
         public long CardId { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
@@ -42,5 +47,7 @@ namespace Busidex.Api.DataAccess
         public int CardTypeId { get; set; }
         public string SEO_Name { get; set; }
         public string CustomContent { get; set; }
+    
+        public virtual ICollection<ExternalLink> ExternalLinks { get; set; }
     }
 }

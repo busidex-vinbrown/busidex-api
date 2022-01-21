@@ -911,6 +911,55 @@ namespace Busidex.Api.DataAccess
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name, title, frontImage, frontType, frontOrientation, backImage, backType, backOrientation, businessId, searchable, companyName, email, url, createdBy, ownerId, ownerToken, frontFileId, backFileId, displayType, markup, visibility, cardTypeId);
 			return ((ISingleResult<usp_addCardResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_GetExternalLinksByCardId")]
+		public ISingleResult<usp_GetExternalLinksByCardIdResult> usp_GetExternalLinksByCardId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CardId", DbType="BigInt")] System.Nullable<long> cardId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId);
+			return ((ISingleResult<usp_GetExternalLinksByCardIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_GetSystemSettings")]
+		public ISingleResult<usp_GetSystemSettingsResult> _GetSystemSettings()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<usp_GetSystemSettingsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_GetUserCard")]
+		public ISingleResult<usp_GetUserCardResult1> usp_GetUserCard([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> cardId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId, userId);
+			return ((ISingleResult<usp_GetUserCardResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_UpdateCardFileId")]
+		public int usp_UpdateCardFileId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CardId", DbType="BigInt")] System.Nullable<long> cardId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FrontFileId", DbType="UniqueIdentifier")] System.Nullable<System.Guid> frontFileId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FrontType", DbType="VarChar(10)")] string frontType, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="BackFileId", DbType="UniqueIdentifier")] System.Nullable<System.Guid> backFileId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="BackType", DbType="VarChar(10)")] string backType)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId, frontFileId, frontType, backFileId, backType);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_getCardById")]
+		public ISingleResult<usp_getCardByIdResult1> usp_getCardById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> cardId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="BigInt")] System.Nullable<long> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId, userId);
+			return ((ISingleResult<usp_getCardByIdResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_UpdateCardOrientation")]
+		public int usp_UpdateCardOrientation([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CardId", DbType="BigInt")] System.Nullable<long> cardId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FrontOrientation", DbType="VarChar(1)")] string frontOrientation, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="BackOrientation", DbType="VarChar(1)")] string backOrientation)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId, frontOrientation, backOrientation);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_AddUserCard")]
+		public ISingleResult<usp_AddUserCardResult1> usp_AddUserCard([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CardId", DbType="BigInt")] System.Nullable<long> cardId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="BigInt")] System.Nullable<long> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="OwnerId", DbType="BigInt")] System.Nullable<long> ownerId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="SharedById", DbType="BigInt")] System.Nullable<long> sharedById, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Notes", DbType="VarChar(MAX)")] string notes, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="AddStatus", DbType="Int")] System.Nullable<int> addStatus)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId, userId, ownerId, sharedById, notes, addStatus);
+			return ((ISingleResult<usp_AddUserCardResult1>)(result.ReturnValue));
+		}
 	}
 	
 	public partial class usp_getCardCategoriesResult
@@ -12446,6 +12495,802 @@ namespace Busidex.Api.DataAccess
 				if ((this._CardId != value))
 				{
 					this._CardId = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_GetExternalLinksByCardIdResult
+	{
+		
+		private int _ExternalLinkId;
+		
+		private long _CardId;
+		
+		private string _Link;
+		
+		private int _ExternalLinkTypeId;
+		
+		private string _LinkType;
+		
+		public usp_GetExternalLinksByCardIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExternalLinkId", DbType="Int NOT NULL")]
+		public int ExternalLinkId
+		{
+			get
+			{
+				return this._ExternalLinkId;
+			}
+			set
+			{
+				if ((this._ExternalLinkId != value))
+				{
+					this._ExternalLinkId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardId", DbType="BigInt NOT NULL")]
+		public long CardId
+		{
+			get
+			{
+				return this._CardId;
+			}
+			set
+			{
+				if ((this._CardId != value))
+				{
+					this._CardId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Link
+		{
+			get
+			{
+				return this._Link;
+			}
+			set
+			{
+				if ((this._Link != value))
+				{
+					this._Link = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExternalLinkTypeId", DbType="Int NOT NULL")]
+		public int ExternalLinkTypeId
+		{
+			get
+			{
+				return this._ExternalLinkTypeId;
+			}
+			set
+			{
+				if ((this._ExternalLinkTypeId != value))
+				{
+					this._ExternalLinkTypeId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LinkType", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string LinkType
+		{
+			get
+			{
+				return this._LinkType;
+			}
+			set
+			{
+				if ((this._LinkType != value))
+				{
+					this._LinkType = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_GetSystemSettingsResult
+	{
+		
+		private int _SystemSettingId;
+		
+		private string _Setting;
+		
+		private string _Value;
+		
+		public usp_GetSystemSettingsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SystemSettingId", DbType="Int NOT NULL")]
+		public int SystemSettingId
+		{
+			get
+			{
+				return this._SystemSettingId;
+			}
+			set
+			{
+				if ((this._SystemSettingId != value))
+				{
+					this._SystemSettingId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Setting", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string Setting
+		{
+			get
+			{
+				return this._Setting;
+			}
+			set
+			{
+				if ((this._Setting != value))
+				{
+					this._Setting = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="VarChar(500) NOT NULL", CanBeNull=false)]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this._Value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_GetUserCardResult1
+	{
+		
+		private long _UserCardId;
+		
+		private long _CardId;
+		
+		private long _UserId;
+		
+		private System.Nullable<long> _OwnerId;
+		
+		private System.Nullable<long> _SharedById;
+		
+		private System.DateTime _Created;
+		
+		private string _Notes;
+		
+		private bool _Deleted;
+		
+		public usp_GetUserCardResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserCardId", DbType="BigInt NOT NULL")]
+		public long UserCardId
+		{
+			get
+			{
+				return this._UserCardId;
+			}
+			set
+			{
+				if ((this._UserCardId != value))
+				{
+					this._UserCardId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardId", DbType="BigInt NOT NULL")]
+		public long CardId
+		{
+			get
+			{
+				return this._CardId;
+			}
+			set
+			{
+				if ((this._CardId != value))
+				{
+					this._CardId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="BigInt NOT NULL")]
+		public long UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerId", DbType="BigInt")]
+		public System.Nullable<long> OwnerId
+		{
+			get
+			{
+				return this._OwnerId;
+			}
+			set
+			{
+				if ((this._OwnerId != value))
+				{
+					this._OwnerId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SharedById", DbType="BigInt")]
+		public System.Nullable<long> SharedById
+		{
+			get
+			{
+				return this._SharedById;
+			}
+			set
+			{
+				if ((this._SharedById != value))
+				{
+					this._SharedById = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="Date NOT NULL")]
+		public System.DateTime Created
+		{
+			get
+			{
+				return this._Created;
+			}
+			set
+			{
+				if ((this._Created != value))
+				{
+					this._Created = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Notes", DbType="VarChar(MAX)")]
+		public string Notes
+		{
+			get
+			{
+				return this._Notes;
+			}
+			set
+			{
+				if ((this._Notes != value))
+				{
+					this._Notes = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
+		public bool Deleted
+		{
+			get
+			{
+				return this._Deleted;
+			}
+			set
+			{
+				if ((this._Deleted != value))
+				{
+					this._Deleted = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_getCardByIdResult1
+	{
+		
+		private long _CardId;
+		
+		private string _Name;
+		
+		private string _Title;
+		
+		private string _FrontType;
+		
+		private string _FrontOrientation;
+		
+		private string _BackType;
+		
+		private string _BackOrientation;
+		
+		private bool _Searchable;
+		
+		private string _CompanyName;
+		
+		private string _Email;
+		
+		private string _Url;
+		
+		private System.Nullable<long> _CreatedBy;
+		
+		private System.Nullable<long> _OwnerId;
+		
+		private bool _Deleted;
+		
+		private System.Nullable<System.Guid> _FrontFileId;
+		
+		private System.Data.Linq.Binary _FrontImage;
+		
+		private System.Nullable<System.Guid> _BackFileId;
+		
+		private System.Data.Linq.Binary _BackImage;
+		
+		private string _DisplayType;
+		
+		private string _Markup;
+		
+		private int _Visibility;
+		
+		private int _CardType;
+		
+		private System.Nullable<bool> _ExistsInMyBusidex;
+		
+		private string _SEO_Name;
+		
+		private string _CustomContent;
+		
+		public usp_getCardByIdResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardId", DbType="BigInt NOT NULL")]
+		public long CardId
+		{
+			get
+			{
+				return this._CardId;
+			}
+			set
+			{
+				if ((this._CardId != value))
+				{
+					this._CardId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(150)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="VarChar(150)")]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this._Title = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FrontType", DbType="VarChar(10)")]
+		public string FrontType
+		{
+			get
+			{
+				return this._FrontType;
+			}
+			set
+			{
+				if ((this._FrontType != value))
+				{
+					this._FrontType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FrontOrientation", DbType="VarChar(1)")]
+		public string FrontOrientation
+		{
+			get
+			{
+				return this._FrontOrientation;
+			}
+			set
+			{
+				if ((this._FrontOrientation != value))
+				{
+					this._FrontOrientation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BackType", DbType="VarChar(10)")]
+		public string BackType
+		{
+			get
+			{
+				return this._BackType;
+			}
+			set
+			{
+				if ((this._BackType != value))
+				{
+					this._BackType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BackOrientation", DbType="VarChar(1)")]
+		public string BackOrientation
+		{
+			get
+			{
+				return this._BackOrientation;
+			}
+			set
+			{
+				if ((this._BackOrientation != value))
+				{
+					this._BackOrientation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Searchable", DbType="Bit NOT NULL")]
+		public bool Searchable
+		{
+			get
+			{
+				return this._Searchable;
+			}
+			set
+			{
+				if ((this._Searchable != value))
+				{
+					this._Searchable = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompanyName", DbType="VarChar(150)")]
+		public string CompanyName
+		{
+			get
+			{
+				return this._CompanyName;
+			}
+			set
+			{
+				if ((this._CompanyName != value))
+				{
+					this._CompanyName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(150)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this._Email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Url", DbType="VarChar(250)")]
+		public string Url
+		{
+			get
+			{
+				return this._Url;
+			}
+			set
+			{
+				if ((this._Url != value))
+				{
+					this._Url = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedBy", DbType="BigInt")]
+		public System.Nullable<long> CreatedBy
+		{
+			get
+			{
+				return this._CreatedBy;
+			}
+			set
+			{
+				if ((this._CreatedBy != value))
+				{
+					this._CreatedBy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerId", DbType="BigInt")]
+		public System.Nullable<long> OwnerId
+		{
+			get
+			{
+				return this._OwnerId;
+			}
+			set
+			{
+				if ((this._OwnerId != value))
+				{
+					this._OwnerId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Deleted", DbType="Bit NOT NULL")]
+		public bool Deleted
+		{
+			get
+			{
+				return this._Deleted;
+			}
+			set
+			{
+				if ((this._Deleted != value))
+				{
+					this._Deleted = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FrontFileId", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> FrontFileId
+		{
+			get
+			{
+				return this._FrontFileId;
+			}
+			set
+			{
+				if ((this._FrontFileId != value))
+				{
+					this._FrontFileId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FrontImage", DbType="VarBinary(MAX)")]
+		public System.Data.Linq.Binary FrontImage
+		{
+			get
+			{
+				return this._FrontImage;
+			}
+			set
+			{
+				if ((this._FrontImage != value))
+				{
+					this._FrontImage = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BackFileId", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> BackFileId
+		{
+			get
+			{
+				return this._BackFileId;
+			}
+			set
+			{
+				if ((this._BackFileId != value))
+				{
+					this._BackFileId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BackImage", DbType="VarBinary(MAX)")]
+		public System.Data.Linq.Binary BackImage
+		{
+			get
+			{
+				return this._BackImage;
+			}
+			set
+			{
+				if ((this._BackImage != value))
+				{
+					this._BackImage = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DisplayType", DbType="VarChar(3)")]
+		public string DisplayType
+		{
+			get
+			{
+				return this._DisplayType;
+			}
+			set
+			{
+				if ((this._DisplayType != value))
+				{
+					this._DisplayType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Markup", DbType="VarChar(2000)")]
+		public string Markup
+		{
+			get
+			{
+				return this._Markup;
+			}
+			set
+			{
+				if ((this._Markup != value))
+				{
+					this._Markup = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Visibility", DbType="Int NOT NULL")]
+		public int Visibility
+		{
+			get
+			{
+				return this._Visibility;
+			}
+			set
+			{
+				if ((this._Visibility != value))
+				{
+					this._Visibility = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardType", DbType="Int NOT NULL")]
+		public int CardType
+		{
+			get
+			{
+				return this._CardType;
+			}
+			set
+			{
+				if ((this._CardType != value))
+				{
+					this._CardType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExistsInMyBusidex", DbType="Bit")]
+		public System.Nullable<bool> ExistsInMyBusidex
+		{
+			get
+			{
+				return this._ExistsInMyBusidex;
+			}
+			set
+			{
+				if ((this._ExistsInMyBusidex != value))
+				{
+					this._ExistsInMyBusidex = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEO_Name", DbType="VarChar(150)")]
+		public string SEO_Name
+		{
+			get
+			{
+				return this._SEO_Name;
+			}
+			set
+			{
+				if ((this._SEO_Name != value))
+				{
+					this._SEO_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CustomContent", DbType="NVarChar(MAX)")]
+		public string CustomContent
+		{
+			get
+			{
+				return this._CustomContent;
+			}
+			set
+			{
+				if ((this._CustomContent != value))
+				{
+					this._CustomContent = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_AddUserCardResult1
+	{
+		
+		private System.Nullable<long> _UserCardId;
+		
+		public usp_AddUserCardResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserCardId", DbType="BigInt")]
+		public System.Nullable<long> UserCardId
+		{
+			get
+			{
+				return this._UserCardId;
+			}
+			set
+			{
+				if ((this._UserCardId != value))
+				{
+					this._UserCardId = value;
 				}
 			}
 		}

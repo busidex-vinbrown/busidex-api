@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Linq;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -11,21 +10,23 @@ using Busidex.Api.DataAccess;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
-using Microsoft.ServiceBus.Messaging;
+//using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
 using Group = Busidex.Api.DataAccess.DTO.Group;
 using System.IO.Compression;
 using System.Text;
 using System.Xml.Serialization;
-using Microsoft.ServiceBus;
 using CloudStorageAccount = Microsoft.WindowsAzure.Storage.CloudStorageAccount;
+using Microsoft.WindowsAzure.Storage.Blob;
+using System.Threading.Tasks;
+//using Microsoft.ServiceBus;
 
 namespace Busidex.Api.DataServices
 {
     public class CardRepository : RepositoryBase, ICardRepository
     {
-        public CardRepository(IBusidexDataContext busidexDal)
-            : base(busidexDal)
+        public CardRepository(IBusidexDataContext busidexDal, string connectionString = "")
+            : base(busidexDal, connectionString)
         {
         }
 
@@ -53,30 +54,32 @@ namespace Busidex.Api.DataServices
             _dao.AddUserCard(userCard);
 
             // Send an email notification to the card owner
-            
-            var template = _dao.GetEmailTemplate(EmailTemplateCode.CardAdded);
-            var card = GetCardById(id);
-            var account = _dao.GetUserAccountByUserId(card.OwnerId.GetValueOrDefault());
-            if (account != null)
-            {
-                template.Populate(card, account);
+            return;
 
-                var communication = new Communication
-                {
-                    EmailTemplate = template,
-                    EmailTemplateId = template.EmailTemplateId,
-                    Email = account.BusidexUser.Email,
-                    Body = template.Body,
-                    DateSent = DateTime.Now,
-                    SentById = userId,
-                    Failed = false,
-                    UserId = 0
-                };
+            //var template = _dao.GetEmailTemplate(EmailTemplateCode.CardAdded);
+            //var card = GetCardById(id);
+            //var account = _dao.GetUserAccountByUserId(userId);
+            //if (account != null)
+            //{
+            //    template.Populate(card, account);
 
-                SendEmail(communication);
-                _dao.SaveCommunication(communication);
+            //    var sendTo = _dao.GetUserAccountByUserId(card.OwnerId.GetValueOrDefault());
+            //    var communication = new Communication
+            //    {
+            //        EmailTemplate = template,
+            //        EmailTemplateId = template.EmailTemplateId,
+            //        Email = sendTo.BusidexUser.Email,
+            //        Body = template.Body,
+            //        DateSent = DateTime.Now,
+            //        SentById = userId,
+            //        Failed = false,
+            //        UserId = 0
+            //    };
 
-            }
+            //    SendEmail(communication);
+            //    _dao.SaveCommunication(communication);
+
+            //}
 
         }
 
@@ -95,6 +98,11 @@ namespace Busidex.Api.DataServices
                     }
                 }
             }
+        }
+
+        public UserCard GetUserCardLite(long id, long userId)
+        {
+            return BusidexDAL.GetUserCard(id, userId);
         }
 
         public UserCard GetUserCard(long id, long userId)
@@ -137,7 +145,8 @@ namespace Busidex.Api.DataServices
 
         public DataAccess.DTO.Card GetCardById(long cardId, long userId = 0)
         {
-            return _dao.GetCardById(cardId, userId);
+            
+            return BusidexDAL.GetCardById(cardId, userId);
         }
 
         public AddOrEditCardModel GetAddOrEditModel(AddOrEditCardModel model)
@@ -163,6 +172,7 @@ namespace Busidex.Api.DataServices
                 card.Addresses.Add(new DataAccess.DTO.CardAddress());
             }
             var uc = GetUserCard(card.CardId, bu.UserId);
+            var links = _dao.GetExternalLinks(card.CardId);
             var model = new AddOrEditCardModel
                             {
                                 PhoneNumberTypes = new List<PhoneNumberType>(),
@@ -196,6 +206,7 @@ namespace Busidex.Api.DataServices
                                 BackFileId = card.BackFileId,
                                 Tags = card.Tags ?? new List<Tag>(),
                                 Addresses = card.Addresses,
+                                ExternalLinks = links,
                                 Markup = card.Markup,
                                 Visibility = card.Visibility,
                                 Display = card.Display,
@@ -429,6 +440,11 @@ namespace Busidex.Api.DataServices
             _dao.RemoveGroupCards(groupId, cardIds, userId);
         }
 
+        public void UpdateCardLinks(long cardId, List<DataAccess.ExternalLink> links)
+        {
+            _dao.UpdateCardLinks(cardId, links);
+        }
+
         public AddOrUpdateCardErrors EditCard(DataAccess.DTO.Card cardModel, bool isMyCard, long userId, string notes)
         {
             var modelErrors = new AddOrUpdateCardErrors();// CheckForCardModelErrors(cardModel, isMyCard);
@@ -477,13 +493,14 @@ namespace Busidex.Api.DataServices
                 #endregion
 
                 #region Tags
-                var tags = _dao.GetCardTags(cardModel.CardId);
+
+                var tags = BusidexDAL.GetCardTags(cardModel.CardId);// _dao.GetCardTags(cardModel.CardId);
                 foreach (var tag in tags)
                 {
                     // if it's not found, it's been removed
                     if (cardModel.Tags.All(t => !string.Equals(t.Text, tag.Text, StringComparison.CurrentCultureIgnoreCase)))
                     {
-                        _dao.DeleteTag(cardModel.CardId, tag.TagId);
+                        BusidexDAL.DeleteTag(cardModel.CardId, tag.TagId);
                     }
                 }
 
@@ -491,7 +508,7 @@ namespace Busidex.Api.DataServices
                 {
                     if (tag.TagId == 0)
                     {
-                        _dao.AddTag(cardModel.CardId, tag);
+                        BusidexDAL.AddTag(cardModel.CardId, tag);
                     }                    
                 }
                 
@@ -542,7 +559,7 @@ namespace Busidex.Api.DataServices
                 BusidexDAL.UpdateCard(cardModel);
 
                 // Update card notes
-                UserCard uc = GetUserCard(cardModel.CardId, userId);//BusidexDAL.GetUserCard(cardModel.CardId, userId);
+                UserCard uc = BusidexDAL.GetUserCard(cardModel.CardId, userId);//BusidexDAL.GetUserCard(cardModel.CardId, userId);
                 if (uc != null)
                 {
                     BusidexDAL.UpdateUserCard(uc.UserCardId, notes);
@@ -552,7 +569,7 @@ namespace Busidex.Api.DataServices
             return modelErrors;
         }
 
-        public void SendCardUpdatedEmails()
+        public async Task SendCardUpdatedEmails()
         {
 
             var updatedCards = _dao.GetRecentlyUpdatedCards();
@@ -567,7 +584,7 @@ namespace Busidex.Api.DataServices
 
                 try
                 {
-                    NotifyUsersOfChangedCard(cardModel);
+                    await NotifyUsersOfChangedCard(cardModel);
                 }
                 catch (Exception ex)
                 {
@@ -577,7 +594,7 @@ namespace Busidex.Api.DataServices
             
         }
 
-        private void NotifyUsersOfChangedCard(DataAccess.DTO.Card card)
+        private async Task NotifyUsersOfChangedCard(DataAccess.DTO.Card card)
         {
             List<string> emails = _dao.GetUsersThatHaveCard(card.CardId);
             var ownerEmail = string.Empty;
@@ -658,7 +675,7 @@ namespace Busidex.Api.DataServices
                         };
 
                         
-                        SendEmail(communication);
+                       await SendEmail(communication);
                         _dao.SaveCommunication(communication);
                     }
                 }    
@@ -759,110 +776,69 @@ namespace Busidex.Api.DataServices
             //Bcp.UpdateCache(BusidexCacheProvider.CachKeys.MyBusidex, null);    
         }
 
-        public void AddCardToQueue(AddOrEditCardModel model)
+        public async Task UploadCardUpdateToBlobStorage(AddOrEditCardModel model, string storageConnectionString, string cardRef)
         {
-            const int MAX_MESSAGE_SIZE = 1024*256;
-            const string MESSAGE_SIZE_EXCEEDED = "This message is too big for the queue: size = {0} bytes";
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
 
-            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            // Create the blob client.
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
-            //// Create the queue client.
-            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "cards");
+            // Retrieve reference to a previously created container.
+            CloudBlobContainer container = blobClient.GetContainerReference("card-update");
 
-            //// squish it
-            var compressedModel = model.Compress();
+            // Retrieve reference to a blob named "myblob".
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(cardRef);
 
-            //var message = new BrokeredMessage(compressedModel)
-            //{
-            //    Label = model.Name,
-            //    TimeToLive = new TimeSpan(7, 0, 0, 0)
-            //};
-            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
-                "busidex", string.Empty);
-
-            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
-                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
-
-            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
-            var queueClient = mf.CreateQueueClient("cards");
-
-            //Sending hello message to queue.
-            var message = new BrokeredMessage(compressedModel)
+            // Create or overwrite the "myblob" blob with contents from a local file.
+            var formatter = new BinaryFormatter();
+            try
             {
-                Label = model.Name,
-                TimeToLive = new TimeSpan(7, 0, 0, 0)
-            };
-            
-            // send it
-            if (message.Size <= MAX_MESSAGE_SIZE)
+                var json = JsonConvert.SerializeObject(model);
+                await blockBlob.UploadFromByteArrayAsync(Encoding.ASCII.GetBytes(json),0, json.Length);
+            }
+            catch(Exception ex)
             {
-                queueClient.Send(message);
-            }
-            else
-            {          
-                throw new MessageSizeExceededException(string.Format(MESSAGE_SIZE_EXCEEDED, message.Size));
-            }
-          
+                SaveApplicationError(ex, 0);
+            }  
         }
 
-        public void AddSharedCardsToQueue(List<SharedCard> sharedCardList)
+        public void AddCardToQueue(string connectionString, string cardUpdateRef)
         {
-            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
+            const string QUEUE_NAME = "card-update";
+            Azure.Storage.Queues.QueueClient queueClient = new Azure.Storage.Queues.QueueClient(connectionString, QUEUE_NAME);
+            queueClient.CreateIfNotExists();
 
-            // Create the queue client.
-            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "shared-card");
-            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
-                "busidex", string.Empty);
+            var bytes = ASCIIEncoding.ASCII.GetBytes(cardUpdateRef);
+            queueClient.SendMessage(System.Convert.ToBase64String(bytes));
+        }
 
-            var tokenProvider = TokenProvider
-                .CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
-                    "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
-
-            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
-
-            var queueClient = mf.CreateQueueClient("shared-card");
+        public async Task AddSharedCardsToQueue(string connectionString, List<SharedCard> sharedCardList)
+        {            
+            const string QUEUE_NAME = "shared-card";
+            Azure.Storage.Queues.QueueClient queueClient = new Azure.Storage.Queues.QueueClient(connectionString, QUEUE_NAME);
+            queueClient.CreateIfNotExists();
 
             foreach (var sharedCardModel in sharedCardList)
-            {                
-                var message = new BrokeredMessage(sharedCardModel)
-                {
-                    Label = sharedCardModel.Email,
-                    TimeToLive = new TimeSpan(7, 0, 0, 0)
-                };
-                // send it
-                queueClient.Send(message);    
-            }
+            {
+                var json = JsonConvert.SerializeObject(sharedCardModel);
+                var bytes = ASCIIEncoding.ASCII.GetBytes(json);
+                await queueClient.SendMessageAsync(System.Convert.ToBase64String(bytes));
+            }            
         }
 
-        public void AddSharedCardToQueue(SharedCard sharedCard)
-        {
-            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
-
-            // Create the queue client.
-            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "shared-card");
-            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
-                "busidex", string.Empty);
-
-            var tokenProvider = TokenProvider
-                .CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
-                    "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
-
-            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
-
-            var queueClient = mf.CreateQueueClient("shared-card");
-
-            var message = new BrokeredMessage(sharedCard)
-            {
-                Label = sharedCard.Email,
-                TimeToLive = new TimeSpan(7, 0, 0, 0)
-            };
-            // send it
-            queueClient.Send(message);
+        public async Task AddSharedCardToQueue(string connectionString, SharedCard sharedCard)
+        {            
+            const string QUEUE_NAME = "shared-card";
+            Azure.Storage.Queues.QueueClient queueClient = new Azure.Storage.Queues.QueueClient(connectionString, QUEUE_NAME);
+            queueClient.CreateIfNotExists();
+            
+            var json = JsonConvert.SerializeObject(sharedCard);
+            var bytes = ASCIIEncoding.ASCII.GetBytes(json);
+            await queueClient.SendMessageAsync(System.Convert.ToBase64String(bytes));
         }
 
         public EmailTemplate GetSharedCardEmailPreview(SharedCard model)
         {
-            
             var card = GetCardById(model.CardId);
             if (card != null)
             {
@@ -875,9 +851,8 @@ namespace Busidex.Api.DataServices
             return null;
         }
 
-        public void SendSharedCard(SharedCard model)
+        public async Task SendSharedCard(SharedCard model)
         {
-
             var card = GetCardById(model.CardId);
 
             if (card != null)
@@ -888,15 +863,11 @@ namespace Busidex.Api.DataServices
 
                 try
                 {
-                    if (!model.UseQuickShare) // don't send an email notification since we just sent a text message
-                    {
-                        SendEmail(communication);
-                    }
+                    await SendEmail(communication);
 
                     if (model.SendFrom != card.OwnerId.GetValueOrDefault())
-                    {
-                        var ownerTemplate = _dao.GetEmailTemplate(EmailTemplateCode.SharedCardOwner);
-                        SendOwnerNotificationOfSharedCard(model, account, card, ownerTemplate);
+                    {                        
+                        SendOwnerNotificationOfSharedCard(model);
                     }
                 }
                 catch (Exception ex)
@@ -917,13 +888,15 @@ namespace Busidex.Api.DataServices
             return _dao.GetSharedCard(cardId, sendFrom, shareWith);
         }
 
-        private void SendOwnerNotificationOfSharedCard(SharedCard model, UserAccount account, DataAccess.DTO.Card card, EmailTemplate template)
+        
+        public async Task SendOwnerNotificationOfSharedCard(SharedCard model)
         {
-            
+            var card = GetCardById(model.CardId);
+            var template = _dao.GetEmailTemplate(EmailTemplateCode.SharedCardOwner);
+            var account = _dao.GetUserAccountByUserId(model.SendFrom);
             var ownerAccount = _dao.GetUserAccountByUserId(card.OwnerId.GetValueOrDefault());
-            if (ownerAccount != null)
+            if (ownerAccount != null && model.SendFrom != card.OwnerId)
             {
-
                 template.Populate(model, account, card);
 
                 var communication = new Communication
@@ -939,7 +912,7 @@ namespace Busidex.Api.DataServices
                 };
                 try
                 {
-                    SendEmail(communication);
+                    await SendEmail(communication);
                 }
                 catch (Exception ex)
                 {
@@ -953,7 +926,7 @@ namespace Busidex.Api.DataServices
             }
         }
 
-        public void SendSharedCardInvitation(SharedCard model)
+        public async Task SendSharedCardInvitation(SharedCard model)
         {
 
             var card = GetCardById(model.CardId);
@@ -966,12 +939,11 @@ namespace Busidex.Api.DataServices
 
                 try
                 {
-                    SendEmail(communication);
+                    await SendEmail(communication);
 
                     if (model.SendFrom != card.OwnerId.GetValueOrDefault())
                     {
-                        var ownerTemplate = _dao.GetEmailTemplate(EmailTemplateCode.SharedCardOwner);
-                        SendOwnerNotificationOfSharedCard(model, account, card, ownerTemplate);
+                        await SendOwnerNotificationOfSharedCard(model);
                     }
                 }
                 catch (Exception ex)
@@ -1006,36 +978,22 @@ namespace Busidex.Api.DataServices
             return communication;
         }
 
-        private void SendEmail(Communication communication)
+        private async Task SendEmail(Communication communication)
         {
-            //string connectionString = CloudConfigurationManager.GetSetting("Microsoft.ServiceBus.ConnectionString");
-
-            //// Create the queue client.
-            //QueueClient queueClient = QueueClient.CreateFromConnectionString(connectionString, "email");
-
-            //var message = new BrokeredMessage(communication)
-            //{
-            //    Label = communication.Email,
-            //    TimeToLive = new TimeSpan(7, 0, 0, 0)
-            //};
-
-            //queueClient.Send(message);
-            var runtimeUri = ServiceBusEnvironment.CreateServiceUri("sb",
-                "busidex", string.Empty);
-
-            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider("RootManageSharedAccessKey",
-                "JwKsRwsFaQFTzUGWgCwSgoTkiT9vaHTgmR6MEvxy3Dk=");
-            
-            var mf = MessagingFactory.Create(runtimeUri,tokenProvider);
-            var sendClient = mf.CreateQueueClient("email");
-
-            //Sending hello message to queue.
-            var message = new BrokeredMessage(communication)
+            try
             {
-                Label = communication.Email,
-                TimeToLive = new TimeSpan(7, 0, 0, 0)
-            };
-            sendClient.Send(message);
+                const string QUEUE_NAME = "email";
+                var connectionString = ConfigurationManager.AppSettings["BusidexQueuesConnectionString"];
+                var queueClient = new Azure.Storage.Queues.QueueClient(connectionString, QUEUE_NAME);
+                queueClient.CreateIfNotExists();
+                var json = JsonConvert.SerializeObject(communication);
+                var msg = Convert.ToBase64String(ASCIIEncoding.UTF8.GetBytes(json));
+                await queueClient.SendMessageAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                SaveApplicationError(ex, 0);
+            }
         }
 
         public void AddSystemTagToCard(long cardid, string tag)
@@ -1070,7 +1028,8 @@ namespace Busidex.Api.DataServices
             // Add Tags
             foreach (var tag in card.Tags)
             {
-                _dao.AddTag(cardId, tag);
+                BusidexDAL.AddTag(cardId, tag);
+                //_dao.AddTag(cardId, tag);
             }
 
             // Add Addresses
@@ -1084,8 +1043,8 @@ namespace Busidex.Api.DataServices
 
             // Add the card to MyBusidex
             var userCard = new UserCard(card, userId) { CardId = cardId, Created = DateTime.Now, Notes = notes };
-            _dao.AddUserCard(userCard);
-          
+            BusidexDAL.AddUserCard(userCard);
+            
             return modelErrors;
         }
 
@@ -1196,7 +1155,7 @@ namespace Busidex.Api.DataServices
 
         public void UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
         {
-            _dao.UpdateCardFileId(cardId, frontFileId, frontType, backFileId, backType);
+            BusidexDAL.UpdateCardFileId(cardId, frontFileId, frontType, backFileId, backType);
         }
 
         public List<DataAccess.DTO.Card> GetAllCards()
@@ -1221,7 +1180,7 @@ namespace Busidex.Api.DataServices
 
         public void UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
         {
-            _dao.UpdateCardOrientation(cardId, frontOrientation, backOrientation);
+            BusidexDAL.UpdateCardOrientation(cardId, frontOrientation, backOrientation);
         }
         
         public void UpdateMobileView(long id, bool isMobileView)
@@ -1249,7 +1208,7 @@ namespace Busidex.Api.DataServices
             return BusidexDAL.GetEventActivities(cardId, month);
         }
 
-        public void CardToFile(long cardId, bool replaceFront, bool replaceBack, Binary frontImage, Guid frontFileId, string frontType, Binary backImage, Guid backFileId, string backType, long userId)
+        public void CardToFile(long cardId, bool replaceFront, bool replaceBack, byte[] frontImage, Guid frontFileId, string frontType, byte[] backImage, Guid backFileId, string backType, long userId)
         {
             var mimeTypes = new Dictionary<string, string>
             {
@@ -1276,25 +1235,6 @@ namespace Busidex.Api.DataServices
 
                 #region Update file name in DB
 
-                //var frontGuid = card.FrontFileId ?? Guid.Empty; // defaultCard.FrontFileId.GetValueOrDefault();
-                ////if (replaceFront) frontGuid = Guid.NewGuid();
-
-                //card.FrontFileId = frontGuid;
-
-                //Guid backGuid;
-                //if (replaceBack)
-                //{
-                //    backGuid = Guid.NewGuid();
-                //    if (backImage == null || backImage.Length == 0)
-                //    {
-                //        backGuid = Guid.Empty;// defaultCard.BackFileId.GetValueOrDefault();
-                //    }
-                //    card.BackFileId = backGuid;
-                //}
-                //else
-                //{
-                //    backGuid = card.BackFileId.GetValueOrDefault();
-                //}
                 card.FrontFileId = frontFileId;// card.FrontFileId ?? Guid.NewGuid();
                 card.BackFileId = backFileId;// card.BackFileId ?? Guid.NewGuid();
 
@@ -1304,9 +1244,9 @@ namespace Busidex.Api.DataServices
 
                 #region Save card to file system
 
-                var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString);
+                var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["CardImageStorageConnection"]);
                 var blobStorage = storageAccount.CreateCloudBlobClient();
-                var container = blobStorage.GetContainerReference(ConfigurationManager.AppSettings["BlobStorageContainer"]);
+                var container = blobStorage.GetContainerReference(ConfigurationManager.AppSettings["CardImageBlobStorageContainer"]);
 
                 string uniqueBlobName = $"{card.FrontFileId}.{frontType}".ToLower();
                 if (replaceFront && frontImage != null)
@@ -1343,7 +1283,7 @@ namespace Busidex.Api.DataServices
 
         private void SaveThumbnail(byte[] cardImage, string orientation, string fileName, string fileType)
         {
-            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["StorageConnection"].ConnectionString);
+            var storageAccount = CloudStorageAccount.Parse(ConfigurationManager.AppSettings["CardImageStorageConnection"]);
             var blobStorage = storageAccount.CreateCloudBlobClient();
             var container = blobStorage.GetContainerReference("mobile-images");
 

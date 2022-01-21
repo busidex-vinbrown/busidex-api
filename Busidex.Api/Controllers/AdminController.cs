@@ -209,9 +209,9 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public HttpResponseMessage SendOwnerEmails(long userId, long cardId, string email)
+        public HttpResponseMessage SendOwnerEmails(long cardId, string email)
         {
-            userId = ValidateUser();
+            var userId = ValidateUser();
             if (userId <= 0)
             {
                 return new HttpResponseMessage

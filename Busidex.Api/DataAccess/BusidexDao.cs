@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.EntityClient;
 using System.Linq;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.Models;
 using AccountType = Busidex.Api.DataAccess.DTO.AccountType;
 using ApplicationError = Busidex.Api.DataAccess.DTO.ApplicationError;
-//using Google.GData.Extensions;
-//using Google.GData.Client;
 using PhoneNumber = Busidex.Api.DataAccess.DTO.PhoneNumber;
 
 namespace Busidex.Api.DataAccess
 {
     public class BusidexDao
     {
+        private readonly string _connectionString;
+
+        public BusidexDao() { _connectionString = null; }
+        public BusidexDao(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public List<Communication> GetCommunications(string[] emails, long userId)
         {
             using (var ctx = new busidexEntities())
@@ -228,27 +235,28 @@ namespace Busidex.Api.DataAccess
         public bool SaveCardOwner(long cardId, long ownerId)
         {
 	        bool ok;
-            try
-            {
-	            using (var ctx = new busidexEntities())
-	            {
-		            var c = ctx.Cards.Find(cardId);
-		            if (c != null)
-		            {
-			            c.Searchable = true; // Now that the card is owned, it is searchable
-			            c.OwnerId = ownerId;
-			            ctx.SaveChanges();
-		            }
+            
+	        using (var ctx = new busidexEntities())
+	        {
+                using(var trns = ctx.Database.BeginTransaction()) {
+                    try {
+                        var c = ctx.Cards.Find(cardId);
+                        if (c != null) {
+                            c.Deleted = false;
+                            c.Searchable = true; // Now that the card is owned, it is searchable
+                            c.OwnerId = ownerId;
+                            ctx.SaveChanges();
+                        }
 
-		            ok = true;
-	            }
-            }
-            catch (Exception ex)
-            {
-                ok = false;
-				SaveApplicationError(ex.Message, ex.InnerException?.Message, ex.StackTrace, ownerId);
-			}
-
+                        ok = true;
+                    } catch(Exception ex) {                            
+                        trns.Rollback();
+                        ok = false;
+                        SaveApplicationError(ex.Message, ex.InnerException?.Message, ex.StackTrace, ownerId);
+                    }
+                }
+	        }
+ 
             return ok;
         }
 
@@ -281,8 +289,10 @@ namespace Busidex.Api.DataAccess
             {
                 var cardResults = ctx.Database.SqlQuery<usp_getMyBusidexResult>("exec dbo.usp_getMyBusidex @UserId={0},@includeImages={1}",
                     userId, includeImages).ToList();
+                var aCardIds = cardResults.Select(c => c.CardId).ToArray();
+                var cardIds = string.Join(",", aCardIds);
 
-                var cardIds = string.Join(",", cardResults.Select(c => c.CardId).ToArray());
+                if (string.IsNullOrEmpty(cardIds)) cardIds = "-1";
 
                 var phoneNumbersDto = GetCardPhoneNumbers(cardIds).ToList();
                 var phoneNumbers = phoneNumbersDto.Select(phoneNumber => new PhoneNumber
@@ -315,6 +325,9 @@ namespace Busidex.Api.DataAccess
                     Deleted = address.Deleted
                 }).ToList();
 
+                var links = ctx.Database.SqlQuery<DTO.ExternalLink>($"SELECT * FROM [dbo].[ExternalLink] WHERE CardId in ({cardIds})").ToList()
+                 ?? new List<DTO.ExternalLink>();
+
                var cards = cardResults.Select(item => new UserCard
                 {
                     UserCardId = item.UserCardId,
@@ -342,7 +355,8 @@ namespace Busidex.Api.DataAccess
                         Title = item.Title,
                         Url = item.Url,
                         PhoneNumbers =  phoneNumbers.Where(p=>p.CardId == item.CardId).ToList(),
-                        Addresses = addresses.Where(a=>a.CardId == item.CardId).ToList()
+                        Addresses = addresses.Where(a=>a.CardId == item.CardId).ToList(),
+                        ExternalLinks = links.Where(link => link.CardId == item.CardId).ToList()
                     }
                 }).ToList();
 
@@ -547,6 +561,11 @@ namespace Busidex.Api.DataAccess
         {
             using (var ctx = new busidexEntities())
             {
+                //var b = new EntityConnectionStringBuilder();
+                //b.Metadata = "metadata=res://*/DataAccess.BusidexData.csdl|res://*/DataAccess.BusidexData.ssdl|res://*/DataAccess.BusidexData.msl";
+                //b.ProviderConnectionString = _connectionString;
+                //b.Provider = "System.Data.SqlClient";
+                //ctx.Database.Connection.ConnectionString = b.ConnectionString;
                 return ctx.Database.SqlQuery<Tag>("exec dbo.usp_GetCardTags @cardId={0}", cardId).ToList();
             }
         }
@@ -564,6 +583,20 @@ namespace Busidex.Api.DataAccess
             using (var ctx = new busidexEntities())
             {
                 return ctx.Database.SqlQuery<DTO.CardAddress>("exec dbo.usp_GetCardAddresses @cardId={0}", cardId).ToList();
+            }
+        }
+
+        public List<DTO.ExternalLink> GetExternalLinks(long cardId)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                var links = ctx.Database.SqlQuery<DTO.ExternalLink>("exec dbo.usp_GetExternalLinksByCardId @cardId={0}", cardId).ToList();
+                foreach(var link in links)
+                {
+                    var linkType = ctx.Database.SqlQuery<DTO.ExternalLinkType>($"SELECT * from dbo.ExternalLinkType where ExternalLinkTypeId = {link.ExternalLinkTypeId}").FirstOrDefault();
+                    link.ExternalLinkType = linkType;
+                }
+                return links;
             }
         }
 
@@ -633,7 +666,7 @@ namespace Busidex.Api.DataAccess
             }).ToList();
 
             var addresses = GetCardAddresses(card.CardId);
-            var stateCodes = GetAllStateCodes().ToList();
+            var stateCodes = GetAllStateCodes();
             var cardAddresses = addresses.Select(a => new DTO.CardAddress
             {
                 Address1 = a.Address1,
@@ -648,10 +681,12 @@ namespace Busidex.Api.DataAccess
                 ZipCode = a.ZipCode
             }).ToList();
 
+            var links = GetExternalLinks(card.CardId);
+
             card.PhoneNumbers = phoneNumbers;
             card.Tags = cardTags;
             card.Addresses = cardAddresses;
-
+            card.ExternalLinks = links;
 
             return card;
         }
@@ -1043,6 +1078,32 @@ namespace Busidex.Api.DataAccess
                     groupId, cardIds, userId);
             }
 
+        }
+
+        public void UpdateCardLinks(long cardId, List<ExternalLink> links)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                using(var trns = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var card = ctx.Cards.Find(cardId);
+                        if(card != null)
+                        {
+                            ctx.ExternalLinks.RemoveRange(card.ExternalLinks);
+                            ctx.ExternalLinks.AddRange(links);
+                            ctx.SaveChanges();
+                            trns.Commit();
+                        }
+                        
+                    }catch(Exception ex)
+                    {
+                        trns.Rollback();
+                        SaveApplicationError(ex.Message, ex.InnerException?.ToString(), ex.StackTrace, 0);
+                    }
+                }
+            }
         }
 
         public void AddGroup(Group group, string cardIds)

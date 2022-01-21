@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
-using System.Data.Linq;
 using System.Linq;
 
 namespace Busidex.Api.DataAccess.DTO
@@ -82,6 +81,7 @@ namespace Busidex.Api.DataAccess.DTO
             card.PhoneNumbers.AddRange(copy.PhoneNumbers.Where(p=> !string.IsNullOrEmpty(p.Number)));
             card.Addresses.AddRange(copy.Addresses);
             card.Tags.AddRange(copy.Tags != null ? copy.Tags.Where(t => !t.Deleted) : new List<Tag>());
+            card.ExternalLinks.AddRange(copy.ExternalLinks);
 
             return card;
         }
@@ -133,12 +133,16 @@ namespace Busidex.Api.DataAccess.DTO
             {
                 BackOrientation = "H";
             }
-
+            if(ExternalLinks == null)
+            {
+                ExternalLinks = new List<ExternalLink>();
+            }
         }
 
         public List<PhoneNumber> PhoneNumbers { get; set; }
         public List<Tag> Tags { get; set; }
         public List<CardAddress> Addresses { get; set; }
+        public List<ExternalLink> ExternalLinks { get; set; }
 
         public string BackImageString
         {

@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
+using System.Configuration;
 
 namespace Busidex.Api.Controllers
 {
@@ -15,11 +16,12 @@ namespace Busidex.Api.Controllers
     public class QuickShareController : BaseApiController
     {
         private readonly IAccountRepository _accountRepository;
-
+        private readonly string _sharedCardStorageConnectionString;
         public QuickShareController(ICardRepository cardRepository, IAccountRepository accountRepository)
         {
             _cardRepository = cardRepository;
             _accountRepository = accountRepository;
+            _sharedCardStorageConnectionString = ConfigurationManager.AppSettings["BusidexQueuesConnectionString"];
         }
 
        
@@ -92,7 +94,7 @@ namespace Busidex.Api.Controllers
             }
             if (!System.Diagnostics.Debugger.IsAttached && !Request.RequestUri.Host.Contains("local"))
             {
-                _cardRepository.AddSharedCardToQueue(sharedCard);
+                _cardRepository.AddSharedCardToQueue(_sharedCardStorageConnectionString, sharedCard);
             } else
             {
                 _cardRepository.SaveSharedCard(sharedCard);

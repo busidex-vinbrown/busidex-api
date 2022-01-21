@@ -15,11 +15,16 @@ namespace Busidex.Api.Controllers
     public class SmsShareController : BaseApiController
     {
         private readonly ISMSShareRepository _smsShareRepository;
+        private readonly IAccountRepository _accountRepository;
 
-        public SmsShareController(ICardRepository cardRepository, ISMSShareRepository smsShareRepository)
+        public SmsShareController(
+            ICardRepository cardRepository, 
+            ISMSShareRepository smsShareRepository,
+            IAccountRepository accountRepository)
         {
             _cardRepository = cardRepository;
             _smsShareRepository = smsShareRepository;
+            _accountRepository = accountRepository;
         }
 
         [System.Web.Http.HttpPost]
@@ -54,6 +59,16 @@ namespace Busidex.Api.Controllers
             try
             {
                 _smsShareRepository.SaveSmsShare(model);
+                var user = _accountRepository.GetBusidexUserById(userId);
+                var account = _accountRepository.GetUserAccountByUserId(userId);
+                var sharedCardModel = new SharedCard
+                {
+                    CardId = model.CardId,
+                    SendFrom = userId,
+                    SendFromEmail = user.Email,
+                    SendFromDisplayName = account.DisplayName,
+                };
+                _cardRepository.SendOwnerNotificationOfSharedCard(sharedCardModel);
 
                 return new HttpResponseMessage
                 {

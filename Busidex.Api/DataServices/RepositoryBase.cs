@@ -10,11 +10,20 @@ namespace Busidex.Api.DataServices
     {
 
         protected readonly IBusidexDataContext BusidexDAL;
-        protected readonly BusidexDao _dao = new BusidexDao();
+        protected readonly BusidexDao _dao;
+        protected readonly string _connectionString;
 
-        protected RepositoryBase(IBusidexDataContext busidexDal)
+        protected RepositoryBase(IBusidexDataContext busidexDal, string connectionString = "")
         {
-            BusidexDAL = busidexDal;            
+            BusidexDAL = busidexDal;
+            _connectionString = connectionString;
+            if (!string.IsNullOrEmpty(_connectionString)){
+                _dao = new BusidexDao(_connectionString);
+            }
+            else
+            {
+                _dao = new BusidexDao();
+            }
         }
 
         public BusidexUser GetBusidexUserById(long userId)

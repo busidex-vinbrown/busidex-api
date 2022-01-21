@@ -21,12 +21,14 @@ namespace Busidex.Api.Controllers
     {
         private readonly IOrganizationRepository _organizationRepository;
         private readonly IAccountRepository _accountRepository;
+        private readonly string cardUpdateStorageConnectionString;
 
         public OrganizationController(IOrganizationRepository organizationRepository, ICardRepository cardRepository, IAccountRepository accountRepository)
         {
             _organizationRepository = organizationRepository;
             _cardRepository = cardRepository;
             _accountRepository = accountRepository;
+            cardUpdateStorageConnectionString = ConfigurationManager.AppSettings["BusidexQueuesConnectionString"];
         }
 
         [System.Web.Http.HttpGet]
@@ -298,7 +300,9 @@ namespace Busidex.Api.Controllers
                     };
 
                     cardMessage += " | new model created with visibility = " + model.Visibility;
-                    _cardRepository.AddCardToQueue(model);
+                    var cardRef = Guid.NewGuid().ToString();
+                    _cardRepository.UploadCardUpdateToBlobStorage(model, cardUpdateStorageConnectionString, cardRef);
+                    _cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
                     cardMessage += " | card added to queue";
                 }
                 else

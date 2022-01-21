@@ -1,6 +1,9 @@
 ﻿
+using System;
+
 namespace Busidex.Api.DataAccess.DTO
 {
+    [Serializable]
     public class StateCode
     {
         public int StateCodeId { get; set; }

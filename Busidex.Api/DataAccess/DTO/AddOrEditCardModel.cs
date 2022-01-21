@@ -63,12 +63,14 @@ namespace Busidex.Api.DataAccess.DTO
         public bool ResetBackImage { get; set; }
         public long? SelectExistingCardId { get; set; }
         public string CustomContent { get; set; }
+        public List<ExternalLink> ExternalLinks { get; set; }
 
         public AddOrEditCardModel()
         {
             ModelErrors = new AddOrUpdateCardErrors();
             Display = DisplayType.IMG;
             PhoneNumbers = new List<PhoneNumber>();
+            ExternalLinks = new List<ExternalLink>();
         }
 
         public AddOrEditCardModel(CardDetailModel model)
@@ -100,6 +102,7 @@ namespace Busidex.Api.DataAccess.DTO
             Visibility = model.Visibility;
             CardType = DTO.CardType.Professional;
             CustomContent = model.CustomContent;
+            ExternalLinks = new List<ExternalLink>(model.ExternalLinks);
         }
 
         public AddOrEditCardModel(OrgCardDetailModel model)
@@ -128,6 +131,7 @@ namespace Busidex.Api.DataAccess.DTO
             Addresses = new List<CardAddress>(); // these cards have no addresses
             Display = model.Display;
             Markup = model.Markup;
+            ExternalLinks = new List<ExternalLink>();
 
             byte visibility = 1;
             switch (model.Visibility)

@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
+using System.Threading.Tasks;
 
 namespace Busidex.Api.Controllers
 {
@@ -335,6 +336,51 @@ namespace Busidex.Api.Controllers
                     }),
                     StatusCode = HttpStatusCode.InternalServerError
                 };
+            }
+        }
+
+        public async Task<HttpResponseMessage> GetUserEventTags()
+        {
+            try
+            {
+                var userId = ValidateUser();
+
+                var eventTags = _cardRepository.GetEventTags().OrderByDescending(e => e.EventTagId);
+
+                var results = new List<EventTag>();
+                foreach(var eventTag in eventTags)
+                {
+                    var searchModel = _cardRepository.SearchBySystemTag(eventTag.Text, userId);
+                    if (searchModel.Results.Any())
+                    {
+                        results.Add(eventTag);
+                    }
+                }
+
+                var response = new HttpResponseMessage
+                {
+                    Content = new JsonContent(new
+                    {
+                        Success = true,
+                        Model = results
+                    })
+                };
+                return await Task.FromResult(response);
+            }
+            catch (Exception ex)
+            {
+                _cardRepository.SaveApplicationError(ex, 0);
+
+                var response = new HttpResponseMessage
+                {
+                    Content = new JsonContent(new
+                    {
+                        Success = false,
+                        Model = string.Empty
+                    }),
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+                return await Task.FromResult(response);
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq;
 using System.Drawing;
+using System.Threading.Tasks;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.Models;
 
@@ -11,16 +11,16 @@ namespace Busidex.Api.DataServices.Interfaces
     {
         List<SEOCardResult> GetSeoCardResult();
         EmailTemplate GetSharedCardEmailPreview(SharedCard model);
-        void SendSharedCardInvitation(SharedCard model);
-        void SendSharedCard(SharedCard model);
+        Task SendSharedCardInvitation(SharedCard model);
+        Task SendSharedCard(SharedCard model);
         List<Communication> GetCommunications(string[] emails, long userId);
-        void AddSharedCardsToQueue(List<SharedCard> sharedCardList);
-        void AddSharedCardToQueue(SharedCard sharedCard);
+        Task AddSharedCardsToQueue(string connectionString, List<SharedCard> sharedCardList);
+        Task AddSharedCardToQueue(string connectionString, SharedCard sharedCard);
         CardDetailModel GetFeaturedCard();
         List<EventSource> GetAllEventSources();
         void AddEventActivity(EventActivity activity);
         List<EventActivity> GetEventActivities(long cardId, byte month);
-        void CardToFile(long cardId, bool replaceFront, bool replaceBack, Binary frontImage, Guid frontFileId, string frontType, Binary backImage, Guid backFileId, string backType, long userId);
+        void CardToFile(long cardId, bool replaceFront, bool replaceBack, byte[] frontImage, Guid frontFileId, string frontType, byte[] backImage, Guid backFileId, string backType, long userId);
         AddOrEditCardModel GetAddOrEditModel(long cardId, BusidexUser bu, string action);
         AddOrEditCardModel GetAddOrEditModel(AddOrEditCardModel model);
 
@@ -56,6 +56,8 @@ namespace Busidex.Api.DataServices.Interfaces
         void DeleteCard(long id, long userId);
         void SaveCardNotes(long id, string notes);
         UserCard GetUserCard(long id, long userId);
+        UserCard GetUserCardLite(long id, long userId);
+
         void DeleteUserCard(UserCard uc, long userId);
         void AddToMyBusidex(long cardId, long userId);
         void AddSendersCardToMyBusidex(string token, long userId);
@@ -70,6 +72,7 @@ namespace Busidex.Api.DataServices.Interfaces
         bool IsACardOwner(long ownerId);
         AddOrUpdateCardErrors AddCard(DataAccess.DTO.Card card, bool isMyCard, long userId, string notes, out long cardId);
         AddOrUpdateCardErrors EditCard(Card cardModel, bool isMyCard, long userId, string notes);
+        void UpdateCardLinks(long cardId, List<DataAccess.ExternalLink> links);
         void InvalidateBusidexCache();
         List<StateCode> GetAllStateCodes();
         List<Card> GetDuplicateCardsByEmail(long cardId, string email);
@@ -80,7 +83,8 @@ namespace Busidex.Api.DataServices.Interfaces
         void UpdateMobileView(long id, bool isMobileView);
         long GetCardCount();
         AddOrUpdateCardErrors CheckForCardModelErrors(Card cardModel, bool isMyCard);
-        void AddCardToQueue(AddOrEditCardModel model);
+        Task UploadCardUpdateToBlobStorage(AddOrEditCardModel model, string cardUpdateStorageConnectionString, string cardRef);
+        void AddCardToQueue(string connectionString, string cardUpdateRef);
         void SaveApplicationError(string error, string innerException, string stackTrace, long userId);
         void SaveApplicationError(Exception ex, long userId);
         Image ScaleImage(Image image, string orientation);
@@ -91,6 +95,7 @@ namespace Busidex.Api.DataServices.Interfaces
         void UpdateUserCardStatus(long userCardId, UserCardAddStatus status);
         void AddSystemTagToCard(long cardid, string tag);
         OrgCardDetailModel GetOrganizationCardByOwnerId(long ownerId);
-        void SendCardUpdatedEmails();
+        Task SendCardUpdatedEmails();
+        Task SendOwnerNotificationOfSharedCard(SharedCard model);
     }
 }

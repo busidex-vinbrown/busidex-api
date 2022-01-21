@@ -9,13 +9,15 @@ using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
+using System.Web.Http.Results;
+using System.Threading.Tasks;
 
 namespace Busidex.Api.Controllers
 {
 
     [RequireHttps]
     [EnableCors("*", "*", "*")]
-    public class SettingsController : ApiController
+    public class SettingsController : BaseApiController
     {
 
         private readonly ISettingsRepository _settingsRepository;
@@ -24,6 +26,25 @@ namespace Busidex.Api.Controllers
         {
             if (settingsRepository == null) throw new ArgumentNullException("settingsRepository");
             _settingsRepository = settingsRepository;
+        }
+
+        [System.Web.Http.HttpGet]
+        public HttpResponseMessage GetSystemSettings()
+        {
+            var id = ValidateUser();
+            if (id < 0) return null;
+
+            var settings = _settingsRepository.GetSystemSettings();
+            return new HttpResponseMessage
+            {
+                Content = new JsonContent(new
+                {
+                    Success = true,
+                    Model = settings
+                }),
+
+                StatusCode = HttpStatusCode.OK
+            };
         }
 
         [System.Web.Http.HttpGet]
@@ -39,7 +60,7 @@ namespace Busidex.Api.Controllers
                 {
                     Content = new JsonContent(new
                     {
-                        Success = false,
+                        Success = true,
                         Model = new SettingsModel
                         {
                             SitePages = pages,

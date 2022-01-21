@@ -27,5 +27,6 @@ namespace Busidex.Api.DataAccess
     
         public virtual DbSet<Card> Cards { get; set; }
         public virtual DbSet<CardAddress> CardAddresses { get; set; }
+        public virtual DbSet<ExternalLink> ExternalLinks { get; set; }
     }
 }

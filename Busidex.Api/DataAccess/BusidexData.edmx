@@ -54,9 +54,35 @@
           <Property Name="Deleted" Type="bit" Nullable="false" />
           <Property Name="GeoLocation" Type="geography" />
         </EntityType>
+        <EntityType Name="ExternalLink">
+          <Key>
+            <PropertyRef Name="ExternalLinkId" />
+          </Key>
+          <Property Name="ExternalLinkId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CardId" Type="bigint" Nullable="false" />
+          <Property Name="Link" Type="varchar(max)" Nullable="false" />
+          <Property Name="ExternalLinkTypeId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ExternalLink_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+          <End Role="ExternalLink" Type="Self.ExternalLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="ExternalLink">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="busidexModelStoreContainer">
           <EntitySet Name="Card" EntityType="Self.Card" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CardAddress" EntityType="Self.CardAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExternalLink" EntityType="Self.ExternalLink" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ExternalLink_Card" Association="Self.FK_ExternalLink_Card">
+            <End Role="Card" EntitySet="Card" />
+            <End Role="ExternalLink" EntitySet="ExternalLink" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -65,6 +91,11 @@
         <EntityContainer Name="busidexEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="Cards" EntityType="busidexModel.Card" />
           <EntitySet Name="CardAddresses" EntityType="busidexModel.CardAddress" />
+          <EntitySet Name="ExternalLinks" EntityType="busidexModel.ExternalLink" />
+          <AssociationSet Name="FK_ExternalLink_Card" Association="busidexModel.FK_ExternalLink_Card">
+            <End Role="Card" EntitySet="Cards" />
+            <End Role="ExternalLink" EntitySet="ExternalLinks" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Card">
           <Key>
@@ -98,6 +129,7 @@
           <Property Name="CardTypeId" Type="Int32" Nullable="false" />
           <Property Name="SEO_Name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="CustomContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ExternalLinks" Relationship="busidexModel.FK_ExternalLink_Card" FromRole="Card" ToRole="ExternalLink" />
         </EntityType>
         <EntityType Name="CardAddress">
           <Key>
@@ -115,6 +147,28 @@
           <Property Name="Deleted" Type="Boolean" Nullable="false" />
           <Property Name="GeoLocation" Type="Geography" />
         </EntityType>
+        <EntityType Name="ExternalLink">
+          <Key>
+            <PropertyRef Name="ExternalLinkId" />
+          </Key>
+          <Property Name="ExternalLinkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CardId" Type="Int64" Nullable="false" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ExternalLinkTypeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Card" Relationship="busidexModel.FK_ExternalLink_Card" FromRole="ExternalLink" ToRole="Card" />
+        </EntityType>
+        <Association Name="FK_ExternalLink_Card">
+          <End Type="busidexModel.Card" Role="Card" Multiplicity="1" />
+          <End Type="busidexModel.ExternalLink" Role="ExternalLink" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="CardId" />
+            </Principal>
+            <Dependent Role="ExternalLink">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -172,6 +226,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ExternalLinks">
+            <EntityTypeMapping TypeName="busidexModel.ExternalLink">
+              <MappingFragment StoreEntitySet="ExternalLink">
+                <ScalarProperty Name="ExternalLinkTypeId" ColumnName="ExternalLinkTypeId" />
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+                <ScalarProperty Name="ExternalLinkId" ColumnName="ExternalLinkId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -187,7 +251,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

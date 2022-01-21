@@ -47,6 +47,8 @@ namespace Busidex.Api.DataAccess.DTO
         public string CustomContent { get; set; }
         public List<CardAddress> Addresses { get; set; }
 
+        public List<ExternalLink> ExternalLinks { get; set; } = new List<ExternalLink>();
+
         public CardDetailModel()
         {
             
@@ -85,6 +87,7 @@ namespace Busidex.Api.DataAccess.DTO
             ExistsInMyBusidex = card.ExistsInMyBusidex;
             SEO_Name = card.SEO_Name;
             CustomContent = card.CustomContent;
+            ExternalLinks.AddRange(card.ExternalLinks);
 
             if (PhoneNumbers != null && PhoneNumbers.Count == 0)
             {

@@ -4,7 +4,7 @@ using System;
 
 namespace Busidex.Api.DataAccess.DTO
 {
-    //[Serializable]
+    [Serializable]
     public class PhoneNumberType
     {
         public int PhoneNumberTypeId { get; set; }

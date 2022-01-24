@@ -1,6 +1,8 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Busidex.DomainModels;
+using Busidex.DomainModels.DTO;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -45,5 +47,21 @@ namespace Busidex.Functions.DotNetCore
                 
             }
         }
+
+
+        #region Send Card Updated Notifications
+
+        [FunctionName("SendCardUpdatedNotifications")]
+        public static async Task SendCardUpdatedNotifications([TimerTrigger("0 30 9 * * *")] TimerInfo timer, ILogger logger)
+        {
+            // runs every day at 9:30AM
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetAsync("https://www.busidexapi.com/api/admin/Jobs?code=" + JobCode.CardUpdatedNotification);
+                logger.LogInformation("Got back response from job endpoint: " + response.StatusCode);
+            }
+        }
+
+        #endregion
     }
 }

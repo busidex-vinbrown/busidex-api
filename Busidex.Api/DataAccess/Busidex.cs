@@ -709,6 +709,12 @@ namespace Busidex.Api.DataAccess
             return _populateCard(result);
         }
 
+        public long[] GetRecentlyUpdatedCards()
+        {
+            var results = _GetRecentlyUpdatedCards();
+            return results.Select(r => r.CardId).ToArray();
+        }
+
         private DTO.Card _populateCard(usp_getCardByIdResult c)
         {
             DTO.Card card = new DTO.Card();
@@ -1134,8 +1140,107 @@ namespace Busidex.Api.DataAccess
                 ActivityDate = a.ActivityDate
             }).ToList();
         }
+
+        public void SaveCommunication(Communication communication)
+        {
+            _SaveCommunication(communication.EmailTemplateId, communication.UserId, communication.Email, communication.SentById, communication.OwnerToken, communication.DateSent, communication.Failed);
+        }
+
+        public EmailTemplate GetEmailTemplate(EmailTemplateCode code)
+        {
+            return usp_GetEmailTemplateByCode(code.ToString())
+                .Select(t => new EmailTemplate
+                {
+                    Code = t.Code,
+                    Body = t.Body,
+                    EmailTemplateId = t.EmailTemplateId,
+                    Subject = t.Subject
+                }).FirstOrDefault();
+        }
+
+        public UserAccount GetUserAccountByUserId(long userId)
+        {
+            var userAccount = _GetUserAccountByUserId(userId);
+            if (userAccount == null) return null;
+
+            var accountTypes = _GetActivePlans().Select(p =>
+            new DTO.AccountType
+            {
+                AccountTypeId = p.AccountTypeId,
+                Active = p.Active,
+                Description = p.Description,
+                DisplayOrder = p.DisplayOrder,
+                Name = p.Name
+            }).ToList();
+
+            return userAccount.Select(ua => new UserAccount
+            {
+                AccountTypeId = ua.AccountTypeId,
+                Active = ua.Active,
+                Notes = ua.Notes,
+                Created = ua.Created,
+                UserId = ua.UserId,
+                UserAccountId = ua.UserAccountId,
+                DisplayName = ua.DisplayName,
+                ActivationToken = ua.ActivationToken,
+                AccountType = accountTypes.SingleOrDefault(at => at.AccountTypeId == ua.AccountTypeId),
+                BusidexUser = GetBusidexUserById(userId)
+            }).SingleOrDefault();
+        }
+
+        public BusidexUser GetBusidexUserById(long id)
+        {
+            var user = _GetBusidexUserByUserId(id).SingleOrDefault();
+            var address = _GetUserAddress(id).FirstOrDefault();
+            var accountTypes = _GetActivePlans().Select(p =>
+            new DTO.AccountType
+            {
+                AccountTypeId = p.AccountTypeId,
+                Active = p.Active,
+                Description = p.Description,
+                DisplayOrder = p.DisplayOrder,
+                Name = p.Name
+            }).ToList();
+
+            var account =
+                    _GetUserAccountByUserId(id)
+                        .Select(a => new UserAccount
+                        {
+                            AccountTypeId = a.AccountTypeId,
+                            ActivationToken = a.ActivationToken,
+                            Created = a.Created,
+                            UserId = a.UserId,
+                            UserAccountId = a.UserAccountId,
+                            DisplayName = a.DisplayName,
+                            Notes = a.Notes,
+                            Active = a.Active,
+                            OnboardingComplete = true,
+                            AccountType = accountTypes.SingleOrDefault(at => at.AccountTypeId == a.AccountTypeId)
+                        }).FirstOrDefault();
+
+            return new BusidexUser
+            {
+                UserAccount = account,
+                UserId = user.UserId,
+                UserName = user.UserName,
+                LoweredUserName = user.LoweredUserName,
+                Address = new UserAddress
+                {
+                    UserId = user.UserId
+                },
+                ApplicationId = user.ApplicationId,
+                IsAdmin = false              
+            };
+        }
+
+        public List<string> GetUsersThatHaveCard(long cardId)
+        {
+            var result = _GetUsersThatHaveCard(cardId).Select(r => r.email);
+            return result.ToList();
+        }
     }
 
+   
     public partial class BusidexDataContext
     {
        

@@ -79,7 +79,13 @@ namespace Busidex.Api.DataAccess
         void UpdateMobileView(long id, bool isMobileView);
         UserCard GetUserCard(long id, long userId);
         DTO.Card GetCardById(long? id, long? userId);
+        long[] GetRecentlyUpdatedCards();
         List<DTO.ExternalLink> GetExternalLinks(long cardId);
         void UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation);
+        void SaveCommunication(Communication communication);
+        EmailTemplate GetEmailTemplate(EmailTemplateCode code);
+        UserAccount GetUserAccountByUserId(long userId);
+        BusidexUser GetBusidexUserById(long id);
+        List<string> GetUsersThatHaveCard(long cardId);
     }
 }

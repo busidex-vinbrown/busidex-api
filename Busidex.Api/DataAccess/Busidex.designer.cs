@@ -960,6 +960,41 @@ namespace Busidex.Api.DataAccess
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId, userId, ownerId, sharedById, notes, addStatus);
 			return ((ISingleResult<usp_AddUserCardResult1>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_GetRecentlyUpdatedCards")]
+		public ISingleResult<usp_GetRecentlyUpdatedCardsResult> _GetRecentlyUpdatedCards()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<usp_GetRecentlyUpdatedCardsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_SaveCommunications")]
+		public int _SaveCommunications([global::System.Data.Linq.Mapping.ParameterAttribute(Name="EmailTemplateId", DbType="Int")] System.Nullable<int> emailTemplateId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="BigInt")] System.Nullable<long> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Email", DbType="VarChar(150)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Body", DbType="VarChar(MAX)")] string body, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="SentById", DbType="BigInt")] System.Nullable<long> sentById, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="OwnerToken", DbType="UniqueIdentifier")] System.Nullable<System.Guid> ownerToken, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="DateSent", DbType="DateTime")] System.Nullable<System.DateTime> dateSent, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Failed", DbType="Bit")] System.Nullable<bool> failed)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), emailTemplateId, userId, email, body, sentById, ownerToken, dateSent, failed);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_GetEmailTemplateByCode")]
+		public ISingleResult<usp_GetEmailTemplateByCodeResult1> usp_GetEmailTemplateByCode([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(15)")] string code)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), code);
+			return ((ISingleResult<usp_GetEmailTemplateByCodeResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_GetUserAccountByUserId")]
+		public ISingleResult<usp_GetUserAccountByUserIdResult1> usp_GetUserAccountByUserId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="BigInt")] System.Nullable<long> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((ISingleResult<usp_GetUserAccountByUserIdResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.usp_GetUsersThatHaveCard")]
+		public ISingleResult<usp_GetUsersThatHaveCardResult> _GetUsersThatHaveCard([global::System.Data.Linq.Mapping.ParameterAttribute(Name="CardId", DbType="BigInt")] System.Nullable<long> cardId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardId);
+			return ((ISingleResult<usp_GetUsersThatHaveCardResult>)(result.ReturnValue));
+		}
 	}
 	
 	public partial class usp_getCardCategoriesResult
@@ -13291,6 +13326,380 @@ namespace Busidex.Api.DataAccess
 				if ((this._UserCardId != value))
 				{
 					this._UserCardId = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_GetRecentlyUpdatedCardsResult
+	{
+		
+		private long _CardId;
+		
+		public usp_GetRecentlyUpdatedCardsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CardId", DbType="BigInt NOT NULL")]
+		public long CardId
+		{
+			get
+			{
+				return this._CardId;
+			}
+			set
+			{
+				if ((this._CardId != value))
+				{
+					this._CardId = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_GetEmailTemplateByCodeResult1
+	{
+		
+		private int _EmailTemplateId;
+		
+		private string _Code;
+		
+		private string _Subject;
+		
+		private string _Body;
+		
+		public usp_GetEmailTemplateByCodeResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailTemplateId", DbType="Int NOT NULL")]
+		public int EmailTemplateId
+		{
+			get
+			{
+				return this._EmailTemplateId;
+			}
+			set
+			{
+				if ((this._EmailTemplateId != value))
+				{
+					this._EmailTemplateId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(15) NOT NULL", CanBeNull=false)]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this._Code = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Subject", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string Subject
+		{
+			get
+			{
+				return this._Subject;
+			}
+			set
+			{
+				if ((this._Subject != value))
+				{
+					this._Subject = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Body", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Body
+		{
+			get
+			{
+				return this._Body;
+			}
+			set
+			{
+				if ((this._Body != value))
+				{
+					this._Body = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_GetUserAccountByUserIdResult1
+	{
+		
+		private long _UserAccountId;
+		
+		private long _UserId;
+		
+		private int _AccountTypeId;
+		
+		private System.DateTime _Created;
+		
+		private bool _Active;
+		
+		private string _Notes;
+		
+		private System.Nullable<System.Guid> _ActivationToken;
+		
+		private string _DisplayName;
+		
+		private System.Nullable<bool> _OnboardingComplete;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private bool _AccountTypeActive;
+		
+		private int _DisplayOrder;
+		
+		public usp_GetUserAccountByUserIdResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserAccountId", DbType="BigInt NOT NULL")]
+		public long UserAccountId
+		{
+			get
+			{
+				return this._UserAccountId;
+			}
+			set
+			{
+				if ((this._UserAccountId != value))
+				{
+					this._UserAccountId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="BigInt NOT NULL")]
+		public long UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccountTypeId", DbType="Int NOT NULL")]
+		public int AccountTypeId
+		{
+			get
+			{
+				return this._AccountTypeId;
+			}
+			set
+			{
+				if ((this._AccountTypeId != value))
+				{
+					this._AccountTypeId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Created", DbType="DateTime NOT NULL")]
+		public System.DateTime Created
+		{
+			get
+			{
+				return this._Created;
+			}
+			set
+			{
+				if ((this._Created != value))
+				{
+					this._Created = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Active", DbType="Bit NOT NULL")]
+		public bool Active
+		{
+			get
+			{
+				return this._Active;
+			}
+			set
+			{
+				if ((this._Active != value))
+				{
+					this._Active = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Notes", DbType="VarChar(1000)")]
+		public string Notes
+		{
+			get
+			{
+				return this._Notes;
+			}
+			set
+			{
+				if ((this._Notes != value))
+				{
+					this._Notes = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActivationToken", DbType="UniqueIdentifier")]
+		public System.Nullable<System.Guid> ActivationToken
+		{
+			get
+			{
+				return this._ActivationToken;
+			}
+			set
+			{
+				if ((this._ActivationToken != value))
+				{
+					this._ActivationToken = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DisplayName", DbType="NVarChar(100)")]
+		public string DisplayName
+		{
+			get
+			{
+				return this._DisplayName;
+			}
+			set
+			{
+				if ((this._DisplayName != value))
+				{
+					this._DisplayName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OnboardingComplete", DbType="Bit")]
+		public System.Nullable<bool> OnboardingComplete
+		{
+			get
+			{
+				return this._OnboardingComplete;
+			}
+			set
+			{
+				if ((this._OnboardingComplete != value))
+				{
+					this._OnboardingComplete = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="VarChar(180) NOT NULL", CanBeNull=false)]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this._Description = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccountTypeActive", DbType="Bit NOT NULL")]
+		public bool AccountTypeActive
+		{
+			get
+			{
+				return this._AccountTypeActive;
+			}
+			set
+			{
+				if ((this._AccountTypeActive != value))
+				{
+					this._AccountTypeActive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DisplayOrder", DbType="Int NOT NULL")]
+		public int DisplayOrder
+		{
+			get
+			{
+				return this._DisplayOrder;
+			}
+			set
+			{
+				if ((this._DisplayOrder != value))
+				{
+					this._DisplayOrder = value;
+				}
+			}
+		}
+	}
+	
+	public partial class usp_GetUsersThatHaveCardResult
+	{
+		
+		private string _email;
+		
+		public usp_GetUsersThatHaveCardResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="NVarChar(256)")]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this._email = value;
 				}
 			}
 		}

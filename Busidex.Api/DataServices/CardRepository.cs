@@ -572,11 +572,11 @@ namespace Busidex.Api.DataServices
         public async Task SendCardUpdatedEmails()
         {
 
-            var updatedCards = _dao.GetRecentlyUpdatedCards();
+            var updatedCards = BusidexDAL.GetRecentlyUpdatedCards();
 
             foreach (var cardId in updatedCards)
             {
-                var cardModel = _dao.GetCardById(cardId);
+                var cardModel = BusidexDAL.GetCardById(cardId, 0);
                 if (cardModel == null)
                 {
                     continue;
@@ -596,10 +596,10 @@ namespace Busidex.Api.DataServices
 
         private async Task NotifyUsersOfChangedCard(DataAccess.DTO.Card card)
         {
-            List<string> emails = _dao.GetUsersThatHaveCard(card.CardId);
+            List<string> emails = BusidexDAL.GetUsersThatHaveCard(card.CardId);
             var ownerEmail = string.Empty;
 
-            var ownerAccount = _dao.GetUserAccountByUserId(card.OwnerId.GetValueOrDefault());
+            var ownerAccount = BusidexDAL.GetUserAccountByUserId(card.OwnerId.GetValueOrDefault());
             if (ownerAccount != null)
             {
                 ownerEmail = ownerAccount.BusidexUser.Email;
@@ -610,7 +610,7 @@ namespace Busidex.Api.DataServices
                 if (!email.Equals(ownerEmail, StringComparison.InvariantCultureIgnoreCase) && !string.IsNullOrEmpty(email))
                 {
                     // Get the email template for updated card notification and send the emails.
-                    var template = _dao.GetEmailTemplate(EmailTemplateCode.CardUpdated);
+                    var template = BusidexDAL.GetEmailTemplate(EmailTemplateCode.CardUpdated);
                     if (template != null)
                     {
                         /*
@@ -676,7 +676,7 @@ namespace Busidex.Api.DataServices
 
                         
                        await SendEmail(communication);
-                        _dao.SaveCommunication(communication);
+                       BusidexDAL.SaveCommunication(communication);
                     }
                 }    
             }

@@ -1422,4 +1422,53 @@
       <Column Name="UserCardId" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.usp_GetRecentlyUpdatedCards" Method="_GetRecentlyUpdatedCards">
+    <ElementType Name="usp_GetRecentlyUpdatedCardsResult">
+      <Column Name="CardId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_SaveCommunications" Method="_SaveCommunications">
+    <Parameter Name="EmailTemplateId" Parameter="emailTemplateId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(150)" />
+    <Parameter Name="Body" Parameter="body" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="SentById" Parameter="sentById" Type="System.Int64" DbType="BigInt" />
+    <Parameter Name="OwnerToken" Parameter="ownerToken" Type="System.Guid" DbType="UniqueIdentifier" />
+    <Parameter Name="DateSent" Parameter="dateSent" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Failed" Parameter="failed" Type="System.Boolean" DbType="Bit" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.usp_GetEmailTemplateByCode" Method="usp_GetEmailTemplateByCode">
+    <Parameter Name="code" Type="System.String" DbType="VarChar(15)" />
+    <ElementType Name="usp_GetEmailTemplateByCodeResult1">
+      <Column Name="EmailTemplateId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="VarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="Subject" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="Body" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetUserAccountByUserId" Method="usp_GetUserAccountByUserId">
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="usp_GetUserAccountByUserIdResult1">
+      <Column Name="UserAccountId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="AccountTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Created" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="Active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Notes" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="ActivationToken" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="DisplayName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="OnboardingComplete" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(180) NOT NULL" CanBeNull="false" />
+      <Column Name="AccountTypeActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="DisplayOrder" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.usp_GetUsersThatHaveCard" Method="_GetUsersThatHaveCard">
+    <Parameter Name="CardId" Parameter="cardId" Type="System.Int64" DbType="BigInt" />
+    <ElementType Name="usp_GetUsersThatHaveCardResult">
+      <Column Name="email" Type="System.String" DbType="NVarChar(256)" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

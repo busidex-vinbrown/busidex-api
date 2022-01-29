@@ -55,13 +55,12 @@ namespace Busidex.Api.Controllers
         [System.Web.Http.HttpPost]
         public async Task<HttpResponseMessage> SendCommunication([FromBody] object request)
         {
-            //TODO: This could potentially be a long-running process so try it asynchronously. Might have to refactor this someday.
             bool error = false;
             AdminCommunication model = null;
             try
             {
                 model = JsonConvert.DeserializeObject<AdminCommunication>(request.ToString());
-                _cardRepository.SaveApplicationError(new Exception("Testing: " + model.Template.Subject), 0);
+                
                 foreach (var email in model.SendTo)
                 {
                     var communication = new Communication

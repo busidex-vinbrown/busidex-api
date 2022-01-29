@@ -36,6 +36,7 @@ namespace Busidex.Functions.DotNetCore
                 message.AddTo(to);
                 message.AddContent("text/html", model.EmailTemplate != null ? model.EmailTemplate.Body : "");
                 message.PlainTextContent = htmlContent;
+                message.HtmlContent = htmlContent;
                 message.SetFrom(from);
                 message.SetSubject(subject);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Busidex.Api.DataAccess;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
@@ -69,7 +70,7 @@ namespace Busidex.Api.DataServices
             return _dao.GetOrganizationReferrals(userId, organizationId);
         }
 
-        public void LogoToFile(Organization organization)
+        public async Task LogoToFile(Organization organization)
         {
             var mimeTypes = new Dictionary<string, string>
             {
@@ -117,7 +118,7 @@ namespace Busidex.Api.DataServices
             }
             catch (Exception ex)
             {
-                SaveApplicationError(ex, 0);
+                await SaveApplicationError(ex, 0);
             }
         }
     }

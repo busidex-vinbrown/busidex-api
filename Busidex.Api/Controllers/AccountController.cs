@@ -6,12 +6,15 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Mvc;
 using System.Web.Security;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
+using Busidex.DomainModels;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
 
 namespace Busidex.Api.Controllers
@@ -375,6 +378,25 @@ namespace Busidex.Api.Controllers
         }
         #endregion
 
+        #region PayPal Webhooks
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [System.Web.Http.HttpPost]
+        public HttpResponseMessage PaymentCompleted([FromBody]object model)
+        {
+            if(model != null)
+            {
+                var test = new Exception("Payment: " + model.ToString());
+                _cardRepository.SaveApplicationError(test, 0);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
+        }
+        #endregion
+
         #region Put
 
         [System.Web.Http.HttpPut]
@@ -572,7 +594,7 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        [Route("CheckEmailAvailability")]
+        [System.Web.Http.Route("CheckEmailAvailability")]
         public async Task<HttpResponseMessage> CheckEmailAvailability(string email)
         {
             var result = await Task.Factory.StartNew(()=>{

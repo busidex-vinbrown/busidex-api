@@ -1,6 +1,6 @@
 ﻿namespace Busidex.Api.DataAccess.DTO
 {
-    public class CardAddressesDTO
+    public class CardAddressDTO
     {
         public long CardAddressId { get; set; }
 

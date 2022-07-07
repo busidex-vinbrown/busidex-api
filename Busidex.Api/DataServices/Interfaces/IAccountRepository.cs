@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.Models;
 using AccountType = Busidex.Api.DataAccess.DTO.AccountType;
@@ -11,7 +12,7 @@ namespace Busidex.Api.DataServices.Interfaces
         List<Tag> GetUserAccountTags(long userId); 
         long AddUserAccountTag(long userAccountId, long tagId);
         void UpdateUserAccount(long userId, int accountTypeId);
-        bool UpdateUserName(long userId, string newUserName);
+        Task<bool> UpdateUserName(long userId, string newUserName);
         void SaveUserAccountToken(long userId, Guid token);
         void SaveUserAccountCode(long userId, string code);
         UserAccount GetUserAccountByToken(Guid token);
@@ -38,7 +39,7 @@ namespace Busidex.Api.DataServices.Interfaces
         BusidexUser GetUserByEmail(string email);
         BusidexUser GetUserByUserName(string userName);
         BusidexUser GetUserByDisplayName(string userName);
-        bool UpdatePassword(string userName, string password);
+        Task<bool> UpdatePassword(string userName, string password);
         void SaveUserAccountDeactivateToken(long userId, string token);
         UserAccount GetUserAccountByDeactivateToken(string token);
         void DeleteUserAccount(long userId);

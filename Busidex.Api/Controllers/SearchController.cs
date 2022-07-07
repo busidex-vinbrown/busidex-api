@@ -369,7 +369,7 @@ namespace Busidex.Api.Controllers
             }
             catch (Exception ex)
             {
-                _cardRepository.SaveApplicationError(ex, 0);
+                await _cardRepository.SaveApplicationError(ex, 0);
 
                 var response = new HttpResponseMessage
                 {

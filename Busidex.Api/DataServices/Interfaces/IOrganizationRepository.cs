@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Busidex.Api.DataAccess.DTO;
 
 namespace Busidex.Api.DataServices.Interfaces
@@ -9,7 +10,7 @@ namespace Busidex.Api.DataServices.Interfaces
         Organization GetOrganizationById(long id);
         List<Organization> GetOrganizationsByUserId(long userId);
         void UpdateOrganization(Organization organization, long userId);
-        void LogoToFile(Organization organization);
+        Task LogoToFile(Organization organization);
         List<OrganizationGuest> GetOrganizationGuests(long organizationId, long userId);
         List<CardDetailModel> GetOrganizationCards(long organizationId, long userId, bool includeImages = false);
         List<Group> GetOrganizationGroups(long ownerId, long userId);

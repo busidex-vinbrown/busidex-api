@@ -82,7 +82,7 @@ namespace Busidex.Api.Controllers
             catch (Exception ex)
             {
                 error = true;
-                _cardRepository.SaveApplicationError(ex, model.UserId);
+                await _cardRepository.SaveApplicationError(ex, model.UserId);
             }
 
             return await Task<HttpResponseMessage>.Factory.StartNew(() =>

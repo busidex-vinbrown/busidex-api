@@ -20,7 +20,7 @@ namespace Busidex.Api.DataServices.Interfaces
         List<EventSource> GetAllEventSources();
         void AddEventActivity(EventActivity activity);
         List<EventActivity> GetEventActivities(long cardId, byte month);
-        void CardToFile(long cardId, bool replaceFront, bool replaceBack, byte[] frontImage, Guid frontFileId, string frontType, byte[] backImage, Guid backFileId, string backType, long userId);
+        Task CardToFile(long cardId, bool replaceFront, bool replaceBack, byte[] frontImage, Guid frontFileId, string frontType, byte[] backImage, Guid backFileId, string backType, long userId);
         AddOrEditCardModel GetAddOrEditModel(long cardId, BusidexUser bu, string action);
         AddOrEditCardModel GetAddOrEditModel(AddOrEditCardModel model);
 
@@ -47,7 +47,7 @@ namespace Busidex.Api.DataServices.Interfaces
         CardDetailModel GetCardDetail(DataAccess.DTO.Card card);
         BusidexUser GetBusidexUserById(long userId);
         bool SaveCardOwnerToken(long cardId, Guid token);
-        bool SaveCardOwner(long cardId, long ownerId);
+        Task<bool> SaveCardOwner(long cardId, long ownerId);
         CardDetailModel GetCardByToken(string token);
         CardDetailModel GetCardByEmail(string email);
         List<CardDetailModel> GetCardsByPhoneNumber(long userId, string phoneNumber);
@@ -59,19 +59,19 @@ namespace Busidex.Api.DataServices.Interfaces
         UserCard GetUserCardLite(long id, long userId);
 
         void DeleteUserCard(UserCard uc, long userId);
-        void AddToMyBusidex(long cardId, long userId);
-        void AddSendersCardToMyBusidex(string token, long userId);
+        Task AddToMyBusidex(long cardId, long userId);
+        Task AddSendersCardToMyBusidex(string token, long userId);
         void SaveSharedCard(SharedCard sharedCard);
         void SaveSharedCards(List<SharedCard> sharedCards);
         List<SharedCard> GetSharedCards(long userId);
-        void AcceptSharedCard(long cardId, long userId);
+        Task AcceptSharedCard(long cardId, long userId);
         void DeclineSharedCard(long cardId, long userId);
-        void UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType);
+        Task UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType);
         List<Card> GetAllCards();
         List<UnownedCard> GetUnownedCards();
         bool IsACardOwner(long ownerId);
-        AddOrUpdateCardErrors AddCard(DataAccess.DTO.Card card, bool isMyCard, long userId, string notes, out long cardId);
-        AddOrUpdateCardErrors EditCard(Card cardModel, bool isMyCard, long userId, string notes);
+        Task<long> AddCard(DataAccess.DTO.Card card, bool isMyCard, long userId, string notes);
+        Task<AddOrUpdateCardErrors> EditCard(Card cardModel, bool isMyCard, long userId, string notes);
         void UpdateCardLinks(long cardId, List<DataAccess.ExternalLink> links);
         void InvalidateBusidexCache();
         List<StateCode> GetAllStateCodes();
@@ -79,14 +79,14 @@ namespace Busidex.Api.DataServices.Interfaces
         void RelateCards(long ownerId, long relatedCardId);
         void UnRelateCards(long ownerId, long relatedCardId);
         void UpdateCardBasicInfo(long cardId, string name, string company, string phone, string email);
-        void UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation);
+        Task UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation);
         void UpdateMobileView(long id, bool isMobileView);
         long GetCardCount();
         AddOrUpdateCardErrors CheckForCardModelErrors(Card cardModel, bool isMyCard);
         Task UploadCardUpdateToBlobStorage(AddOrEditCardModel model, string cardUpdateStorageConnectionString, string cardRef);
         void AddCardToQueue(string connectionString, string cardUpdateRef);
-        void SaveApplicationError(string error, string innerException, string stackTrace, long userId);
-        void SaveApplicationError(Exception ex, long userId);
+        Task SaveApplicationError(string error, string innerException, string stackTrace, long userId);
+        Task SaveApplicationError(Exception ex, long userId);
         Image ScaleImage(Image image, string orientation);
         void ClearBusidexCache();
         SearchResultModel SearchBySystemTag(string systag, long? userId);

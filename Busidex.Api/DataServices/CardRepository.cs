@@ -10,7 +10,6 @@ using Busidex.Api.DataAccess;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
-//using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
 using Group = Busidex.Api.DataAccess.DTO.Group;
 using System.IO.Compression;
@@ -19,7 +18,6 @@ using System.Xml.Serialization;
 using CloudStorageAccount = Microsoft.WindowsAzure.Storage.CloudStorageAccount;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Threading.Tasks;
-//using Microsoft.ServiceBus;
 
 namespace Busidex.Api.DataServices
 {
@@ -48,10 +46,10 @@ namespace Busidex.Api.DataServices
             }
         }
 
-        public void AddToMyBusidex(long id, long userId)
+        public async Task AddToMyBusidex(long id, long userId)
         {
             var userCard = new UserCard(id, userId);
-            _dao.AddUserCard(userCard);
+            await _dao.AddUserCard(userCard);
 
             // Send an email notification to the card owner
             return;
@@ -83,7 +81,7 @@ namespace Busidex.Api.DataServices
 
         }
 
-        public void AddSendersCardToMyBusidex(string token, long userId)
+        public async Task AddSendersCardToMyBusidex(string token, long userId)
         {
             Communication communication = BusidexDAL.GetCommunicationByActivationToken(token);
             if (communication != null)
@@ -94,7 +92,7 @@ namespace Busidex.Api.DataServices
                     foreach (var c in card)
                     {
                         var userCard = new UserCard(c.CardId, userId);
-                        _dao.AddUserCard(userCard);
+                        await _dao.AddUserCard(userCard);
                     }
                 }
             }
@@ -145,8 +143,7 @@ namespace Busidex.Api.DataServices
 
         public DataAccess.DTO.Card GetCardById(long cardId, long userId = 0)
         {
-            
-            return BusidexDAL.GetCardById(cardId, userId);
+            return _dao.GetCardById(cardId, userId);
         }
 
         public AddOrEditCardModel GetAddOrEditModel(AddOrEditCardModel model)
@@ -445,7 +442,7 @@ namespace Busidex.Api.DataServices
             _dao.UpdateCardLinks(cardId, links);
         }
 
-        public AddOrUpdateCardErrors EditCard(DataAccess.DTO.Card cardModel, bool isMyCard, long userId, string notes)
+        public async Task<AddOrUpdateCardErrors> EditCard(DataAccess.DTO.Card cardModel, bool isMyCard, long userId, string notes)
         {
             var modelErrors = new AddOrUpdateCardErrors();// CheckForCardModelErrors(cardModel, isMyCard);
 
@@ -458,7 +455,7 @@ namespace Busidex.Api.DataServices
 
                 foreach (var existingPhoneNumber in cardModel.PhoneNumbers.Where(p => p.PhoneNumberId > 0))
                 {
-                    PhoneNumber phoneNumber = BusidexDAL.GetPhoneNumberById(existingPhoneNumber.PhoneNumberId);
+                    var phoneNumber = _dao.GetPhoneNumberById(existingPhoneNumber.PhoneNumberId);
 
                     if (phoneNumber == null) continue;
 
@@ -468,14 +465,14 @@ namespace Busidex.Api.DataServices
                     phoneNumber.Deleted = existingPhoneNumber.Deleted;
                     phoneNumber.Updated = DateTime.UtcNow;
 
-                    BusidexDAL.UpdatePhonenumber(phoneNumber);
+                    await _dao.UpdatePhoneNumber(phoneNumber);
                 }
 
                 // Add the new phone numbers
                 foreach (var phoneNumber in newPhoneNumbers)
                 {
                     phoneNumber.CardId = cardModel.CardId;
-                    BusidexDAL.AddPhoneNumber(phoneNumber);
+                    await _dao.AddPhoneNumber(phoneNumber);
                 }
 
                 //var existingNumbers = _dao.GetCardPhoneNumbers(cardModel.CardId.ToString());
@@ -494,13 +491,13 @@ namespace Busidex.Api.DataServices
 
                 #region Tags
 
-                var tags = BusidexDAL.GetCardTags(cardModel.CardId);// _dao.GetCardTags(cardModel.CardId);
+                var tags = _dao.GetCardTags(cardModel.CardId);// _dao.GetCardTags(cardModel.CardId);
                 foreach (var tag in tags)
                 {
                     // if it's not found, it's been removed
                     if (cardModel.Tags.All(t => !string.Equals(t.Text, tag.Text, StringComparison.CurrentCultureIgnoreCase)))
                     {
-                        BusidexDAL.DeleteTag(cardModel.CardId, tag.TagId);
+                        _dao.DeleteTag(cardModel.CardId, tag.TagId);
                     }
                 }
 
@@ -508,7 +505,7 @@ namespace Busidex.Api.DataServices
                 {
                     if (tag.TagId == 0)
                     {
-                        BusidexDAL.AddTag(cardModel.CardId, tag);
+                        _dao.AddTag(cardModel.CardId, tag);
                     }                    
                 }
                 
@@ -520,7 +517,7 @@ namespace Busidex.Api.DataServices
                 {
                     if (address.CardAddressId == 0)
                     {
-                        BusidexDAL.AddAddress(cardModel.CardId, address);
+                        await _dao.AddAddress(cardModel.CardId, address);
                     }
                     else
                     {
@@ -529,11 +526,11 @@ namespace Busidex.Api.DataServices
                         {
                             if (address.Deleted)
                             {
-                                BusidexDAL.DeleteAddress(address.CardAddressId);
+                                await _dao.DeleteAddress(address.CardAddressId);
                             }
                             else
                             {
-                                BusidexDAL.UpdateAddress(address);
+                                await _dao.UpdateAddress(address);
                             }
                         }
                     }
@@ -556,13 +553,13 @@ namespace Busidex.Api.DataServices
                 #endregion
 
                 // Update the card
-                BusidexDAL.UpdateCard(cardModel);
+                await _dao.UpdateCard(cardModel);
 
                 // Update card notes
-                UserCard uc = BusidexDAL.GetUserCard(cardModel.CardId, userId);//BusidexDAL.GetUserCard(cardModel.CardId, userId);
+                var uc = _dao.GetUserCard(cardModel.CardId, userId);//BusidexDAL.GetUserCard(cardModel.CardId, userId);
                 if (uc != null)
                 {
-                    BusidexDAL.UpdateUserCard(uc.UserCardId, notes);
+                    await _dao.UpdateUserCard(uc.UserCardId, notes);
                 }                
             }
 
@@ -588,7 +585,7 @@ namespace Busidex.Api.DataServices
                 }
                 catch (Exception ex)
                 {
-                    SaveApplicationError(ex, 0);
+                    await SaveApplicationError(ex, 0);
                 }
             }
             
@@ -790,7 +787,6 @@ namespace Busidex.Api.DataServices
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(cardRef);
 
             // Create or overwrite the "myblob" blob with contents from a local file.
-            var formatter = new BinaryFormatter();
             try
             {
                 var json = JsonConvert.SerializeObject(model);
@@ -798,7 +794,7 @@ namespace Busidex.Api.DataServices
             }
             catch(Exception ex)
             {
-                SaveApplicationError(ex, 0);
+                await SaveApplicationError(ex, 0);
             }  
         }
 
@@ -867,12 +863,12 @@ namespace Busidex.Api.DataServices
 
                     if (model.SendFrom != card.OwnerId.GetValueOrDefault())
                     {                        
-                        SendOwnerNotificationOfSharedCard(model);
+                        await SendOwnerNotificationOfSharedCard(model);
                     }
                 }
                 catch (Exception ex)
                 {
-                    SaveApplicationError(ex, 0);
+                    await SaveApplicationError(ex, 0);
                     communication.Failed = true;
                 }
                 finally
@@ -916,7 +912,7 @@ namespace Busidex.Api.DataServices
                 }
                 catch (Exception ex)
                 {
-                    SaveApplicationError(ex, 0);
+                    await SaveApplicationError(ex, 0);
                     communication.Failed = true;
                 }
                 finally
@@ -948,7 +944,7 @@ namespace Busidex.Api.DataServices
                 }
                 catch (Exception ex)
                 {
-                    SaveApplicationError(ex, 0);
+                    await SaveApplicationError(ex, 0);
                     communication.Failed = true;
                 }
                 finally
@@ -992,7 +988,7 @@ namespace Busidex.Api.DataServices
             }
             catch (Exception ex)
             {
-                SaveApplicationError(ex, 0);
+                await SaveApplicationError(ex, 0);
             }
         }
 
@@ -1001,11 +997,8 @@ namespace Busidex.Api.DataServices
             _dao.AddSystemTagToCard(cardid, tag);  
         }
 
-        public AddOrUpdateCardErrors AddCard(DataAccess.DTO.Card card, bool isMyCard, long userId, string notes, out long cardId)
+        public async Task<long> AddCard(DataAccess.DTO.Card card, bool isMyCard, long userId, string notes)
         {
-
-            var modelErrors = new AddOrUpdateCardErrors();
-
             // Is this user the owner?
             if (isMyCard)
             {
@@ -1014,7 +1007,7 @@ namespace Busidex.Api.DataServices
             }
 
             // Add the new card
-            cardId = BusidexDAL.AddCard(card);
+            var cardId = await _dao.AddCard(card);
             card.CardId = cardId;
 
 
@@ -1022,14 +1015,14 @@ namespace Busidex.Api.DataServices
             foreach (var phoneNumber in card.PhoneNumbers)
             {
                 phoneNumber.CardId = cardId;
-                BusidexDAL.AddPhoneNumber(phoneNumber);
+                await _dao.AddPhoneNumber(phoneNumber);
             }
 
             // Add Tags
             foreach (var tag in card.Tags)
             {
-                BusidexDAL.AddTag(cardId, tag);
-                //_dao.AddTag(cardId, tag);
+                //BusidexDAL.AddTag(cardId, tag);
+                _dao.AddTag(cardId, tag);
             }
 
             // Add Addresses
@@ -1037,15 +1030,15 @@ namespace Busidex.Api.DataServices
             {
                 if (!address.Deleted)
                 {
-                    BusidexDAL.AddAddress(cardId, address);
+                    await _dao.AddAddress(cardId, address);
                 }
             }
 
             // Add the card to MyBusidex
             var userCard = new UserCard(card, userId) { CardId = cardId, Created = DateTime.Now, Notes = notes };
-            BusidexDAL.AddUserCard(userCard);
+            await _dao.AddUserCard(userCard);
             
-            return modelErrors;
+            return cardId;
         }
 
         public CardDetailModel GetCardByEmail(string email)
@@ -1075,9 +1068,9 @@ namespace Busidex.Api.DataServices
             return model;
         }
 
-        public bool SaveCardOwner(long cardId, long ownerId)
+        public async Task<bool> SaveCardOwner(long cardId, long ownerId)
         {
-            return _dao.SaveCardOwner(cardId, ownerId);
+            return await _dao.SaveCardOwner(cardId, ownerId);
         }
 
         public bool SaveCardOwnerToken(long cardId, Guid token)
@@ -1143,9 +1136,9 @@ namespace Busidex.Api.DataServices
             return cards;
         }
 
-        public void AcceptSharedCard(long cardId, long userId)
+        public async Task AcceptSharedCard(long cardId, long userId)
         {
-            _dao.AcceptSharedCard(cardId, userId);
+            await _dao.AcceptSharedCard(cardId, userId);
         }
 
         public void DeclineSharedCard(long cardId, long userId)
@@ -1153,9 +1146,9 @@ namespace Busidex.Api.DataServices
             _dao.DeclineSharedCard(cardId, userId);
         }
 
-        public void UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
+        public async Task UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
         {
-            BusidexDAL.UpdateCardFileId(cardId, frontFileId, frontType, backFileId, backType);
+            await _dao.UpdateCardFileId(cardId, frontFileId, frontType, backFileId, backType);
         }
 
         public List<DataAccess.DTO.Card> GetAllCards()
@@ -1178,9 +1171,9 @@ namespace Busidex.Api.DataServices
             BusidexDAL.UpdateCardBasicInfo(cardId, name, company, phone, email);
         }
 
-        public void UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
+        public async Task UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
         {
-            BusidexDAL.UpdateCardOrientation(cardId, frontOrientation, backOrientation);
+            await _dao.UpdateCardOrientation(cardId, frontOrientation, backOrientation);
         }
         
         public void UpdateMobileView(long id, bool isMobileView)
@@ -1208,7 +1201,7 @@ namespace Busidex.Api.DataServices
             return BusidexDAL.GetEventActivities(cardId, month);
         }
 
-        public void CardToFile(long cardId, bool replaceFront, bool replaceBack, byte[] frontImage, Guid frontFileId, string frontType, byte[] backImage, Guid backFileId, string backType, long userId)
+        public async Task CardToFile(long cardId, bool replaceFront, bool replaceBack, byte[] frontImage, Guid frontFileId, string frontType, byte[] backImage, Guid backFileId, string backType, long userId)
         {
             var mimeTypes = new Dictionary<string, string>
             {
@@ -1238,7 +1231,7 @@ namespace Busidex.Api.DataServices
                 card.FrontFileId = frontFileId;// card.FrontFileId ?? Guid.NewGuid();
                 card.BackFileId = backFileId;// card.BackFileId ?? Guid.NewGuid();
 
-                UpdateCardFileId(cardId, card.FrontFileId.GetValueOrDefault(), frontType, card.BackFileId.GetValueOrDefault(), backType);
+                await UpdateCardFileId(cardId, card.FrontFileId.GetValueOrDefault(), frontType, card.BackFileId.GetValueOrDefault(), backType);
 
                 #endregion
 
@@ -1275,7 +1268,7 @@ namespace Busidex.Api.DataServices
             }
             catch (Exception ex)
             {
-                SaveApplicationError(ex.Message, ex.InnerException?.Message ?? string.Empty, ex.StackTrace, 0);
+                await SaveApplicationError(ex.Message, ex.InnerException?.Message ?? string.Empty, ex.StackTrace, 0);
             }
         }
 
@@ -1391,7 +1384,7 @@ namespace Busidex.Api.DataServices
             var settings = new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All,
-                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+                //TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
                 Formatting = Formatting.Indented
             };
 

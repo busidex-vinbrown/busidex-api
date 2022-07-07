@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Busidex.Api.DataAccess;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.DataServices.Interfaces;
@@ -32,7 +33,7 @@ namespace Busidex.Api.DataServices
             BusidexDAL.UpdateUserAccount(userId, accountTypeId);    
         }
 
-        public bool UpdateUserName(long userId, string newUserName)
+        public async Task<bool> UpdateUserName(long userId, string newUserName)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace Busidex.Api.DataServices
             }
             catch (Exception ex)
             {
-                SaveApplicationError(ex, userId);
+                await SaveApplicationError(ex, userId);
                 return false;
             }
             return true;
@@ -51,7 +52,7 @@ namespace Busidex.Api.DataServices
             return _dao.UpdateEmail(userId, email);
         }
 
-        public bool UpdatePassword(string userName, string password)
+        public async Task<bool> UpdatePassword(string userName, string password)
         {
             try
             {
@@ -59,7 +60,7 @@ namespace Busidex.Api.DataServices
             }
             catch (Exception ex)
             {
-                SaveApplicationError(ex, 0);
+                await SaveApplicationError(ex, 0);
                 return false;
             }
             return true;

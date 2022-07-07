@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.EntityClient;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using Busidex.Api.DataAccess.DTO;
 using Busidex.Api.Models;
 using AccountType = Busidex.Api.DataAccess.DTO.AccountType;
@@ -232,7 +234,7 @@ namespace Busidex.Api.DataAccess
             }
         }
 
-        public bool SaveCardOwner(long cardId, long ownerId)
+        public async Task<bool> SaveCardOwner(long cardId, long ownerId)
         {
 	        bool ok;
             
@@ -252,7 +254,7 @@ namespace Busidex.Api.DataAccess
                     } catch(Exception ex) {                            
                         trns.Rollback();
                         ok = false;
-                        SaveApplicationError(ex.Message, ex.InnerException?.Message, ex.StackTrace, ownerId);
+                        await SaveApplicationError(ex.Message, ex.InnerException?.Message, ex.StackTrace, ownerId);
                     }
                 }
 	        }
@@ -377,17 +379,17 @@ namespace Busidex.Api.DataAccess
             }
         }
 
-        public void AddUserCard(UserCard userCard)
+        public async Task AddUserCard(UserCard userCard)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_AddUserCard @CardId={0}, @UserId={1}, @OwnerId={2}, @SharedById={3}, @Notes={4}",
                     userCard.CardId, userCard.UserId, userCard.OwnerId, userCard.SharedById, userCard.Notes);
             }
         }
 
-        public void AcceptSharedCard(long cardId, long userId)
+        public async Task AcceptSharedCard(long cardId, long userId)
         {
             var sharedCards = GetSharedCards(userId);
             var sharedCard = sharedCards.FirstOrDefault(c => c.CardId == cardId);
@@ -397,7 +399,7 @@ namespace Busidex.Api.DataAccess
             {
                 if (theirBusidex.All(c => c.CardId != sharedCard.CardId))
                 {
-                    AddUserCard(new UserCard
+                    await AddUserCard(new UserCard
                     {
                         CardId = cardId,
                         UserId = userId,
@@ -408,8 +410,8 @@ namespace Busidex.Api.DataAccess
                 }
                 using (var ctx = new busidexEntities())
                 {
-                    ctx.Database.ExecuteSqlCommand("exec dbo.usp_AcceptSharedCard @UserId={0}, @CardId={1}", userId, cardId);
-                    ctx.Database.ExecuteSqlCommand("exec dbo.usp_updateSharedById @CardId={0}, @UserId={1}", cardId, sharedCard.SendFrom);
+                    await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_AcceptSharedCard @UserId={0}, @CardId={1}", userId, cardId);
+                    await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_updateSharedById @CardId={0}, @UserId={1}", cardId, sharedCard.SendFrom);
                 }
             }
         }
@@ -538,6 +540,31 @@ namespace Busidex.Api.DataAccess
             }
         }
 
+        public PhoneNumber GetPhoneNumberById(long id)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                return
+                    ctx.Database.SqlQuery<PhoneNumber>("exec dbo.usp_getPhoneNumberById @id={0}", id).SingleOrDefault();
+            }
+        }
+
+        public async Task UpdatePhoneNumber(PhoneNumber phoneNumber)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_UpdatePhoneNumber @PhoneNumberId={0}, @PhoneNumberTypeId={1}, @CardId={2}, @Number={3}, @Extension={4}", phoneNumber.PhoneNumberId, phoneNumber.PhoneNumberTypeId, phoneNumber.CardId, phoneNumber.Number, phoneNumber.Extension);
+            }
+        }
+
+        public async Task AddPhoneNumber(PhoneNumber phoneNumber)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_AddPhoneNumber @PhoneNumberTypeId={0}, @CardId={1}, @Number={2}, @Extension={3}", phoneNumber.PhoneNumberTypeId, phoneNumber.CardId, phoneNumber.Number, phoneNumber.Extension);
+            }
+        }
+
         public List<PhoneNumber> GetCardPhoneNumber(long cardId)
         {
             using (var ctx = new busidexEntities())
@@ -583,6 +610,32 @@ namespace Busidex.Api.DataAccess
             using (var ctx = new busidexEntities())
             {
                 return ctx.Database.SqlQuery<DTO.CardAddress>("exec dbo.usp_GetCardAddresses @cardId={0}", cardId).ToList();
+            }
+        }
+
+        public async Task AddAddress(long cardId, DTO.CardAddress address)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_AddCardAddress @CardId={0}, @Address1={1}, @Address2={2}, @City={3}, @State={4}, @Zipcode={5}, @Region={6}, @Country={7}, @Latitude={8}, @Longitude={9}",
+                    cardId, address.Address1, address.Address2, address.City, address.State?.Code, address.ZipCode, address.Region, address.Country, address.Latitude, address.Longitude);
+            }
+        }
+
+        public async Task UpdateAddress(DTO.CardAddress address)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_UpdateCardAddress @CarAddressdId={0}, @Address1={1}, @Address2={2}, @City={3}, @State={4}, @Zipcode={5}, @Region={6}, @Country={7}, @Latitude={8}, @Longitude={9}",
+                    address.CardAddressId, address.Address1, address.Address2, address.City, address.State?.Code, address.ZipCode, address.Region, address.Country, address.Latitude, address.Longitude);
+            }
+        }
+
+        public async Task DeleteAddress(long cardAddressId)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_DeleteCardAddress @CardAddressId={0}", cardAddressId);
             }
         }
 
@@ -1231,11 +1284,11 @@ namespace Busidex.Api.DataAccess
             return list;
         }
 
-        public void SaveApplicationError(string error, string innerException, string stackTrace, long userId)
+        public async Task SaveApplicationError(string error, string innerException, string stackTrace, long userId)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_AddApplicationError @message={0}, @innerException={1}, @stackTrace={2}, @userId={3}",
                     error, innerException, stackTrace, userId);
             }
@@ -1487,6 +1540,16 @@ namespace Busidex.Api.DataAccess
             }
         }
 
+        public async Task UpdateUserCard(long userCardId, string notes)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync(
+                    "exec dbo.usp_UpdateUserCard @UserCardId={0}, @Notes={1}",
+                    userCardId, notes);
+            }
+        }
+
         public void UpdateUserCardStatus(long userCardId, UserCardAddStatus status)
         {
             using (var ctx = new busidexEntities())
@@ -1508,21 +1571,80 @@ namespace Busidex.Api.DataAccess
             return true;
         }
 
-        public void UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
+        public async Task<long> AddCard(DataAccess.DTO.Card card)
+        {
+            byte visibility = 1;
+            switch (card.Visibility)
+            {
+                case 1:
+                    visibility = 1;
+                    break;
+                case 2:
+                    visibility = 2;
+                    break;
+                case 3:
+                    visibility = 3;
+                    break;
+            }
+            var cardId = new SqlParameter
+            {
+                ParameterName = "cardId",
+                DbType = System.Data.DbType.Int64,
+                Direction = System.Data.ParameterDirection.Output
+            };
+
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_addCard @Name={0}, @Title={1}, @FrontImage={2}, @FrontType={3}, @FrontOrientation={4}, @BackImage={5}, @BackType={6}, @BackOrientation={7}, @BusinessId={ 8},@Searchable={ 9}, @CompanyName={ 10}, @Email={ 11}, @Url={ 12}, @CreatedBy={ 13}, @OwnerId={ 14}, @OwnerToken={ 15}, @FrontFileId={ 16}, @BackFileId={ 17}, @DisplayType={ 1}, @Markup={ 19}, @Visibility={ 20}, @CardTypeId={ 21}, @CardId={22}",
+                    card.Name, card.Title, card.FrontImage, card.FrontType, card.FrontOrientation,
+                card.BackImage, card.BackType, card.BackOrientation,
+                card.BusinessId, card.Searchable, card.CompanyName, card.Email, card.Url, card.CreatedBy,
+                card.OwnerId, card.OwnerToken, card.FrontFileId, card.BackFileId, card.Display.ToString(),
+                card.Markup, visibility, 1, cardId);
+            }
+            return Convert.ToInt64(cardId.Value);
+        }
+
+        public async Task UpdateCard(DataAccess.DTO.Card model)
+        {
+            byte visibility = 1;
+            switch (model.Visibility)
+            {
+                case 1:
+                    visibility = 1;
+                    break;
+                case 2:
+                    visibility = 2;
+                    break;
+                case 3:
+                    visibility = 3;
+                    break;
+            }
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_updateCard @CardId={0}, @Name={1},	@Title={2},	@FrontImage={3},	@FrontType={4},	@FrontOrientation={5},	@BackImage={6},	@BackType={7},	@BackOrientation={8},	@BusinessId={9},	@Searchable={10},	@CompanyName={11},	@Email={12},	@Url={13},	@CreatedBy={14},	@OwnerId={15},	@OwnerToken={16},	@Deleted={17},	@FrontFileId={18},	@BackFileId={19},	@DisplayType={20},	@Markup={21},	@Visibility={22}",
+                    model.CardId, model.Name, model.Title, model.FrontImage, model.FrontType, model.FrontOrientation,
+                       model.BackImage, model.BackType, model.BackOrientation, model.BusinessId, model.Searchable, model.CompanyName, model.Email,
+                       model.Url, model.CreatedBy, model.OwnerId, model.OwnerToken, false, model.FrontFileId, model.BackFileId, model.Display.ToString(),
+                       model.Markup, visibility);
+            }
+        }
+
+        public async Task UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_UpdateCardFileId @CardId={0}, @FrontFileId={1}, @FrontType={2}, @BackFileId={3}, @BackType={4}",
                     cardId, frontFileId, frontType, backFileId, backType);
             }
         }
 
-        public void UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
+        public async Task UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_UpdateCardOrientation @CardId={0}, @FrontOrientation={1}, @BackOrientation={2}",
                     cardId, frontOrientation, backOrientation);
             }

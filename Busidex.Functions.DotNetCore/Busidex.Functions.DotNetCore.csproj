@@ -4,13 +4,17 @@
     <AzureFunctionsVersion>v4</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.12.0" />
     <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.SendGrid" Version="3.0.2" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="4.0.5" />
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
-    <PackageReference Include="SendGrid" Version="9.25.2" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.5.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.0.1" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.1" />
+    <PackageReference Include="SendGrid" Version="9.28.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Busidex.DomainModels\Busidex.DomainModels.csproj" />
+    <ProjectReference Include="..\Busidex.DataAccess.DotNet\Busidex.DataAccess.DotNet.csproj" />
+    <ProjectReference Include="..\Busidex.DataServices.DotNet\Busidex.DataServices.DotNet.csproj" />
+    <ProjectReference Include="..\Busidex.DomainModels.DotNet\Busidex.DomainModels.DotNet.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

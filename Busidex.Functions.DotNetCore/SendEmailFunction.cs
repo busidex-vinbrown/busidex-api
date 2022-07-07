@@ -1,8 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Busidex.DomainModels;
-using Busidex.DomainModels.DTO;
+using Busidex.DomainModels.DotNet.DTO;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -10,7 +9,7 @@ using SendGrid.Helpers.Mail;
 
 namespace Busidex.Functions.DotNetCore
 {
-    public class SendEmailFunction
+    public class SendEmailFunction : FunctionBase
     {
         [FunctionName("SendEmail")]
         public async Task Run(
@@ -45,7 +44,8 @@ namespace Busidex.Functions.DotNetCore
             }
             catch (Exception ex)
             {
-                
+                log.LogError(ex, ex.Message);
+                await LogError(ex, 0);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Busidex.DomainModels.DTO;
+using System.Collections.Generic;
 
 namespace Busidex.DomainModels
 {

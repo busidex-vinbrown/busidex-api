@@ -113,6 +113,16 @@ namespace Busidex.DataAccess.DotNet
             await ExecuteSqlNonQueryAsync(sql, sqlParams); 
         }
 
+        public async Task SaveCardOwner(long cardId, long ownerId)
+        {
+            var sql = $"usp_SaveCardOwner";
+            var sqlParams = new List<SqlParameter>();
+            sqlParams.Add(new SqlParameter("@CardId", cardId));
+            sqlParams.Add(new SqlParameter("@OwnerId", ownerId));
+
+            await ExecuteSqlNonQueryAsync(sql, sqlParams);
+        }
+
         public async Task<EmailTemplate?> GetEmailTemplate(EmailTemplateCode code)
         {
             var sql = $"usp_GetEmailTemplateByCode";
@@ -660,7 +670,7 @@ namespace Busidex.DataAccess.DotNet
         {
             var sql = $"usp_UpdateCardAddress";
             var sqlParams = new List<SqlParameter>();
-            sqlParams.Add(new SqlParameter("@CarAddressdId", address.CardAddressId));
+            sqlParams.Add(new SqlParameter("@CardAddressId", address.CardAddressId));
             sqlParams.Add(new SqlParameter("@Address1", address.Address1));
             sqlParams.Add(new SqlParameter("@Address2", address.Address2));
             sqlParams.Add(new SqlParameter("@City", address.City));

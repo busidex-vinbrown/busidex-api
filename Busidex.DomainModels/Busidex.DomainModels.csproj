@@ -78,6 +78,9 @@
     <Compile Include="DTO\ActivityDTO.cs" />
     <Compile Include="DTO\ApplicationError.cs" />
     <Compile Include="DTO\BusiGroupModel.cs" />
+    <Compile Include="DTO\Card.cs" />
+    <Compile Include="DTO\CardAddress.cs" />
+    <Compile Include="DTO\CardAddressDTO.cs" />
     <Compile Include="DTO\CardDTO.cs" />
     <Compile Include="DTO\CardEditType.cs" />
     <Compile Include="DTO\ChangePasswordModel.cs" />
@@ -88,6 +91,8 @@
     <Compile Include="DTO\EventActivity.cs" />
     <Compile Include="DTO\EventSource.cs" />
     <Compile Include="DTO\EventSources.cs" />
+    <Compile Include="DTO\ExternalLink.cs" />
+    <Compile Include="DTO\ExternalLinkType.cs" />
     <Compile Include="DTO\GeoCoding.cs" />
     <Compile Include="DTO\JobCode.cs" />
     <Compile Include="DTO\JsonContent.cs" />
@@ -98,6 +103,9 @@
     <Compile Include="DTO\OAuthRefreshTokenResponse.cs" />
     <Compile Include="DTO\OAuthTokenRequest.cs" />
     <Compile Include="DTO\OAuthTokenResponse.cs" />
+    <Compile Include="DTO\PhoneNumber.cs" />
+    <Compile Include="DTO\PhoneNumberType.cs" />
+    <Compile Include="DTO\SharedCard.cs" />
     <Compile Include="EmailAddress.cs" />
     <Compile Include="EmailAttribute.cs" />
     <Compile Include="EmailTemplate.cs" />
@@ -119,6 +127,7 @@
     <Compile Include="OrganizationGuest.cs" />
     <Compile Include="OrgCardDetailModel.cs" />
     <Compile Include="Page.cs" />
+    <Compile Include="PayPalPayment.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="PhoneNumberDTO.cs" />
     <Compile Include="PhoneNumberType.cs" />
@@ -164,7 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>10.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

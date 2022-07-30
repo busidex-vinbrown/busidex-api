@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Busidex.DomainModels
+namespace Busidex.DomainModels.DTO
 {
     public class CardDetailModel
     {
@@ -47,6 +47,8 @@ namespace Busidex.DomainModels
         public string CustomContent { get; set; }
         public List<CardAddress> Addresses { get; set; }
 
+        public List<ExternalLink> ExternalLinks { get; set; } = new List<ExternalLink>();
+
         public CardDetailModel()
         {
             
@@ -85,6 +87,7 @@ namespace Busidex.DomainModels
             ExistsInMyBusidex = card.ExistsInMyBusidex;
             SEO_Name = card.SEO_Name;
             CustomContent = card.CustomContent;
+            ExternalLinks.AddRange(card.ExternalLinks);
 
             if (PhoneNumbers != null && PhoneNumbers.Count == 0)
             {

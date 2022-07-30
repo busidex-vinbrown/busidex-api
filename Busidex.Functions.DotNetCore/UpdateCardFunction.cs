@@ -42,6 +42,13 @@ namespace Busidex.Functions.DotNetCore
 
                     await cardRepository.EditCard(card, model.IsMyCard.GetValueOrDefault(),
                         model.UserId, model.Notes);
+
+                    await cardRepository.CardToFile(card.CardId, true, true,
+                            card.FrontImage, card.FrontFileId.GetValueOrDefault(), card.FrontType,
+                            card.BackImage, card.BackFileId.GetValueOrDefault(), card.BackType, userId);
+
+                    await cardRepository.UpdateCardOrientation(cardId, model.FrontOrientation, model.BackOrientation);
+
                 }
                 else if (model.Action == AddOrEditCardModel.CardAction.ImageOnly)
                 {
@@ -49,23 +56,23 @@ namespace Busidex.Functions.DotNetCore
                 }
 
                 // mark the message as processed
-                if (cardId > 1)
-                {
-                    if (model.Display == DisplayType.IMG)
-                    {
-                        await cardRepository.CardToFile(cardId, model.UpdateFrontImage, model.UpdateBackImage,
-                            model.FrontImage, model.FrontFileId.GetValueOrDefault(), model.FrontType,
-                            model.BackImage, model.BackFileId.GetValueOrDefault(), model.BackType, userId);
-                    }
+                //if (cardId > 1)
+                //{
+                //    if (model.Display == DisplayType.IMG)
+                //    {
+                //        await cardRepository.CardToFile(cardId, model.UpdateFrontImage, model.UpdateBackImage,
+                //            model.FrontImage, model.FrontFileId.GetValueOrDefault(), model.FrontType,
+                //            model.BackImage, model.BackFileId.GetValueOrDefault(), model.BackType, userId);
+                //    }
 
-                    await cardRepository.UpdateCardOrientation(cardId, model.FrontOrientation, model.BackOrientation);
-                }
-                else
-                {
-                    var ex = new Exception($"Card not updated. CardId {cardId}");
+                //    await cardRepository.UpdateCardOrientation(cardId, model.FrontOrientation, model.BackOrientation);
+                //}
+                //else
+                //{
+                //    var ex = new Exception($"Card not updated. CardId {cardId}");
 
-                    await LogError(ex, userId);
-                }
+                //    await LogError(ex, userId);
+                //}
                 log.LogInformation("Card update complete!");
                 
             }

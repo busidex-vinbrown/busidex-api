@@ -1,3 +1,4 @@
+using Busidex.DomainModels.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -78,8 +79,8 @@ namespace Busidex.DomainModels
                 Visibility = copy.Visibility
             };
 
-            card.PhoneNumbers.AddRange(copy.PhoneNumbers.Where(p=> !string.IsNullOrEmpty(p.Number)));
-            card.Addresses.AddRange(copy.Addresses);
+            //card.PhoneNumbers.AddRange(copy.PhoneNumbers.Where(p=> !string.IsNullOrEmpty(p.Number)));
+            //card.Addresses.AddRange(copy.Addresses);
             card.Tags.AddRange(copy.Tags != null ? copy.Tags.Where(t => !t.Deleted) : new List<Tag>());
 
             return card;

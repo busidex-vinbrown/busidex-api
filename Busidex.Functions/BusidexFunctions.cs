@@ -3,11 +3,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
-using Busidex.Api.DataAccess;
-using Busidex.Api.DataAccess.DTO;
-using Busidex.Api.DataServices;
-using Busidex.Api.DataServices.Interfaces;
-using Busidex.Api.Models;
+//using Busidex.Api.DataAccess;
+//using Busidex.Api.DataAccess.DTO;
+//using Busidex.Api.DataServices;
+//using Busidex.Api.DataServices.Interfaces;
+//using Busidex.Api.Models;
+using Busidex.DataAccess;
+using Busidex.DataServices;
+using Busidex.DataServices.DTO;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -22,9 +25,12 @@ namespace Busidex.Functions
             [QueueTrigger("card-update", Connection = "AzureWebJobsStorage")] 
             string cardRef, ILogger log)
         {
+            
             long userId = 0;
             try
             {
+                log.LogInformation("Starting card update...");
+
                 var connStr = Environment.GetEnvironmentVariable("busidexConnectionString");
                 log.LogInformation("BusidexConnectionString: " + connStr);
 
@@ -33,22 +39,21 @@ namespace Busidex.Functions
                     ICardRepository cardRepository = new CardRepository(ctx, connStr);
                     var model = await GetModelFromStorage(cardRef);
 
-                    var card = Busidex.Api.DataAccess.DTO.Card.Clone(model);
-                    var errors = new AddOrUpdateCardErrors();
+                    var card = DataServices.DTO.Card.Clone(model);
                     userId = model.UserId;
 
                     // Add or update the card based on the card action
                     long cardId = 0;
                     if (model.Action == AddOrEditCardModel.CardAction.Add)
                     {
-                        errors = cardRepository.AddCard(card, model.IsMyCard.GetValueOrDefault(),
-                            model.UserId, model.Notes, out cardId);
+                        cardId = await cardRepository.AddCard(card, model.IsMyCard.GetValueOrDefault(),
+                            model.UserId, model.Notes);
                     }
                     else if (model.Action == AddOrEditCardModel.CardAction.Edit)
                     {
                         cardId = card.CardId = model.CardId;
 
-                        errors = cardRepository.EditCard(card, model.IsMyCard.GetValueOrDefault(),
+                        await cardRepository.EditCard(card, model.IsMyCard.GetValueOrDefault(),
                             model.UserId, model.Notes);
                     }
                     else if (model.Action == AddOrEditCardModel.CardAction.ImageOnly)
@@ -57,41 +62,41 @@ namespace Busidex.Functions
                     }
 
                     // mark the message as processed
-                    if (cardId > 1 && errors.ErrorCollection.Count == 0)
+                    if (cardId > 1)
                     {
                         if (model.Display == DisplayType.IMG)
                         {
-                            cardRepository.CardToFile(cardId, model.UpdateFrontImage, model.UpdateBackImage,
+                            await cardRepository.CardToFile(cardId, model.UpdateFrontImage, model.UpdateBackImage,
                                 model.FrontImage, model.FrontFileId.GetValueOrDefault(), model.FrontType,
                                 model.BackImage, model.BackFileId.GetValueOrDefault(), model.BackType, userId);
                         }
 
-                        cardRepository.UpdateCardOrientation(cardId, model.FrontOrientation, model.BackOrientation);
+                        await cardRepository.UpdateCardOrientation(cardId, model.FrontOrientation, model.BackOrientation);
                     }
                     else
                     {
-                        var ex = new Exception("Card not updated",
-                            new Exception("Error count: " + errors.ErrorCollection.Count + ", CardId: " + cardId));
+                        var ex = new Exception($"Card not updated. CardId {cardId}");
 
-                        LogError(ex, userId);
+                        await LogError(ex, userId);
                     }
+                    log.LogInformation("Card update complete!");
                 }
             }
             catch (Exception ex)
             {
                 log.LogError(0, ex, ex.Message);
-                LogError(ex, userId);
+                await LogError(ex, userId);
             }
         }
 
-        private static void LogError(Exception ex, long userId)
+        private static async Task LogError(Exception ex, long userId)
         {
             var connStr = Environment.GetEnvironmentVariable("busidexConnectionString");
 
             using (var ctx = new BusidexDataContext(connStr))
             {
                 ICardRepository cardRepository = new CardRepository(ctx, connStr);
-                cardRepository.SaveApplicationError(ex, userId);
+                await cardRepository.SaveApplicationError(ex, userId);
             }
         }
 
@@ -115,7 +120,7 @@ namespace Busidex.Functions
 
         #region Shared Cards
         [FunctionName("SendSharedCard")]
-        public static void SendSharedCard(
+        public static async Task SendSharedCard(
             [QueueTrigger("shared-card", Connection = "AzureWebJobsStorage")]
             string sharedCardJson, ILogger log)
         {
@@ -184,7 +189,7 @@ namespace Busidex.Functions
             }
             catch (Exception ex)
             {
-                LogError(ex, 0);
+                await LogError(ex, 0);
             }
         }
 

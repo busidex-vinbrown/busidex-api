@@ -6,5 +6,13 @@
       "package_name": "com.busidex",
       "sha256_cert_fingerprints": [ "15:49:7A:3F:14:D2:C5:8E:2F:FC:AB:EB:14:3E:B0:BC:EB:4F:36:7C:B1:C8:0B:8C:5D:92:65:B6:6B:3C:0D:CB" ]
     }
+  },
+  {
+    "relation": [ "delegate_permission/common.handle_all_urls" ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.busidex.professional",
+      "sha256_cert_fingerprints": [ "15:49:7A:3F:14:D2:C5:8E:2F:FC:AB:EB:14:3E:B0:BC:EB:4F:36:7C:B1:C8:0B:8C:5D:92:65:B6:6B:3C:0D:CB" ]
+    }
   }
 ]

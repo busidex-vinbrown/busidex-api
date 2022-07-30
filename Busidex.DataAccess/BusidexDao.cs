@@ -1,16 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Busidex.DomainModels;
+﻿using Busidex.DomainModels;
 using Busidex.DomainModels.DTO;
-using AccountType = Busidex.DomainModels.AccountType;
-using ApplicationError = Busidex.DomainModels.ApplicationError;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Busidex.DataAccess
 {
     public class BusidexDao
     {
+        private readonly string _connectionString;
+
+        public BusidexDao() { _connectionString = null; }
+        public BusidexDao(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public List<Communication> GetCommunications(string[] emails, long userId)
         {
             using (var ctx = new busidexEntities())
@@ -24,7 +31,7 @@ namespace Busidex.DataAccess
 
         public void SaveCommunication(Communication communication)
         {
-            using (var ctx = new busidexEntities()) 
+            using (var ctx = new busidexEntities())
             {
 
                 ctx.Database.ExecuteSqlCommand(
@@ -40,7 +47,7 @@ namespace Busidex.DataAccess
                 return ctx.Database.SqlQuery<EmailTemplate>(
                         "exec dbo.usp_GetEmailTemplateByCode @code={0}", code.ToString())
                         .SingleOrDefault();
-            }         
+            }
         }
 
         public List<DeviceSummary> GetDeviceSummary()
@@ -90,7 +97,6 @@ namespace Busidex.DataAccess
             {
                 return ctx.Database.SqlQuery<OrgCardDetailModel>("exec dbo.usp_GetOrganizationCardByOwnerId @OwnerId={0}", ownerId).SingleOrDefault();
             }
-
         }
 
         public List<Tag> GetUserAccountTags(long userId)
@@ -121,7 +127,7 @@ namespace Busidex.DataAccess
             using (var ctx = new busidexEntities())
             {
                 return
-                    ctx.Database.SqlQuery<Tag>("exec dbo.usp_GetTag @TagTypeId={0}, @Tag={1}", (int) type, tag)
+                    ctx.Database.SqlQuery<Tag>("exec dbo.usp_GetTag @TagTypeId={0}, @Tag={1}", (int)type, tag)
                         .SingleOrDefault();
             }
         }
@@ -159,7 +165,7 @@ namespace Busidex.DataAccess
             using (var ctx = new busidexEntities())
             {
                 ctx.Database.ExecuteSqlCommand("exec dbo.usp_AddCardTag @CardId={0}, @TagText={1}", cardid, tag);
-            }  
+            }
         }
 
         public long AddUserAccountTag(long userAccountId, long tagId)
@@ -171,12 +177,12 @@ namespace Busidex.DataAccess
             }
         }
 
-        public List<ApplicationError> GetApplicationErrors(int daysBack)
+        public List<DomainModels.ApplicationError> GetApplicationErrors(int daysBack)
         {
             using (var ctx = new busidexEntities())
             {
                 return
-                    ctx.Database.SqlQuery<ApplicationError>("exec dbo.usp_GetApplicationErrors @DaysBack={0}", daysBack)
+                    ctx.Database.SqlQuery<DomainModels.ApplicationError>("exec dbo.usp_GetApplicationErrors @DaysBack={0}", daysBack)
                         .ToList();
             }
         }
@@ -223,29 +229,35 @@ namespace Busidex.DataAccess
             }
         }
 
-        public bool SaveCardOwner(long cardId, long ownerId)
+        public async Task<bool> SaveCardOwner(long cardId, long ownerId)
         {
-	        bool ok;
-            try
-            {
-	            using (var ctx = new busidexEntities())
-	            {
-		            var c = ctx.Cards.Find(cardId);
-		            if (c != null)
-		            {
-			            c.Searchable = true; // Now that the card is owned, it is searchable
-			            c.OwnerId = ownerId;
-			            ctx.SaveChanges();
-		            }
+            bool ok;
 
-		            ok = true;
-	            }
-            }
-            catch (Exception ex)
+            using (var ctx = new busidexEntities())
             {
-                ok = false;
-				SaveApplicationError(ex.Message, ex.InnerException?.Message, ex.StackTrace, ownerId);
-			}
+                using (var trns = ctx.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var c = ctx.Cards.Find(cardId);
+                        if (c != null)
+                        {
+                            c.Deleted = false;
+                            c.Searchable = true; // Now that the card is owned, it is searchable
+                            c.OwnerId = ownerId;
+                            ctx.SaveChanges();
+                        }
+
+                        ok = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        trns.Rollback();
+                        ok = false;
+                        await SaveApplicationError(ex.Message, ex.InnerException?.Message, ex.StackTrace, ownerId);
+                    }
+                }
+            }
 
             return ok;
         }
@@ -272,106 +284,20 @@ namespace Busidex.DataAccess
 
         public List<UserCard> GetMyBusidex(long userId, bool includeImages)
         {
-
-            // This may include deleted cards. If someone deletes their card, that should not
-            // necessarily remove that card from everyone's busidex collection.
-            using (var ctx = new busidexEntities())
-            {
-                var cardResults = ctx.Database.SqlQuery<usp_getMyBusidexResult>("exec dbo.usp_getMyBusidex @UserId={0},@includeImages={1}",
-                    userId, includeImages).ToList();
-
-                var cardIds = string.Join(",", cardResults.Select(c => c.CardId).ToArray());
-
-                var phoneNumbersDto = GetCardPhoneNumbers(cardIds).ToList();
-                var phoneNumbers = phoneNumbersDto.Select(phoneNumber => new PhoneNumber
-                {
-                    CardId = phoneNumber.CardId,
-                    Number = phoneNumber.Number,
-                    Extension = phoneNumber.Extension,
-                    PhoneNumberType = new PhoneNumberType
-                    {
-                        Name = phoneNumber.Name,
-                        PhoneNumberTypeId = phoneNumber.PhoneNumberTypeId
-                    }
-                }).ToList();
-
-                var addresses = GetCardAddressesByIds(cardIds).Select(address => new DomainModels.CardAddress
-                {
-                    CardAddressId = address.CardAddressId,
-                    CardId = address.CardId,
-                    Address1 = address.Address1,
-                    Address2 = address.Address2,
-                    City = address.City,
-                    State = new StateCode
-                    {
-                        StateCodeId = 0,
-                        Code = address.State
-                    },
-                    ZipCode = address.ZipCode,
-                    Region = address.Region,
-                    Country = address.Country,
-                    Deleted = address.Deleted
-                }).ToList();
-
-               var cards = cardResults.Select(item => new UserCard
-                {
-                    UserCardId = item.UserCardId,
-                    Notes = HttpUtility.UrlDecode(item.Notes),
-                    CardId = item.CardId,
-                    RelatedCards = new List<CardRelation>(), 
-                    MobileView = item.MobileView,
-                    SharedById = item.SharedById,
-                    Card = new DomainModels.Card
-                    {
-                        Name = item.Name,
-                        CompanyName = item.CompanyName,
-                        BackFileId = item.BackFileId,
-                        BackOrientation = item.BackOrientation,
-                        BackType = item.BackType,
-                        CardId = item.CardId,
-                        CreatedBy = item.CreatedBy,
-                        Email = item.Email,
-                        ExistsInMyBusidex = true,
-                        FrontFileId = item.FrontFileId,
-                        FrontOrientation = item.FrontOrientation,
-                        FrontType = item.FrontType,
-                        OwnerId = item.OwnerId,
-                        Searchable = item.Searchable,
-                        Title = item.Title,
-                        Url = item.Url,
-                        PhoneNumbers =  phoneNumbers.Where(p=>p.CardId == item.CardId).ToList(),
-                        Addresses = addresses.Where(a=>a.CardId == item.CardId).ToList()
-                    }
-                }).ToList();
-
-               var tags = GetCardTagsByIds(string.Join(",", cards.Select(c => c.CardId))).ToList();
-               foreach (var userCard in cards)
-               {
-                   userCard.Card.Tags = (from tag in tags
-                                         where tag.CardId == userCard.CardId
-                                         select new Tag
-                                         {
-                                             TagId = tag.TagId,
-                                             Text = tag.Text,
-                                             TagType = (TagType)tag.TagTypeId
-                                         }).ToList();
-               }
-
-                return cards.ToList();
-            }
+            throw new NotImplementedException();
         }
 
-        public void AddUserCard(UserCard userCard)
+        public async Task AddUserCard(UserCard userCard)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_AddUserCard @CardId={0}, @UserId={1}, @OwnerId={2}, @SharedById={3}, @Notes={4}",
                     userCard.CardId, userCard.UserId, userCard.OwnerId, userCard.SharedById, userCard.Notes);
             }
         }
 
-        public void AcceptSharedCard(long cardId, long userId)
+        public async Task AcceptSharedCard(long cardId, long userId)
         {
             var sharedCards = GetSharedCards(userId);
             var sharedCard = sharedCards.FirstOrDefault(c => c.CardId == cardId);
@@ -381,7 +307,7 @@ namespace Busidex.DataAccess
             {
                 if (theirBusidex.All(c => c.CardId != sharedCard.CardId))
                 {
-                    AddUserCard(new UserCard
+                    await AddUserCard(new UserCard
                     {
                         CardId = cardId,
                         UserId = userId,
@@ -392,8 +318,8 @@ namespace Busidex.DataAccess
                 }
                 using (var ctx = new busidexEntities())
                 {
-                    ctx.Database.ExecuteSqlCommand("exec dbo.usp_AcceptSharedCard @UserId={0}, @CardId={1}", userId, cardId);
-                    ctx.Database.ExecuteSqlCommand("exec dbo.usp_updateSharedById @CardId={0}, @UserId={1}", cardId, sharedCard.SendFrom);
+                    await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_AcceptSharedCard @UserId={0}, @CardId={1}", userId, cardId);
+                    await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_updateSharedById @CardId={0}, @UserId={1}", cardId, sharedCard.SendFrom);
                 }
             }
         }
@@ -411,12 +337,11 @@ namespace Busidex.DataAccess
             }
         }
 
-        public List<SharedCard> GetSharedCards(long userId)
+        public List<DomainModels.DTO.SharedCard> GetSharedCards(long userId)
         {
-
             using (var ctx = new busidexEntities())
             {
-                var sharedCards = ctx.Database.SqlQuery<SharedCard>(
+                var sharedCards = ctx.Database.SqlQuery<DomainModels.DTO.SharedCard>(
                         "exec dbo.usp_GetSharedCardsByUserId @userId={0}", userId).ToList();
 
                 foreach (var sharedCard in sharedCards)
@@ -436,15 +361,15 @@ namespace Busidex.DataAccess
                     }
                 }
                 return sharedCards.Where(c => c.Card != null && c.Card.CardType == CardType.Professional).ToList();
-            }            
+            }
         }
 
-        public List<SharedCard> GetOrganizationInvitations(long userId)
+        public List<DomainModels.DTO.SharedCard> GetOrganizationInvitations(long userId)
         {
 
             using (var ctx = new busidexEntities())
             {
-                var sharedCards = ctx.Database.SqlQuery<SharedCard>(
+                var sharedCards = ctx.Database.SqlQuery<DomainModels.DTO.SharedCard>(
                         "exec dbo.usp_GetSharedCardsByUserId @userId={0}", userId).ToList();
 
                 foreach (var sharedCard in sharedCards)
@@ -452,11 +377,11 @@ namespace Busidex.DataAccess
                     sharedCard.Card = GetCardById(sharedCard.CardId, userId);
                     sharedCard.Card.FrontImage = sharedCard.Card.BackImage = null;
                 }
-                return sharedCards.Where(c=>c.Card.CardType == CardType.Organization).ToList();
+                return sharedCards.Where(c => c.Card.CardType == CardType.Organization).ToList();
             }
         }
 
-        public void SaveSharedCard(SharedCard sharedCard)
+        public void SaveSharedCard(DomainModels.DTO.SharedCard sharedCard)
         {
             using (var ctx = new busidexEntities())
             {
@@ -488,21 +413,21 @@ namespace Busidex.DataAccess
             }
         }
 
-        public List<SharedCard> Get30DaySharedCards()
+        public List<DomainModels.DTO.SharedCard> Get30DaySharedCards()
         {
             using (var ctx = new busidexEntities())
             {
-                var sharedCards = ctx.Database.SqlQuery<SharedCard>("exec dbo.usp_GetUnclaimedSharedCards").ToList();
+                var sharedCards = ctx.Database.SqlQuery<DomainModels.DTO.SharedCard>("exec dbo.usp_GetUnclaimedSharedCards").ToList();
                 return sharedCards.Where(c => c.SharedDate < DateTime.Today.AddDays(-30)).ToList();
             }
-            
+
         }
 
-        public SharedCard GetSharedCard(long cardId, long sendFrom, long shareWith)
+        public DomainModels.DTO.SharedCard GetSharedCard(long cardId, long sendFrom, long shareWith)
         {
             using (var ctx = new busidexEntities())
             {
-                return ctx.Database.SqlQuery<SharedCard>("exec dbo.usp_GetSharedCard @CardId={0}, @SendFrom={1}, @ShareWith={2}", cardId, sendFrom, shareWith).FirstOrDefault();
+                return ctx.Database.SqlQuery<DomainModels.DTO.SharedCard>("exec dbo.usp_GetSharedCard @CardId={0}, @SendFrom={1}, @ShareWith={2}", cardId, sendFrom, shareWith).FirstOrDefault();
             }
         }
 
@@ -522,12 +447,37 @@ namespace Busidex.DataAccess
             }
         }
 
-        public List<PhoneNumber> GetCardPhoneNumber(long cardId)
+        public DomainModels.DTO.PhoneNumber GetPhoneNumberById(long id)
         {
             using (var ctx = new busidexEntities())
             {
                 return
-                    ctx.Database.SqlQuery<PhoneNumber>("exec dbo.usp_getCardPhoneNumber @cardId={0}", cardId).ToList();
+                    ctx.Database.SqlQuery<DomainModels.DTO.PhoneNumber>("exec dbo.usp_getPhoneNumberById @id={0}", id).SingleOrDefault();
+            }
+        }
+
+        public async Task UpdatePhoneNumber(DomainModels.DTO.PhoneNumber phoneNumber)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_UpdatePhoneNumber @PhoneNumberId={0}, @PhoneNumberTypeId={1}, @CardId={2}, @Number={3}, @Extension={4}", phoneNumber.PhoneNumberId, phoneNumber.PhoneNumberTypeId, phoneNumber.CardId, phoneNumber.Number, phoneNumber.Extension);
+            }
+        }
+
+        public async Task AddPhoneNumber(DomainModels.DTO.PhoneNumber phoneNumber)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_AddPhoneNumber @PhoneNumberTypeId={0}, @CardId={1}, @Number={2}, @Extension={3}", phoneNumber.PhoneNumberTypeId, phoneNumber.CardId, phoneNumber.Number, phoneNumber.Extension);
+            }
+        }
+
+        public List<DomainModels.DTO.PhoneNumber> GetCardPhoneNumber(long cardId)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                return
+                    ctx.Database.SqlQuery<DomainModels.DTO.PhoneNumber>("exec dbo.usp_getCardPhoneNumber @cardId={0}", cardId).ToList();
             }
         }
 
@@ -545,6 +495,11 @@ namespace Busidex.DataAccess
         {
             using (var ctx = new busidexEntities())
             {
+                //var b = new EntityConnectionStringBuilder();
+                //b.Metadata = "metadata=res://*/DataAccess.BusidexData.csdl|res://*/DataAccess.BusidexData.ssdl|res://*/DataAccess.BusidexData.msl";
+                //b.ProviderConnectionString = _connectionString;
+                //b.Provider = "System.Data.SqlClient";
+                //ctx.Database.Connection.ConnectionString = b.ConnectionString;
                 return ctx.Database.SqlQuery<Tag>("exec dbo.usp_GetCardTags @cardId={0}", cardId).ToList();
             }
         }
@@ -557,11 +512,51 @@ namespace Busidex.DataAccess
             }
         }
 
-        public List<DomainModels.CardAddress> GetCardAddresses(long cardId)
+        public List<DomainModels.DTO.CardAddress> GetCardAddresses(long cardId)
         {
             using (var ctx = new busidexEntities())
             {
-                return ctx.Database.SqlQuery<DomainModels.CardAddress>("exec dbo.usp_GetCardAddresses @cardId={0}", cardId).ToList();
+                return ctx.Database.SqlQuery<DomainModels.DTO.CardAddress>("exec dbo.usp_GetCardAddresses @cardId={0}", cardId).ToList();
+            }
+        }
+
+        public async Task AddAddress(long cardId, DomainModels.DTO.CardAddress address)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_AddCardAddress @CardId={0}, @Address1={1}, @Address2={2}, @City={3}, @State={4}, @Zipcode={5}, @Region={6}, @Country={7}, @Latitude={8}, @Longitude={9}",
+                    cardId, address.Address1, address.Address2, address.City, address.State?.Code, address.ZipCode, address.Region, address.Country, address.Latitude, address.Longitude);
+            }
+        }
+
+        public async Task UpdateAddress(DomainModels.DTO.CardAddress address)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_UpdateCardAddress @CarAddressdId={0}, @Address1={1}, @Address2={2}, @City={3}, @State={4}, @Zipcode={5}, @Region={6}, @Country={7}, @Latitude={8}, @Longitude={9}",
+                    address.CardAddressId, address.Address1, address.Address2, address.City, address.State?.Code, address.ZipCode, address.Region, address.Country, address.Latitude, address.Longitude);
+            }
+        }
+
+        public async Task DeleteAddress(long cardAddressId)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_DeleteCardAddress @CardAddressId={0}", cardAddressId);
+            }
+        }
+
+        public List<ExternalLink> GetExternalLinks(long cardId)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                var links = ctx.Database.SqlQuery<ExternalLink>("exec dbo.usp_GetExternalLinksByCardId @cardId={0}", cardId).ToList();
+                foreach (var link in links)
+                {
+                    var linkType = ctx.Database.SqlQuery<ExternalLinkType>($"SELECT * from dbo.ExternalLinkType where ExternalLinkTypeId = {link.ExternalLinkTypeId}").FirstOrDefault();
+                    link.ExternalLinkType = linkType;
+                }
+                return links;
             }
         }
 
@@ -573,7 +568,7 @@ namespace Busidex.DataAccess
             }
         }
 
-        public List<StateCode> GetAllStateCodes()
+        public List<DomainModels.StateCode> GetAllStateCodes()
         {
             using (var ctx = new busidexEntities())
             {
@@ -581,11 +576,11 @@ namespace Busidex.DataAccess
             }
         }
 
-        public List<PhoneNumberType> GetAllPhoneNumberTypes()
+        public List<DomainModels.DTO.PhoneNumberType> GetAllPhoneNumberTypes()
         {
             using (var ctx = new busidexEntities())
             {
-                return ctx.Database.SqlQuery<PhoneNumberType>("exec dbo.usp_GetAllPhoneNumberTypes").ToList();
+                return ctx.Database.SqlQuery<DomainModels.DTO.PhoneNumberType>("exec dbo.usp_GetAllPhoneNumberTypes").ToList();
             }
         }
 
@@ -596,16 +591,16 @@ namespace Busidex.DataAccess
             {
                 return ctx.Database.SqlQuery<long>("exec dbo.usp_GetRecentlyUpdatedCards").ToList();
             }
-            
+
         }
 
-        private DomainModels.Card _populateCard(DomainModels.Card c)
+        private DomainModels.DTO.Card _populateCard(DomainModels.DTO.Card c)
         {
             var card = c;
             var cardPhoneNumbers = GetCardPhoneNumber(card.CardId);
             var phoneNumberTypes = GetAllPhoneNumberTypes().ToDictionary(t => t.PhoneNumberTypeId, t => t.Name);
 
-            var phoneNumbers = cardPhoneNumbers.Select(p => new PhoneNumber
+            var phoneNumbers = cardPhoneNumbers.Select(p => new DomainModels.DTO.PhoneNumber
             {
                 CardId = p.CardId,
                 Created = p.Created,
@@ -615,7 +610,7 @@ namespace Busidex.DataAccess
                 PhoneNumberTypeId = p.PhoneNumberTypeId,
                 Updated = p.Updated,
                 PhoneNumberId = p.PhoneNumberId,
-                PhoneNumberType = new PhoneNumberType
+                PhoneNumberType = new DomainModels.DTO.PhoneNumberType
                 {
                     PhoneNumberTypeId = p.PhoneNumberTypeId,
                     Name = phoneNumberTypes[p.PhoneNumberTypeId]
@@ -627,12 +622,12 @@ namespace Busidex.DataAccess
             {
                 TagId = t.TagId,
                 Text = t.Text,
-                TagType = (TagType) t.TagTypeId
+                TagType = (TagType)t.TagTypeId
             }).ToList();
 
             var addresses = GetCardAddresses(card.CardId);
-            var stateCodes = GetAllStateCodes().ToList();
-            var cardAddresses = addresses.Select(a => new DomainModels.CardAddress
+            var stateCodes = GetAllStateCodes();
+            var cardAddresses = addresses.Select(a => new DomainModels.DTO.CardAddress
             {
                 Address1 = a.Address1,
                 Address2 = a.Address2,
@@ -646,19 +641,21 @@ namespace Busidex.DataAccess
                 ZipCode = a.ZipCode
             }).ToList();
 
+            var links = GetExternalLinks(card.CardId);
+
             card.PhoneNumbers = phoneNumbers;
             card.Tags = cardTags;
             card.Addresses = cardAddresses;
-
+            card.ExternalLinks = links;
 
             return card;
         }
 
-        public DomainModels.Card GetCardById(long id, long userId = 0)
+        public DomainModels.DTO.Card GetCardById(long id, long userId = 0)
         {
             using (var ctx = new busidexEntities())
             {
-                var card = ctx.Database.SqlQuery<DomainModels.Card>("exec dbo.usp_getCardById @cardId={0}, @userId={1}", id, userId).SingleOrDefault();
+                var card = ctx.Database.SqlQuery<DomainModels.DTO.Card>("exec dbo.usp_getCardById @cardId={0}, @userId={1}", id, userId).SingleOrDefault();
 
                 if (card != null)
                 {
@@ -668,7 +665,7 @@ namespace Busidex.DataAccess
             }
         }
 
-        public DomainModels.Card GetCardByToken(string token)
+        public DomainModels.DTO.Card GetCardByToken(string token)
         {
             if (string.IsNullOrEmpty(token))
             {
@@ -678,7 +675,7 @@ namespace Busidex.DataAccess
             var ownerToken = new Guid(token);
             using (var ctx = new busidexEntities())
             {
-                var card = ctx.Database.SqlQuery<DomainModels.Card>("exec dbo.usp_GetCardByOwnerToken @Token={0}", ownerToken).SingleOrDefault();
+                var card = ctx.Database.SqlQuery<DomainModels.DTO.Card>("exec dbo.usp_GetCardByOwnerToken @Token={0}", ownerToken).SingleOrDefault();
 
                 if (card != null)
                 {
@@ -781,30 +778,30 @@ namespace Busidex.DataAccess
                         organizationId, userId).ToList();
                 return items;
             }
-        } 
+        }
 
         public List<CardDetailModel> GetOrganizationCards(long organizationId, long userId, bool includeImages)
         {
             using (var ctx = new busidexEntities())
             {
                 var items =
-                    ctx.Database.SqlQuery<DomainModels.Card>("exec dbo.usp_GetOrganizationCards @organizationId={0}, @userId={1}",
+                    ctx.Database.SqlQuery<DomainModels.DTO.Card>("exec dbo.usp_GetOrganizationCards @organizationId={0}, @userId={1}",
                         organizationId, userId).ToList();
                 var cardIds = string.Join(",", items.Select(c => c.CardId).ToArray());
 
                 var phoneNumberData =
-                    ctx.Database.SqlQuery<PhoneNumber>("exec dbo.usp_GetCardPhoneNumbers @cardIds={0}", cardIds)
+                    ctx.Database.SqlQuery<DomainModels.DTO.PhoneNumber>("exec dbo.usp_GetCardPhoneNumbers @cardIds={0}", cardIds)
                         .ToList();
                 var phoneNumberTypes =
-                    ctx.Database.SqlQuery<PhoneNumberType>("exec dbo.usp_GetAllPhoneNumberTypes")
+                    ctx.Database.SqlQuery<DomainModels.DTO.PhoneNumberType>("exec dbo.usp_GetAllPhoneNumberTypes")
                         .ToDictionary(t => t.PhoneNumberTypeId, t => t.Name);
                 var tagData =
                     ctx.Database.SqlQuery<CardTag>("exec dbo.usp_GetCardTagsByIds @CardIds={0}", cardIds).ToList();
                 var stateCodes = ctx.Database.SqlQuery<StateCode>("exec dbo.usp_GetAllStateCodes").ToList();
                 var addressData =
-                    ctx.Database.SqlQuery<DomainModels.CardAddress>("exec dbo.usp_GetCardAddressesByIds @CardIds={0}", cardIds)
+                    ctx.Database.SqlQuery<DomainModels.DTO.CardAddress>("exec dbo.usp_GetCardAddressesByIds @CardIds={0}", cardIds)
                         .ToList();
-                var cardAddresses = addressData.Select(a => new DomainModels.CardAddress
+                var cardAddresses = addressData.Select(a => new DomainModels.DTO.CardAddress
                 {
                     Address1 = a.Address1,
                     Address2 = a.Address2,
@@ -818,7 +815,7 @@ namespace Busidex.DataAccess
                     ZipCode = a.ZipCode
                 }).ToList();
 
-                var phoneNumbers = phoneNumberData.Select(p => new PhoneNumber
+                var phoneNumbers = phoneNumberData.Select(p => new DomainModels.DTO.PhoneNumber
                 {
                     CardId = p.CardId,
                     Created = p.Created,
@@ -828,7 +825,7 @@ namespace Busidex.DataAccess
                     PhoneNumberTypeId = p.PhoneNumberTypeId,
                     Updated = p.Updated,
                     PhoneNumberId = p.PhoneNumberId,
-                    PhoneNumberType = new PhoneNumberType
+                    PhoneNumberType = new DomainModels.DTO.PhoneNumberType
                     {
                         PhoneNumberTypeId = p.PhoneNumberTypeId,
                         Name = phoneNumberTypes[p.PhoneNumberTypeId]
@@ -856,7 +853,7 @@ namespace Busidex.DataAccess
                         CompanyName = item.CompanyName,
                         Tags =
                             tagData.Where(t => t.CardId == item.CardId)
-                                .Select(t => new Tag {TagId = t.TagId, Text = t.Text, TagType = (TagType) t.TagTypeId})
+                                .Select(t => new Tag { TagId = t.TagId, Text = t.Text, TagType = (TagType)t.TagTypeId })
                                 .ToList(),
                         PhoneNumbers = phoneNumbers.Where(p => p.CardId == item.CardId).ToList(),
                         Addresses = cardAddresses.Where(a => a.CardId == item.CardId).ToList(),
@@ -938,98 +935,7 @@ namespace Busidex.DataAccess
 
         public List<GroupCard> GetGroupCards(long groupId)
         {
-            using (var ctx = new busidexEntities())
-            {
-                var results = ctx.Database.SqlQuery<GroupCardResult>(
-                    "exec dbo.usp_GetGroupCards @GroupId={0}",
-                    groupId).ToList();
-
-                var groupCards = results.Select(r => new GroupCard
-                {
-                    GroupCardId = r.GroupCardId,
-                    Deleted = r.Deleted,
-                    CardId = r.CardId,
-                    Card = new DomainModels.Card
-                    {
-                        CardId = r.CardId.GetValueOrDefault(),
-                        Name = r.Name,
-                        Title = r.Title,
-                        FrontType = r.FrontType,
-                        FrontOrientation = r.FrontOrientation,
-                        BackType = r.BackType,
-                        BackOrientation = r.BackOrientation,
-                        Searchable = r.Searchable,
-                        CompanyName = r.CompanyName,
-                        Email = r.Email,
-                        Url = r.Url,
-                        CreatedBy = r.CreatedBy,
-                        OwnerId = r.OwnerId,
-                        Deleted = r.Deleted,
-                        FrontFileId = r.FrontFileId,
-                        BackFileId = r.BackFileId
-                    }
-                }).ToList();
-
-                var cardIds = string.Join(",", results.Select(c => c.CardId).ToArray());
-                var phoneNumbersDto = GetCardPhoneNumbers(cardIds);
-                var phoneNumberTypes = GetAllPhoneNumberTypes();
-
-                var phoneNumbers = phoneNumbersDto.Select(phoneNumber => new PhoneNumber
-                {
-                    CardId = phoneNumber.CardId,
-                    Number = phoneNumber.Number,
-                    Extension = phoneNumber.Extension,
-                    PhoneNumberType = phoneNumberTypes.Select(t => new PhoneNumberType
-                    {
-                        Name = t.Name,
-                        PhoneNumberTypeId = t.PhoneNumberTypeId
-                    }).SingleOrDefault(t => t.PhoneNumberTypeId == phoneNumber.PhoneNumberTypeId)
-                }).ToList();
-
-
-                var cards = groupCards.Select(item => new GroupCard
-                {
-                    GroupCardId = item.GroupCardId,
-                    GroupId = item.GroupId,
-                    Notes = item.Notes,
-                    CardId = item.CardId,
-                    Card = new DomainModels.Card
-                    {
-                        BackFileId = item.Card.BackFileId,
-                        BackOrientation = item.Card.BackOrientation,
-                        BackType = item.Card.BackType,
-                        CardId = item.CardId.GetValueOrDefault(),
-                        FrontFileId = item.Card.FrontFileId,
-                        FrontType = item.Card.FrontType,
-                        FrontOrientation = item.Card.FrontOrientation,
-                        Email = item.Card.Email,
-                        Url = item.Card.Url,
-                        Title = item.Card.Title,
-                        Name = item.Card.Name,
-                        OwnerId = item.Card.OwnerId,
-                        CreatedBy = item.Card.CreatedBy,
-                        CompanyName = item.Card.CompanyName,
-                        PhoneNumbers = phoneNumbers.Where(p => p.CardId == item.CardId).ToList(),
-                        FrontImage = null,
-                        BackImage = null,
-                    }
-                }).ToList();
-
-
-                var tags = GetCardTagsByIds(string.Join(",", cards.Select(c => c.CardId))).ToList();
-                foreach (var userCard in cards)
-                {
-                    userCard.Card.Tags = (from tag in tags
-                        where tag.CardId == userCard.CardId
-                        select new Tag
-                        {
-                            TagId = tag.TagId,
-                            Text = tag.Text,
-                            TagType = (TagType) tag.TagTypeId
-                        }).ToList();
-                }
-                return cards.ToList();
-            }
+            throw new NotImplementedException();
         }
 
         public void RemoveGroupCards(long groupId, string cardIds, long userId)
@@ -1043,110 +949,23 @@ namespace Busidex.DataAccess
 
         }
 
+        public void UpdateCardLinks(long cardId, List<ExternalLink> links)
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddGroup(Group group, string cardIds)
         {
-            using (var ctx = new busidexEntities())
-            {
-                BusidexDatabaseConfiguration.SuspendExecutionStrategy = true;
-
-                using (var t = ctx.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        long groupId = ctx.Database.SqlQuery<long>(
-                            "exec dbo.usp_AddGroup @OwnerId={0}, @GroupTypeId={1}, @Description={2}, @Notes={3}",
-                            group.OwnerId, group.GroupTypeId, group.Description, group.Notes).SingleOrDefault();
-                        if (groupId > 0)
-                        {
-                            ctx.Database.ExecuteSqlCommand(
-                                "exec dbo.usp_AddGroupCards @GroupId={0}, @CardIds={1}",
-                                groupId, cardIds);
-
-                            t.Commit();
-                            ctx.SaveChanges();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        t.Rollback();
-                        SaveApplicationError(ex.Message, ex.InnerException?.ToString(), ex.StackTrace, 0);
-                    }
-                }
-                BusidexDatabaseConfiguration.SuspendExecutionStrategy = false;
-            }
+            throw new NotImplementedException();
         }
 
 
         public List<UserCard> GetOrganizationReferrals(long userId, long organizationId)
         {
-            using (var ctx = new busidexEntities())
-            {
-                var results = ctx.Database.SqlQuery<UserCardResult>(
-                    "exec dbo.usp_GetOrganizationReferrals @UserId={0}, @OrganizationId={1}",
-                    userId, organizationId).ToList();
-
-                var cardIds = string.Join(",", results.Select(c => c.CardId).ToArray());
-                var phoneNumbersDto = GetCardPhoneNumbers(cardIds);
-                var phoneNumberTypes = GetAllPhoneNumberTypes();
-
-                var phoneNumbers = phoneNumbersDto.Select(phoneNumber => new PhoneNumber
-                {
-                    CardId = phoneNumber.CardId,
-                    Number = phoneNumber.Number,
-                    Extension = phoneNumber.Extension,
-                    PhoneNumberType = phoneNumberTypes.Select(t => new PhoneNumberType
-                    {
-                        Name = t.Name,
-                        PhoneNumberTypeId = t.PhoneNumberTypeId
-                    }).SingleOrDefault(t => t.PhoneNumberTypeId == phoneNumber.PhoneNumberTypeId)
-                }).ToList();
-
-                var referralCards = results.Select(r => new UserCard
-                {
-                    UserCardId = r.UserCardId,
-                    Deleted = r.Deleted,
-                    CardId = r.CardId,
-                    Notes = r.Notes,
-                    Card = new DomainModels.Card
-                    {
-                        CardId = r.CardId,
-                        Name = r.Name,
-                        Title = r.Title,
-                        FrontType = r.FrontType,
-                        FrontOrientation = r.FrontOrientation,
-                        BackType = r.BackType,
-                        BackOrientation = r.BackOrientation,
-                        Searchable = r.Searchable,
-                        CompanyName = r.CompanyName,
-                        Email = r.Email,
-                        Url = r.Url,
-                        CreatedBy = r.CreatedBy,
-                        OwnerId = r.OwnerId,
-                        Deleted = r.Deleted,
-                        FrontFileId = r.FrontFileId,
-                        BackFileId = r.BackFileId,
-                        PhoneNumbers = phoneNumbers.Where(p => p.CardId == r.CardId).ToList(),
-                        IsMyCard = r.OwnerId.GetValueOrDefault() == userId
-                    }
-                }).ToList();
-
-                var tags = GetCardTagsByIds(string.Join(",", referralCards.Select(c => c.CardId))).ToList();
-                foreach (var userCard in referralCards)
-                {
-                    userCard.Card.Tags = (from tag in tags
-                        where tag.CardId == userCard.CardId
-                        select new Tag
-                        {
-                            TagId = tag.TagId,
-                            Text = tag.Text,
-                            TagType = (TagType) tag.TagTypeId
-                        }).ToList();
-                }
-                return referralCards.ToList();
-            }
+            throw new NotImplementedException();
         }
 
-        List<DomainModels.Card> RefineSearch(List<DomainModels.Card> list, string[] criteria)
+        List<DomainModels.DTO.Card> RefineSearch(List<DomainModels.DTO.Card> list, string[] criteria)
         {
             if (criteria.Length == 0)
             {
@@ -1168,189 +987,30 @@ namespace Busidex.DataAccess
             return list;
         }
 
-        public void SaveApplicationError(string error, string innerException, string stackTrace, long userId)
+        public async Task SaveApplicationError(string error, string innerException, string stackTrace, long userId)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_AddApplicationError @message={0}, @innerException={1}, @stackTrace={2}, @userId={3}",
                     error, innerException, stackTrace, userId);
             }
         }
 
-        public IEnumerable<DomainModels.Card> SearchCards(string criteria, double? latitude, double? longitude, int? distance, bool searchableOnly, CardType cardType, long? userId = 0)
+        public IEnumerable<DomainModels.DTO.Card> SearchCards(string criteria, double? latitude, double? longitude, int? distance, bool searchableOnly, CardType cardType, long? userId = 0)
         {
-            using (var ctx = new busidexEntities())
-            {
-                var results = ctx.Database.SqlQuery<DomainModels.Card>(
-                    "exec dbo.usp_SearchCards @criteria={0}, @latitude={1}, @longitude={2}, @radiusInMiles={3}, @SearchableOnly = {4}, @CardType={5}, @UserId={6}",
-                    criteria, latitude, longitude, distance, searchableOnly, cardType, userId).ToList();
-
-
-                //SaveApplicationError(criteria + ", " + latitude.GetValueOrDefault().ToString() + ", " +
-                //                     longitude.GetValueOrDefault().ToString() +
-                //                     ", " + distance.GetValueOrDefault().ToString() + ", " + searchableOnly.ToString() +
-                //                     cardType.ToString() + userId.GetValueOrDefault().ToString(), "", "", userId.GetValueOrDefault());
-
-                //var allCards = _SearchCards(criteria, latitude, longitude, distance, searchableOnly, (int) cardType);
-                var cards = results.Select(item => new DomainModels.Card
-                {
-                    BackFileId = item.BackFileId,
-                    BackOrientation = item.BackOrientation,
-                    BackType = item.BackType,
-                    CardId = item.CardId,
-                    FrontFileId = item.FrontFileId,
-                    FrontType = item.FrontType,
-                    FrontOrientation = item.FrontOrientation,
-                    Email = item.Email,
-                    OwnerId = item.OwnerId,
-                    Url = item.Url,
-                    Searchable = item.Searchable,
-                    Title = item.Title,
-                    Name = item.Name,
-                    CompanyName = item.CompanyName,
-                    Markup = item.Markup,
-                    Visibility = item.Visibility,
-                    ExistsInMyBusidex = item.ExistsInMyBusidex,
-                    SEO_Name = item.SEO_Name
-                }).ToList();
-
-                var tags = GetCardTagsByIds(string.Join(",", cards.Select(c => c.CardId))).ToList();
-                foreach (var userCard in cards)
-                {
-                    userCard.Tags = (from tag in tags
-                                          where tag.CardId == userCard.CardId
-                                          select new Tag
-                                          {
-                                              TagId = tag.TagId,
-                                              Text = tag.Text,
-                                              TagType = (TagType)tag.TagTypeId
-                                          }).ToList();
-                }
-
-                // only return the cards that contain ALL of the search criteria
-                cards = RefineSearch(cards, criteria.Split(','));
-                for (var i=0; i < cards.Count; i++)
-                {
-                    cards[i] = _populateCard(cards[i]);
-                }
-                return cards;
-            }
+            throw new NotImplementedException();
         }
 
 
-        public List<DomainModels.Card> SearchBySystemTag(string systag, long? userId)
+        public List<DomainModels.DTO.Card> SearchBySystemTag(string systag, long? userId)
         {
-            const bool INCLUDE_UNOWNED_CARDS = true;
-            using (var ctx = new busidexEntities())
-            {
-                var results = ctx.Database.SqlQuery<DomainModels.Card>(
-                    "exec dbo.usp_GetCardsByTag @tag={0}, @latitude={1}, @longitude={2}, @radiusInMiles={3}, @includeUnOwned = {4}, @userId={5}",
-                    systag, null, null, null, INCLUDE_UNOWNED_CARDS, userId).ToList();
-
-                var cardIds = string.Join(",", results.Select(c => c.CardId).ToArray());
-
-				var phoneNumbersDto = GetCardPhoneNumbers(cardIds);
-                var phoneNumberTypes = GetAllPhoneNumberTypes();
-
-                var phoneNumbers = phoneNumbersDto.Select(phoneNumber => new PhoneNumber
-                {
-                    CardId = phoneNumber.CardId,
-                    Number = phoneNumber.Number,
-                    Extension = phoneNumber.Extension,
-                    PhoneNumberType = phoneNumberTypes.Select(t => new PhoneNumberType
-                    {
-                        Name = t.Name,
-                        PhoneNumberTypeId = t.PhoneNumberTypeId
-                    }).SingleOrDefault(t => t.PhoneNumberTypeId == phoneNumber.PhoneNumberTypeId)
-                }).ToList();
-
-                var cards = results.Select(r => new DomainModels.Card
-                {
-
-                    CardId = r.CardId,
-                    Name = r.Name,
-                    Title = r.Title,
-                    FrontType = r.FrontType,
-                    FrontOrientation = r.FrontOrientation,
-                    BackType = r.BackType,
-                    BackOrientation = r.BackOrientation,
-                    Searchable = r.Searchable,
-                    CompanyName = r.CompanyName,
-                    Email = r.Email,
-                    Url = r.Url,
-                    CreatedBy = r.CreatedBy,
-                    OwnerId = r.OwnerId,
-                    Deleted = r.Deleted,
-                    FrontFileId = r.FrontFileId,
-                    BackFileId = r.BackFileId,
-                    Addresses = GetCardAddresses(r.CardId),
-                    PhoneNumbers = phoneNumbers.Where(p=>p.CardId == r.CardId).ToList(),
-                    ExistsInMyBusidex = r.ExistsInMyBusidex,
-                    SEO_Name = r.SEO_Name
-
-                }).ToList();
-
-                
-                return cards.ToList();
-            }
+            throw new NotImplementedException();
         }
 
-        public List<DomainModels.Card> SearchByGroupName(string groupName, long? userId)
+        public List<DomainModels.DTO.Card> SearchByGroupName(string groupName, long? userId)
         {
-            const bool INCLUDE_UNOWNED_CARDS = true;
-            using (var ctx = new busidexEntities())
-            {
-                var results = ctx.Database.SqlQuery<DomainModels.Card>(
-                    "exec dbo.usp_getCardsByGroupName @GroupName={0}, @latitude={1}, @longitude={2}, @radiusInMiles={3}, @includeUnOwned = {4}, @userId={5}",
-                    groupName, null, null, null, INCLUDE_UNOWNED_CARDS, userId).ToList();
-
-                var cardIds = string.Join(",", results.Select(c => c.CardId).ToArray());
-
-                var phoneNumbersDto = GetCardPhoneNumbers(cardIds);
-                var phoneNumberTypes = GetAllPhoneNumberTypes();
-
-                var phoneNumbers = phoneNumbersDto.Select(phoneNumber => new PhoneNumber
-                {
-                    CardId = phoneNumber.CardId,
-                    Number = phoneNumber.Number,
-                    Extension = phoneNumber.Extension,
-                    PhoneNumberType = phoneNumberTypes.Select(t => new PhoneNumberType
-                    {
-                        Name = t.Name,
-                        PhoneNumberTypeId = t.PhoneNumberTypeId
-                    }).SingleOrDefault(t => t.PhoneNumberTypeId == phoneNumber.PhoneNumberTypeId)
-                }).ToList();
-
-                var cards = results.Select(r => new DomainModels.Card
-                {
-
-                    CardId = r.CardId,
-                    Name = r.Name,
-                    Title = r.Title,
-                    FrontType = r.FrontType,
-                    FrontOrientation = r.FrontOrientation,
-                    BackType = r.BackType,
-                    BackOrientation = r.BackOrientation,
-                    Searchable = r.Searchable,
-                    CompanyName = r.CompanyName,
-                    Email = r.Email,
-                    Url = r.Url,
-                    CreatedBy = r.CreatedBy,
-                    OwnerId = r.OwnerId,
-                    Deleted = r.Deleted,
-                    FrontFileId = r.FrontFileId,
-                    BackFileId = r.BackFileId,
-                    Addresses = r.Addresses.Where(a => a.CardId == r.CardId).ToList(),
-                    PhoneNumbers = phoneNumbers.Where(p => p.CardId == r.CardId).ToList(),
-                    ExistsInMyBusidex = r.ExistsInMyBusidex,
-                    SEO_Name = r.SEO_Name
-
-                }).ToList();
-
-
-                return cards.ToList();
-            }
+            throw new NotImplementedException();
         }
 
         public List<SEOCardResult> GetSeoCardResult()
@@ -1364,25 +1024,7 @@ namespace Busidex.DataAccess
 
         public UserAccount AddUserAccount(UserAccount userAccount)
         {
-            if (userAccount.UserAccountId == 0)
-            {
-                using (var ctx = new busidexEntities())
-                {
-                    UserAccount newAccount = ctx.Database.SqlQuery<UserAccount>(
-                        "exec dbo.usp_AddUserAccount @UserId={0}, @AccountTypeId={1}, @Notes={2}, @ActivationToken={3}, @ReferredBy={4}, @DisplayName={5}",
-                        userAccount.UserId, userAccount.AccountTypeId, userAccount.Notes, userAccount.ActivationToken,
-                        userAccount.ReferredBy, userAccount.DisplayName).SingleOrDefault();
-
-                    if (newAccount != null)
-                    {
-                        newAccount.AccountType = ctx.Database.SqlQuery<AccountType>(
-                            "exec usp_GetAccountTypeById @AccountTypeId={0}", newAccount.AccountTypeId).SingleOrDefault();
-                    }
-                    return newAccount;
-                }
-        
-            }
-            return null;
+            throw new NotImplementedException();
         }
 
         public void SaveUserAccountDeactivateToken(long userId, string token)
@@ -1401,7 +1043,7 @@ namespace Busidex.DataAccess
             {
                 return ctx.Database.SqlQuery<UserAccount>(
                     "exec dbo.usp_GetUserAccountByDeactivateToken @Token={0}", token).SingleOrDefault();
-            } 
+            }
         }
 
         public void DeleteTag(long cardId, long tagId)
@@ -1421,6 +1063,16 @@ namespace Busidex.DataAccess
                 ctx.Database.ExecuteSqlCommand(
                     "exec dbo.usp_DeleteUserAccount @UserId={0}",
                     userId);
+            }
+        }
+
+        public async Task UpdateUserCard(long userCardId, string notes)
+        {
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync(
+                    "exec dbo.usp_UpdateUserCard @UserCardId={0}, @Notes={1}",
+                    userCardId, notes);
             }
         }
 
@@ -1445,21 +1097,80 @@ namespace Busidex.DataAccess
             return true;
         }
 
-        public void UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
+        public async Task<long> AddCard(DomainModels.DTO.Card card)
+        {
+            byte visibility = 1;
+            switch (card.Visibility)
+            {
+                case 1:
+                    visibility = 1;
+                    break;
+                case 2:
+                    visibility = 2;
+                    break;
+                case 3:
+                    visibility = 3;
+                    break;
+            }
+            var cardId = new SqlParameter
+            {
+                ParameterName = "cardId",
+                DbType = System.Data.DbType.Int64,
+                Direction = System.Data.ParameterDirection.Output
+            };
+
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_addCard @Name={0}, @Title={1}, @FrontImage={2}, @FrontType={3}, @FrontOrientation={4}, @BackImage={5}, @BackType={6}, @BackOrientation={7}, @BusinessId={ 8},@Searchable={ 9}, @CompanyName={ 10}, @Email={ 11}, @Url={ 12}, @CreatedBy={ 13}, @OwnerId={ 14}, @OwnerToken={ 15}, @FrontFileId={ 16}, @BackFileId={ 17}, @DisplayType={ 1}, @Markup={ 19}, @Visibility={ 20}, @CardTypeId={ 21}, @CardId={22}",
+                    card.Name, card.Title, card.FrontImage, card.FrontType, card.FrontOrientation,
+                card.BackImage, card.BackType, card.BackOrientation,
+                card.BusinessId, card.Searchable, card.CompanyName, card.Email, card.Url, card.CreatedBy,
+                card.OwnerId, card.OwnerToken, card.FrontFileId, card.BackFileId, card.Display.ToString(),
+                card.Markup, visibility, 1, cardId);
+            }
+            return Convert.ToInt64(cardId.Value);
+        }
+
+        public async Task UpdateCard(DomainModels.DTO.Card model)
+        {
+            byte visibility = 1;
+            switch (model.Visibility)
+            {
+                case 1:
+                    visibility = 1;
+                    break;
+                case 2:
+                    visibility = 2;
+                    break;
+                case 3:
+                    visibility = 3;
+                    break;
+            }
+            using (var ctx = new busidexEntities())
+            {
+                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_updateCard @CardId={0}, @Name={1},	@Title={2},	@FrontImage={3},	@FrontType={4},	@FrontOrientation={5},	@BackImage={6},	@BackType={7},	@BackOrientation={8},	@BusinessId={9},	@Searchable={10},	@CompanyName={11},	@Email={12},	@Url={13},	@CreatedBy={14},	@OwnerId={15},	@OwnerToken={16},	@Deleted={17},	@FrontFileId={18},	@BackFileId={19},	@DisplayType={20},	@Markup={21},	@Visibility={22}",
+                    model.CardId, model.Name, model.Title, model.FrontImage, model.FrontType, model.FrontOrientation,
+                       model.BackImage, model.BackType, model.BackOrientation, model.BusinessId, model.Searchable, model.CompanyName, model.Email,
+                       model.Url, model.CreatedBy, model.OwnerId, model.OwnerToken, false, model.FrontFileId, model.BackFileId, model.Display.ToString(),
+                       model.Markup, visibility);
+            }
+        }
+
+        public async Task UpdateCardFileId(long cardId, Guid frontFileId, string frontType, Guid backFileId, string backType)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_UpdateCardFileId @CardId={0}, @FrontFileId={1}, @FrontType={2}, @BackFileId={3}, @BackType={4}",
                     cardId, frontFileId, frontType, backFileId, backType);
             }
         }
 
-        public void UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
+        public async Task UpdateCardOrientation(long cardId, string frontOrientation, string backOrientation)
         {
             using (var ctx = new busidexEntities())
             {
-                ctx.Database.ExecuteSqlCommand(
+                await ctx.Database.ExecuteSqlCommandAsync(
                     "exec dbo.usp_UpdateCardOrientation @CardId={0}, @FrontOrientation={1}, @BackOrientation={2}",
                     cardId, frontOrientation, backOrientation);
             }
@@ -1473,7 +1184,7 @@ namespace Busidex.DataAccess
                     "exec dbo.usp_AddSMSShare @FromUserId={0}, @CardId={1}, @PhoneNmber={2}, @Message={3}",
                     model.FromUserId, model.CardId, model.PhoneNumber, model.Message);
             }
-            
+
 
         }
         public void UpdateOnboardingComplete(long userId, bool complete)
@@ -1572,7 +1283,7 @@ namespace Busidex.DataAccess
                 var address =
                     ctx.Database.SqlQuery<UserAddress>("exec dbo.usp_GetUserAddress @UserId={0}", id).FirstOrDefault();
 
-                var accountTypes = ctx.Database.SqlQuery<AccountType>("exec dbo.usp_GetActivePlans").ToList();
+                var accountTypes = ctx.Database.SqlQuery<DomainModels.AccountType>("exec dbo.usp_GetActivePlans").ToList();
 
                 var account =
                     ctx.Database.SqlQuery<UserAccount>("exec dbo.usp_GetUserAccountByUserId @UserId={0}", id)
@@ -1636,11 +1347,11 @@ namespace Busidex.DataAccess
             }
         }
 
-        List<AccountType> getActivePlans()
+        List<DomainModels.AccountType> getActivePlans()
         {
             using (var ctx = new busidexEntities())
             {
-                return ctx.Database.SqlQuery<AccountType>("exec dbo.usp_GetActivePlans").ToList();
+                return ctx.Database.SqlQuery<DomainModels.AccountType>("exec dbo.usp_GetActivePlans").ToList();
             }
         }
 
@@ -1648,7 +1359,7 @@ namespace Busidex.DataAccess
         {
             using (var ctx = new busidexEntities())
             {
-                 ctx.Database.ExecuteSqlCommand("usp_AddUserDevice @Userid={0}, @DeviceTypeId={1}", userId, deviceType);
+                ctx.Database.ExecuteSqlCommand("usp_AddUserDevice @Userid={0}, @DeviceTypeId={1}", userId, deviceType);
             }
         }
 
@@ -1679,7 +1390,7 @@ namespace Busidex.DataAccess
 
                 return tags.ToDictionary(t => t.text, t => t.cnt.GetValueOrDefault());
             }
-            
+
         }
         #endregion
 

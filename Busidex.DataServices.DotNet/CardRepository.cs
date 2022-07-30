@@ -41,7 +41,7 @@ namespace Busidex.DataServices.DotNet
             foreach (var tag in card.Tags)
             {
                 //BusidexDAL.AddTag(cardId, tag);
-                _dao.AddTag(cardId, tag);
+                await _dao.AddTag(cardId, tag);
             }
 
             // Add Addresses
@@ -168,7 +168,7 @@ namespace Busidex.DataServices.DotNet
                     await SaveThumbnail(frontImage.ToArray(), card.FrontOrientation, card.FrontFileId.GetValueOrDefault().ToString(), frontType);
                 }
 
-                if (replaceBack && card.BackImage != null && backImage != null)
+                if (replaceBack && backImage != null && backImage != null)
                 {
                     var uniqueBackBlobName = $"{card.BackFileId}.{backType}".ToLower();
                     var blobClient = containerClient.GetBlobClient(uniqueBackBlobName);
@@ -242,123 +242,119 @@ namespace Busidex.DataServices.DotNet
 
         public async Task<AddOrUpdateCardErrors> EditCard(Card cardModel, bool isMyCard, long userId, string notes)
         {
-            var modelErrors = new AddOrUpdateCardErrors();// CheckForCardModelErrors(cardModel, isMyCard);
+            var modelErrors = new AddOrUpdateCardErrors();
+            #region Phone Numbers
 
-            if (modelErrors.ErrorCollection.Count == 0)
+            var newPhoneNumbers = new List<PhoneNumber>();
+            newPhoneNumbers.AddRange(cardModel.PhoneNumbers?.Where(p => p.PhoneNumberId == 0));
+
+            foreach (var existingPhoneNumber in cardModel.PhoneNumbers.Where(p => p.PhoneNumberId > 0))
             {
-                #region Phone Numbers
+                var phoneNumber = await _dao.GetPhoneNumberById(existingPhoneNumber.PhoneNumberId);
 
-                var newPhoneNumbers = new List<PhoneNumber>();
-                newPhoneNumbers.AddRange(cardModel.PhoneNumbers.Where(p => p.PhoneNumberId == 0));
+                if (phoneNumber == null) continue;
 
-                foreach (var existingPhoneNumber in cardModel.PhoneNumbers.Where(p => p.PhoneNumberId > 0))
+                phoneNumber.Number = existingPhoneNumber.Number;
+                phoneNumber.Extension = existingPhoneNumber.Extension;
+                phoneNumber.PhoneNumberTypeId = existingPhoneNumber.PhoneNumberTypeId;
+                phoneNumber.Deleted = existingPhoneNumber.Deleted;
+                phoneNumber.Updated = DateTime.UtcNow;
+
+                await _dao.UpdatePhoneNumber(phoneNumber);
+            }
+
+            // Add the new phone numbers
+            foreach (var phoneNumber in newPhoneNumbers)
+            {
+                phoneNumber.CardId = cardModel.CardId;
+                await _dao.AddPhoneNumber(phoneNumber);
+            }
+
+            //var existingNumbers = _dao.GetCardPhoneNumbers(cardModel.CardId.ToString());
+            //foreach (var number in existingNumbers)
+            //{
+            //    if (cardModel.PhoneNumbers.All(
+            //        p =>
+            //            !p.Number.Equals(number.Number) && !p.Extension.Equals(number.Extension) &&
+            //            p.PhoneNumberTypeId != number.PhoneNumberTypeId))
+            //    {
+            //        _dao.DeletePhoneNumber(number.PhoneNumberId);
+            //    }
+
+            //}
+            #endregion
+
+            #region Tags
+
+            var tags = await _dao.GetCardTags(cardModel.CardId);
+            foreach (var tag in tags)
+            {
+                // if it's not found, it's been removed
+                if (cardModel.Tags.All(t => !string.Equals(t.Text, tag.Text, StringComparison.CurrentCultureIgnoreCase)))
                 {
-                    var phoneNumber = await _dao.GetPhoneNumberById(existingPhoneNumber.PhoneNumberId);
-
-                    if (phoneNumber == null) continue;
-
-                    phoneNumber.Number = existingPhoneNumber.Number;
-                    phoneNumber.Extension = existingPhoneNumber.Extension;
-                    phoneNumber.PhoneNumberTypeId = existingPhoneNumber.PhoneNumberTypeId;
-                    phoneNumber.Deleted = existingPhoneNumber.Deleted;
-                    phoneNumber.Updated = DateTime.UtcNow;
-
-                    await _dao.UpdatePhoneNumber(phoneNumber);
+                    await _dao.DeleteTag(cardModel.CardId, tag.TagId);
                 }
+            }
 
-                // Add the new phone numbers
-                foreach (var phoneNumber in newPhoneNumbers)
+            foreach (var tag in cardModel.Tags)
+            {
+                if (tag.TagId == 0)
                 {
-                    phoneNumber.CardId = cardModel.CardId;
-                    await _dao.AddPhoneNumber(phoneNumber);
+                    await _dao.AddTag(cardModel.CardId, tag);
                 }
+            }
 
-                //var existingNumbers = _dao.GetCardPhoneNumbers(cardModel.CardId.ToString());
-                //foreach (var number in existingNumbers)
-                //{
-                //    if (cardModel.PhoneNumbers.All(
-                //        p =>
-                //            !p.Number.Equals(number.Number) && !p.Extension.Equals(number.Extension) &&
-                //            p.PhoneNumberTypeId != number.PhoneNumberTypeId))
-                //    {
-                //        _dao.DeletePhoneNumber(number.PhoneNumberId);
-                //    }
 
-                //}
-                #endregion
+            #endregion
 
-                #region Tags
-
-                var tags = await _dao.GetCardTags(cardModel.CardId);// _dao.GetCardTags(cardModel.CardId);
-                foreach (var tag in tags)
+            #region Addresses
+            foreach (var address in cardModel.Addresses)
+            {
+                if (address.CardAddressId == 0 && address.ToString().Trim() != ",")
                 {
-                    // if it's not found, it's been removed
-                    if (cardModel.Tags.All(t => !string.Equals(t.Text, tag.Text, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        await _dao.DeleteTag(cardModel.CardId, tag.TagId);
-                    }
-                }
-
-                foreach (var tag in cardModel.Tags)
-                {
-                    if (tag.TagId == 0)
-                    {
-                        await _dao.AddTag(cardModel.CardId, tag);
-                    }
-                }
-
-
-                #endregion
-
-                #region Addresses
-                foreach (var address in cardModel.Addresses)
-                {
-                    if (address.CardAddressId == 0 && address.ToString().Trim() != ",")
-                    {
-                        await _dao.AddAddress(cardModel.CardId, address);
-                    }
-                    else
-                    {
-                        // update or delete the address
-                        if (address.CardAddressId > 0)
-                        {
-                            if (address.Deleted)
-                            {
-                                await _dao.DeleteAddress(address.CardAddressId);
-                            }
-                            else
-                            {
-                                await _dao.UpdateAddress(address);
-                            }
-                        }
-                    }
-                }
-                #endregion
-
-                #region Update card owner and Searchable
-
-                if (isMyCard)
-                {
-                    cardModel.OwnerId = userId;
-                    cardModel.Searchable = true;
+                    await _dao.AddAddress(cardModel.CardId, address);
                 }
                 else
                 {
-                    cardModel.OwnerId = null;
-                    cardModel.Searchable = false;
+                    // update or delete the address
+                    if (address.CardAddressId > 0)
+                    {
+                        if (address.Deleted)
+                        {
+                            await _dao.DeleteAddress(address.CardAddressId);
+                        }
+                        else
+                        {
+                            await _dao.UpdateAddress(address);
+                        }
+                    }
                 }
+            }
+            #endregion
 
-                #endregion
+            #region Update card owner and Searchable
 
-                // Update the card
-                await _dao.UpdateCard(cardModel);
+            if (isMyCard)
+            {
+                cardModel.OwnerId = userId;
+                cardModel.Searchable = true;
+            }
+            else
+            {
+                cardModel.OwnerId = null;
+                cardModel.Searchable = false;
+            }
 
-                // Update card notes
-                var uc = await _dao.GetUserCard(cardModel.CardId, userId);//BusidexDAL.GetUserCard(cardModel.CardId, userId);
-                if (uc != null)
-                {
-                    await _dao.UpdateUserCard(uc.UserCardId, notes);
-                }
+            #endregion
+
+            // Update the card
+            await _dao.UpdateCard(cardModel);
+
+            // Update card notes
+            var uc = await _dao.GetUserCard(cardModel.CardId, userId);
+            if (uc != null)
+            {
+                await _dao.UpdateUserCard(uc.UserCardId, notes);
             }
 
             return modelErrors;
@@ -534,9 +530,9 @@ namespace Busidex.DataServices.DotNet
             throw new NotImplementedException();
         }
 
-        public Task<bool> SaveCardOwner(long cardId, long ownerId)
+        public async Task SaveCardOwner(long cardId, long ownerId)
         {
-            throw new NotImplementedException();
+            await _dao.SaveCardOwner(cardId, ownerId);
         }
 
         public bool SaveCardOwnerToken(long cardId, Guid token)

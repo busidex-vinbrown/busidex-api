@@ -43,7 +43,7 @@ namespace Busidex.DataServices.DotNet
         CardDetailModel GetCardDetail(Card card);
         BusidexUser GetBusidexUserById(long userId);
         bool SaveCardOwnerToken(long cardId, Guid token);
-        Task<bool> SaveCardOwner(long cardId, long ownerId);
+        Task SaveCardOwner(long cardId, long ownerId);
         CardDetailModel GetCardByToken(string token);
         CardDetailModel GetCardByEmail(string email);
         List<CardDetailModel> GetCardsByPhoneNumber(long userId, string phoneNumber);

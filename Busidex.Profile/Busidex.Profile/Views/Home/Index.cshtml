@@ -37,7 +37,7 @@
 
                     @if (Model.Addresses != null && Model.Addresses.Count > 0)
                     {
-                        <a target="_blank" href="https://www.google.com/maps?q=@(new HtmlString(Model.Addresses[0].ToString()))&output=embed">
+                        <a target="_blank" href="https://www.google.com/maps?q=@(new HtmlString(Model.Addresses[0].ToString()))">
                             <img src="/Content/Images/maps.png" class="contact-icon" style="padding-right:10px;" />Get Directions
                         </a>
                         <br/>

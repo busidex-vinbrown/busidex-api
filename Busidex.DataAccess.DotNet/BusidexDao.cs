@@ -1316,7 +1316,7 @@ namespace Busidex.DataAccess.DotNet
             sqlParams.Add(new SqlParameter("@BackOrientation", card.BackOrientation));
             sqlParams.Add(new SqlParameter("@BusinessId", card.BusinessId));
             sqlParams.Add(new SqlParameter("@Searchable", card.Searchable));
-            sqlParams.Add(new SqlParameter("@CompanyName", card.Name));
+            sqlParams.Add(new SqlParameter("@CompanyName", card.CompanyName));
             sqlParams.Add(new SqlParameter("@Email", card.Email));
             sqlParams.Add(new SqlParameter("@Url", card.Url));
             sqlParams.Add(new SqlParameter("@CreatedBy", card.CreatedBy));
@@ -1364,7 +1364,7 @@ namespace Busidex.DataAccess.DotNet
             sqlParams.Add(new SqlParameter("@BackOrientation", model.BackOrientation));
             sqlParams.Add(new SqlParameter("@BusinessId", model.BusinessId));
             sqlParams.Add(new SqlParameter("@Searchable", model.Searchable));
-            sqlParams.Add(new SqlParameter("@CompanyName", model.Name));
+            sqlParams.Add(new SqlParameter("@CompanyName", model.CompanyName));
             sqlParams.Add(new SqlParameter("@Email", model.Email));
             sqlParams.Add(new SqlParameter("@Url", model.Url));
             sqlParams.Add(new SqlParameter("@CreatedBy", model.CreatedBy));

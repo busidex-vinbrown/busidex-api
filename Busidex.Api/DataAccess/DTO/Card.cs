@@ -75,7 +75,7 @@ namespace Busidex.Api.DataAccess.DTO
                 Addresses = new List<CardAddress>(),
                 Markup = copy.Markup,
                 Display = copy.Display,
-                Visibility = copy.Visibility
+                Visibility = (byte)copy.Visibility
             };
 
             card.PhoneNumbers.AddRange(copy.PhoneNumbers.Where(p=> !string.IsNullOrEmpty(p.Number)));
@@ -108,7 +108,7 @@ namespace Busidex.Api.DataAccess.DTO
             source.BackFileId = copy.BackFileId;
             source.Markup = copy.Markup;
             source.Display = copy.Display;
-            source.Visibility = copy.Visibility;
+            source.Visibility = (byte)copy.Visibility;
         }
 
         public void OnCreated()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Busidex.Api.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -56,7 +57,7 @@ namespace Busidex.Api.DataAccess.DTO
         public List<CardAddress> Addresses { get; set; }
         public DisplayType Display { get; set; }
         public string Markup { get; set; }
-        public byte Visibility { get; set; }
+        public CardVisibility Visibility { get; set; }
         public CardType CardType { get; set; }
         public bool UpdateFrontImage { get; set; }
         public bool UpdateBackImage { get; set; }
@@ -76,7 +77,7 @@ namespace Busidex.Api.DataAccess.DTO
         public AddOrEditCardModel(CardDetailModel model)
         {
             CardId = model.CardId;
-            CreatedBy = model.CreatedBy;
+            CreatedBy = model.CreatedBy.GetValueOrDefault();
             UserId = model.OwnerId.GetValueOrDefault();
             Name = model.Name;
             Title = model.Title;
@@ -84,7 +85,7 @@ namespace Busidex.Api.DataAccess.DTO
             FrontOrientation = model.FrontOrientation;
             BackType = model.BackType;
             BackOrientation = model.BackOrientation;
-            BusinessId = model.BusinessId;
+            BusinessId = (int?)model.BusinessId;
             Searchable = model.Searchable;
             Email = model.Email;
             Url = model.Url;
@@ -96,12 +97,15 @@ namespace Busidex.Api.DataAccess.DTO
             OwnerId = model.OwnerId;
             OwnerToken = model.OwnerToken;
             Tags = new List<Tag>(model.Tags);
-            Addresses = new List<CardAddress>(model.Addresses);
+            Addresses = new List<CardAddress>();
+            
+            if (model.Addresses != null) Addresses.AddRange(model.Addresses);
+
             Display = model.Display;
             Markup = model.Markup;
             Visibility = model.Visibility;
-            CardType = DTO.CardType.Professional;
-            CustomContent = model.CustomContent;
+            CardType = CardType.Professional;
+            //CustomContent = model.CustomContent;
             ExternalLinks = new List<ExternalLink>(model.ExternalLinks);
         }
 
@@ -133,20 +137,7 @@ namespace Busidex.Api.DataAccess.DTO
             Markup = model.Markup;
             ExternalLinks = new List<ExternalLink>();
 
-            byte visibility = 1;
-            switch (model.Visibility)
-            {
-                case 1:
-                    visibility = (byte)1;
-                    break;
-                case 2:
-                    visibility = (byte)2;
-                    break;
-                case 3:
-                    visibility = (byte)3;
-                    break;
-            }
-            Visibility = visibility;
+            Visibility = (CardVisibility)model.Visibility;
 
             CardType = DTO.CardType.Professional;
             CustomContent = model.CustomContent;

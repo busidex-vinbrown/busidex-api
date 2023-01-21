@@ -23,7 +23,7 @@ namespace Busidex.Api.DataAccess.DTO
 
         public override string ToString()
         {
-            return $"{Address1} {Address2} {Environment.NewLine} {City}, {State?.Code} {ZipCode} {Region} {Country}";
+            return $"{Address1} {Address2} {City}, {State?.Code} {ZipCode} {Region} {Country}";
         }
     }
 }

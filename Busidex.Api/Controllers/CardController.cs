@@ -20,6 +20,7 @@ using Microsoft.ServiceBus.Messaging;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
 using System.Configuration;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Busidex.Api.Controllers {
 	[RequireHttps]
@@ -295,27 +296,27 @@ namespace Busidex.Api.Controllers {
 		}
 
         [System.Web.Http.HttpPut]
-        public async Task<HttpResponseMessage> ConfirmCardOwner(long cardId, long ownerId)
+        public async Task<HttpResponseMessage> ConfirmCardOwner([FromBody] string json)
         {
-            var userId = ValidateUser();
+            //var userId = ValidateUser();
             //var buser = _accountRepository.GetBusidexUserById(userId);
             //var isAdmin = Roles.IsUserInRole(buser.UserName, "Administrator");
 
-            if (userId != ownerId)
-            {
-                return new HttpResponseMessage
-                {
-                    Content = new JsonContent(new { Success = false }),
-                    StatusCode = HttpStatusCode.Unauthorized
-                };
-            }
-
-            var ok = await _cardRepository.SaveCardOwner(cardId, ownerId);
+            //if (!isAdmin)
+            //{
+            //    return new HttpResponseMessage
+            //    {
+            //        Content = new JsonContent(new { Success = false }),
+            //        StatusCode = HttpStatusCode.Unauthorized
+            //    };
+            //}
+			
+            await _cardRepository.SaveCardOwner(cardUpdateStorageConnectionString, json);
 
             return new HttpResponseMessage
             {
-                Content = new JsonContent(new { Success = ok }),
-                StatusCode = ok ? HttpStatusCode.OK : HttpStatusCode.NotModified
+                Content = new JsonContent(new { Success = true }),
+                StatusCode = HttpStatusCode.OK 
             };
         }
 
@@ -346,33 +347,33 @@ namespace Busidex.Api.Controllers {
 						StatusCode = HttpStatusCode.BadRequest
 					};
 				}
-				bool useFront = card.Side == MobileCardImage.SideIndex.Front;
+				//bool useFront = card.Side == MobileCardImage.SideIndex.Front;
 
 				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault() ?? new CardDetailModel();
 
 				#region Reset Card Image
 
-				var reset = false;
-				if (useFront && card.FrontFileId == Guid.Empty)
-				{
-					await _cardRepository.UpdateCardFileId(myCard.CardId, Guid.Empty, myCard.FrontType,
-						myCard.BackFileId.GetValueOrDefault(), myCard.BackType);
-					reset = true;
-				}
-				if (!useFront && card.BackFileId == Guid.Empty)
-				{
+				//var reset = false;
+				//if (card.FrontFileId == Guid.Empty)
+				//{
 					await _cardRepository.UpdateCardFileId(myCard.CardId, myCard.FrontFileId.GetValueOrDefault(), myCard.FrontType,
-						Guid.Empty, myCard.BackType);
-					reset = true;
-				}
-				if (reset)
-				{
-					return new HttpResponseMessage
-					{
-						Content = new JsonContent(new { Success = true }),
-						StatusCode = HttpStatusCode.OK
-					};
-				}
+						myCard.BackFileId.GetValueOrDefault(), myCard.BackType);
+				//	reset = true;
+				//}
+				//if (card.BackFileId == Guid.Empty)
+				//{
+				//	await _cardRepository.UpdateCardFileId(myCard.CardId, myCard.FrontFileId.GetValueOrDefault(), myCard.FrontType,
+				//Guid.Empty, myCard.BackType);
+				//reset = true;
+				//}
+				//if (reset)
+				//{
+				//	return new HttpResponseMessage
+				//	{
+				//		Content = new JsonContent(new { Success = true }),
+				//		StatusCode = HttpStatusCode.OK
+				//	};
+				//}
 				#endregion
 
 				var editModel = new AddOrEditCardModel(myCard)
@@ -381,51 +382,40 @@ namespace Busidex.Api.Controllers {
 					OwnerId = myCard.OwnerId,
 					Display = DisplayType.IMG,
 					UserId = userId,
-					Action = AddOrEditCardModel.CardAction.ImageOnly,
-					FrontFileId = useFront ? card.FrontFileId : myCard.FrontFileId,
-					BackFileId = useFront ? myCard.BackFileId : card.BackFileId,
-					FrontOrientation = useFront ? card.Orientation : myCard.FrontOrientation,
-					BackOrientation = useFront ? myCard.BackOrientation : card.Orientation
+					Action = AddOrEditCardModel.CardAction.Edit,
+					FrontFileId = card.FrontFileId,
+					BackFileId = card.BackFileId,
+					FrontOrientation = card.FrontOrientation,
+					BackOrientation = card.BackOrientation
 				};
 
-				if (!string.IsNullOrEmpty(card.EncodedCardImage))
-				{
-					var imageBytes = Convert.FromBase64String(card.EncodedCardImage);
-					if (imageBytes.Length == 0)
-					{
-						return new HttpResponseMessage
-						{
-							Content = new JsonContent(new { Success = false }),
-							StatusCode = HttpStatusCode.BadRequest
-						};
-					}
+				
+				var frontImageBytes = Convert.FromBase64String(card.EncodedCardFrontImage);
+				var backImageBytes = string.IsNullOrEmpty(card.EncodedCardBackImage)
+					? new byte[0]
+					: Convert.FromBase64String(card.EncodedCardBackImage);
 
-					const string EXTENSION = "jpg";
-					if (useFront)
-					{
-						editModel.FrontFileId = editModel.FrontFileId == Guid.Empty || editModel.FrontFileId.GetValueOrDefault().ToString() == OLD_DEFAULT_CARD_FILE_ID
-							? Guid.NewGuid()
-							: editModel.FrontFileId ?? Guid.NewGuid();
-						editModel.BackFileId = myCard.BackFileId;
-						editModel.BackType = string.IsNullOrEmpty(myCard.BackType) ? EXTENSION : myCard.BackType;
-						editModel.FrontImage = imageBytes;
-						editModel.FrontType = EXTENSION;
-						editModel.UpdateFrontImage = true;
-					} else
-					{
-						editModel.BackFileId = editModel.BackFileId == Guid.Empty || editModel.BackFileId.GetValueOrDefault().ToString() == OLD_DEFAULT_CARD_FILE_ID
-							? Guid.NewGuid()
-							: editModel.BackFileId ?? Guid.NewGuid();
-						editModel.FrontFileId = myCard.FrontFileId;
-						editModel.FrontType = myCard.FrontType;
-						editModel.BackImage = imageBytes;
-						editModel.BackType = EXTENSION;
-						editModel.UpdateBackImage = true;
-					}
-				} else
-				{
-					editModel.UpdateBackImage = editModel.UpdateFrontImage = false;
-				}
+				//if (frontImageBytes.Length == 0)
+				//{
+				//	return new HttpResponseMessage
+				//	{
+				//		Content = new JsonContent(new { Success = false }),
+				//		StatusCode = HttpStatusCode.BadRequest
+				//	};
+				//}
+
+				const string EXTENSION = "jpg";
+					//if (useFront)
+					//{
+				editModel.FrontFileId = editModel.FrontFileId ?? Guid.NewGuid();
+				editModel.FrontImage = frontImageBytes;
+				editModel.FrontType = EXTENSION;
+				editModel.BackFileId = editModel.BackFileId = editModel.BackFileId ?? Guid.NewGuid();
+				editModel.BackImage = backImageBytes;
+				editModel.BackType = string.IsNullOrEmpty(myCard.BackType) ? EXTENSION : myCard.BackType;
+						
+				editModel.UpdateFrontImage = true;
+				editModel.UpdateBackImage = true;
 
 				var cardRef = Guid.NewGuid().ToString();
 				await _cardRepository.UploadCardUpdateToBlobStorage(editModel, cardUpdateStorageConnectionString, cardRef);
@@ -541,12 +531,12 @@ namespace Busidex.Api.Controllers {
 				{
 					if (editModel.UpdateBackImage || editModel.UpdateFrontImage)
 					{
-						_cardRepository.CardToFile(myCard.CardId, editModel.UpdateFrontImage, editModel.UpdateBackImage,
+						await _cardRepository.CardToFile(myCard.CardId, editModel.UpdateFrontImage, editModel.UpdateBackImage,
 							editModel.FrontImage, editModel.FrontFileId.GetValueOrDefault(), editModel.FrontType,
 							editModel.BackImage, editModel.BackFileId.GetValueOrDefault(), editModel.BackType, userId);
 					}
 
-					_cardRepository.UpdateCardOrientation(myCard.CardId, editModel.FrontOrientation, editModel.BackOrientation);
+					await _cardRepository.UpdateCardOrientation(myCard.CardId, editModel.FrontOrientation, editModel.BackOrientation);
 
 				} else
 				{
@@ -588,11 +578,45 @@ namespace Busidex.Api.Controllers {
 			return client.DownloadData(url);
 		}
 
-		[System.Web.Http.HttpPut]
-		public async Task<HttpResponseMessage> SaveCardVisibility(byte visibility)
+		[System.Web.Http.HttpPost]
+		public async Task<HttpResponseMessage> SaveCardStub()
+		{
+            var userId = ValidateUser();
+            if (userId <= 0)
+            {
+                return new HttpResponseMessage
+                {
+                    Content = new JsonContent(new { Success = false }),
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+            }
+
+            try
+            {
+				_cardRepository.SaveCardStub();
+
+                return new HttpResponseMessage
+                {
+                    Content = new JsonContent(new { Success = true }),
+                    StatusCode = HttpStatusCode.OK
+                };
+            }
+            catch (Exception ex)
+            {
+                await _cardRepository.SaveApplicationError(ex, userId);
+                return new HttpResponseMessage
+                {
+                    Content = new JsonContent(new { Success = false }),
+                    StatusCode = HttpStatusCode.InternalServerError
+                };
+            }
+        }
+
+        [System.Web.Http.HttpPut]
+		public async Task<HttpResponseMessage> SaveCardVisibility(CardVisibility visibility)
 		{
 			var userId = ValidateUser();
-
+			
 			try
 			{
 				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault();
@@ -615,7 +639,7 @@ namespace Busidex.Api.Controllers {
 				{
 					var card = Card.Clone(model);
 					card.CardId = model.CardId;
-					_cardRepository.EditCard(card, true, userId, string.Empty);
+					await _cardRepository.EditCard(card, true, userId, string.Empty);
 				} else
 				{
 					var cardRef = Guid.NewGuid().ToString();
@@ -630,7 +654,7 @@ namespace Busidex.Api.Controllers {
 				};
 			} catch (Exception ex)
 			{
-				_cardRepository.SaveApplicationError(ex, userId);
+				await _cardRepository.SaveApplicationError(ex, userId);
 				return new HttpResponseMessage
 				{
 					Content = new JsonContent(new { Success = false }),
@@ -640,13 +664,13 @@ namespace Busidex.Api.Controllers {
 		}
 
 		[System.Web.Http.HttpPut]
-		//[System.Web.Http.Route("SaveCardExternalLinks")]
-		public async Task<HttpResponseMessage> SaveCardExternalLinks([FromBody] CardLinksModel model)
+		public async Task<HttpResponseMessage> SaveCardExternalLinks([FromBody] string json)
 		{
 			var userId = ValidateUser();
 
 			try
 			{
+				var model = JsonConvert.DeserializeObject<CardLinksModel>(json);
 				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault();
 				if (myCard == null)
 				{
@@ -694,12 +718,21 @@ namespace Busidex.Api.Controllers {
 		}
 
 		[System.Web.Http.HttpPut]
-		public async Task<HttpResponseMessage> SaveContactInfo([FromBody] CardDetailModel cardInfo)
+		public async Task<HttpResponseMessage> SaveCardTags([FromBody] string json)
 		{
 			var userId = ValidateUser();
-			//_cardRepository.SaveApplicationError($"Calling SaveContactInfo", "", "", userId);
+			var tagInfo = JsonConvert.DeserializeObject<List<Tag>>(json);
+			
 			try
 			{
+				if (tagInfo == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.BadRequest
+					};
+				}
 				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault();
 				if (myCard == null)
 				{
@@ -710,7 +743,54 @@ namespace Busidex.Api.Controllers {
 					};
 				}
 
-				if (cardInfo == null)
+				var model = new AddOrEditCardModel(myCard)
+				{
+					Action = AddOrEditCardModel.CardAction.Edit,
+				};
+
+				model.Tags = (tagInfo == null || tagInfo.Count == 0)
+					? new List<Tag>(myCard.Tags.Where(t => !string.IsNullOrEmpty(t.Text)).ToList())
+					: new List<Tag>(tagInfo);
+
+				if (System.Diagnostics.Debugger.IsAttached || Request.RequestUri.Host.Contains("local"))
+				{
+					var card = Card.Clone(model);
+					card.CardId = model.CardId;
+					await _cardRepository.EditCard(card, true, userId, string.Empty);
+				}
+				else
+				{
+					var cardRef = Guid.NewGuid().ToString();
+					await _cardRepository.UploadCardUpdateToBlobStorage(model, cardUpdateStorageConnectionString, cardRef);
+					_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
+				}
+
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = true }),
+					StatusCode = HttpStatusCode.OK
+				};
+			}
+			catch (Exception ex)
+			{
+				await _cardRepository.SaveApplicationError(ex, userId);
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = false }),
+					StatusCode = HttpStatusCode.InternalServerError
+				};
+			}
+		}
+
+		[System.Web.Http.HttpPut]
+		public async Task<HttpResponseMessage> SaveCardContactInfo([FromBody] string json)
+		{
+			var userId = ValidateUser();
+			var contactInfo = JsonConvert.DeserializeObject<CardContactInfo>(json); 
+			var pn = contactInfo.PhoneNumbers?.FirstOrDefault()?.Number;
+			try
+			{
+				if (contactInfo == null)
 				{
 					return new HttpResponseMessage
 					{
@@ -719,26 +799,36 @@ namespace Busidex.Api.Controllers {
 					};
 				}
 
+				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault();
+				if (myCard == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.NotFound
+					};
+				}
+
 				var model = new AddOrEditCardModel(myCard)
 				{
-					Email = cardInfo.Email,
-					Url = cardInfo.Url,
-					CompanyName = cardInfo.CompanyName,
-					Name = cardInfo.Name,
-					Title = cardInfo.Title,
+					Email = contactInfo.Email,
+					Url = contactInfo.Url,
+					CompanyName = myCard.CompanyName,
+					Name = myCard.Name,
+					Title = myCard.Title,
 					Action = AddOrEditCardModel.CardAction.Edit,
-					Visibility = cardInfo.Visibility > 0 ? cardInfo.Visibility : myCard.Visibility
+					Visibility = myCard.Visibility
 				};
-				model.PhoneNumbers = cardInfo.PhoneNumbers != null
-					? new List<PhoneNumber>(cardInfo.PhoneNumbers)
+				model.PhoneNumbers = contactInfo.PhoneNumbers != null
+					? new List<PhoneNumber>(contactInfo.PhoneNumbers)
 					: model.PhoneNumbers;
 
-				model.Tags = cardInfo.Tags != null
-					? new List<Tag>(cardInfo.Tags.Where(t => !string.IsNullOrEmpty(t.Text)).ToList())
+				model.Tags = myCard.Tags != null
+					? new List<Tag>(myCard.Tags.Where(t => !string.IsNullOrEmpty(t.Text)).ToList())
 					: model.Tags;
 
-				model.Addresses = cardInfo.Addresses != null
-					? new List<CardAddress>(cardInfo.Addresses)
+				model.Addresses = myCard.Addresses != null
+					? new List<CardAddress>(myCard.Addresses)
 					: model.Addresses;
 
 				if (System.Diagnostics.Debugger.IsAttached || Request.RequestUri.Host.Contains("local"))
@@ -746,14 +836,12 @@ namespace Busidex.Api.Controllers {
 					var card = Card.Clone(model);
 					card.CardId = model.CardId;
 					await _cardRepository.EditCard(card, true, userId, string.Empty);
-				} else
+				}
+				else
 				{
 					var cardRef = Guid.NewGuid().ToString();
-					//_cardRepository.SaveApplicationError($"Adding {cardRef} to the blob storage", "", "", userId);
 					await _cardRepository.UploadCardUpdateToBlobStorage(model, cardUpdateStorageConnectionString, cardRef);
-					//_cardRepository.SaveApplicationError($"Adding {cardRef} to the queue", "", "", userId);
 					_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
-					//_cardRepository.SaveApplicationError($"Added {cardRef} to the queue", "", "", userId);
 				}
 
 				return new HttpResponseMessage
@@ -761,7 +849,145 @@ namespace Busidex.Api.Controllers {
 					Content = new JsonContent(new { Success = true }),
 					StatusCode = HttpStatusCode.OK
 				};
-			} catch (Exception ex)
+			}
+			catch (Exception ex)
+			{
+				await _cardRepository.SaveApplicationError(ex, userId);
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = false }),
+					StatusCode = HttpStatusCode.InternalServerError
+				};
+			}
+		}
+
+		[System.Web.Http.HttpPut]
+		public async Task<HttpResponseMessage> SaveCardAddress([FromBody] string json)
+		{
+			var userId = ValidateUser();
+			var address = JsonConvert.DeserializeObject<CardAddress>(json);
+			
+			try
+			{
+				if (address == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.BadRequest
+					};
+				}
+
+				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault();
+				if (myCard == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.NotFound
+					};
+				}
+
+				var model = new AddOrEditCardModel(myCard);
+				model.Action = AddOrEditCardModel.CardAction.Edit;
+
+				var existingAddress = model.Addresses.FirstOrDefault();
+
+				//await _cardRepository.SaveApplicationError(address.ToString(), "","" , userId);
+
+				if (existingAddress?.ToString() != address.ToString())
+                {
+					model.Addresses.Clear();
+					model.Addresses.Add(address);
+					//await _cardRepository.SaveApplicationError($"{model.Addresses.Count()}", "", "", userId);
+				}
+
+				if (System.Diagnostics.Debugger.IsAttached || Request.RequestUri.Host.Contains("local"))
+				{
+					var card = Card.Clone(model);
+					card.CardId = model.CardId;
+					await _cardRepository.EditCard(card, true, userId, string.Empty);
+				}
+				else
+				{
+					var cardRef = Guid.NewGuid().ToString();
+					await _cardRepository.UploadCardUpdateToBlobStorage(model, cardUpdateStorageConnectionString, cardRef);
+					_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
+				}
+
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = true }),
+					StatusCode = HttpStatusCode.OK
+				};
+			}
+			catch (Exception ex)
+			{
+				await _cardRepository.SaveApplicationError(ex, userId);
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = false }),
+					StatusCode = HttpStatusCode.InternalServerError
+				};
+			}
+		}
+
+		[System.Web.Http.HttpPut]
+		public async Task<HttpResponseMessage> SaveCardSearchInfo([FromBody] string json)
+        {
+			var userId = ValidateUser();
+			
+			var searchInfo = JsonConvert.DeserializeObject<CardSearchInfo>(json);
+			
+			try
+			{
+				if (searchInfo == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.BadRequest
+					};
+				}
+
+				var myCard = _cardRepository.GetCardsByOwnerId(userId).FirstOrDefault();
+				if (myCard == null)
+				{
+					return new HttpResponseMessage
+					{
+						Content = new JsonContent(new { Success = false }),
+						StatusCode = HttpStatusCode.NotFound
+					};
+				}
+
+				var model = new AddOrEditCardModel(myCard)
+				{
+					CompanyName = searchInfo.CompanyName,
+					Name = searchInfo.Name,
+					Title = searchInfo.Title,
+					Action = AddOrEditCardModel.CardAction.Edit,
+				};
+			
+				if (System.Diagnostics.Debugger.IsAttached || Request.RequestUri.Host.Contains("local"))
+				{
+					var card = Card.Clone(model);
+					card.CardId = model.CardId;
+					await _cardRepository.EditCard(card, true, userId, string.Empty);
+				}
+				else
+				{
+					var cardRef = Guid.NewGuid().ToString();
+					await _cardRepository.UploadCardUpdateToBlobStorage(model, cardUpdateStorageConnectionString, cardRef);
+					_cardRepository.AddCardToQueue(cardUpdateStorageConnectionString, cardRef);
+				}
+
+				return new HttpResponseMessage
+				{
+					Content = new JsonContent(new { Success = true }),
+					StatusCode = HttpStatusCode.OK
+				};
+			}
+			catch (Exception ex)
 			{
 				await _cardRepository.SaveApplicationError(ex, userId);
 				return new HttpResponseMessage

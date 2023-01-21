@@ -5,21 +5,18 @@ namespace Busidex.Api.Models
 {
     public class MobileCardImage
     {
-        public enum SideIndex
-        {
-            Front = 0,
-            Back = 1
-        }
+        //public enum DisplayMode
+        //{
+        //    Front = 0,
+        //    Back = 1
+        //}
 
         public Guid? FrontFileId { get; set; }
         public Guid? BackFileId { get; set; }
-        [Required]
-        public string Orientation { get; set; }
-
-        
-        public string EncodedCardImage { get; set; }
-
-        [Required]
-        public SideIndex Side { get; set; }
+        public string FrontOrientation { get; set; }
+        public string BackOrientation { get; set; }
+        public string EncodedCardFrontImage { get; set; }
+        public string EncodedCardBackImage { get; set; }
+        //public DisplayMode Side { get; set; }
     }
 }

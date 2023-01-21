@@ -159,7 +159,7 @@ namespace Busidex.DataServices.DotNet
                 var container = Environment.GetEnvironmentVariable("CardImageBlobStorageContainer");
                 var containerClient = new Azure.Storage.Blobs.BlobContainerClient(connStr, container);
                 
-                if (replaceFront && frontImage != null)
+                if (replaceFront && frontImage != null && frontImage.Length > 0)
                 {
                     var uniqueFrontBlobName = $"{card.FrontFileId}.{frontType}".ToLower();
                     var blobClient = containerClient.GetBlobClient(uniqueFrontBlobName);                    
@@ -168,7 +168,7 @@ namespace Busidex.DataServices.DotNet
                     await SaveThumbnail(frontImage.ToArray(), card.FrontOrientation, card.FrontFileId.GetValueOrDefault().ToString(), frontType);
                 }
 
-                if (replaceBack && backImage != null && backImage != null)
+                if (replaceBack && backImage != null && backImage.Length > 0 )
                 {
                     var uniqueBackBlobName = $"{card.BackFileId}.{backType}".ToLower();
                     var blobClient = containerClient.GetBlobClient(uniqueBackBlobName);
@@ -192,16 +192,16 @@ namespace Busidex.DataServices.DotNet
             var containerClient = new Azure.Storage.Blobs.BlobContainerClient(connStr, container);
             string uniqueBlobName = $"{fileName}.{fileType}";
             var blobClient = containerClient.GetBlobClient(uniqueBlobName);
-
+            
             Image img = new Bitmap(new MemoryStream(cardImage));
             var scaledImage = ScaleImage(img, orientation);
 
             using (var memoryStream = new MemoryStream())
             {
-                scaledImage.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                scaledImage?.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
 
                 memoryStream.Seek(0, SeekOrigin.Begin);
-                await blobClient.UploadAsync(memoryStream);
+                await blobClient.UploadAsync(memoryStream, overwrite: true);
             }
         }
 
@@ -730,7 +730,7 @@ namespace Busidex.DataServices.DotNet
                 await SaveApplicationError(ex, 0);
             }
         }
-
+      
         public List<CardImage> SyncData(long id)
         {
             throw new NotImplementedException();

@@ -1,54 +1,89 @@
-﻿using System;
+﻿using Busidex.Api.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Busidex.Api.DataAccess.DTO
 {
+    [Serializable]
     public class CardDetailModel
     {
 
         public long CardId { get; set; }
+
         public string Name { get; set; }
+
         public string Title { get; set; }
-        public int? BusinessId { get; set; }
+
+        public long? BusinessId { get; set; }
+
         public bool Searchable { get; set; }
+
         public string Email { get; set; }
+
         public string Url { get; set; }
 
-        [Display(Name = @"Company Name", Description = @"Company Name", Prompt = @"Company Name", ShortName = @"Company Name")]
         public string CompanyName { get; set; }
+
         public List<PhoneNumber> PhoneNumbers { get; set; }
+
         public Dictionary<long, long> CardRelations { get; set; }
+
         public long? OwnerId { get; set; }
+
         public bool IsMyCard { get; set; }
-        //public List < CategoryGroup > Categories { get; set; }
+
         public bool HasBackImage { get; set; }
+
         public bool IsUserLoggedIn { get; set; }
+
         public AccountType UserAccountType { get; set; }
+
         public Guid? FrontFileId { get; set; }
+
         public string FrontFileType { get; set; }
+
         public string FrontType { get; set; }
+
         public Guid? BackFileId { get; set; }
+
         public string BackFileType { get; set; }
+
         public string BackType { get; set; }
+
         public string FrontOrientation { get; set; }
+
         public string BackOrientation { get; set; }
+
         public bool ExistsInMyBusidex { get; set; }
+
         public string BasicRelationsJSON { get; set; }
-        public Guid OwnerToken { get; set; }
+
+        public Guid? OwnerToken { get; set; }
+
         public string TagList { get; set; }
-        public byte Visibility { get; set; }
-        public List<Tag> Tags { get; set; }
-        public DisplayType Display { get; set; }
-        public string Markup { get; set; }
-        public long CreatedBy { get; set; }
-        public CardType CardType { get; set; }
-        public string SEO_Name { get; set; }
-        public string CustomContent { get; set; }
-        public List<CardAddress> Addresses { get; set; }
+
+        public List<Tag> Tags { get; set; } = new List<Tag>();
 
         public List<ExternalLink> ExternalLinks { get; set; } = new List<ExternalLink>();
 
+        public DisplayType Display { get; set; }
+
+        public string Markup { get; set; }
+
+        public long? CreatedBy { get; set; }
+
+        public CardVisibility Visibility { get; set; }
+
+        public CardType CardType { get; set; }
+
+        public List<CardAddress> Addresses { get; set; } = new List<CardAddress>();
+
+        const string fileName = "{0}.{1}";
+
+        public string SEO_Name { get; set; }
+
+        public string FrontFileName { get { return string.Format(fileName, FrontFileId, FrontType); } }
         public CardDetailModel()
         {
             
@@ -68,7 +103,7 @@ namespace Busidex.Api.DataAccess.DTO
             HasBackImage = card.BackImage != null && card.BackFileId != Guid.Empty;
             OwnerId = card.OwnerId;
             Searchable = card.Searchable;
-            PhoneNumbers = card.PhoneNumbers;
+            PhoneNumbers = new List<PhoneNumber>(card.PhoneNumbers);
             FrontFileId = card.FrontFileId;
             FrontFileType = card.FrontType;
             FrontType = card.FrontType;
@@ -86,7 +121,7 @@ namespace Busidex.Api.DataAccess.DTO
             CardType = card.CardType;
             ExistsInMyBusidex = card.ExistsInMyBusidex;
             SEO_Name = card.SEO_Name;
-            CustomContent = card.CustomContent;
+            //CustomContent = card.CustomContent;
             ExternalLinks.AddRange(card.ExternalLinks);
 
             if (PhoneNumbers != null && PhoneNumbers.Count == 0)

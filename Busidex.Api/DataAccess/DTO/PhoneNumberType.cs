@@ -1,5 +1,3 @@
-
-
 using System;
 
 namespace Busidex.Api.DataAccess.DTO

@@ -1,20 +1,22 @@
-﻿using System;
+﻿//using Busidex.Api.DataAccess.DTO;
+using Busidex.Api.DataAccess.DTO;
+using Busidex.Api.Models;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.EntityClient;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Busidex.Api.DataAccess.DTO;
-using Busidex.Api.Models;
 using AccountType = Busidex.Api.DataAccess.DTO.AccountType;
 using ApplicationError = Busidex.Api.DataAccess.DTO.ApplicationError;
 using PhoneNumber = Busidex.Api.DataAccess.DTO.PhoneNumber;
+using CardAddressDTO = Busidex.Api.DataAccess.DTO.CardAddressDTO;
+using System.Configuration;
 
 namespace Busidex.Api.DataAccess
 {
     public class BusidexDao
     {
-        private readonly string _connectionString;
+        private string _connectionString = String.Empty;
 
         public BusidexDao() { _connectionString = null; }
         public BusidexDao(string connectionString)
@@ -165,6 +167,14 @@ namespace Busidex.Api.DataAccess
             }
         }
 
+        public void SaveCardStub()
+        {
+            using (var ctx = new busidexEntities())
+            {
+                ctx.Database.ExecuteSqlCommand("exec dbo.usp_SaveCardStub");
+            }
+        }
+
         public void AddSystemTagToCard(long cardid, string tag)
         {
             using (var ctx = new busidexEntities())
@@ -242,14 +252,22 @@ namespace Busidex.Api.DataAccess
 	        {
                 using(var trns = ctx.Database.BeginTransaction()) {
                     try {
+                        // replace the user's card with the assigned one
+                        var original = ctx.Cards.Where(card => card.OwnerId == ownerId).SingleOrDefault();
+                        if(original != null)
+                        {
+                            original.OwnerId = null;
+                            original.Searchable = false;
+                        }
+
                         var c = ctx.Cards.Find(cardId);
                         if (c != null) {
                             c.Deleted = false;
                             c.Searchable = true; // Now that the card is owned, it is searchable
                             c.OwnerId = ownerId;
-                            ctx.SaveChanges();
+                            ctx.SaveChanges(); // only save changes if we've assigned a new card
                         }
-
+                        
                         ok = true;
                     } catch(Exception ex) {                            
                         trns.Rollback();
@@ -302,7 +320,7 @@ namespace Busidex.Api.DataAccess
                     CardId = phoneNumber.CardId,
                     Number = phoneNumber.Number,
                     Extension = phoneNumber.Extension,
-                    PhoneNumberType = new PhoneNumberType
+                    PhoneNumberType = new DTO.PhoneNumberType
                     {
                         Name = phoneNumber.Name,
                         PhoneNumberTypeId = phoneNumber.PhoneNumberTypeId
@@ -316,7 +334,7 @@ namespace Busidex.Api.DataAccess
                     Address1 = address.Address1,
                     Address2 = address.Address2,
                     City = address.City,
-                    State = new StateCode
+                    State = new DTO.StateCode
                     {
                         StateCodeId = 0,
                         Code = address.State
@@ -330,12 +348,12 @@ namespace Busidex.Api.DataAccess
                 var links = ctx.Database.SqlQuery<DTO.ExternalLink>($"SELECT * FROM [dbo].[ExternalLink] WHERE CardId in ({cardIds})").ToList()
                  ?? new List<DTO.ExternalLink>();
 
-               var cards = cardResults.Select(item => new UserCard
+               var cards = cardResults.Select(item => new DTO.UserCard
                 {
                     UserCardId = item.UserCardId,
                     Notes = System.Web.HttpUtility.UrlDecode(item.Notes),
                     CardId = item.CardId,
-                    RelatedCards = new List<CardRelation>(), 
+                    RelatedCards = new List<DTO.CardRelation>(), 
                     MobileView = item.MobileView,
                     SharedById = item.SharedById,
                     Card = new DTO.Card
@@ -434,7 +452,7 @@ namespace Busidex.Api.DataAccess
 
             using (var ctx = new busidexEntities())
             {
-                var sharedCards = ctx.Database.SqlQuery<SharedCard>(
+                var sharedCards = ctx.Database.SqlQuery<DTO.SharedCard>(
                         "exec dbo.usp_GetSharedCardsByUserId @userId={0}", userId).ToList();
 
                 foreach (var sharedCard in sharedCards)
@@ -653,11 +671,11 @@ namespace Busidex.Api.DataAccess
             }
         }
 
-        public List<CardAddressesDTO> GetCardAddressesByIds(string cardIds)
+        public List<CardAddressDTO> GetCardAddressesByIds(string cardIds)
         {
             using (var ctx = new busidexEntities())
             {
-                return ctx.Database.SqlQuery<CardAddressesDTO>("exec dbo.usp_GetCardAddressesByIds @CardIds={0}", cardIds).ToList();
+                return ctx.Database.SqlQuery<CardAddressDTO>("exec dbo.usp_GetCardAddressesByIds @CardIds={0}", cardIds).ToList();
             }
         }
 
@@ -948,7 +966,7 @@ namespace Busidex.Api.DataAccess
                             tagData.Where(t => t.CardId == item.CardId)
                                 .Select(t => new Tag {TagId = t.TagId, Text = t.Text, TagType = (TagType) t.TagTypeId})
                                 .ToList(),
-                        PhoneNumbers = phoneNumbers.Where(p => p.CardId == item.CardId).ToList(),
+                        PhoneNumbers = new List<PhoneNumber>( phoneNumbers.Where(p => p.CardId == item.CardId).ToList()),
                         Addresses = cardAddresses.Where(a => a.CardId == item.CardId).ToList(),
                         //FrontImage = includeImages ? item.FrontImage : null,
                         //BackImage = includeImages ? item.BackImage : null,
@@ -1572,61 +1590,72 @@ namespace Busidex.Api.DataAccess
         }
 
         public async Task<long> AddCard(DataAccess.DTO.Card card)
-        {
-            byte visibility = 1;
-            switch (card.Visibility)
+        {            
+           
+            var cardTypeId = 1;
+            
+            var connStr = ConfigurationManager.ConnectionStrings["busidex"];
+            
+            using (var con = new SqlConnection(connStr.ConnectionString))
             {
-                case 1:
-                    visibility = 1;
-                    break;
-                case 2:
-                    visibility = 2;
-                    break;
-                case 3:
-                    visibility = 3;
-                    break;
-            }
-            var cardId = new SqlParameter
-            {
-                ParameterName = "cardId",
-                DbType = System.Data.DbType.Int64,
-                Direction = System.Data.ParameterDirection.Output
-            };
+                var sql = $"usp_addCard";
+                var p0 = new SqlParameter("@Name", card.Name);
+                var p1 = new SqlParameter("@Title", card.Title);
+                var p2 = new SqlParameter("@FrontImage", card.FrontImage);
+                var p3 = new SqlParameter("@FrontType", card.FrontType);
+                var p4 = new SqlParameter("@FrontOrientation", card.FrontOrientation);
+                var p5 = new SqlParameter("@BackImage", card.BackImage);
+                var p6 = new SqlParameter("@BackType", card.BackType);
+                var p7 = new SqlParameter("@BackOrientation", card.BackOrientation);
+                var p8 = new SqlParameter("@BusinessId", card.BusinessId);
+                var p9 = new SqlParameter("@Searchable", card.Searchable);
+                var p10 = new SqlParameter("@CompanyName", card.CompanyName);
+                var p11 = new SqlParameter("@Email", card.Email);
+                var p12 = new SqlParameter("@Url", card.Url);
+                var p13 = new SqlParameter("@CreatedBy", card.CreatedBy);
+                var p14 = new SqlParameter("@OwnerId", card.OwnerId);
+                var p15 = new SqlParameter("@OwnerToken", card.OwnerToken);
+                var p16 = new SqlParameter("@FrontFileId", card.FrontFileId);
+                var p17 = new SqlParameter("@BackFileId", card.BackFileId);
+                var p18 = new SqlParameter("@DisplayType", card.Display.ToString());
+                var p19 = new SqlParameter("@Markup", card.Markup);
+                var p20 = new SqlParameter("@Visibility", (byte)card.Visibility);
+                var p21 = new SqlParameter("@CardTypeId", cardTypeId);
+                var cardId = new SqlParameter
+                {
+                    ParameterName = "cardId",
+                    DbType = System.Data.DbType.Int64,
+                    Direction = System.Data.ParameterDirection.Output
+                };
+                using (var cmd = new SqlCommand(sql, con))
+                {
+                    try
+                    {
+                        con.Open();
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
-            using (var ctx = new busidexEntities())
-            {
-                await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_addCard @Name={0}, @Title={1}, @FrontImage={2}, @FrontType={3}, @FrontOrientation={4}, @BackImage={5}, @BackType={6}, @BackOrientation={7}, @BusinessId={ 8},@Searchable={ 9}, @CompanyName={ 10}, @Email={ 11}, @Url={ 12}, @CreatedBy={ 13}, @OwnerId={ 14}, @OwnerToken={ 15}, @FrontFileId={ 16}, @BackFileId={ 17}, @DisplayType={ 1}, @Markup={ 19}, @Visibility={ 20}, @CardTypeId={ 21}, @CardId={22}",
-                    card.Name, card.Title, card.FrontImage, card.FrontType, card.FrontOrientation,
-                card.BackImage, card.BackType, card.BackOrientation,
-                card.BusinessId, card.Searchable, card.CompanyName, card.Email, card.Url, card.CreatedBy,
-                card.OwnerId, card.OwnerToken, card.FrontFileId, card.BackFileId, card.Display.ToString(),
-                card.Markup, visibility, 1, cardId);
+                        cmd.Parameters.AddRange(new[] { p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, cardId});
+
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+                return Convert.ToInt64(cardId.Value);
             }
-            return Convert.ToInt64(cardId.Value);
         }
 
         public async Task UpdateCard(DataAccess.DTO.Card model)
-        {
-            byte visibility = 1;
-            switch (model.Visibility)
-            {
-                case 1:
-                    visibility = 1;
-                    break;
-                case 2:
-                    visibility = 2;
-                    break;
-                case 3:
-                    visibility = 3;
-                    break;
-            }
+        {            
             using (var ctx = new busidexEntities())
             {
                 await ctx.Database.ExecuteSqlCommandAsync("exec dbo.usp_updateCard @CardId={0}, @Name={1},	@Title={2},	@FrontImage={3},	@FrontType={4},	@FrontOrientation={5},	@BackImage={6},	@BackType={7},	@BackOrientation={8},	@BusinessId={9},	@Searchable={10},	@CompanyName={11},	@Email={12},	@Url={13},	@CreatedBy={14},	@OwnerId={15},	@OwnerToken={16},	@Deleted={17},	@FrontFileId={18},	@BackFileId={19},	@DisplayType={20},	@Markup={21},	@Visibility={22}",
                     model.CardId, model.Name, model.Title, model.FrontImage, model.FrontType, model.FrontOrientation,
                        model.BackImage, model.BackType, model.BackOrientation, model.BusinessId, model.Searchable, model.CompanyName, model.Email,
                        model.Url, model.CreatedBy, model.OwnerId, model.OwnerToken, false, model.FrontFileId, model.BackFileId, model.Display.ToString(),
-                       model.Markup, visibility);
+                       model.Markup, model.Visibility);
             }
         }
 

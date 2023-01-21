@@ -205,7 +205,7 @@ namespace Busidex.Api.DataServices
                                 Addresses = card.Addresses,
                                 ExternalLinks = links,
                                 Markup = card.Markup,
-                                Visibility = card.Visibility,
+                                Visibility = (CardVisibility)card.Visibility,
                                 Display = card.Display,
                                 Notes = uc != null ? uc.Notes : string.Empty,
                                 CardType = CardType.Professional
@@ -322,20 +322,17 @@ namespace Busidex.Api.DataServices
         private IEnumerable<DataAccess.DTO.Card> FilterSearchResults(List<DataAccess.DTO.Card> cards, IEnumerable<UserCard> mybusidex, long userId)
         {
             var results = new List<DataAccess.DTO.Card>();
-            const short PUBLIC = 1;
-            const short SEMI_PUBLIC = 2;
-            const short PRIVATE = 3;
 
             // Add all the public cards
-            results.AddRange(cards.Where(c => c.Visibility == PUBLIC || c.OwnerId == userId));
+            results.AddRange(cards.Where(c => c.Visibility == (byte)CardVisibility.Public || c.OwnerId == userId));
             
             if (userId > 0)
             {
                 // Add any Semi-Private cards that are allowed
-                results.AddRange(cards.Where(c => c.Visibility == SEMI_PUBLIC && (mybusidex.Any(uc=>uc.SharedById.HasValue && uc.CardId == c.CardId))));
+                results.AddRange(cards.Where(c => c.Visibility == (byte)CardVisibility.SemiPublic && (mybusidex.Any(uc=>uc.SharedById.HasValue && uc.CardId == c.CardId))));
 
                 // Add any Private cards that are allowed
-                results.AddRange(cards.Where(c => c.Visibility == PRIVATE && (mybusidex.Any(uc => uc.SharedById == c.OwnerId) )));
+                results.AddRange(cards.Where(c => c.Visibility == (byte)CardVisibility.Private && (mybusidex.Any(uc => uc.SharedById == c.OwnerId) )));
             }
             return results;
         }
@@ -1068,9 +1065,13 @@ namespace Busidex.Api.DataServices
             return model;
         }
 
-        public async Task<bool> SaveCardOwner(long cardId, long ownerId)
+        public async Task SaveCardOwner(string connectionString, string json)
         {
-            return await _dao.SaveCardOwner(cardId, ownerId);
+            const string QUEUE_NAME = "update-owner";
+            Azure.Storage.Queues.QueueClient queueClient = new Azure.Storage.Queues.QueueClient(connectionString, QUEUE_NAME);
+            queueClient.CreateIfNotExists();
+            var message = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+            await queueClient.SendMessageAsync(message);
         }
 
         public bool SaveCardOwnerToken(long cardId, Guid token)
@@ -1091,6 +1092,11 @@ namespace Busidex.Api.DataServices
         public OrgCardDetailModel GetOrganizationCardByOwnerId(long ownerId)
         {
             return _dao.GetOrganizationCardByOwnerId(ownerId);
+        }
+
+        public void SaveCardStub()
+        {
+            _dao.SaveCardStub();
         }
 
         public List<CardDetailModel> GetCardsByOwnerId(long ownerId)

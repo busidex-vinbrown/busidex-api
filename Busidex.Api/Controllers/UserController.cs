@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -102,7 +103,7 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpPut]
-        public HttpResponseMessage RecoverPassword(string email)
+        public async Task<HttpResponseMessage> RecoverPassword(string email)
         {
             string sanitizedEmail = email.Trim();
             const int MAX_EMAIL_LENGTH = 256;
@@ -141,7 +142,7 @@ namespace Busidex.Api.Controllers
 
             string newPassword = Membership.GeneratePassword(Membership.MinRequiredPasswordLength, Membership.MinRequiredNonAlphanumericCharacters);
             var encodedPassword = EncodeString(newPassword);
-            bool success = _accountRepository.UpdatePassword(user.UserName, encodedPassword);
+            bool success = await _accountRepository.UpdatePassword(user.UserName, encodedPassword);
 
             if (!success)
             {
@@ -187,7 +188,7 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpPut]
-        public HttpResponseMessage ChangeUserName(long userId, string name)
+        public async Task<HttpResponseMessage> ChangeUserName(long userId, string name)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -249,7 +250,7 @@ namespace Busidex.Api.Controllers
 
             try
             {
-                var userNameUpdated = _accountRepository.UpdateUserName(userId, name);
+                var userNameUpdated = await _accountRepository.UpdateUserName(userId, name);
 
                 if (userNameUpdated)
                 {
@@ -266,7 +267,7 @@ namespace Busidex.Api.Controllers
             }
             catch (Exception ex)
             {
-                _cardRepository.SaveApplicationError(ex, userId);
+                await _cardRepository.SaveApplicationError(ex, userId);
             }
 
             return new HttpResponseMessage

@@ -43,8 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Busidex.DataAccess", "Busid
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Busidex.Functions.DotNetCore", "Busidex.Functions.DotNetCore\Busidex.Functions.DotNetCore.csproj", "{72C58E72-5600-42A4-9687-38B6A859DBC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Busidex.Functions", "Busidex.Functions\Busidex.Functions.csproj", "{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Busidex.DataServices", "Busidex.DataServices\Busidex.DataServices.csproj", "{36F3B958-1F32-4980-91DD-4BE68B7787A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Busidex.DataAccess.DotNet", "Busidex.DataAccess.DotNet\Busidex.DataAccess.DotNet.csproj", "{41CB4170-1EC5-4859-8751-750DA4942AE1}"
@@ -52,6 +50,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Busidex.DomainModels.DotNet", "Busidex.DomainModels.DotNet\Busidex.DomainModels.DotNet.csproj", "{AAF587B8-9767-47EA-85F8-08D6FB521378}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Busidex.DataServices.DotNet", "Busidex.DataServices.DotNet\Busidex.DataServices.DotNet.csproj", "{9D9CBD01-0F1B-4A8E-A78F-48CC06DAB33A}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "busidex-admin", "busidex-admin\busidex-admin.esproj", "{53E2D35F-038A-48D4-96ED-894ECDA1F617}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -201,22 +201,6 @@ Global
 		{72C58E72-5600-42A4-9687-38B6A859DBC8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{72C58E72-5600-42A4-9687-38B6A859DBC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{72C58E72-5600-42A4-9687-38B6A859DBC8}.Release|x86.Build.0 = Release|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.CodeAnalysis|Any CPU.ActiveCfg = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.CodeAnalysis|Any CPU.Build.0 = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.CodeAnalysis|x86.ActiveCfg = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.CodeAnalysis|x86.Build.0 = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Debug|x86.Build.0 = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.QA|Any CPU.ActiveCfg = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.QA|Any CPU.Build.0 = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.QA|x86.ActiveCfg = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.QA|x86.Build.0 = Debug|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Release|x86.ActiveCfg = Release|Any CPU
-		{2217F3AD-06B8-4B6C-8E3E-85E6E596B70A}.Release|x86.Build.0 = Release|Any CPU
 		{36F3B958-1F32-4980-91DD-4BE68B7787A6}.CodeAnalysis|Any CPU.ActiveCfg = Debug|Any CPU
 		{36F3B958-1F32-4980-91DD-4BE68B7787A6}.CodeAnalysis|Any CPU.Build.0 = Debug|Any CPU
 		{36F3B958-1F32-4980-91DD-4BE68B7787A6}.CodeAnalysis|x86.ActiveCfg = Debug|Any CPU
@@ -281,13 +265,37 @@ Global
 		{9D9CBD01-0F1B-4A8E-A78F-48CC06DAB33A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D9CBD01-0F1B-4A8E-A78F-48CC06DAB33A}.Release|x86.ActiveCfg = Release|Any CPU
 		{9D9CBD01-0F1B-4A8E-A78F-48CC06DAB33A}.Release|x86.Build.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.CodeAnalysis|Any CPU.ActiveCfg = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.CodeAnalysis|Any CPU.Build.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.CodeAnalysis|Any CPU.Deploy.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.CodeAnalysis|x86.ActiveCfg = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.CodeAnalysis|x86.Build.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.CodeAnalysis|x86.Deploy.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Debug|x86.Build.0 = Debug|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.QA|Any CPU.ActiveCfg = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.QA|Any CPU.Build.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.QA|Any CPU.Deploy.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.QA|x86.ActiveCfg = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.QA|x86.Build.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.QA|x86.Deploy.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Release|x86.ActiveCfg = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Release|x86.Build.0 = Release|Any CPU
+		{53E2D35F-038A-48D4-96ED-894ECDA1F617}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0823C4FC-7701-4D92-911A-780F669AA581}
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
+		SolutionGuid = {0823C4FC-7701-4D92-911A-780F669AA581}
 	EndGlobalSection
 EndGlobal

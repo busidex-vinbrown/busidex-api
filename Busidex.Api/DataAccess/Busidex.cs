@@ -73,7 +73,7 @@ namespace Busidex.Api.DataAccess
 
             return new PhoneNumber
                        {
-                           PhoneNumberId = p.PhoneNumberId,
+                           PhoneNumberId = (int)p.PhoneNumberId,
                            PhoneNumberType = new PhoneNumberType
                                                  {
                                                      Name = p.Name,
@@ -111,7 +111,7 @@ namespace Busidex.Api.DataAccess
                                                                             Number = p.Number,
                                                                             PhoneNumberTypeId = p.PhoneNumberTypeId,
                                                                             Updated = p.Updated,
-                                                                            PhoneNumberId = p.PhoneNumberId,
+                                                                            PhoneNumberId = (int)p.PhoneNumberId,
                                                                             PhoneNumberType = new PhoneNumberType
                                                                                                   {
                                                                                                       PhoneNumberTypeId = p.PhoneNumberTypeId,
@@ -633,7 +633,7 @@ namespace Busidex.Api.DataAccess
                     Number = p.Number,
                     PhoneNumberTypeId = p.PhoneNumberTypeId,
                     Updated = p.Updated,
-                    PhoneNumberId = p.PhoneNumberId,
+                    PhoneNumberId = (int)p.PhoneNumberId,
                     PhoneNumberType = new PhoneNumberType
                     {
                         PhoneNumberTypeId = p.PhoneNumberTypeId,
@@ -649,24 +649,11 @@ namespace Busidex.Api.DataAccess
         }
 
         public long AddCard(DataAccess.DTO.Card card)
-        {
-            byte visibility = 1;
-            switch (card.Visibility)
-            {
-                case 1:
-                    visibility = 1;
-                    break;
-                case 2:
-                    visibility = 2;
-                    break;
-                case 3:
-                    visibility = 3;
-                    break;
-            }
+        {            
             var id = _AddCard(card.Name, card.Title, card.FrontImage, card.FrontType, card.FrontOrientation,
                 card.BackImage, card.BackType, card.BackOrientation,
                 card.BusinessId, card.Searchable, card.CompanyName, card.Email, card.Url, card.CreatedBy,
-                card.OwnerId, card.OwnerToken, card.FrontFileId, card.BackFileId, card.Display.ToString(), card.Markup, visibility, 1);
+                card.OwnerId, card.OwnerToken, card.FrontFileId, card.BackFileId, card.Display.ToString(), card.Markup, (byte)card.Visibility, 1);
 
             return id.Single().CardId.GetValueOrDefault();
         }
@@ -752,7 +739,7 @@ namespace Busidex.Api.DataAccess
                 Number = p.Number,
                 PhoneNumberTypeId = p.PhoneNumberTypeId,
                 Updated = p.Updated,
-                PhoneNumberId = p.PhoneNumberId,
+                PhoneNumberId = (int)p.PhoneNumberId,
                 PhoneNumberType = new PhoneNumberType
                 {
                     PhoneNumberTypeId = p.PhoneNumberTypeId,
@@ -898,24 +885,11 @@ namespace Busidex.Api.DataAccess
         }
 
         public void UpdateCard(DataAccess.DTO.Card model)
-        {
-            byte visibility = 1;
-            switch (model.Visibility)
-            {
-                case 1:
-                    visibility = 1;
-                    break;
-                case 2:
-                    visibility = 2;
-                    break;
-                case 3:
-                    visibility = 3;
-                    break;
-            }
+        {            
             _UpdateCard(model.CardId, model.Name, model.Title, model.FrontImage, model.FrontType, model.FrontOrientation,
                        model.BackImage, model.BackType, model.BackOrientation, model.BusinessId, model.Searchable, model.CompanyName, model.Email,
                        model.Url, model.CreatedBy, model.OwnerId, model.OwnerToken, false, model.FrontFileId, model.BackFileId, model.Display.ToString(), 
-                       model.Markup, visibility);
+                       model.Markup, (byte)model.Visibility);
 
         }
 
@@ -971,7 +945,7 @@ namespace Busidex.Api.DataAccess
                                                                                                                                                                  Number = p.Number,
                                                                                                                                                                  PhoneNumberTypeId = p.PhoneNumberTypeId,
                                                                                                                                                                  Updated = p.Updated,
-                                                                                                                                                                 PhoneNumberId = p.PhoneNumberId,
+                                                                                                                                                                 PhoneNumberId = (int)p.PhoneNumberId,
                                                                                                                                                                  PhoneNumberType = new PhoneNumberType
                                                                                                                                                                                        {
                                                                                                                                                                                            PhoneNumberTypeId = p.PhoneNumberTypeId,

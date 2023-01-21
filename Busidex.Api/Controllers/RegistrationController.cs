@@ -15,10 +15,14 @@ using System.Web.Security;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
 using Busidex.Api.DataAccess.DTO;
+
 //using Twilio;
 //using Twilio.Rest.Api.V2010.Account;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
 using UserAccount = Busidex.Api.DataAccess.DTO.UserAccount;
+using System.Threading.Tasks;
+using System.Configuration;
+using Newtonsoft.Json;
 
 namespace Busidex.Api.Controllers
 {
@@ -30,6 +34,7 @@ namespace Busidex.Api.Controllers
         private readonly IAccountRepository _accountRepository;
         private readonly IAdminRepository _adminRepository;
         private readonly IOrganizationRepository _organizationRepository;
+        private readonly string cardUpdateStorageConnectionString;
 
         public RegistrationController(IAccountRepository accountRepository, ICardRepository cardRepository, IAdminRepository adminRepository, IOrganizationRepository organizationRepository)
         {
@@ -37,10 +42,11 @@ namespace Busidex.Api.Controllers
             _cardRepository = cardRepository;
             _adminRepository = adminRepository;
             _organizationRepository = organizationRepository;
+            cardUpdateStorageConnectionString = ConfigurationManager.AppSettings["BusidexQueuesConnectionString"];
         }
 
         [System.Web.Http.HttpGet]
-        public HttpResponseMessage Get(string id = "")
+        public async Task<HttpResponseMessage> Get(string id = "")
         {
 
             try
@@ -68,7 +74,7 @@ namespace Busidex.Api.Controllers
             }
             catch (Exception ex)
             {
-                _cardRepository.SaveApplicationError(ex, 0);
+                await _cardRepository.SaveApplicationError(ex, 0);
                 return new HttpResponseMessage
                 {
                     Content = new JsonContent(new { Message = "error" })
@@ -128,7 +134,7 @@ namespace Busidex.Api.Controllers
 
 
         [System.Web.Http.HttpPut]
-        public HttpResponseMessage Put(string token)
+        public async Task<HttpResponseMessage> Put(string token)
         {
             
             long userId = 0;
@@ -213,7 +219,7 @@ namespace Busidex.Api.Controllers
             }
             catch (NullReferenceException nEx)
             {
-                _cardRepository.SaveApplicationError(nEx, userId);
+                await _cardRepository.SaveApplicationError(nEx, userId);
                 return new HttpResponseMessage
                 {
                     Content = new JsonContent(new {nEx.Message}),
@@ -222,7 +228,7 @@ namespace Busidex.Api.Controllers
             }
             catch (InvalidDataException iEx)
             {
-                _cardRepository.SaveApplicationError(iEx, userId);
+                await _cardRepository.SaveApplicationError(iEx, userId);
                 return new HttpResponseMessage
                 {
                     Content = new JsonContent(new {iEx.Message}),
@@ -231,7 +237,7 @@ namespace Busidex.Api.Controllers
             }
             catch (Exception ex)
             {
-                _cardRepository.SaveApplicationError(ex, userId);
+                await _cardRepository.SaveApplicationError(ex, userId);
                 return new HttpResponseMessage
                 {
                     Content = new JsonContent(new {Message = "error"}),
@@ -250,7 +256,7 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public HttpResponseMessage CheckAccount([FromBody] AutoResponseForm form)
+        public async Task<HttpResponseMessage> CheckAccount([FromBody] AutoResponseForm form)
         {
             try
             {
@@ -306,16 +312,17 @@ namespace Busidex.Api.Controllers
 
                         //If this person does not have a card, give them a stub record 
                         if (_cardRepository.GetCardsByOwnerId(userId).Count == 0)
-                        {
-                            long cardId;
+                        {                            
                             var card = new Card
                             {
                                 FrontFileId = Guid.Empty,
-                                BackFileId = Guid.Empty
+                                BackFileId = Guid.Empty,
+                                OwnerId = userId,
+                                Searchable = false,
+                                CreatedBy = userId
                             };
-                            _cardRepository.AddCard(card, true, userId, "", out cardId);
+                            long cardId = await _cardRepository.AddCard(card, true, userId, "");
                         }
-
                         
                         return new HttpResponseMessage
                         {
@@ -356,7 +363,7 @@ namespace Busidex.Api.Controllers
             }
             catch (Exception ex)
             {
-                _cardRepository.SaveApplicationError(ex, -1);
+                await _cardRepository.SaveApplicationError(ex, -1);
                 return new HttpResponseMessage
                 {
                     Content = new JsonContent(new
@@ -373,7 +380,7 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpPost]
-        public HttpResponseMessage Post()
+        public async Task<HttpResponseMessage> Post()
         {
             long userId = 0;
 
@@ -405,7 +412,7 @@ namespace Busidex.Api.Controllers
                     {
                         return new HttpResponseMessage
                         {
-                            Content = new JsonContent(new { Message = "The Pomo Code you entered wasn not found." }),
+                            Content = new JsonContent(new { Message = "The Promo Code you entered wasn not found." }),
                             StatusCode = HttpStatusCode.NotFound
                         };
                     }
@@ -421,7 +428,7 @@ namespace Busidex.Api.Controllers
 
                 if (u == null || u.ProviderUserKey == null)
                 {
-                    _cardRepository.SaveApplicationError(
+                    await _cardRepository.SaveApplicationError(
                         new NullReferenceException("Registration error. Couldn't create MembershipUser for some reason."),
                         0);
                     return new HttpResponseMessage
@@ -454,7 +461,7 @@ namespace Busidex.Api.Controllers
                         var sharedCard = _cardRepository.GetCardsByOwnerId(jsmodel.InviteUserId).FirstOrDefault();
                         if (sharedCard != null)
                         {
-                            _cardRepository.AddToMyBusidex(sharedCard.CardId, bu.UserId);
+                            await _cardRepository.AddToMyBusidex(sharedCard.CardId, bu.UserId);
 
                             var eventSources = _cardRepository.GetAllEventSources();
                             var eventSourceId =
@@ -475,9 +482,10 @@ namespace Busidex.Api.Controllers
                         CardDetailModel card = _cardRepository.GetCardByToken(jsmodel.CardOwnerToken);
                         if (card != null)
                         {
-                            _cardRepository.SaveCardOwner(card.CardId, bu.UserId);
-                            _cardRepository.AddToMyBusidex(card.CardId, bu.UserId);
-                            _cardRepository.AddSendersCardToMyBusidex(jsmodel.CardOwnerToken, bu.UserId);
+                            var json = JsonConvert.SerializeObject(new { CardId = card.CardId, OwnerId = bu.UserId });
+                            await _cardRepository.SaveCardOwner(cardUpdateStorageConnectionString, json);
+                            await _cardRepository.AddToMyBusidex(card.CardId, bu.UserId);
+                            await _cardRepository.AddSendersCardToMyBusidex(jsmodel.CardOwnerToken, bu.UserId);
                         }
                     }else if (jsmodel.InviteCardToken.HasValue)
                     {
@@ -488,7 +496,7 @@ namespace Busidex.Api.Controllers
                             // make sure this user doesn't already have the card
                             if (myBusidex.All(c => c.CardId != card.CardId))
                             {
-                                _cardRepository.AddToMyBusidex(card.CardId, userId);
+                                await _cardRepository.AddToMyBusidex(card.CardId, userId);
                             }
                         }
                     }
@@ -496,18 +504,16 @@ namespace Busidex.Api.Controllers
                     //If this person does not have a card, give them a stub record 
                     if (_cardRepository.GetCardsByOwnerId(bu.UserId).Count == 0)
                     {
-                        long cardId;
-                        _cardRepository.AddCard(new Card(), true, bu.UserId, "", out cardId);
+                        long cardId = await _cardRepository.AddCard(new Card(), true, bu.UserId, "");
 
                         // Special case for Minute Man Press users. Add the MM Press card to their Busidex collection
                         if (jsmodel.PromoCode == "MMPress")
                         {
                             const long MINUTEMAN_PRESS_CARD_ID = 102199;
-                            _cardRepository.AddToMyBusidex(MINUTEMAN_PRESS_CARD_ID, bu.UserId);
+                            await _cardRepository.AddToMyBusidex(MINUTEMAN_PRESS_CARD_ID, bu.UserId);
                         }
                     }
 
-                    
                     _accountRepository.SaveUserAccountToken(userId, activationToken);
 
                     SendConfirmationEmail(bu.UserId, jsmodel.Email, activationToken);
@@ -530,7 +536,7 @@ namespace Busidex.Api.Controllers
             }
             catch (Exception ex)
             {
-                _cardRepository.SaveApplicationError(ex, userId);
+                await _cardRepository.SaveApplicationError(ex, userId);
                 return new HttpResponseMessage
                 {
                     Content = new JsonContent(new { Message = "There was a problem processing your registration." }),

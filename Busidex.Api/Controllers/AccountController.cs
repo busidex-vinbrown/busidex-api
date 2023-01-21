@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -14,7 +13,6 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Busidex.Api.DataServices.Interfaces;
 using Busidex.Api.Models;
-using Busidex.DomainModels;
 using BusidexUser = Busidex.Api.DataAccess.DTO.BusidexUser;
 
 namespace Busidex.Api.Controllers
@@ -428,7 +426,7 @@ namespace Busidex.Api.Controllers
         }
 
         [System.Web.Http.HttpPut]
-        public HttpResponseMessage LoginReset(LoginResetParams model)
+        public async Task<HttpResponseMessage> LoginReset(LoginResetParams model)
         {
             long userId = -1;
             try
@@ -467,7 +465,7 @@ namespace Busidex.Api.Controllers
                 {
                     userId = user.UserId;
                     var newPassword = EncodeString(model.Password);
-                    if (!_accountRepository.UpdatePassword(user.UserName, newPassword))
+                    if (!await _accountRepository.UpdatePassword(user.UserName, newPassword))
                     {
                         return new HttpResponseMessage
                         {

@@ -295,7 +295,7 @@ namespace Busidex.Api.Controllers
                 {
                     var model = new AddOrEditCardModel(orgCard)
                     {
-                        Visibility = organization.Visibility,
+                        Visibility = (CardVisibility)organization.Visibility,
                         Action = AddOrEditCardModel.CardAction.Edit
                     };
 

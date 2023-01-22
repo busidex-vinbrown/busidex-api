@@ -1,196 +1,241 @@
 <div class="uploadForm">
-    <form novalidate="novalidate" autocomplete="off" id="cardForm" method="post" enctype="multipart/form-data" style="background: #fff;">
-        <!--VALIDATION MESSAGE-->
-        <h4 class="alert alert-block" [hidden]="!IsValid">
-            Please fill in all required fields.
-        </h4>
-        <!--ERRORS-->
-        <div class="alert alert-block" style="padding-left:35%;" [hidden]="Errors.length == 0">
-            <h4>Sorry, we couldn't save your card:</h4>
-            <ul>
-                <li *ngFor="let error of Errors">{{error}}</li>
-            </ul>
-        </div>
-        <!--CARD SAVED-->
-        <div [class]="{animate: true, cardSaved: !NewCardSaved}">
-            <div class="alert alert-success" style="text-align: center;">
-                <h2>Saved!</h2>
-                <h4>Your card has been saved and will be available shortly</h4>
-            </div>
-        </div>
-        
-        <!--DETAILS-->
-        <div id="details" class="workArea">
-            <div id="cardBusiness" class="cardField">
-                <label class="fixedLabel" for="CompanyName">Company:&nbsp;</label>
-                <input type="text" [(ngModel)]="CompanyName" maxlength="150" name="CompanyName" />
-            </div>
-            <div id="cardName" class="cardField" style="margin-top:10px;">
-                <label class="fixedLabel" for="Name">Name:&nbsp;</label>
-                <input type="text" [(ngModel)]="Name" maxlength="150" name="Name" />
-            </div>
-            <div id="Title" class="cardField">
-                <label class="fixedLabel" for="Title">Title:&nbsp;</label>
-                <input type="text" [(ngModel)]="Title" maxlength="150" name="Title" />
-            </div>
-            <div id="cardEMail" class="cardField">
-                <label class="fixedLabel" for="Email">EMail:&nbsp;</label>
-                <input type="text" [(ngModel)]="Email" maxlength="150" name="Email" />
-            </div>
-            <div id="cardUrl" class="cardField">
-                <label class="fixedLabel" for="Url">Url:&nbsp;</label>
-                <input type="text" [(ngModel)]="Url" maxlength="250" name="Url" />
-            </div>
-            <hr />
-            <h3>Who Can See Your Card?</h3>
-            <ul style="margin-top:20px;">
-                <li>
-                    <label for="vis_public">
-                        <input type="radio" name="Visibility" id="vis_public" value="1" [(ngModel)]="Visibility" />
-                        <strong>Public</strong> - Anyone can find your card, add it to their collection and share it.
-                        <div class="well toggle" [hidden]="Visibility != 1">
-                            <p>
-                                With this option your card will be completely searchable by your name, company, title, email, and any tag
-                                you have associated with your card. Anyone with or without a Busidex Account can search you, only those that
-                                do have a Busidex Account can add your card to your Busidex Account.
-                            </p>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <label for="vis_semipublic">
-                        <input type="radio" name="Visibility" id="vis_semipublic" value="2" [(ngModel)]="Visibility" />
-                        <strong>Semi-Public</strong> - Your card can be found only by those with whom it has been shared, and anyone can share your card.
-                        <div class="well toggle" [hidden]="Visibility != 2">
-                            <p>
-                                <strong><i>Searching</i></strong><br />
-                                Your card will not be searchable by anyone except by those that have a Busidex account with whom your card has been shared.
-                            </p>
-                            <p>
-                                <strong><i>Sharing</i></strong><br />
-                                If you share with someone that does not have a Busidex account they will need to open an account to view
-                                your card in their Busidex page. Once you have shared your card, you give those with whom you shared your
-                                card the authorization to then share your card with whomever they wish. In other words, you authorize that
-                                your card can be shared with anyone by anyone that has your card.
-                            </p>
-                        </div>
-                    </label>
-                </li>
-                <li>
-                    <label for="vis_private">
-                        <input type="radio" name="Visibility" id="vis_private" value="3" [(ngModel)]="Visibility" />
-                        <strong>Private</strong> - Your card can only be found by those with whom it has been shared, and only you can share your card.
-                        <div class="well toggle" [hidden]="Visibility != 3">
-                            <p>
-                                With this option your card can only be shared by you. Even those that have your card cannot share it. You
-                                are the only person that can give your card to others.
-                            </p>
-                        </div>
-                    </label>
-                </li>
-            </ul>
-        </div>
-        <!--CARD IMAGE-->
-        <div id="mycard" class="workArea">
-            <img src="../assets/spinner.gif" [hidden]="!Waiting" />            
-            <div>
-                <label class="fixedLabel">Front Image:&nbsp;</label>
-                <input style="position:relative;z-index:2;" type="file" id="getFrontImgHdn" target="frontPreview" [(ngModel)]="FrontImage" name="CardFrontImage" idx="0" />
-                <div>
-                    <input type="radio" name="FrontOrientation" value="H" id="o_fh" [(ngModel)]="FrontOrientation" /><span>Horizontal</span>
-                    <input type="radio" name="FrontOrientation" value="V" id="o_fv" [(ngModel)]="FrontOrientation" /><span>Vertical</span>
-                </div>
-                <div>
-                    <img alt="Front Image" id="frontPreview" [src]="FrontFileId" [attr.cardid]="CardId"
-                         [class]="{'preview': true, 'frontPreview': true, 'h_preview': (FrontOrientation=='H'), 'v_preview': (FrontOrientation=='V') }"
-                         style="margin-bottom: 20px" />
-                </div>
-            </div>
-            <div>
-                <label class="fixedLabel">Back Image:&nbsp;</label>
-                <input type="button" value="Remove" class="btn btn-info" (click)="ResetBackImage()" />
-                <input type="file" id="getBackImgHdn" target="backPreview" name="CardBackImage" [(ngModel)]="BackImage" idx="1" />
-                <div>
-                    <input type="radio" name="BackOrientation" value="H" id="o_bh" [(ngModel)]="BackOrientation" /><span>Horizontal</span>
-                    <input type="radio" name="BackOrientation" value="V" id="o_bv" [(ngModel)]="BackOrientation" /><span>Vertical</span>
-                </div>
-                <div>
-                    <img alt="Back Image" id="backPreview"
-                         [src]="BackFileId" [attr.cardid]="CardId"
-                         [class]="{'preview': true, 'frontPreview': true, 'h_preview': (BackOrientation=='H'||BackOrientation=='N'), 'v_preview': (BackOrientation=='V') }" />
-                </div>
-            </div>
-        </div>
-        <!--PHONE NUMBERS-->
-        <div id="phone" class="workArea">
-            <div id="ContactNumbers">
-                <h4>
-                    Phone Numbers<span class="required" style="font-size:12px;">&nbsp;*</span>
-                </h4>
-                <div>
-                    <select class="input-small" [(ngModel)]="NewPhoneNumberType">
-                        <option *ngFor="let pnType of PhoneNumberTypes">{{pnType.Name}}</option>
-                    </select>
-                    :<input type="text" maxlength="20" style="width:100px" name="Number" class="PhoneNumber" [(ngModel)]="NewPhoneNumber" />
-                    &nbsp;ext
-                     <input type="button" class="btn addPhone" target="cardPhone2" next="cardPhone2" (click)="AddPhoneNumber(NewPhoneNumber)" value="Add" />
-                </div>
-                <div *ngFor="let phoneNumber of PhoneNumbers" id="cardphone{{phoneNumber.PhoneNumberId}}"
-                     class="phoneDiv cardField" style="margin-top:10px;">
-                    <input type="hidden" name="PhoneNumberId" [(ngModel)]="phoneNumber.PhoneNumberId" />
-                    <input type="button" class="btn removePhone" (click)="RemovePhoneNumber(phoneNumber.Number)" [hidden]="PhoneNumbers.length <= 1 " value="Remove" />
-                </div>
-            </div>
-        </div>
-        <!--ADDRESSES-->
-        <div id="address" class="workArea">
-            <h4>Address</h4>
-            
-            <div class="cardField" style="margin-top: 10px;">
-                <label class="fixedLabel" for="Address1">Address&nbsp;1:&nbsp;</label>
-                <input class="addressField" name="Address1" type="text" [(ngModel)]="Address1" maxlength="150" />
-            </div>
-            <div class="cardField" style="margin-top: 10px;">
-                <label class="fixedLabel" for="Address2">Address&nbsp;2:&nbsp;</label>
-                <input class="addressField" name="Address2" type="text" [(ngModel)]="Address2" maxlength="150" />
-            </div>
-            <div class="cardField" style="margin-top: 10px;">
-                <label class="fixedLabel" for="City">City:&nbsp;</label>
-                <input class="addressField" name="City" type="text" [(ngModel)]="City" maxlength="150" />
-            </div>
-            <div class="cardField" style="margin-top: 10px;">
-                <label class="fixedLabel" for="State">State:&nbsp;</label>
-                <input class="addressField" name="StateCode" type="text" [(ngModel)]="StateCode" />
-            </div>
-            <div class="cardField" style="margin-top: 10px;">
-                <label class="fixedLabel" for="Zip">Zip:&nbsp;</label>
-                <input class="addressField" name="Zip" type="text" [(ngModel)]="Zip" maxlength="15" />
-            </div>
-            
-        </div>
-        <!--TAGS-->
-        <div id="tags" class="workArea">
-            <div class="tagContainer">
-                <span>New Tag: </span>
-                <input type="text" name="newTag" [(ngModel)]="NewTag" maxlength="35" [disabled]="Tags.length >= 7" />
-                <input type="button" style="vertical-align: top;" id="btnAddTag" value="Add Tag" (click)="AddTag()" />
-                <span><i>Limit 7</i></span>
-                <ul id="tagList">
-                    <li *ngFor="let tag of Tags" class="tag">
-                        <div class="">
-                            <input type="hidden" name="tagText" class="tag" value="{{tag.Text}}" maxlength="35" />
-                            <label class="tagName"></label>{{tag.Text}}<span class="removeTag" [hidden]="tag.TagType==1" (click)="RemoveTag(tag.Text)">X</span>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+  <form novalidate="novalidate" autocomplete="off" id="cardForm" method="post" enctype="multipart/form-data" style="background: #fff;">
+    <!--VALIDATION MESSAGE-->
+    <h4 class="alert alert-block" [hidden]="!IsValid">
+      Please fill in all required fields.
+    </h4>
+    <!--ERRORS-->
+    <div class="alert alert-block" style="padding-left:35%;" [hidden]="Errors.length == 0">
+      <h4>Sorry, we couldn't save your card:</h4>
+      <ul>
+        <li *ngFor="let error of Errors">{{error}}</li>
+      </ul>
+    </div>
+    <!--CARD SAVED-->
+    <div [class]="{animate: true, cardSaved: !NewCardSaved}">
+      <div class="alert alert-success" style="text-align: center;">
+        <h2>Saved!</h2>
+        <h4>Your card has been saved and will be available shortly</h4>
+      </div>
+    </div>
 
+    <!--DETAILS-->
+    <div id="details" class="workArea">
+      <div id="cardBusiness" class="cardField">
+        <label class="fixedLabel" for="CompanyName">Company:&nbsp;</label>
+        <input type="text" [(ngModel)]="CompanyName" maxlength="150" name="CompanyName" />
+      </div>
+      <div id="cardName" class="cardField" style="margin-top:10px;">
+        <label class="fixedLabel" for="Name">Name:&nbsp;</label>
+        <input type="text" [(ngModel)]="Name" maxlength="150" name="Name" />
+      </div>
+      <div id="Title" class="cardField">
+        <label class="fixedLabel" for="Title">Title:&nbsp;</label>
+        <input type="text" [(ngModel)]="Title" maxlength="150" name="Title" />
+      </div>
+      <div id="cardEMail" class="cardField">
+        <label class="fixedLabel" for="Email">EMail:&nbsp;</label>
+        <input type="text" [(ngModel)]="Email" maxlength="150" name="Email" />
+      </div>
+      <div id="cardUrl" class="cardField">
+        <label class="fixedLabel" for="Url">Url:&nbsp;</label>
+        <input type="text" [(ngModel)]="Url" maxlength="250" name="Url" />
+      </div>
+      <hr />
+      <h3>Who Can See Your Card?</h3>
+      <ul style="margin-top:20px;">
+        <li>
+          <label for="vis_public">
+            <input type="radio" name="Visibility" id="vis_public" value="1" [(ngModel)]="Visibility" />
+            <strong>Public</strong> - Anyone can find your card, add it to their collection and share it.
+            <div class="well toggle" [hidden]="Visibility != 1">
+              <p>
+                With this option your card will be completely searchable by your name, company, title, email, and any tag
+                you have associated with your card. Anyone with or without a Busidex Account can search you, only those that
+                do have a Busidex Account can add your card to your Busidex Account.
+              </p>
+            </div>
+          </label>
+        </li>
+        <li>
+          <label for="vis_semipublic">
+            <input type="radio" name="Visibility" id="vis_semipublic" value="2" [(ngModel)]="Visibility" />
+            <strong>Semi-Public</strong> - Your card can be found only by those with whom it has been shared, and anyone can share your card.
+            <div class="well toggle" [hidden]="Visibility != 2">
+              <p>
+                <strong><i>Searching</i></strong><br />
+                Your card will not be searchable by anyone except by those that have a Busidex account with whom your card has been shared.
+              </p>
+              <p>
+                <strong><i>Sharing</i></strong><br />
+                If you share with someone that does not have a Busidex account they will need to open an account to view
+                your card in their Busidex page. Once you have shared your card, you give those with whom you shared your
+                card the authorization to then share your card with whomever they wish. In other words, you authorize that
+                your card can be shared with anyone by anyone that has your card.
+              </p>
+            </div>
+          </label>
+        </li>
+        <li>
+          <label for="vis_private">
+            <input type="radio" name="Visibility" id="vis_private" value="3" [(ngModel)]="Visibility" />
+            <strong>Private</strong> - Your card can only be found by those with whom it has been shared, and only you can share your card.
+            <div class="well toggle" [hidden]="Visibility != 3">
+              <p>
+                With this option your card can only be shared by you. Even those that have your card cannot share it. You
+                are the only person that can give your card to others.
+              </p>
+            </div>
+          </label>
+        </li>
+      </ul>
+    </div>
+    <!--CARD IMAGE-->
+    <div id="mycard" class="workArea">
+      <h4>Card Image (Front and Back)</h4>
+      <img src="../assets/spinner.gif" [hidden]="!Waiting" />
+      <div style="margin-bottom: 20px;">
+        <label class="fixedLabel">Front Image:&nbsp;</label>
+        <input style="position:relative;z-index:2;" type="file" id="getFrontImgHdn" target="frontPreview" [(ngModel)]="FrontImage" name="CardFrontImage" idx="0" />
         <div>
-            <img src="" style="display:none" id="imgFrontReset" />
-            <img src="" style="display:none" id="imgBackReset" />
-            <input type="hidden" [(ngModel)]="CardId" name="CardId" />
-            <input type="hidden" [(ngModel)]="UserId" name="UserId" />
+          <input style="margin: 5px; padding-right: 10px" type="radio" name="FrontOrientation" value="H" id="o_fh" [(ngModel)]="FrontOrientation" /><span>Horizontal</span>
+          <input style="margin: 5px; padding-right: 10px" type="radio" name="FrontOrientation" value="V" id="o_fv" [(ngModel)]="FrontOrientation" /><span>Vertical</span>
         </div>
-    </form>
+        <!--<div>
+        <img alt="Front Image" id="frontPreview" [src]="photoURL(FrontImage)" [attr.cardid]="CardId"
+             [class]="{'preview': true, 'frontPreview': true, 'h_preview': (FrontOrientation=='H'), 'v_preview': (FrontOrientation=='V') }"
+             style="margin-bottom: 20px" />
+    </div>-->
+      </div>
+      <div style="margin-bottom: 20px;">
+        <label class="fixedLabel">Back Image:&nbsp;</label>
+        <!--<input type="button" value="Remove" class="btn btn-info" (click)="ResetBackImage()" />-->
+        <input type="file" id="getBackImgHdn" target="backPreview" name="CardBackImage" [(ngModel)]="BackImage" idx="1" />
+        <div>
+          <input style="margin: 5px; padding-right: 10px" type="radio" name="BackOrientation" value="H" id="o_bh" [(ngModel)]="BackOrientation" /><span>Horizontal</span>
+          <input style="margin: 5px; padding-right: 10px" type="radio" name="BackOrientation" value="V" id="o_bv" [(ngModel)]="BackOrientation" /><span>Vertical</span>
+        </div>
+        <!--<div>
+        <img alt="Back Image" id="backPreview"
+             [src]="BackFileId" [attr.cardid]="CardId"
+             [class]="{'preview': true, 'frontPreview': true, 'h_preview': (BackOrientation=='H'||BackOrientation=='N'), 'v_preview': (BackOrientation=='V') }" />
+    </div>-->
+      </div>
+    </div>
+    <!--PHONE NUMBERS-->
+    <div id="phone" class="workArea">
+      <div id="ContactNumbers">
+        <h4>
+          Phone Numbers<span class="required" style="font-size:12px;">&nbsp;*</span>
+        </h4>
+        <div>
+          <h5>Phone 1</h5>
+          <select class="input-small" [(ngModel)]="PhoneNumbers[0].PhoneNumberTypeId">
+            <option *ngFor="let pnType of NewPhoneNumberType[0]" value="{{pnType.PhoneNumberTypeId}}">{{pnType.Name}}</option>
+          </select>
+          :<input type="text" maxlength="20" style="width:100px" name="Number" class="PhoneNumber" [(ngModel)]="PhoneNumbers[0].Number" />
+          &nbsp;ext
+          <!-- <input type="button" class="btn addPhone" target="cardPhone2" next="cardPhone2" (click)="AddPhoneNumber(NewPhoneNumber)" value="Add" />-->
+        </div>
+        <div>
+          <h5>Phone 2</h5>
+          <select class="input-small" [(ngModel)]="PhoneNumbers[1].PhoneNumberTypeId">
+            <option *ngFor="let pnType of NewPhoneNumberType[1]" value="{{pnType.PhoneNumberTypeId}}">{{pnType.Name}}</option>
+          </select>
+          :<input type="text" maxlength="20" style="width:100px" name="Number" class="PhoneNumber" [(ngModel)]="PhoneNumbers[1].Number" />
+          &nbsp;ext
+          <!--<input type="button" class="btn addPhone" target="cardPhone2" next="cardPhone2" (click)="AddPhoneNumber(NewPhoneNumber)" value="Add" />-->
+        </div>
+        <div>
+          <h5>Phone 3</h5>
+          <select class="input-small" [(ngModel)]="PhoneNumbers[2].PhoneNumberTypeId">
+            <option *ngFor="let pnType of NewPhoneNumberType[2]" value="{{pnType.PhoneNumberTypeId}}">{{pnType.Name}}</option>
+          </select>
+          :<input type="text" maxlength="20" style="width:100px" name="Number" class="PhoneNumber" [(ngModel)]="PhoneNumbers[2].Number" />
+          &nbsp;ext
+          <!--<input type="button" class="btn addPhone" target="cardPhone2" next="cardPhone2" (click)="AddPhoneNumber(NewPhoneNumber)" value="Add" />-->
+        </div>
+        <!--<div *ngFor="let phoneNumber of PhoneNumbers" id="cardphone{{phoneNumber.PhoneNumberId}}"
+           class="phoneDiv cardField" style="margin-top:10px;">
+          <input type="hidden" name="PhoneNumberId" [(ngModel)]="phoneNumber.PhoneNumberId" />
+          <input type="button" class="btn removePhone" (click)="RemovePhoneNumber(phoneNumber.Number)" [hidden]="PhoneNumbers.length <= 1 " value="Remove" />
+      </div>-->
+      </div>
+    </div>
+    <!--ADDRESSES-->
+    <div id="address" class="workArea">
+      <h4>Address</h4>
+
+      <div class="cardField" style="margin-top: 10px;">
+        <label class="fixedLabel" for="Address1">Address&nbsp;1:&nbsp;</label>
+        <input class="addressField" name="Address1" type="text" [(ngModel)]="Address.address1" maxlength="150" />
+      </div>
+      <div class="cardField" style="margin-top: 10px;">
+        <label class="fixedLabel" for="Address2">Address&nbsp;2:&nbsp;</label>
+        <input class="addressField" name="Address2" type="text" [(ngModel)]="Address.address2" maxlength="150" />
+      </div>
+      <div class="cardField" style="margin-top: 10px;">
+        <label class="fixedLabel" for="City">City:&nbsp;</label>
+        <input class="addressField" name="City" type="text" [(ngModel)]="Address.city" maxlength="150" />
+      </div>
+      <div class="cardField" style="margin-top: 10px;">
+        <label class="fixedLabel" for="State">State:&nbsp;</label>
+        <select class="input-small" [(ngModel)]="Address.stateCode">
+          <option *ngFor="let code of StateCodes" value="{{code.stateCodeId}}">{{code.name}}</option>
+        </select>
+      </div>
+      <div class="cardField" style="margin-top: 10px;">
+        <label class="fixedLabel" for="Zip">Zip:&nbsp;</label>
+        <input class="addressField" name="Zip" type="text" [(ngModel)]="Address.zipCode" maxlength="15" />
+      </div>
+
+    </div>
+    <!--TAGS-->
+    <div id="tags" class="workArea">
+      <h4>Tags</h4>
+      <div class="tagContainer">
+        <div>
+          <span>Tag 1: </span><input type="text" name="newTag" [(ngModel)]="Tags[0].Text" maxlength="35" />
+        </div>
+        <div>
+          <span>Tag 2: </span><input type="text" name="newTag" [(ngModel)]="Tags[1].Text" maxlength="35" />
+        </div>
+        <div>
+          <span>Tag 3: </span><input type="text" name="newTag" [(ngModel)]="Tags[2].Text" maxlength="35" />
+        </div>
+        <div>
+          <span>Tag 4: </span><input type="text" name="newTag" [(ngModel)]="Tags[3].Text" maxlength="35" />
+        </div>
+        <div>
+          <span>Tag 5: </span><input type="text" name="newTag" [(ngModel)]="Tags[4].Text" maxlength="35" />
+        </div>
+        <div>
+          <span>Tag 6: </span><input type="text" name="newTag" [(ngModel)]="Tags[5].Text" maxlength="35" />
+        </div>
+        <div>
+          <span>Tag 7: </span><input type="text" name="newTag" [(ngModel)]="Tags[6].Text" maxlength="35" />
+        </div>
+      </div>
+    </div>
+    <!--<input type="button" style="vertical-align: top;" id="btnAddTag" value="Add Tag" (click)="AddTag()" />
+  <span><i>Limit 7</i></span>
+  <ul id="tagList">
+      <li *ngFor="let tag of Tags" class="tag">
+          <div class="">
+              <input type="hidden" name="tagText" class="tag" value="{{tag.Text}}" maxlength="35" />
+              <label class="tagName"></label>{{tag.Text}}<span class="removeTag" [hidden]="tag.TagType==1" (click)="RemoveTag(tag.Text)">X</span>
+          </div>
+      </li>
+  </ul>-->
+
+    <div>
+      <button (click)="saveCard()">Save New Card</button>
+    </div>
+    <div>
+      <img src="" style="display:none" id="imgFrontReset" />
+      <img src="" style="display:none" id="imgBackReset" />
+      <input type="hidden" [(ngModel)]="CardId" name="CardId" />
+      <input type="hidden" [(ngModel)]="UserId" name="UserId" />
+    </div>
+  </form>
 </div>

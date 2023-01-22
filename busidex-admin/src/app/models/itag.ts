@@ -1,4 +1,5 @@
 export interface ITag {
+  TagId: number;
   Text: string;
-  TagType: number;
+  TagTypeId: number;
 }
